@@ -1,6 +1,34 @@
 {
-    "cSpell.words": [
-        "foundrytypes",
-        "tseslint"
-    ]
+  "cSpell.words": [
+    "ACTORMODELS",
+    "charname",
+    "dtype",
+    "elec",
+    "esmodules",
+    "flexcol",
+    "flexrow",
+    "fvtt",
+    "ITEMMODELS",
+    "Magatama",
+    "Megami",
+    "rulebook",
+    "Tensei",
+    "tseslint"
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[handlebars]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  }
 }

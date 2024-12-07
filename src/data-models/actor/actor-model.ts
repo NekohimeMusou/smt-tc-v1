@@ -1,0 +1,93 @@
+import { SmtActor } from "../../documents/actor/actor.js";
+import { generateResourceSchema } from "./fields/resources.js";
+import { generateStatSchema } from "./fields/stats.js";
+
+const fields = foundry.data.fields;
+
+const tn = new fields.SchemaField({
+  basicStrike: new fields.NumberField({ integer: true }),
+  spell: new fields.NumberField({ integer: true }),
+  save: new fields.NumberField({ integer: true }),
+  dodge: new fields.NumberField({ integer: true }),
+  negotiation: new fields.NumberField({ integer: true }),
+});
+
+const power = new fields.SchemaField({
+  phys: new fields.NumberField({ integer: true }),
+  mag: new fields.NumberField({ integer: true }),
+});
+
+const resist = new fields.SchemaField({
+  phys: new fields.NumberField({ integer: true }),
+  mag: new fields.NumberField({ integer: true }),
+});
+
+const stats = new fields.SchemaField({
+  st: new fields.SchemaField(generateStatSchema()),
+  ma: new fields.SchemaField(generateStatSchema()),
+  vi: new fields.SchemaField(generateStatSchema()),
+  ag: new fields.SchemaField(generateStatSchema()),
+  lu: new fields.SchemaField(generateStatSchema()),
+});
+
+const resources = {
+  hp: new fields.SchemaField(generateResourceSchema()),
+  mp: new fields.SchemaField(generateResourceSchema()),
+  fp: new fields.SchemaField(generateResourceSchema()),
+};
+
+export class CharacterDataModel extends foundry.abstract.TypeDataModel {
+  get type() {
+    return "character" as const;
+  }
+  static override defineSchema() {
+    return {
+      charClass: new fields.StringField(),
+      level: new fields.NumberField({ integer: true }),
+      notes: new fields.HTMLField(),
+      hpMultiplier: new fields.NumberField({ integer: true, initial: 6}),
+      mpMultiplier: new fields.NumberField({ integer: true, initial: 3}),
+      stats,
+      tn,
+      power,
+      resist,
+      ...resources,
+    } as const;
+  }
+
+  override prepareDerivedData() {
+    const data = this.#systemData;
+
+    const stats = data.stats;
+
+    // Calculate stat totals and TNs
+    for (const stat of Object.values(stats)) {
+      stat.value = stat.base + stat.lv + stat.magatama;
+      stat.tn = (stat.value * 5) + data.level;
+    }
+
+    // Calculate secondary TNs
+    data.tn.basicStrike = stats.st.tn;
+    data.tn.spell = stats.ma.tn;
+    data.tn.save = stats.vi.tn;
+    data.tn.dodge = stats.ag.value + 10;
+    data.tn.negotiation = (stats.lu.value * 2) + 20;
+
+    // Calculate HP/MP/FP max
+    data.hp.max = (stats.vi.value + data.level) + data.hpMultiplier;
+    data.mp.max = (stats.ma.value + data.level) + data.mpMultiplier;
+    data.fp.max = Math.floor((stats.lu.value / 5) + 5);
+
+    // Calculate power and resistance
+    data.power.phys = stats.st.value + data.level;
+    data.power.mag = stats.ma.value + data.level;
+  }
+
+  get #systemData() {
+    return this as this & SmtActor["system"];
+  }
+}
+
+export const ACTORMODELS = {
+  character: CharacterDataModel,
+} as const;

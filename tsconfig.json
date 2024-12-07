@@ -3,7 +3,6 @@
   "display": "Node 16",
 
   "compilerOptions": {
-    "types": ["@league-of-foundry-developers/foundry-vtt-types"],
     "target": "ES2022",
     "module": "Node16",
 

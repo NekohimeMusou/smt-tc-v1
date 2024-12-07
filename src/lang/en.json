@@ -1,0 +1,99 @@
+{
+  "SMT": {
+    "effects": {
+      "newEffect": "New Effect",
+      "temporary": "Temporary Effects",
+      "passive": "Passive Effects",
+      "inactive": "Inactive Effects"
+    },
+    "tabs": {
+      "main": "Main",
+      "bio": "Bio"
+    },
+    "charClasses": {
+      "human": "Human",
+      "demon": "Demon",
+      "fiend": "Fiend"
+    },
+    "stats": {
+      "st": "Strength",
+      "ma": "Magic",
+      "vi": "Vitality",
+      "ag": "Agility",
+      "lu": "Luck"
+    },
+    "elements": {
+      "phys": "Phys",
+      "fire": "Fire",
+      "ice": "Ice",
+      "elec": "Elec",
+      "force": "Force",
+      "light": "Light",
+      "dark": "Dark",
+      "ruin": "Ruin",
+      "nerve": "Nerve",
+      "mind": "Mind",
+      "almighty": "Almighty",
+      "healing": "Healing",
+      "unique": "Unique",
+      "support": "Support"
+    },
+    "skillTypes": {
+      "physAtk": "Physical Attack",
+      "magAtk": "Magical Attack",
+      "spell": "Spell",
+      "passive": "Passive",
+      "talk": "Talk"
+    },
+    "itemFields": {
+      "effect": "Effect",
+      "effectHint": "Special effects (status conditions, counter chance/multiplier, element attack multiplier (e.g. Force Boost), etc",
+      "traits": "Traits",
+      "traitsHint": "Inheritance traits (also Speech)",
+      "skillTypes": "Type",
+      "skillTypesHint": "Skill Type (Phys atk, Mag atk, spell, etc)",
+      "targets": "Targets",
+      "targetsHint": "Number of targets (usually 1 or All)",
+      "cost": "Cost",
+      "costHint": "Casting cost (HP or MP)",
+      "potency": "Potency",
+      "potencyHint": "Potency (added to base power)",
+      "element": "Element",
+      "elementHint": "Elemental attribute (Phys, Fire, Healing, Support, etc)"
+    },
+    "actorFields": {
+      "gender": "Gender",
+      "genderHint": "Gender, if applicable",
+      "age": "Age",
+      "ageHint": "Age, if applicable",
+      "subclass": "Subclass",
+      "subclassHint": "Subclass/Magatama/Species",
+      "level": "Level",
+      "levelHint": "Experience level",
+      "xp": "XP",
+      "xpHint": "Experience points",
+      "charClass": "Class",
+      "charClassHint": "Human, demon, or fiend",
+      "hp": "HP",
+      "hpHint": "Hit points",
+      "mp": "MP",
+      "mpHint": "Magic points",
+      "fp": "FP",
+      "fpHint": "Fate points"
+    },
+    "statusEffects": {
+      "stone": "Stone",
+      "fly": "Fly",
+      "stun": "Stun",
+      "charm": "Charm",
+      "poison": "Poison",
+      "mute": "Mute",
+      "restrain": "Restrain",
+      "freeze": "Freeze",
+      "sleep": "Sleep",
+      "panic": "Panic",
+      "shock": "Shock",
+      "curse": "Curse"
+    }
+  }
+}
