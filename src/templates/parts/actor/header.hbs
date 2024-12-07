@@ -1,0 +1,34 @@
+<header class="sheet-header">
+  <img
+    class="profile-img"
+    src="{{actor.img}}"
+    data-edit="img"
+    title="{{actor.name}}"
+    height="100"
+    width="100"
+  />
+  <div class="header-fields">
+    <h1 class="charname">
+      <input
+        name="name"
+        type="text"
+        value="{{actor.name}}"
+        placeholder="Name"
+      />
+    </h1>
+
+    {{! Simple test of form fields: what's broken? }}
+    <div class="flexrow">
+      <label for="charClass" class="resource-label">{{localize
+          "SMT.actorFields.charClass"
+        }}</label>
+      <input
+        type="text"
+        id="charClass"
+        name="system.charClass"
+        data-dtype="String"
+        value="{{system.charClass}}"
+      />
+    </div>
+  </div>
+</header>
