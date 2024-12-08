@@ -11,6 +11,7 @@ declare class DataModelClass {
 type SchemaReturnObject = Record<string, FoundryDMField<any>>;
 
 declare class TypeDataModelClass extends DataModelClass {
-	prepareBaseData(): void;
-	prepareDerivedData(): void;
+    prepareBaseData(): void;
+    prepareDerivedData(): void;
 }
+
