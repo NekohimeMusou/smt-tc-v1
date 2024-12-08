@@ -11,7 +11,7 @@
         <th>{{localize "SMT.actorSheet.baseStat"}}</th>
         {{! Magatama mod}}
         <th>{{localize "SMT.actorSheet.magatamaShort"}}</th>
-        {{! LV mod }}
+        {{! LV points }}
         <th>{{localize "SMT.actorSheet.levelShort"}}</th>
         {{! Total stat }}
         <th>{{localize "SMT.actorSheet.statTotal"}}</th>
@@ -27,12 +27,29 @@
       {{! Individual stat data, with #each }}
       {{#each system.stats}}
       <tr class="stat">
+        {{! Stat name }}
         <th>{{localize (concat "SMT.stats." @key)}}</th>
+        {{! Base stat}}
         <td><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" data-dtype="Number" /></td>
+        {{! Magatama mod}}
         <td><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}" data-dtype="Number" /></td>
+        {{! LV points }}
         <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" data-dtype="Number" /></td>
+        {{! Total stat }}
         <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" data-dtype="Number" disabled /></td>
+        {{! Stat TN }}
+        <td class="roll-highlight roll-stat-tn">{{tn}}%</td>
+        {{! Special TN name }}
+        <th>{{localize (concat "SMT.specialTN." @key)}}</th>
+        {{! Special TN formula }}
+        <td>{{localize (concat "SMT.specialTNFormula." @key)}}</td>
+        {{! Special TN }}
+        <td class="roll-highlight roll-special-tn">{{specialTN}}%</td>
+        
       </tr>
     </tbody>
   </table>
+  {{! Derived stat name }}
+  {{! Derived stat formula }}
+  {{! Derived stat }}
 </section>

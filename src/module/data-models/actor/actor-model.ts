@@ -4,6 +4,8 @@ import { generateStatSchema } from "./fields/stats.js";
 
 const fields = foundry.data.fields;
 
+const charClasses = ["human", "demon", "fiend"];
+
 const tn = new fields.SchemaField({
   basicStrike: new fields.NumberField({ integer: true }),
   spell: new fields.NumberField({ integer: true }),
@@ -42,11 +44,11 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
   }
   static override defineSchema() {
     return {
-      charClass: new fields.StringField(),
+      charClass: new fields.StringField({ choices: charClasses }),
       level: new fields.NumberField({ integer: true }),
       notes: new fields.HTMLField(),
-      hpMultiplier: new fields.NumberField({ integer: true, initial: 6}),
-      mpMultiplier: new fields.NumberField({ integer: true, initial: 3}),
+      hpMultiplier: new fields.NumberField({ integer: true, initial: 6 }),
+      mpMultiplier: new fields.NumberField({ integer: true, initial: 3 }),
       stats,
       tn,
       power,
@@ -61,9 +63,24 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     const stats = data.stats;
 
     // Calculate stat totals and TNs
-    for (const stat of Object.values(stats)) {
+    for (const [key, stat] of Object.entries(stats)) {
       stat.value = stat.base + stat.lv + stat.magatama;
-      stat.tn = (stat.value * 5) + data.level;
+      stat.tn = stat.value * 5 + data.level;
+
+      // Calculate the "special" TN associated with each stat
+      switch (key) {
+        case "st":
+        case "ma":
+        case "vi":
+          stat.specialTn = stat.tn;
+          break;
+        case "ag":
+          stat.specialTn = stat.value + 10;
+          break;
+        case "lu":
+          stat.specialTn = stat.value * 2 + 20;
+          break;
+      }
     }
 
     // Calculate secondary TNs
@@ -71,12 +88,12 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     data.tn.spell = stats.ma.tn;
     data.tn.save = stats.vi.tn;
     data.tn.dodge = stats.ag.value + 10;
-    data.tn.negotiation = (stats.lu.value * 2) + 20;
+    data.tn.negotiation = stats.lu.value * 2 + 20;
 
     // Calculate HP/MP/FP max
-    data.hp.max = (stats.vi.value + data.level) + data.hpMultiplier;
-    data.mp.max = (stats.ma.value + data.level) + data.mpMultiplier;
-    data.fp.max = Math.floor((stats.lu.value / 5) + 5);
+    data.hp.max = stats.vi.value + data.level + data.hpMultiplier;
+    data.mp.max = stats.ma.value + data.level + data.mpMultiplier;
+    data.fp.max = Math.floor(stats.lu.value / 5 + 5);
 
     // Calculate power and resistance
     data.power.phys = stats.st.value + data.level;
