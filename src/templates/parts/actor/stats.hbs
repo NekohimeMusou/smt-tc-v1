@@ -10,7 +10,9 @@
         {{! Base stat}}
         <th>{{localize "SMT.actorSheet.baseStat"}}</th>
         {{! Magatama mod}}
+        {{#if (eq system.charClass "fiend")}}
         <th>{{localize "SMT.actorSheet.magatamaShort"}}</th>
+        {{/if}}
         {{! LV points }}
         <th>{{localize "SMT.actorSheet.levelShort"}}</th>
         {{! Total stat }}
@@ -30,7 +32,9 @@
         {{! Base stat}}
         <td><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0" data-dtype="Number" /></td>
         {{! Magatama mod}}
+        {{#if (eq system.charClass "fiend")}}
         <td><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}" placeholder="0" data-dtype="Number" /></td>
+        {{/if}}
         {{! LV points }}
         <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0" data-dtype="Number" /></td>
         {{! Total stat }}

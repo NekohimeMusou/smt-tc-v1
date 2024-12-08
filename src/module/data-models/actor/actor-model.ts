@@ -61,37 +61,31 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     } as const;
   }
 
-  override prepareDerivedData() {
+  override prepareBaseData() {
     const data = this.#systemData;
 
     const stats = data.stats;
 
     // Calculate stat totals and TNs
     for (const [key, stat] of Object.entries(stats)) {
-      stat.value = stat.base + stat.lv + stat.magatama;
+      const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
+      stat.value = stat.base + stat.lv + magatamaBonus;
       stat.tn = stat.value * 5 + data.level;
       // Calculate the "special" TN associated with each stat
       switch (key) {
-        case "st":
-        case "ma":
-        case "vi":
+        case "st": // Phys attack TN
+        case "ma": // Mag attack TN
+        case "vi": // Save TN
           stat.specialTN = stat.tn;
           break;
-        case "ag":
+        case "ag": // Dodge TN
           stat.specialTN = stat.value + 10;
           break;
-        case "lu":
+        case "lu": // Negotiation TN
           stat.specialTN = stat.value * 2 + 20;
           break;
       }
     }
-
-    // Calculate secondary TNs
-    data.tn.basicStrike = stats.st.tn;
-    data.tn.spell = stats.ma.tn;
-    data.tn.save = stats.vi.tn;
-    data.tn.dodge = stats.ag.value + 10;
-    data.tn.negotiation = stats.lu.value * 2 + 20;
 
     // Get HP and MP multipliers
     const isHuman = data.charClass === "human";
@@ -101,8 +95,8 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     data.mpMultiplier = isHuman ? 2 : 4;
 
     // Calculate HP/MP/FP max
-    data.hp.max = stats.vi.value + data.level + data.hpMultiplier;
-    data.mp.max = stats.ma.value + data.level + data.mpMultiplier;
+    data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
+    data.mp.max = (stats.ma.value + data.level) * data.mpMultiplier;
     data.fp.max = Math.floor(stats.lu.value / 5 + 5);
 
     // Calculate power and resistance
