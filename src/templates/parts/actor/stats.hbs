@@ -1,6 +1,6 @@
 <section class="stats">
   {{! BASE | MAGATAMA (if Fiend) | LV | TOTAL | REG TN LABEL | REG TN | SPC TN LABEL | SPC TN }}
-  <div class="resource-label flex-group-center flex0">{{localize SMT.actorSheet.stats}}</div>
+  <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.stats"}}</div>
   {{! Maybe wrap this in a div }}
   <table class="stats items-list">
     <thead class="stat">
@@ -28,13 +28,13 @@
         {{! Stat name }}
         <th>{{localize (concat "SMT.stats." @key)}}</th>
         {{! Base stat}}
-        <td><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" data-dtype="Number" /></td>
+        <td><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0" data-dtype="Number" /></td>
         {{! Magatama mod}}
-        <td><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}" data-dtype="Number" /></td>
+        <td><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}" placeholder="0" data-dtype="Number" /></td>
         {{! LV points }}
-        <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" data-dtype="Number" /></td>
+        <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0" data-dtype="Number" /></td>
         {{! Total stat }}
-        <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" data-dtype="Number" disabled />
+        <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" placeholder="0" data-dtype="Number" disabled />
         </td>
         {{! Stat TN }}
         <td class="roll-highlight roll-stat-tn">{{tn}}%</td>

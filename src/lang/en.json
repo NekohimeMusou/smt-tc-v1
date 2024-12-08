@@ -36,6 +36,12 @@
       "ag": "Agility + 10",
       "lu": "(Luck x 2) + 20"
     },
+    "derivedStatFormula": {
+      "basePhysPower": "St + LV",
+      "baseMagPower": "Ma + LV",
+      "physResist": "(Vi + LV) / 2",
+      "magResist": "(Ma + LV) / 2"
+    },
     "elements": {
       "phys": "Phys",
       "fire": "Fire",
@@ -81,12 +87,11 @@
       "tn": "{name} TN"
     },
     "actorSheet": {
-      "derived": {
-        "basePhysPower": "Phys Power",
-        "baseMagPower": "Mag Power",
-        "physResist": "Phys Resist",
-        "magResist": "Mag Resist"
-      },
+      "basePhysPower": "Phys Power",
+      "baseMagPower": "Mag Power",
+      "physResist": "Phys Resist",
+      "magResist": "Mag Resist",
+      "stat": "Stat",
       "stats": "Stats",
       "baseStat": "Base",
       "magatamaShort": "Mgt",
@@ -94,7 +99,8 @@
       "statTotal": "Total",
       "specialTN": "Special TNs",
       "tn": "TN",
-      "derivedStats": "Derived Stats"
+      "derivedStats": "Derived Stats",
+      "formula": "Formula"
     },
     "statusEffects": {
       "stone": "Stone",

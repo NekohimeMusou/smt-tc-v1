@@ -1,0 +1,38 @@
+<section class="derived-stats">
+  <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.derivedStats"}}</div>
+  {{! BASE PHYS | BASE MAG | PHYS RESIST | MAG RESIST }}
+  <table class="derived-stats items-list">
+    <thead>
+      <tr>
+        {{! Stat name }}
+        <th>{{localize "SMT.actorSheet.stat"}}</th>
+        {{! Stat formula }}
+        <th>{{localize "SMT.actorSheet.formula"}}</th>
+        {{! Stat value }}
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{localize "SMT.actorSheet.basePhysPower"}}</td>
+        <td>{{localize "SMT.derivedStatFormula.basePhysPower"}}</td>
+        <td class="roll-highlight roll-dmg" data-atk-type="phys">{{system.power.phys}}</td>
+      </tr>
+      <tr>
+        <td>{{localize "SMT.actorSheet.baseMagPower"}}</td>
+        <td class="roll-highlight roll-dmg" data-atk-type="phys">{{localize "SMT.derivedStatFormula.baseMagPower"}}</td>
+        <td>{{system.power.mag}}</td>
+      </tr>
+      <tr>
+        <td>{{localize "SMT.actorSheet.physResist"}}</td>
+        <td>{{localize "SMT.derivedStatFormula.physResist"}}</td>
+        <td>{{system.resist.phys}}</td>
+      </tr>
+      <tr>
+        <td>{{localize "SMT.actorSheet.magResist"}}</td>
+        <td>{{localize "SMT.derivedStatFormula.magResist"}}</td>
+        <td>{{system.resist.mag}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

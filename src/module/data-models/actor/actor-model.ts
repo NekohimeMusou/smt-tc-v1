@@ -108,6 +108,9 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     // Calculate power and resistance
     data.power.phys = stats.st.value + data.level;
     data.power.mag = stats.ma.value + data.level;
+
+    data.resist.phys = Math.floor((stats.vi.value + data.level) / 2);
+    data.resist.mag = Math.floor((stats.ma.value + data.level) / 2);
   }
 
   get #systemData() {
