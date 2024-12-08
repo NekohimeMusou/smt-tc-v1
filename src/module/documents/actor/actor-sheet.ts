@@ -1,3 +1,4 @@
+import { SMT } from "../../config/config.js";
 import { SmtActor } from "./actor.js";
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
@@ -29,6 +30,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     await foundry.utils.mergeObject(context, {
       system,
       rollData,
+      SMT,
     });
 
     return context;

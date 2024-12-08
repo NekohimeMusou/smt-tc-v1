@@ -3,10 +3,10 @@
   <div class="resource-label flex-group-center flex0">{{localize SMT.actorSheet.stats}}</div>
   {{! Maybe wrap this in a div }}
   <table class="stats items-list">
-    <thead class="stat items-header">
+    <thead class="stat">
       <tr>
         {{! Stat name }}
-        <th class="item-name">{{localize "SMT.actorSheet.stats"}}</th>
+        <th>{{localize "SMT.actorSheet.stats"}}</th>
         {{! Base stat}}
         <th>{{localize "SMT.actorSheet.baseStat"}}</th>
         {{! Magatama mod}}
@@ -18,9 +18,7 @@
         {{! Stat TN }}
         <th>{{localize "SMT.actorSheet.tn"}}</th>
         {{! Special target numbers (Span 3 rows) }}
-        <th rowspan="3">{{localize "SMT.actorSheet.specialTN"}}</th>
-        {{! Derived Stats (Span 3 rows) }}
-        <th rowspan="3">{{localize "SMT.actorSheet.derivedStats"}}</th>
+        <th colspan="3">{{localize "SMT.actorSheet.specialTN"}}</th>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +34,8 @@
         {{! LV points }}
         <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" data-dtype="Number" /></td>
         {{! Total stat }}
-        <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" data-dtype="Number" disabled /></td>
+        <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" data-dtype="Number" disabled />
+        </td>
         {{! Stat TN }}
         <td class="roll-highlight roll-stat-tn">{{tn}}%</td>
         {{! Special TN name }}
@@ -45,8 +44,8 @@
         <td>{{localize (concat "SMT.specialTNFormula." @key)}}</td>
         {{! Special TN }}
         <td class="roll-highlight roll-special-tn">{{specialTN}}%</td>
-        
       </tr>
+      {{/each}}
     </tbody>
   </table>
   {{! Derived stat name }}

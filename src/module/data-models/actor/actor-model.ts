@@ -44,11 +44,15 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
   }
   static override defineSchema() {
     return {
-      charClass: new fields.StringField({ choices: charClasses }),
-      level: new fields.NumberField({ integer: true }),
+      charClass: new fields.StringField({
+        choices: charClasses,
+        initial: "human",
+      }),
+      xp: new fields.NumberField({ integer: true, initial: 0 }),
+      level: new fields.NumberField({ integer: true, initial: 1 }),
       notes: new fields.HTMLField(),
-      hpMultiplier: new fields.NumberField({ integer: true, initial: 6 }),
-      mpMultiplier: new fields.NumberField({ integer: true, initial: 3 }),
+      hpMultiplier: new fields.NumberField({ integer: true }),
+      mpMultiplier: new fields.NumberField({ integer: true }),
       stats,
       tn,
       power,
@@ -66,19 +70,18 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     for (const [key, stat] of Object.entries(stats)) {
       stat.value = stat.base + stat.lv + stat.magatama;
       stat.tn = stat.value * 5 + data.level;
-
       // Calculate the "special" TN associated with each stat
       switch (key) {
         case "st":
         case "ma":
         case "vi":
-          stat.specialTn = stat.tn;
+          stat.specialTN = stat.tn;
           break;
         case "ag":
-          stat.specialTn = stat.value + 10;
+          stat.specialTN = stat.value + 10;
           break;
         case "lu":
-          stat.specialTn = stat.value * 2 + 20;
+          stat.specialTN = stat.value * 2 + 20;
           break;
       }
     }
@@ -89,6 +92,13 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
     data.tn.save = stats.vi.tn;
     data.tn.dodge = stats.ag.value + 10;
     data.tn.negotiation = stats.lu.value * 2 + 20;
+
+    // Get HP and MP multipliers
+    const isHuman = data.charClass === "human";
+    // @ts-expect-error This field isn't readonly
+    data.hpMultiplier = isHuman ? 4 : 6;
+    // @ts-expect-error This field isn't readonly
+    data.mpMultiplier = isHuman ? 2 : 4;
 
     // Calculate HP/MP/FP max
     data.hp.max = stats.vi.value + data.level + data.hpMultiplier;

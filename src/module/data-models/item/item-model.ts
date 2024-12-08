@@ -15,7 +15,7 @@ export class SkillDataModel extends foundry.abstract.TypeDataModel {
     return {
       notes: new fields.HTMLField(),
       stat: new fields.StringField(),
-      potency: new fields.NumberField({integer: true}),
+      potency: new fields.NumberField({ integer: true }),
     } as const;
   }
 }
