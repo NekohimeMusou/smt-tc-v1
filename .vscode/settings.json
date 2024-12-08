@@ -6,7 +6,9 @@
     "elec",
     "esmodules",
     "flexcol",
+    "flexlarge",
     "flexrow",
+    "flexshrink",
     "foundrytypes",
     "fvtt",
     "ITEMMODELS",
@@ -21,10 +23,6 @@
     "editor.tabSize": 2
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "[handlebars]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2
   },

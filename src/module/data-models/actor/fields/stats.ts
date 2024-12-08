@@ -7,5 +7,6 @@ export function generateStatSchema() {
     lv: new fields.NumberField({ integer: true }),
     value: new fields.NumberField({ integer: true }),
     tn: new fields.NumberField({ integer: true }),
+    specialTn: new fields.NumberField({integer: true}),
   };
 }

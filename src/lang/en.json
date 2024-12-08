@@ -22,6 +22,20 @@
       "ag": "Agility",
       "lu": "Luck"
     },
+    "specialTN": {
+      "st": "Phys Atk",
+      "ma": "Spell Atk",
+      "vi": "Save TN",
+      "ag": "Dodge TN",
+      "lu": "Negotiation TN"
+    },
+    "specialTNFormula": {
+      "st": "Strength TN",
+      "ma": "Magic TN",
+      "vi": "Save TN",
+      "ag": "Agility + 10",
+      "lu": "(Luck x 2) + 20"
+    },
     "elements": {
       "phys": "Phys",
       "fire": "Fire",
@@ -63,23 +77,31 @@
     },
     "actorFields": {
       "gender": "Gender",
-      "genderHint": "Gender, if applicable",
       "age": "Age",
-      "ageHint": "Age, if applicable",
       "subclass": "Subclass",
-      "subclassHint": "Subclass/Magatama/Species",
       "level": "Level",
-      "levelHint": "Experience level",
       "xp": "XP",
-      "xpHint": "Experience points",
       "charClass": "Class",
-      "charClassHint": "Human, demon, or fiend",
       "hp": "HP",
-      "hpHint": "Hit points",
       "mp": "MP",
-      "mpHint": "Magic points",
       "fp": "FP",
-      "fpHint": "Fate points"
+      "tn": "{name} TN"
+    },
+    "actorSheet": {
+      "derived": {
+        "basePhysPower": "Phys Power",
+        "baseMagPower": "Mag Power",
+        "physResist": "Phys Resist",
+        "magResist": "Mag Resist"
+      },
+      "stats": "Stats",
+      "baseStat": "Base",
+      "magatamaShort": "Mgt",
+      "levelShort": "LV",
+      "statTotal": "Total",
+      "specialTN": "Special TNs",
+      "tn": "TN",
+      "derivedStats": "Derived Stats"
     },
     "statusEffects": {
       "stone": "Stone",
