@@ -47,7 +47,10 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // });
 
     // Everything below here is only needed if the sheet is editable
-    // if (!this.isEditable) return;
+    if (!this.isEditable) return;
+
+    // Stat TN roll
+    html.find("roll-stat-tn").on("click", (ev) => this.#onStatRoll(ev));
 
     // Add Inventory Item
     // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
@@ -59,6 +62,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
   }
 
+  #onStatRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    // const element = $(event.currentTarget);
+    // const stat = element.data("stat") as string;
+    // const rollType = element.data("rollType") as string;
+    // const rollData = this.actor.getRollData();
+  }
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
   //  * @param {Event} event   The originating click event

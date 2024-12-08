@@ -37,18 +37,15 @@
         <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" placeholder="0" data-dtype="Number" disabled />
         </td>
         {{! Stat TN }}
-        <td class="roll-highlight roll-stat-tn">{{tn}}%</td>
+        <td class="roll-highlight roll-stat-tn" data-roll-type="tn" data-stat="{{@key}}">{{tn}}%</td>
         {{! Special TN name }}
         <th>{{localize (concat "SMT.specialTN." @key)}}</th>
         {{! Special TN formula }}
         <td>{{localize (concat "SMT.specialTNFormula." @key)}}</td>
         {{! Special TN }}
-        <td class="roll-highlight roll-special-tn">{{specialTN}}%</td>
+        <td class="roll-highlight roll-stat-tn" data-roll-type="specialTN" data-stat="{{@key}}">{{specialTN}}%</td>
       </tr>
       {{/each}}
     </tbody>
   </table>
-  {{! Derived stat name }}
-  {{! Derived stat formula }}
-  {{! Derived stat }}
 </section>
