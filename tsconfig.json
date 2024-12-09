@@ -15,8 +15,7 @@
     "allowUmdGlobalAccess": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitOverride": true,
-    "sourceMap": true
+    "noImplicitOverride": true
   },
 
   "exclude": ["node_modules"],

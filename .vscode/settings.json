@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "ACTORMODELS",
+    "blindroll",
     "charname",
     "dtype",
     "elec",
@@ -11,10 +12,13 @@
     "flexshrink",
     "foundrytypes",
     "fvtt",
+    "gmroll",
     "ITEMMODELS",
     "Magatama",
     "Megami",
+    "publicroll",
     "rulebook",
+    "selfroll",
     "Tensei",
     "tseslint"
   ],

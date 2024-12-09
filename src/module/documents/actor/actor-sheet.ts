@@ -1,4 +1,5 @@
 import { SMT } from "../../config/config.js";
+import { successRoll } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
@@ -36,7 +37,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     return context;
   }
 
-  override activateListeners(html: JQuery) {
+  override activateListeners(html: JQuery<HTMLElement>) {
     super.activateListeners(html);
 
     // Render the item sheet for viewing/editing prior to the editable check.
@@ -50,7 +51,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     if (!this.isEditable) return;
 
     // Stat TN roll
-    html.find("roll-stat-tn").on("click", (ev) => this.#onStatRoll(ev));
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    html.find(".roll-stat-tn").on("click", this.#onStatRoll.bind(this));
 
     // Add Inventory Item
     // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
@@ -62,13 +64,23 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
   }
 
-  #onStatRoll(event: JQuery.ClickEvent) {
+  async #onStatRoll(event: JQuery.ClickEvent) {
     event.preventDefault();
 
-    // const element = $(event.currentTarget);
-    // const stat = element.data("stat") as string;
-    // const rollType = element.data("rollType") as string;
-    // const rollData = this.actor.getRollData();
+    const target = $(event.currentTarget);
+    const {rollType, stat}: TNRollData = target.data() as TNRollData;
+
+    if (!(SMT.rollTypes.includes(rollType)) || !(Object.keys(this.actor.system.stats).includes(stat))) {
+      return ui.notifications.error("Malformed roll data (in #onStatRoll)");
+    }
+
+    const token = this.actor.token;
+
+    const tn = this.actor.system.stats[stat][rollType];
+
+    const rollLabel = game.i18n.localize(`SMT.stats.${stat}`);
+
+    return await successRoll(rollLabel, tn, {token, actor: this.actor});
   }
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset

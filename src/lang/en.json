@@ -115,6 +115,15 @@
       "panic": "Panic",
       "shock": "Shock",
       "curse": "Curse"
+    },
+    "dice": {
+      "result": {
+        "success": "Success!",
+        "failed": "Failed!",
+        "crit": "CRITICAL SUCCESS!",
+        "fumble": "FUMBLE!"
+      },
+      "checkMsg": "{rollLabel} check ({tn}%)"
     }
   }
 }
