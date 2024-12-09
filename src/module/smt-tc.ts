@@ -1,5 +1,5 @@
 import { preloadHandlebarsTemplates } from "./config/templates.js";
-import { CharacterDataModel } from "./data-models/actor/actor-model.js";
+import { SmtPcDataModel } from "./data-models/actor/actor-model.js";
 import { SkillDataModel } from "./data-models/item/item-model.js";
 import { SmtActorSheet } from "./documents/actor/actor-sheet.js";
 import { SmtActor } from "./documents/actor/actor.js";
@@ -25,7 +25,7 @@ function configureDocumentClasses() {
 
 function configureDataModels() {
   CONFIG.Item.dataModels.skill = SkillDataModel;
-  CONFIG.Actor.dataModels.character = CharacterDataModel;
+  CONFIG.Actor.dataModels.character = SmtPcDataModel;
 }
 
 function registerSheetApplications() {

@@ -38,7 +38,7 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
-export class CharacterDataModel extends foundry.abstract.TypeDataModel {
+export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
   }
@@ -113,5 +113,9 @@ export class CharacterDataModel extends foundry.abstract.TypeDataModel {
 }
 
 export const ACTORMODELS = {
-  character: CharacterDataModel,
+  character: SmtPcDataModel,
 } as const;
+
+declare global {
+  type ActorDataModel = SmtPcDataModel;
+}
