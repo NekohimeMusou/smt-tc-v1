@@ -2,19 +2,25 @@ import { SmtActor } from "../documents/actor/actor.js";
 
 type SuccessLevel = "success" | "failed" | "crit" | "fumble";
 
+interface SuccessRollOptions {
+  token?: TokenDocument<SmtActor>;
+  actor?: SmtActor;
+  hasCritBoost?: boolean;
+}
+
+declare global {
+  type TNRollType = "tn" | "specialTN";
+  interface TNRollData {
+    rollType: TNRollType;
+    stat: SmtStat;
+  }
+}
+
 // RollData can access actor through "parent" attribute
 export async function successRoll(
   rollLabel: string,
   tn: number,
-  {
-    // token,
-    // actor,
-    hasCritBoost = false,
-  }: {
-    token?: TokenDocument<SmtActor>;
-    actor?: SmtActor;
-    hasCritBoost?: boolean;
-  } = {}
+  { token, actor, hasCritBoost = false }: SuccessRollOptions = {}
 ) {
   const checkLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollLabel,
@@ -35,22 +41,23 @@ export async function successRoll(
 
   const resultLabel = game.i18n.localize(`SMT.dice.result.${successLevel}`);
 
-  msgParts.push(`<h3>${resultLabel}</h3>\n<p>Roll: ${rollTotal}</p>`);
+  const rollHTML = await roll.render();
 
-  // const chatData = {
-  //   user: game.user.id,
-  //   // flavor: optional flavor text
-  //   content: msgParts.join("\n"),
-  //   speaker: {
-  //     scene: game.scenes.current,
-  //     token,
-  //     actor,
-  //   },
-  // };
+  msgParts.push(`<h3>${resultLabel}</h3>`, rollHTML);
 
-  // return await ChatMessage.create(chatData);
-  // return await roll.toMessage(chatData);
-  return await roll.toMessage();
+  const chatData = {
+    user: game.user.id,
+    // flavor: optional flavor text
+    content: msgParts.join("\n"),
+    speaker: {
+      scene: game.scenes.current,
+      token,
+      actor,
+    },
+    rolls: [roll],
+  };
+
+  return await ChatMessage.create(chatData);
 }
 
 function getSuccessLevel(
@@ -64,15 +71,7 @@ function getSuccessLevel(
     return "crit";
   } else if (roll <= tn) {
     return "success";
-  } else {
-    return "failed";
   }
-}
 
-declare global {
-  type TNRollType = "tn" | "specialTN";
-  interface TNRollData {
-    rollType: TNRollType;
-    stat: SmtStat;
-  }
+  return "failed";
 }
