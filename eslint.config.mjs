@@ -13,6 +13,14 @@ export default tseslint.config(
     },
   },
   {
+    rules: {
+      "no-misused-promises": [
+        "error",
+        { checksVoidReturn: { arguments: false } },
+      ],
+    },
+  },
+  {
     ignores: ["eslint.config.mjs"],
   },
 );

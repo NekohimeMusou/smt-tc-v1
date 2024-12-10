@@ -51,7 +51,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     if (!this.isEditable) return;
 
     // Stat TN roll
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     html.find(".roll-stat-tn").on("click", this.#onStatRoll.bind(this));
 
     // Add Inventory Item
