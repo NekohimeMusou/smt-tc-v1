@@ -2,39 +2,62 @@ import { SmtActor } from "../documents/actor/actor.js";
 
 type SuccessLevel = "success" | "failed" | "crit" | "fumble";
 
-interface SuccessRollOptions {
+interface RollOptions {
+  rollLabel?: string;
   token?: TokenDocument<SmtActor>;
   actor?: SmtActor;
   showDialog?: boolean;
+}
+interface SuccessRollOptions extends RollOptions {
   hasCritBoost?: boolean;
+  tn?: number;
+}
+
+interface PowerRollOptions extends RollOptions {
+  basePower?: number;
+  potency?: number;
+  hasPowerBoost?: boolean;
+  element?: SmtElement;
+  atkType?: SmtAtkType;
+}
+
+interface StatusAilmentData {
+  name: string;
+  accuracy: number;
 }
 
 declare global {
   type TNRollType = "tn" | "specialTN";
+
   interface TNRollData {
     rollType: TNRollType;
     stat: SmtStat;
+  }
+
+  // TODO: Figure out what info I need from the sheet
+  interface PowerRollData {
+
   }
 }
 
 // RollData can access actor through "parent" attribute
 export async function successRoll(
-  rollLabel: string,
-  tn: number,
   {
+    rollLabel="",
     token,
     actor,
     showDialog = false,
     hasCritBoost = false,
+    tn=0,
   }: SuccessRollOptions = {},
 ) {
-  const checkLabel = game.i18n.format("SMT.dice.checkMsg", {
+  const dialogLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollLabel,
     tn: `${tn}`,
   });
 
   const { mod, cancelled } = showDialog
-    ? await showSuccessModDialog(checkLabel)
+    ? await showModifierDialog(dialogLabel, game.i18n.localize("SMT.dice.modifierHint"))
     : { mod: 0, cancelled: false };
 
   if (cancelled) return;
@@ -86,6 +109,8 @@ function getSuccessLevel(
 ): SuccessLevel {
   if (roll === 100) {
     return "fumble";
+  } else if (roll >= 96) {
+    return "failed";
   } else if (roll <= critThreshold) {
     return "crit";
   } else if (roll <= tn) {
@@ -95,12 +120,13 @@ function getSuccessLevel(
   return "failed";
 }
 
-async function showSuccessModDialog(
-  checkLabel: string,
+async function showModifierDialog(
+  dialogLabel: string,
+  hint: string="",
 ): Promise<{ mod?: number; cancelled?: boolean }> {
   const template =
-    "systems/smt-tc/templates/dialog/success-roll-mod-dialog.hbs";
-  const content = await renderTemplate(template, { checkLabel });
+    "systems/smt-tc/templates/dialog/modifier-dialog.hbs";
+  const content = await renderTemplate(template, { checkLabel: dialogLabel, hint });
 
   return new Promise((resolve) =>
     new Dialog(
@@ -128,4 +154,66 @@ async function showSuccessModDialog(
       {},
     ).render(true),
   );
+}
+
+export async function powerRoll({
+  rollLabel="",
+  token,
+  actor,
+  showDialog,
+  basePower=0,
+  potency=0,
+  hasPowerBoost,
+  element,
+  atkType,
+}: PowerRollOptions={}) {
+  const dialogLabel = game.i18n.format("SMT.dice.powerDialogMsg", { name: rollLabel });
+
+  const { mod, cancelled } = showDialog
+    ? await showModifierDialog(dialogLabel) : { mod: 0, cancelled: false };
+
+    if (cancelled) return;
+
+    const diceMod = mod || 0;
+
+    const rollString = [
+      `${hasPowerBoost ? 2 : 1}d10x`,
+      _getDiceTerm(basePower),
+      _getDiceTerm(potency),
+      _getDiceTerm(diceMod)
+    ].join("");
+
+    const roll = await new Roll(rollString).roll();
+
+    const powerTotalString = game.i18n.format("SMT.dice.powerChatCardMsg",
+      {
+       power: `${roll.total}`,
+       element: game.i18n.localize(`SMT.elements.${element}`),
+       atkType: game.i18n.localize(`SMT.atkType.${atkType}`),
+     });
+
+    const content = [
+      `<h3>${rollLabel}</h3>`,
+      `<p>${powerTotalString}</p>`,
+      await roll.render(),
+    ].join("\n");
+
+    const chatData = {
+      user: game.user.id,
+      content,
+      speaker: {
+        scene: game.scenes.current,
+        token,
+        actor,
+      },
+      rolls: [roll],
+    };
+
+    return await ChatMessage.create(chatData);
+}
+
+function _getDiceTerm(num: number) {
+  if (!num) { return ""; }
+
+  return Math.sign(num) < 0 ? ` - ${num}` : ` + ${num}`
 }

@@ -72,6 +72,10 @@
       "passive": "Passive",
       "talk": "Talk"
     },
+    "atkType": {
+      "phys": "Phys",
+      "mag": "Mag"
+    },
     "itemFields": {
       "effect": "Effect",
       "traits": "Traits",
@@ -109,7 +113,7 @@
       "derivedStats": "Derived Stats",
       "formula": "Formula"
     },
-    "statusEffects": {
+    "ailments": {
       "stone": "Stone",
       "fly": "Fly",
       "stun": "Stun",
@@ -131,6 +135,8 @@
         "fumble": "FUMBLE!"
       },
       "checkMsg": "{rollLabel} check ({tn}%)",
+      "powerDialogMsg": "Power: {name}",
+      "powerChatCardMsg": "Power: {power} {element} ({atkType})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll."
     },

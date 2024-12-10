@@ -87,10 +87,12 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
 
-    return await successRoll(rollLabel, tn, {
+    return await successRoll({
+      rollLabel,
       token,
       actor: this.actor,
       showDialog,
+      tn,
     });
   }
   // /**
