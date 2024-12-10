@@ -5,6 +5,7 @@ type SuccessLevel = "success" | "failed" | "crit" | "fumble";
 interface SuccessRollOptions {
   token?: TokenDocument<SmtActor>;
   actor?: SmtActor;
+  showDialog?: boolean;
   hasCritBoost?: boolean;
 }
 
@@ -20,14 +21,32 @@ declare global {
 export async function successRoll(
   rollLabel: string,
   tn: number,
-  { token, actor, hasCritBoost = false }: SuccessRollOptions = {},
+  {
+    token,
+    actor,
+    showDialog = false,
+    hasCritBoost = false,
+  }: SuccessRollOptions = {},
 ) {
   const checkLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollLabel,
     tn: `${tn}`,
   });
 
-  const msgParts = [`<p>${checkLabel}</p>`];
+  const { mod, cancelled } = showDialog
+    ? await showSuccessModDialog(checkLabel)
+    : { mod: 0, cancelled: false };
+
+  if (cancelled) return;
+
+  const modifiedTN = tn + (mod || 0);
+
+  const modifiedCheckLabel = game.i18n.format("SMT.dice.checkMsg", {
+    rollLabel,
+    tn: `${modifiedTN}`,
+  });
+
+  const msgParts = [`<p>${modifiedCheckLabel}</p>`];
 
   const roll = await new Roll("1d100").roll();
 
@@ -35,9 +54,9 @@ export async function successRoll(
 
   const critDivisor = hasCritBoost ? 5 : 10;
 
-  const critThreshold = Math.max(Math.floor(tn / critDivisor), 1);
+  const critThreshold = Math.max(Math.floor(modifiedTN / critDivisor), 1);
 
-  const successLevel = getSuccessLevel(rollTotal, tn, critThreshold);
+  const successLevel = getSuccessLevel(rollTotal, modifiedTN, critThreshold);
 
   const resultLabel = game.i18n.localize(`SMT.dice.result.${successLevel}`);
 
@@ -74,4 +93,39 @@ function getSuccessLevel(
   }
 
   return "failed";
+}
+
+async function showSuccessModDialog(
+  checkLabel: string,
+): Promise<{ mod?: number; cancelled?: boolean }> {
+  const template =
+    "systems/smt-tc/templates/dialog/success-roll-mod-dialog.hbs";
+  const content = await renderTemplate(template, { checkLabel });
+
+  return new Promise((resolve) =>
+    new Dialog(
+      {
+        title: game.i18n.localize("SMT.dice.modifier"),
+        content,
+        buttons: {
+          ok: {
+            label: "OK",
+            callback: (html) =>
+              resolve({
+                mod: parseInt(
+                  $(html)[0].querySelector("form")?.mod?.value || 0,
+                ),
+              }),
+          },
+          cancel: {
+            label: "Cancel",
+            callback: () => resolve({ cancelled: true }),
+          },
+        },
+        default: "ok",
+        close: () => resolve({ cancelled: true }),
+      },
+      {},
+    ).render(true),
+  );
 }

@@ -1,3 +1,4 @@
+import { registerSystemSettings } from "./config/settings.js";
 import { preloadHandlebarsTemplates } from "./config/templates.js";
 import { SmtPcDataModel } from "./data-models/actor/actor-model.js";
 import { SkillDataModel } from "./data-models/item/item-model.js";
@@ -14,6 +15,8 @@ Hooks.once("init", async () => {
   configureDataModels();
 
   registerSheetApplications();
+
+  registerSystemSettings();
 
   await preloadHandlebarsTemplates();
 });
