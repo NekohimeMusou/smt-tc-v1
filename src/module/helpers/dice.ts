@@ -20,7 +20,7 @@ declare global {
 export async function successRoll(
   rollLabel: string,
   tn: number,
-  { token, actor, hasCritBoost = false }: SuccessRollOptions = {}
+  { token, actor, hasCritBoost = false }: SuccessRollOptions = {},
 ) {
   const checkLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollLabel,
@@ -63,7 +63,7 @@ export async function successRoll(
 function getSuccessLevel(
   roll: number,
   tn: number,
-  critThreshold: number
+  critThreshold: number,
 ): SuccessLevel {
   if (roll === 100) {
     return "fumble";

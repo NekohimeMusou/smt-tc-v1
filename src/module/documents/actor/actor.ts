@@ -9,7 +9,7 @@ export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem> {
       Object.entries(this.system.stats).map(([statName, stat]) => [
         statName,
         stat.value,
-      ])
+      ]),
     );
 
     foundry.utils.mergeObject(rollData, stats);

@@ -19,8 +19,5 @@
   },
 
   "exclude": ["node_modules"],
-  "include": [
-    "src/**/*.ts",
-    "foundrytypes/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "foundrytypes/**/*.ts"]
 }
