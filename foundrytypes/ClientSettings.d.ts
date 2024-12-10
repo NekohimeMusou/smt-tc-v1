@@ -5,7 +5,7 @@ declare class ClientSettings {
 	register<T extends typeof String | typeof Number | typeof Boolean>(namespace: string, key: string, data: Partial<SettingConfig<T>> ): void;
 	registerMenu<C extends typeof FormApplication>(namespace:string, key: string, data: SettingSubmenuConfig<C>): void;
 	get<Output = unknown>(namespace: string, key: string): Output;
-	async set(namespace:string, key: string, value: unkwown): Promise<void>
+	async set(namespace:string, key: string, value: unknown): Promise<void>
 
 }
 
