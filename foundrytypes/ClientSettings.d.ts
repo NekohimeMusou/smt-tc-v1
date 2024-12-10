@@ -2,7 +2,7 @@ declare class ClientSettings {
 	get menus(): Map<string, unknown>;
 	get settings(): Map<string, unknown>;
 	get storage(): Map<string, unknown>;
-	register<T extends typeof String | typeof Number | typeof Boolean>(namespace: string, key: string, data: SettingConfig<T> ): void;
+	register<T extends typeof String | typeof Number | typeof Boolean>(namespace: string, key: string, data: Partial<SettingConfig<T>> ): void;
 	registerMenu<C extends typeof FormApplication>(namespace:string, key: string, data: SettingSubmenuConfig<C>): void;
 	get<Output = unknown>(namespace: string, key: string): Output;
 	async set(namespace:string, key: string, value: unkwown): Promise<void>
