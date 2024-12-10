@@ -1,55 +1,63 @@
 <section class="stats">
-  {{! BASE | MAGATAMA (if Fiend) | LV | TOTAL | REG TN LABEL | REG TN | SPC TN LABEL | SPC TN }}
   <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.stats"}}</div>
   {{! Maybe wrap this in a div }}
-  <table class="stats items-list">
-    <thead class="stat">
-      <tr>
-        {{! Stat name }}
-        <th>{{localize "SMT.actorSheet.stats"}}</th>
-        {{! Base stat}}
-        <th>{{localize "SMT.actorSheet.baseStat"}}</th>
-        {{! Magatama mod}}
+  <div class="items-list flexcol">
+    <ol class="items-list">
+      <li class="item flexrow items-header">
+        {{!-- Stat Name --}}
+        <div>{{localize "SMT.actorSheet.stats"}}</div>
+        {{!-- Base --}}
+        <div>{{localize "SMT.actorSheet.baseStat"}}</div>
+        {{!-- Magatama Mod --}}
         {{#if (eq system.charClass "fiend")}}
-        <th>{{localize "SMT.actorSheet.magatamaShort"}}</th>
+        <div>{{localize "SMT.actorSheet.magatamaShort"}}</div>
         {{/if}}
-        {{! LV points }}
-        <th>{{localize "SMT.actorSheet.levelShort"}}</th>
-        {{! Total stat }}
-        <th>{{localize "SMT.actorSheet.statTotal"}}</th>
-        {{! Stat TN }}
-        <th>{{localize "SMT.actorSheet.tn"}}</th>
-        {{! Special target numbers (Span 3 rows) }}
-        <th colspan="3">{{localize "SMT.actorSheet.specialTN"}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{! Individual stat data, with #each }}
+        {{!-- LV points --}}
+        <div>{{localize "SMT.actorSheet.levelShort"}}</div>
+        {{!-- Total Stat --}}
+        <div>{{localize "SMT.actorSheet.statTotal"}}</div>
+        {{!-- Stat TN --}}
+        <div>{{localize "SMT.actorSheet.tn"}}</div>
+        {{!-- Special TN label --}}
+        <div>{{localize "SMT.actorSheet.specialTN"}}</div>
+        {{!-- Special TN formula --}}
+        <div>{{localize "SMT.actorSheet.formula"}}</div>
+        {{!-- Special TN --}}
+        <div>{{localize "SMT.actorSheet.tn"}}</div>
+      </li>
+
       {{#each system.stats}}
-      <tr class="stat">
-        {{! Stat name }}
-        <th>{{localize (concat "SMT.stats." @key)}}</th>
-        {{! Base stat}}
-        <td><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0" data-dtype="Number" /></td>
-        {{! Magatama mod}}
-        {{#if (eq system.charClass "fiend")}}
-        <td><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}" placeholder="0" data-dtype="Number" /></td>
+      <li class="item flexrow">
+        {{!-- Stat Name --}}
+        <div class="item-prop">{{localize (concat "SMT.statShort." @key)}}</div>
+        {{!-- Base --}}
+        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
+            data-dtype="Number" /></div>
+        {{!-- Magatama Mod --}}
+        {{#if (eq ../system.charClass "fiend")}}
+        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}"
+            placeholder="0" data-dtype="Number" /></div>
         {{/if}}
-        {{! LV points }}
-        <td><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0" data-dtype="Number" /></td>
-        {{! Total stat }}
-        <td><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" placeholder="0" data-dtype="Number" disabled />
-        </td>
-        {{! Stat TN }}
-        <td class="roll-highlight roll-stat-tn" data-roll-type="tn" data-stat="{{@key}}">{{tn}}%</td>
-        {{! Special TN name }}
-        <th>{{localize (concat "SMT.specialTN." @key)}}</th>
-        {{! Special TN formula }}
-        <td>{{localize (concat "SMT.specialTNFormula." @key)}}</td>
-        {{! Special TN }}
-        <td class="roll-highlight roll-stat-tn" data-roll-type="specialTN" data-stat="{{@key}}">{{specialTN}}%</td>
-      </tr>
+        {{!-- LV points --}}
+        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0"
+            data-dtype="Number" />
+        </div>
+        {{!-- Total Stat --}}
+        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" placeholder="0"
+            data-dtype="Number" disabled />
+        </div>
+        {{!-- Stat TN --}}
+        <div class="item-prop roll-highlight roll-stat-tn" data-roll-type="stats" data-stat="{{@key}}">{{tn}}%</div>
+        {{!-- Special TN label --}}
+        <div class="item-prop item-name">{{localize (concat "SMT.specialTN." @key)}}</div>
+        {{!-- Special TN formula --}}
+        <div class="item-prop">{{localize (concat "SMT.specialTNFormula." @key)}}</div>
+        {{!-- Special TN --}}
+        <div class="item-prop roll-highlight roll-stat-tn" data-roll-type="specialTN" data-stat="{{@key}}">
+          {{specialTN}}%
+        </div>
+      </li>
       {{/each}}
-    </tbody>
-  </table>
+    </ol>
+  </div>
 </section>

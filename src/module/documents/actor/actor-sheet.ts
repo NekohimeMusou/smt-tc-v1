@@ -80,11 +80,18 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const tn = this.actor.system.stats[stat][rollType];
 
-    const rollLabel = game.i18n.localize(`SMT.stats.${stat}`);
+    const rollCategory = rollType === "tn" ? "stats" : "specialTN";
 
-    const showDialog = event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+    const rollLabel = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
 
-    return await successRoll(rollLabel, tn, { token, actor: this.actor, showDialog });
+    const showDialog =
+      event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+
+    return await successRoll(rollLabel, tn, {
+      token,
+      actor: this.actor,
+      showDialog,
+    });
   }
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset

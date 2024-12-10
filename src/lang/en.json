@@ -22,6 +22,13 @@
       "ag": "Agility",
       "lu": "Luck"
     },
+    "statShort": {
+      "st": "St",
+      "ma": "Ma",
+      "vi": "Vi",
+      "ag": "Ag",
+      "lu": "Lu"
+    },
     "specialTN": {
       "st": "Phys Atk",
       "ma": "Spell Atk",
@@ -30,8 +37,8 @@
       "lu": "Negotiation TN"
     },
     "specialTNFormula": {
-      "st": "Strength TN",
-      "ma": "Magic TN",
+      "st": "St TN",
+      "ma": "Ma TN",
       "vi": "Save TN",
       "ag": "Agility + 10",
       "lu": "(Luck x 2) + 20"
@@ -97,7 +104,7 @@
       "magatamaShort": "Mgt",
       "levelShort": "LV",
       "statTotal": "Total",
-      "specialTN": "Special TNs",
+      "specialTN": "Spc",
       "tn": "TN",
       "derivedStats": "Derived Stats",
       "formula": "Formula"
