@@ -67,9 +67,12 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     event.preventDefault();
 
     const target = $(event.currentTarget);
-    const {rollType, stat}: TNRollData = target.data() as TNRollData;
+    const { rollType, stat }: TNRollData = target.data() as TNRollData;
 
-    if (!(SMT.rollTypes.includes(rollType)) || !(Object.keys(this.actor.system.stats).includes(stat))) {
+    if (
+      !SMT.rollTypes.includes(rollType) ||
+      !Object.keys(this.actor.system.stats).includes(stat)
+    ) {
       return ui.notifications.error("Malformed roll data (in #onStatRoll)");
     }
 
@@ -79,7 +82,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const rollLabel = game.i18n.localize(`SMT.stats.${stat}`);
 
-    return await successRoll(rollLabel, tn, {token, actor: this.actor});
+    return await successRoll(rollLabel, tn, { token, actor: this.actor });
   }
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset

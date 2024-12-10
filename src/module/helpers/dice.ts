@@ -14,7 +14,7 @@ export async function successRoll(
     token?: TokenDocument<SmtActor>;
     actor?: SmtActor;
     hasCritBoost?: boolean;
-  } = {},
+  } = {}
 ) {
   const checkLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollLabel,
@@ -56,7 +56,7 @@ export async function successRoll(
 function getSuccessLevel(
   roll: number,
   tn: number,
-  critThreshold: number,
+  critThreshold: number
 ): SuccessLevel {
   if (roll === 100) {
     return "fumble";

@@ -1,9 +1,8 @@
 import tseslint from "typescript-eslint";
-import eslintConfigPrettier from "eslint-config-prettier";
 
 export default tseslint.config(
   tseslint.configs.recommendedTypeChecked,
-  eslintConfigPrettier,
+  tseslint.configs.stylisticTypeChecked,
   {
     languageOptions: {
       parserOptions: {
