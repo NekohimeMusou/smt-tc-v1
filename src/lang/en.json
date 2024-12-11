@@ -113,7 +113,8 @@
       "specialTN": "Spc",
       "tn": "TN",
       "derivedStats": "Derived Stats",
-      "formula": "Formula"
+      "formula": "Formula",
+      "value": "Value"
     },
     "ailments": {
       "stone": "Stone",

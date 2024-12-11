@@ -1,38 +1,37 @@
 <section class="derived-stats">
   <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.derivedStats"}}</div>
-  {{! BASE PHYS | BASE MAG | PHYS RESIST | MAG RESIST }}
-  <table class="derived-stats items-list">
-    <thead>
-      <tr>
-        {{! Stat name }}
-        <th>{{localize "SMT.actorSheet.stat"}}</th>
-        {{! Stat formula }}
-        <th>{{localize "SMT.actorSheet.formula"}}</th>
-        {{! Stat value }}
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{localize "SMT.actorSheet.basePhysPower"}}</td>
-        <td>{{localize "SMT.derivedStatFormula.basePhysPower"}}</td>
-        <td class="roll-highlight roll-dmg" data-atk-type="phys" data-base-power="{{system.power.phys}}" data-roll-name="{{localize "SMT.actorSheet.basePhysPower"}}" data-is-basic-roll>{{system.power.phys}}</td>
-      </tr>
-      <tr>
-        <td>{{localize "SMT.actorSheet.baseMagPower"}}</td>
-        <td class="roll-highlight roll-dmg" data-atk-type="phys">{{localize "SMT.derivedStatFormula.baseMagPower"}}</td>
-        <td>{{system.power.mag}}</td>
-      </tr>
-      <tr>
-        <td>{{localize "SMT.actorSheet.physResist"}}</td>
-        <td>{{localize "SMT.derivedStatFormula.physResist"}}</td>
-        <td>{{system.resist.phys}}</td>
-      </tr>
-      <tr>
-        <td>{{localize "SMT.actorSheet.magResist"}}</td>
-        <td>{{localize "SMT.derivedStatFormula.magResist"}}</td>
-        <td>{{system.resist.mag}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="items-list flexcol">
+    <ol class="items-list">
+      <li class="item flexrow items-header">
+        {{!-- Stat name --}}
+        <div>{{localize "SMT.actorSheet.stat"}}</div>
+        {{!-- Stat formula --}}
+        <div class="flex2">{{localize "SMT.actorSheet.formula"}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <div class="item-prop">{{localize "SMT.actorSheet.basePhysPower"}}</div>
+        <div class="item-prop">{{localize "SMT.derivedStatFormula.basePhysPower"}}</div>
+        <div class="item-prop roll-highlight">{{system.power.phys}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <div class="item-prop">{{localize "SMT.actorSheet.baseMagPower"}}</div>
+        <div class="item-prop">{{localize "SMT.derivedStatFormula.baseMagPower"}}</div>
+        <div class="item-prop roll-highlight">{{system.power.mag}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <div class="item-prop">{{localize "SMT.actorSheet.physResist"}}</div>
+        <div class="item-prop">{{localize "SMT.derivedStatFormula.physResist"}}</div>
+        <div class="item-prop">{{system.resist.phys}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <div class="item-prop">{{localize "SMT.actorSheet.magResist"}}</div>
+        <div class="item-prop">{{localize "SMT.derivedStatFormula.magResist"}}</div>
+        <div class="item-prop">{{system.resist.mag}}</div>
+      </li>
+    </ol>
+  </div>
 </section>
