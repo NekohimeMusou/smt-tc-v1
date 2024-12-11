@@ -1,10 +1,9 @@
+import { SMT } from "../../config/config.js";
 import { SmtActor } from "../../documents/actor/actor.js";
 import { generateResourceSchema } from "./fields/resources.js";
 import { generateStatSchema } from "./fields/stats.js";
 
 const fields = foundry.data.fields;
-
-const charClasses = ["human", "demon", "fiend"];
 
 const tn = new fields.SchemaField({
   basicStrike: new fields.NumberField({ integer: true }),
@@ -45,7 +44,7 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
   static override defineSchema() {
     return {
       charClass: new fields.StringField({
-        choices: charClasses,
+        choices: SMT.charClasses,
         initial: "human",
       }),
       xp: new fields.NumberField({ integer: true, initial: 0 }),

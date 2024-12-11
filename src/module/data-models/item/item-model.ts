@@ -1,5 +1,3 @@
-// import { SMT } from "../../config/config.js";
-
 export class SkillDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "skill" as const;
@@ -7,10 +5,6 @@ export class SkillDataModel extends foundry.abstract.TypeDataModel {
 
   static override defineSchema() {
     const fields = foundry.data.fields;
-
-    // const statChoices = Object.fromEntries(
-    //   SMT.stats.map((stat) => [stat, `SMT.stats.${stat}`]),
-    // );
 
     return {
       notes: new fields.HTMLField(),

@@ -67,10 +67,11 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     event.preventDefault();
 
     const target = $(event.currentTarget);
-    const { rollType, stat }: TNRollData = target.data() as TNRollData;
+    const { rollType, stat } = target.data() as SuccessRollData;
 
+    // Make sure this really is SuccessRollData
     if (
-      !SMT.rollTypes.includes(rollType) ||
+      !SMT.successRollTypes.includes(rollType) ||
       !Object.keys(this.actor.system.stats).includes(stat)
     ) {
       return ui.notifications.error("Malformed roll data (in #onStatRoll)");
@@ -78,14 +79,30 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const token = this.actor.token;
 
-    const tn = this.actor.system.stats[stat][rollType];
+    const baseTn = this.actor.system.stats[stat][rollType];
 
-    const rollLabel = game.i18n.localize(`SMT.stats.${stat}`);
+    const rollCategory = rollType === "tn" ? "stats" : "specialTN";
 
-    const showDialog = event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+    const rollName = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
 
-    return await successRoll(rollLabel, tn, { token, actor: this.actor, showDialog });
+    const showDialog =
+      event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+
+    return await successRoll({
+      rollName,
+      token,
+      actor: this.actor,
+      showDialog,
+      baseTn,
+    });
   }
+
+  async #onPowerRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const target = $(event.currentTarget);
+  }
+
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
   //  * @param {Event} event   The originating click event

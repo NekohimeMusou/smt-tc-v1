@@ -22,6 +22,13 @@
       "ag": "Agility",
       "lu": "Luck"
     },
+    "statShort": {
+      "st": "St",
+      "ma": "Ma",
+      "vi": "Vi",
+      "ag": "Ag",
+      "lu": "Lu"
+    },
     "specialTN": {
       "st": "Phys Atk",
       "ma": "Spell Atk",
@@ -56,7 +63,9 @@
       "almighty": "Almighty",
       "healing": "Healing",
       "unique": "Unique",
-      "support": "Support"
+      "support": "Support",
+      "ailment": "Ailment",
+      "mag": "Magic"
     },
     "skillTypes": {
       "physAtk": "Physical Attack",
@@ -64,6 +73,10 @@
       "spell": "Spell",
       "passive": "Passive",
       "talk": "Talk"
+    },
+    "atkCategory": {
+      "phys": "Phys",
+      "mag": "Mag"
     },
     "itemFields": {
       "effect": "Effect",
@@ -97,12 +110,13 @@
       "magatamaShort": "Mgt",
       "levelShort": "LV",
       "statTotal": "Total",
-      "specialTN": "Special TNs",
+      "specialTN": "Spc",
       "tn": "TN",
       "derivedStats": "Derived Stats",
-      "formula": "Formula"
+      "formula": "Formula",
+      "value": "Value"
     },
-    "statusEffects": {
+    "ailments": {
       "stone": "Stone",
       "fly": "Fly",
       "stun": "Stun",
@@ -123,7 +137,9 @@
         "crit": "CRITICAL SUCCESS!",
         "fumble": "FUMBLE!"
       },
-      "checkMsg": "{rollLabel} check ({tn}%)",
+      "checkMsg": "{rollName} check ({tn}%)",
+      "powerDialogMsg": "Power: {name}",
+      "powerChatCardMsg": "Power: {power} {element} ({atkCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll."
     },
