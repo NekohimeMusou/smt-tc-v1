@@ -2,12 +2,15 @@ import { SmtActor } from "../documents/actor/actor.js";
 
 type SuccessLevel = "success" | "failed" | "crit" | "fumble";
 
+type SuccessRollType = "tn" | "specialTN";
+
 interface RollOptions {
-  rollLabel?: string;
+  rollName?: string;
   token?: TokenDocument<SmtActor>;
   actor?: SmtActor;
   showDialog?: boolean;
 }
+
 interface SuccessRollOptions extends RollOptions {
   hasCritBoost?: boolean;
   tn?: number;
@@ -17,8 +20,9 @@ interface PowerRollOptions extends RollOptions {
   basePower?: number;
   potency?: number;
   hasPowerBoost?: boolean;
-  element?: SmtElement;
-  atkType?: SmtAtkType;
+  affinity?: SkillAffinity;
+  atkType?: AttackType;
+  isBasicRoll?: boolean;
 }
 
 interface StatusAilmentData {
@@ -27,23 +31,24 @@ interface StatusAilmentData {
 }
 
 declare global {
-  type TNRollType = "tn" | "specialTN";
 
   interface TNRollData {
-    rollType: TNRollType;
+    rollType: SuccessRollType;
     stat: SmtStat;
   }
 
   // TODO: Figure out what info I need from the sheet
   interface PowerRollData {
-
+    atkType: AttackType;
+    affinity?: SkillAffinity;
+    basePower: number;
   }
 }
 
 // RollData can access actor through "parent" attribute
 export async function successRoll(
   {
-    rollLabel="",
+    rollName="",
     token,
     actor,
     showDialog = false,
@@ -52,7 +57,7 @@ export async function successRoll(
   }: SuccessRollOptions = {},
 ) {
   const dialogLabel = game.i18n.format("SMT.dice.checkMsg", {
-    rollLabel,
+    rollName,
     tn: `${tn}`,
   });
 
@@ -65,7 +70,7 @@ export async function successRoll(
   const modifiedTN = tn + (mod || 0);
 
   const modifiedCheckLabel = game.i18n.format("SMT.dice.checkMsg", {
-    rollLabel,
+    rollName,
     tn: `${modifiedTN}`,
   });
 
@@ -157,17 +162,18 @@ async function showModifierDialog(
 }
 
 export async function powerRoll({
-  rollLabel="",
+  rollName="Generic",
   token,
   actor,
   showDialog,
   basePower=0,
   potency=0,
   hasPowerBoost,
-  element,
-  atkType,
+  isBasicRoll,
+  affinity="unique",
+  atkType="phys",
 }: PowerRollOptions={}) {
-  const dialogLabel = game.i18n.format("SMT.dice.powerDialogMsg", { name: rollLabel });
+  const dialogLabel = isBasicRoll ? rollName : game.i18n.format("SMT.dice.powerDialogMsg", { name: rollName });
 
   const { mod, cancelled } = showDialog
     ? await showModifierDialog(dialogLabel) : { mod: 0, cancelled: false };
@@ -188,12 +194,12 @@ export async function powerRoll({
     const powerTotalString = game.i18n.format("SMT.dice.powerChatCardMsg",
       {
        power: `${roll.total}`,
-       element: game.i18n.localize(`SMT.elements.${element}`),
+       affinity: game.i18n.localize(`SMT.elements.${affinity}`),
        atkType: game.i18n.localize(`SMT.atkType.${atkType}`),
      });
 
     const content = [
-      `<h3>${rollLabel}</h3>`,
+      `<h3>${rollName}</h3>`,
       `<p>${powerTotalString}</p>`,
       await roll.render(),
     ].join("\n");

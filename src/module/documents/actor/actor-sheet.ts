@@ -82,19 +82,26 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const rollCategory = rollType === "tn" ? "stats" : "specialTN";
 
-    const rollLabel = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
+    const rollName = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
 
     const showDialog =
       event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
 
     return await successRoll({
-      rollLabel,
+      rollName,
       token,
       actor: this.actor,
       showDialog,
       tn,
     });
   }
+
+  async #onPowerRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const target = $(event.currentTarget);
+  }
+
   // /**
   //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
   //  * @param {Event} event   The originating click event

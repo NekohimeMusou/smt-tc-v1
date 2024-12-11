@@ -1,5 +1,3 @@
-// import { SMT } from "../../config/config.js";
-
 export class SkillDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "skill" as const;

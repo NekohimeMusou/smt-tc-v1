@@ -63,7 +63,9 @@
       "almighty": "Almighty",
       "healing": "Healing",
       "unique": "Unique",
-      "support": "Support"
+      "support": "Support",
+      "ailment": "Ailment",
+      "mag": "Magic"
     },
     "skillTypes": {
       "physAtk": "Physical Attack",
@@ -134,7 +136,7 @@
         "crit": "CRITICAL SUCCESS!",
         "fumble": "FUMBLE!"
       },
-      "checkMsg": "{rollLabel} check ({tn}%)",
+      "checkMsg": "{rollName} check ({tn}%)",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power} {element} ({atkType})",
       "modifier": "Modifier",

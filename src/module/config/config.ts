@@ -26,20 +26,29 @@ export const SMT = {
 
 declare global {
   type SmtStat = "st" | "ma" | "vi" | "ag" | "lu";
-  type SmtElement =
-    | "phys"
-    | "fire"
-    | "ice"
-    | "elec"
-    | "force"
-    | "almighty"
-    | "light"
-    | "dark"
-    | "mind"
-    | "nerve"
-    | "ruin"
-    | "healing"
-    | "support"
-    | "unique";
-  type SmtAtkType = "phys" | "mag";
+  type DefenseAffinity =
+  | "phys"
+  | "fire"
+  | "ice"
+  | "elec"
+  | "force"
+  | "light"
+  | "dark"
+  | "mind"
+  | "nerve"
+  | "ruin"
+  | "almighty"
+  | "ailment";
+
+  type SkillAffinity =
+  | DefenseAffinity
+  | "healing"
+  | "support"
+  | "unique"
+  // For raw Base Magic Power rolls off sheet
+  | "mag";
+
+  type AttackType = "phys" | "mag";
+
+  type CharClasses = "human" | "demon" | "fiend";
 }
