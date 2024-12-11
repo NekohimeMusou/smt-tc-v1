@@ -28,7 +28,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
 
-    const charClassLocs = Object.fromEntries(SMT.charClasses.map((cls) => [cls, `SMT.charClasses.${cls}`]));
+    const charClassLocs = Object.fromEntries(
+      SMT.charClasses.map((cls) => [cls, `SMT.charClasses.${cls}`]),
+    );
 
     await foundry.utils.mergeObject(context, {
       system,
@@ -82,7 +84,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const token = this.actor.token;
 
-    const tn = this.actor.system.stats[stat][rollType];
+    const baseTn = this.actor.system.stats[stat][rollType];
 
     const rollCategory = rollType === "tn" ? "stats" : "specialTN";
 
@@ -96,7 +98,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       token,
       actor: this.actor,
       showDialog,
-      tn,
+      baseTn,
     });
   }
 
