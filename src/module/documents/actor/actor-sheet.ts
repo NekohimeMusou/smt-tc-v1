@@ -28,14 +28,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
 
-    const charClassLocs = Object.fromEntries(
-      SMT.charClasses.map((cls) => [cls, `SMT.charClasses.${cls}`]),
-    );
-
     await foundry.utils.mergeObject(context, {
       system,
       rollData,
-      charClassLocs,
       SMT,
     });
 

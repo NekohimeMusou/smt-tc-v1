@@ -25,7 +25,7 @@ interface PowerRollOptions extends RollOptions {
   potency?: number;
   hasPowerBoost?: boolean;
   affinity?: Affinity;
-  atkType?: AttackCategory;
+  atkCategory?: AttackCategory;
   isBasicRoll?: boolean;
 }
 
@@ -42,7 +42,7 @@ declare global {
 
   // TODO: Figure out what info I need from the sheet
   interface PowerRollData {
-    atkType: AttackCategory;
+    atkCategory: AttackCategory;
     affinity?: Affinity;
     basePower: number;
   }
@@ -179,7 +179,7 @@ export async function powerRoll({
   hasPowerBoost,
   isBasicRoll,
   affinity = "unique",
-  atkType = "phys",
+  atkCategory = "phys",
 }: PowerRollOptions = {}) {
   const dialogLabel = isBasicRoll
     ? rollName
@@ -205,7 +205,7 @@ export async function powerRoll({
   const powerTotalString = game.i18n.format("SMT.dice.powerChatCardMsg", {
     power: `${roll.total}`,
     affinity: game.i18n.localize(`SMT.elements.${affinity}`),
-    atkType: game.i18n.localize(`SMT.atkType.${atkType}`),
+    atkCategory: game.i18n.localize(`SMT.atkCategory.${atkCategory}`),
   });
 
   const content = [

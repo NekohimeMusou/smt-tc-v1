@@ -37,8 +37,8 @@
       "lu": "Negotiation TN"
     },
     "specialTNFormula": {
-      "st": "St TN",
-      "ma": "Ma TN",
+      "st": "Strength TN",
+      "ma": "Magic TN",
       "vi": "Save TN",
       "ag": "Agility + 10",
       "lu": "(Luck x 2) + 20"
@@ -74,7 +74,7 @@
       "passive": "Passive",
       "talk": "Talk"
     },
-    "atkType": {
+    "atkCategory": {
       "phys": "Phys",
       "mag": "Mag"
     },
@@ -139,7 +139,7 @@
       },
       "checkMsg": "{rollName} check ({tn}%)",
       "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power} {element} ({atkType})",
+      "powerChatCardMsg": "Power: {power} {element} ({atkCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll."
     },
