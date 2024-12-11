@@ -1,6 +1,11 @@
 import { SmtActor } from "../documents/actor/actor.js";
 
-type SuccessLevel = "success" | "failed" | "crit" | "fumble";
+enum SuccessLevel {
+  Success = "success",
+  Failed = "failed",
+  Crit = "crit",
+  Fumble = "fumble",
+}
 
 interface RollOptions {
   rollName?: string;
@@ -116,14 +121,14 @@ function getSuccessLevel(
 ): SuccessLevel {
 
   if (roll === 100) {
-    return "fumble";
+    return SuccessLevel.Fumble;
   } else if (roll <= critThreshold) {
-    return "crit";
+    return SuccessLevel.Crit;
   } else if (roll <= tn) {
-    return "success";
+    return SuccessLevel.Success;
   }
 
-  return "failed";
+  return SuccessLevel.Failed;
 }
 
 async function showModifierDialog(
