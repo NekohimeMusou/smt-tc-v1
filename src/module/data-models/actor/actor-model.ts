@@ -1,10 +1,13 @@
+import { SMT } from "../../config/config.js";
 import { SmtActor } from "../../documents/actor/actor.js";
 import { generateResourceSchema } from "./fields/resources.js";
 import { generateStatSchema } from "./fields/stats.js";
 
 const fields = foundry.data.fields;
 
-const charClasses = ["human", "demon", "fiend"];
+// For testing purposes
+const humanValue = "human";
+const fiendValue = "fiend";
 
 const tn = new fields.SchemaField({
   basicStrike: new fields.NumberField({ integer: true }),
@@ -45,8 +48,8 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
   static override defineSchema() {
     return {
       charClass: new fields.StringField({
-        choices: charClasses,
-        initial: "human",
+        choices: SMT.charClasses,
+        initial: humanValue,
       }),
       xp: new fields.NumberField({ integer: true, initial: 0 }),
       level: new fields.NumberField({ integer: true, initial: 1 }),
@@ -68,7 +71,7 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
 
     // Calculate stat totals and TNs
     for (const [key, stat] of Object.entries(stats)) {
-      const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
+      const magatamaBonus = data.charClass === fiendValue ? stat.magatama : 0;
       stat.value = stat.base + stat.lv + magatamaBonus;
       stat.tn = stat.value * 5 + data.level;
       // Calculate the "special" TN associated with each stat
@@ -88,7 +91,7 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
     }
 
     // Get HP and MP multipliers
-    const isHuman = data.charClass === "human";
+    const isHuman = data.charClass === humanValue;
     // @ts-expect-error This field isn't readonly
     data.hpMultiplier = isHuman ? 4 : 6;
     // @ts-expect-error This field isn't readonly

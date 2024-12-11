@@ -2,8 +2,6 @@ import { SmtActor } from "../documents/actor/actor.js";
 
 type SuccessLevel = "success" | "failed" | "crit" | "fumble";
 
-type SuccessRollType = "tn" | "specialTN";
-
 interface RollOptions {
   rollName?: string;
   token?: TokenDocument<SmtActor>;
@@ -20,8 +18,8 @@ interface PowerRollOptions extends RollOptions {
   basePower?: number;
   potency?: number;
   hasPowerBoost?: boolean;
-  affinity?: SkillAffinity;
-  atkType?: AttackType;
+  affinity?: Affinity;
+  atkType?: AttackCategory;
   isBasicRoll?: boolean;
 }
 
@@ -32,15 +30,15 @@ interface StatusAilmentData {
 
 declare global {
 
-  interface TNRollData {
+  interface SuccessRollData {
     rollType: SuccessRollType;
-    stat: SmtStat;
+    stat: SmtCharacterStat;
   }
 
   // TODO: Figure out what info I need from the sheet
   interface PowerRollData {
-    atkType: AttackType;
-    affinity?: SkillAffinity;
+    atkType: AttackCategory;
+    affinity?: Affinity;
     basePower: number;
   }
 }

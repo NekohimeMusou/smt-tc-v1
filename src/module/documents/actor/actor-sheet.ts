@@ -28,9 +28,12 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
 
+    const charClassLocs = Object.fromEntries(SMT.charClasses.map((cls) => [cls, `SMT.charClasses.${cls}`]));
+
     await foundry.utils.mergeObject(context, {
       system,
       rollData,
+      charClassLocs,
       SMT,
     });
 
@@ -67,10 +70,11 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     event.preventDefault();
 
     const target = $(event.currentTarget);
-    const { rollType, stat }: TNRollData = target.data() as TNRollData;
+    const { rollType, stat } = target.data() as SuccessRollData;
 
+    // Make sure this really is SuccessRollData
     if (
-      !SMT.rollTypes.includes(rollType) ||
+      !SMT.successRollTypes.includes(rollType) ||
       !Object.keys(this.actor.system.stats).includes(stat)
     ) {
       return ui.notifications.error("Malformed roll data (in #onStatRoll)");

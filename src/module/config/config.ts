@@ -1,13 +1,36 @@
+declare global {
+  type CharClass = (typeof SMT.charClasses)[number];
+  type SmtCharacterStat = (typeof SMT.stats)[number];
+  type SuccessRollType = (typeof SMT.successRollTypes)[number];
+  type AttackCategory = (typeof SMT.attackCategories)[number];
+  type Affinity = (typeof SMT.affinities)[number];
+  type StatusAilment = (typeof SMT.ailments)[number];
+}
+
 export const SMT = {
   charClasses: ["human", "demon", "fiend"],
-  // Temporary until I fix the actor sheet
-  charClassLocs: {
-    human: "SMT.charClasses.human",
-    demon: "SMT.charClasses.demon",
-    fiend: "SMT.charClasses.fiend",
-  },
   stats: ["st", "ma", "vi", "ag", "lu"],
-  rollTypes: ["tn", "specialTN"],
+  successRollTypes: ["tn", "specialTN"],
+  attackCategories: ["phys", "mag"],
+  affinities: [
+    "phys",
+    "fire",
+    "ice",
+    "elec",
+    "force",
+    "light",
+    "dark",
+    "mind",
+    "nerve",
+    "ruin",
+    "almighty",
+    "ailment",
+    "healing",
+    "support",
+    "unique",
+    // For Base Magic Power rolls off sheets
+    "mag",
+  ],
   ailments: [
     "stone",
     "flied",
@@ -23,32 +46,3 @@ export const SMT = {
     "curse",
   ],
 } as const;
-
-declare global {
-  type SmtStat = "st" | "ma" | "vi" | "ag" | "lu";
-  type DefenseAffinity =
-  | "phys"
-  | "fire"
-  | "ice"
-  | "elec"
-  | "force"
-  | "light"
-  | "dark"
-  | "mind"
-  | "nerve"
-  | "ruin"
-  | "almighty"
-  | "ailment";
-
-  type SkillAffinity =
-  | DefenseAffinity
-  | "healing"
-  | "support"
-  | "unique"
-  // For raw Base Magic Power rolls off sheet
-  | "mag";
-
-  type AttackType = "phys" | "mag";
-
-  type CharClasses = "human" | "demon" | "fiend";
-}
