@@ -67,54 +67,36 @@
       "ailment": "Ailment",
       "mag": "Magic"
     },
-    "skillTypes": {
-      "physAtk": "Physical Attack",
-      "magAtk": "Magical Attack",
-      "spell": "Spell",
-      "passive": "Passive",
-      "talk": "Talk"
-    },
     "atkCategory": {
       "phys": "Phys",
       "mag": "Mag"
     },
-    "itemFields": {
-      "effect": "Effect",
-      "traits": "Traits",
-      "skillTypes": "Type",
-      "targets": "Targets",
-      "cost": "Cost",
-      "potency": "Potency",
-      "element": "Element"
-    },
     "actorFields": {
-      "gender": "Gender",
-      "age": "Age",
-      "subclass": "Subclass",
       "level": "Level",
-      "xp": "XP",
       "charClass": "Class",
       "hp": "HP",
       "mp": "MP",
-      "fp": "FP",
-      "tn": "{name} TN"
+      "fp": "FP"
+    },
+    "itemFields": {
+      
     },
     "actorSheet": {
-      "basePhysPower": "Phys Power",
-      "baseMagPower": "Mag Power",
-      "physResist": "Phys Resist",
-      "magResist": "Mag Resist",
-      "stat": "Stat",
       "stats": "Stats",
       "baseStat": "Base",
       "magatamaShort": "Mgt",
       "levelShort": "LV",
       "statTotal": "Total",
-      "specialTN": "Spc",
       "tn": "TN",
-      "derivedStats": "Derived Stats",
+      "specialTN": "Spc",
       "formula": "Formula",
-      "value": "Value"
+      "derivedStats": "Derived Stats",
+      "stat": "Stat",
+      "basePhysPower": "Phys Power",
+      "baseMagPower": "Mag Power",
+
+      "physResist": "Phys Resist",
+      "magResist": "Mag Resist"
     },
     "ailments": {
       "stone": "Stone",
