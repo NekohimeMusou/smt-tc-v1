@@ -3,5 +3,5 @@ export function sharedItemFields() {
 
   return {
     notes: new fields.HTMLField(),
-  };
+  } as const;
 }

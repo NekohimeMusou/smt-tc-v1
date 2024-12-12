@@ -5,7 +5,9 @@ export function skillFields() {
 
   return {
     // Inheritance traits (Wing, Breath, etc)
-    inheritanceTraits: new fields.StringField({ choices: SMT.inheritanceTraits}),
+    inheritanceTraits: new fields.ArrayField(
+      new fields.StringField({ choices: SMT.inheritanceTraits }),
+    ),
     // Phys attack, magic attack, or spell
     skillType: new fields.StringField({ choices: SMT.skillTypes }),
     target: new fields.StringField(),
@@ -14,6 +16,10 @@ export function skillFields() {
     element: new fields.StringField({ choices: SMT.affinities }),
     potency: new fields.NumberField({ integer: true, min: 0 }),
     autoSuccess: new fields.BooleanField(),
-    associatedStat: new fields. StringField({ choices: SMT.stats }),
-  };
+    accuracyStat: new fields.StringField({ choices: SMT.stats }),
+    powerStat: new fields.StringField({ choices: SMT.powerStats }),
+    basePower: new fields.NumberField({ integer: true }),
+    power: new fields.NumberField({ integer: true }),
+    tn: new fields.NumberField({ integer: true }),
+  } as const;
 }

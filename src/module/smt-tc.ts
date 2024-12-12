@@ -1,8 +1,8 @@
 import { SMT } from "./config/config.js";
 import { registerSystemSettings } from "./config/settings.js";
 import { preloadHandlebarsTemplates } from "./config/templates.js";
-import { SmtPcDataModel } from "./data-models/actor/actor-data-model.js";
-import { SkillDataModel } from "./data-models/item/item-data-model.js";
+import { SmtCharacterDataModel } from "./data-models/actor/actor-data-model.js";
+import { SmtSkillDataModel } from "./data-models/item/item-data-model.js";
 import { SmtActorSheet } from "./documents/actor/actor-sheet.js";
 import { SmtActor } from "./documents/actor/actor.js";
 import { SmtItemSheet } from "./documents/item/item-sheet.js";
@@ -48,8 +48,8 @@ function configureDocumentClasses() {
 }
 
 function configureDataModels() {
-  CONFIG.Item.dataModels.skill = SkillDataModel;
-  CONFIG.Actor.dataModels.character = SmtPcDataModel;
+  CONFIG.Item.dataModels.skill = SmtSkillDataModel;
+  CONFIG.Actor.dataModels.character = SmtCharacterDataModel;
 }
 
 function registerSheetApplications() {

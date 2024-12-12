@@ -1,7 +1,7 @@
 import { SMT } from "../../config/config.js";
 import { SmtActor } from "../../documents/actor/actor.js";
-import { generateResourceSchema } from "./fields/resources.js";
-import { generateStatSchema } from "./fields/stats.js";
+import { generateResourceSchema } from "./fields/resource-fields.js";
+import { generateStatSchema } from "./fields/stat-fields.js";
 
 const fields = foundry.data.fields;
 
@@ -16,6 +16,7 @@ const tn = new fields.SchemaField({
 const power = new fields.SchemaField({
   phys: new fields.NumberField({ integer: true }),
   mag: new fields.NumberField({ integer: true }),
+  gun: new fields.NumberField({ integer: true }),
 });
 
 const resist = new fields.SchemaField({
@@ -37,7 +38,7 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
-export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
+export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
   }
@@ -102,6 +103,7 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
     // Calculate power and resistance
     data.power.phys = stats.st.value + data.level;
     data.power.mag = stats.ma.value + data.level;
+    data.power.gun = stats.ag.value;
 
     data.resist.phys = Math.floor((stats.vi.value + data.level) / 2);
     data.resist.mag = Math.floor((stats.ma.value + data.level) / 2);
@@ -113,9 +115,5 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
 }
 
 export const ACTORMODELS = {
-  character: SmtPcDataModel,
+  character: SmtCharacterDataModel,
 } as const;
-
-declare global {
-  type ActorDataModel = SmtPcDataModel;
-}

@@ -94,6 +94,11 @@
       "phys": "Phys",
       "mag": "Mag"
     },
+    "powerStats": {
+      "phys": "Physical",
+      "mag": "Magic",
+      "gun": "Gun"
+    },
     "actorFields": {
       "level": "Level",
       "charClass": "Class",
@@ -106,12 +111,12 @@
       "skillType": "Skill Type",
       "target": "Target",
       "cost": "Cost",
-
       "price": "Price"
     },
     "skillType": {
       "phys": "Physical Attack",
       "mag": "Magical Attack",
+      "gun": "Gun Attack",
       "spell": "Spell"
     },
     "actorSheet": {

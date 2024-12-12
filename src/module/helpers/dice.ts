@@ -29,8 +29,8 @@ interface PowerRollOptions extends RollOptions {
 }
 
 interface ModElement extends HTMLElement {
-  mod?: {value?: string; };
-};
+  mod?: { value?: string };
+}
 
 // interface AilmentData {
 //   name: string;
@@ -155,7 +155,8 @@ async function showModifierDialog(
             callback: (html) =>
               resolve({
                 mod: parseInt(
-                  ($(html)[0].querySelector("form") as ModElement)?.mod?.value ?? "0",
+                  ($(html)[0].querySelector("form") as ModElement)?.mod
+                    ?.value ?? "0",
                 ),
               }),
           },

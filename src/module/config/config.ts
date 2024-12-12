@@ -8,6 +8,7 @@ declare global {
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
   type SkillCostType = keyof typeof skillCostTypes;
+  type PowerStat = keyof typeof powerStats;
 }
 
 const charClasses = {
@@ -77,13 +78,20 @@ const inheritanceTraits = {
 const skillTypes = {
   phys: "SMT.skillType.phys",
   mag: "SMT.skillType.mag",
+  gun: "SMT.skillType.gun",
   spell: "SMT.skillType.spell",
-};
+} as const;
 
 const skillCostTypes = {
   hp: "HP",
   mp: "MP",
-};
+} as const;
+
+const powerStats = {
+  phys: "SMT.powerStats.phys",
+  mag: "SMT.powerStats.mag",
+  gun: "SMT.powerStats.gun",
+} as const;
 
 const successRollCategories = ["tn", "specialTN"] as const;
 
@@ -96,5 +104,6 @@ export const SMT = {
   inheritanceTraits,
   skillTypes,
   skillCostTypes,
+  powerStats,
   successRollCategories,
 } as const;
