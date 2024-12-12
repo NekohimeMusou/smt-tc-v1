@@ -21,5 +21,7 @@ export function skillFields() {
     basePower: new fields.NumberField({ integer: true }),
     power: new fields.NumberField({ integer: true }),
     tn: new fields.NumberField({ integer: true }),
+    // Workaround for the lack of a multi-attack mechanic
+    tnMod: new fields.NumberField({ integer: true }),
   } as const;
 }

@@ -38,6 +38,9 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
+// TODO: Fields for TN modifiers for effects (e.g. Expert Dodge, Sure Shot)
+// TODO: Fields for elemental attack boosts (e.g. Ice Boost)
+// TODO: Fields for power bonuses (e.g. Powerful Strikes)
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
