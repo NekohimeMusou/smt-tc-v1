@@ -28,15 +28,19 @@ interface PowerRollOptions extends RollOptions {
   atkCategory?: AttackCategory;
 }
 
-interface AilmentData {
-  name: string;
-  accuracy: number;
-}
+interface ModElement extends HTMLElement {
+  mod?: {value?: string; };
+};
+
+// interface AilmentData {
+//   name: string;
+//   accuracy: number;
+// }
 
 declare global {
   interface SuccessRollData {
     rollType: SuccessRollCategory;
-    stat: SmtCharacterStat;
+    stat: CharacterStat;
   }
 
   // TODO: Figure out what info I need from the sheet
@@ -73,7 +77,7 @@ export async function successRoll({
 
   if (cancelled) return;
 
-  const modifiedTN = tn + (mod || 0);
+  const modifiedTN = tn + (mod ?? 0);
 
   const modifiedCheckLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollName,
@@ -132,7 +136,7 @@ function getSuccessLevel(
 
 async function showModifierDialog(
   dialogLabel: string,
-  hint: string = "",
+  hint = "",
 ): Promise<{ mod?: number; cancelled?: boolean }> {
   const template = "systems/smt-tc/templates/dialog/modifier-dialog.hbs";
   const content = await renderTemplate(template, {
@@ -151,7 +155,7 @@ async function showModifierDialog(
             callback: (html) =>
               resolve({
                 mod: parseInt(
-                  $(html)[0].querySelector("form")?.mod?.value || 0,
+                  ($(html)[0].querySelector("form") as ModElement)?.mod?.value ?? "0",
                 ),
               }),
           },
@@ -189,7 +193,7 @@ export async function powerRoll({
 
   if (cancelled) return;
 
-  const diceMod = mod || 0;
+  const diceMod = mod ?? 0;
 
   const rollString = [
     `${hasPowerBoost ? 2 : 1}d10x`,

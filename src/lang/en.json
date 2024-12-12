@@ -67,6 +67,29 @@
       "ailment": "Ailment",
       "mag": "Magic"
     },
+    "ailments": {
+      "stone": "Stone",
+      "fly": "Fly",
+      "stun": "Stun",
+      "charm": "Charm",
+      "poison": "Poison",
+      "mute": "Mute",
+      "restrain": "Restrain",
+      "freeze": "Freeze",
+      "sleep": "Sleep",
+      "panic": "Panic",
+      "shock": "Shock",
+      "curse": "Curse"
+    },
+    "inheritanceTraits": {
+      "mouth": "Mouth",
+      "eye": "Eye",
+      "lunge": "Lunge",
+      "weapon": "Weapon",
+      "claw": "Claw",
+      "teeth": "Teeth",
+      "none": "None"
+    },
     "atkCategory": {
       "phys": "Phys",
       "mag": "Mag"
@@ -79,7 +102,17 @@
       "fp": "FP"
     },
     "itemFields": {
-      
+      "inheritanceTraits": "Inheritance Traits",
+      "skillType": "Skill Type",
+      "target": "Target",
+      "cost": "Cost",
+
+      "price": "Price"
+    },
+    "skillType": {
+      "phys": "Physical Attack",
+      "mag": "Magical Attack",
+      "spell": "Spell"
     },
     "actorSheet": {
       "stats": "Stats",
@@ -97,20 +130,6 @@
 
       "physResist": "Phys Resist",
       "magResist": "Mag Resist"
-    },
-    "ailments": {
-      "stone": "Stone",
-      "fly": "Fly",
-      "stun": "Stun",
-      "charm": "Charm",
-      "poison": "Poison",
-      "mute": "Mute",
-      "restrain": "Restrain",
-      "freeze": "Freeze",
-      "sleep": "Sleep",
-      "panic": "Panic",
-      "shock": "Shock",
-      "curse": "Curse"
     },
     "dice": {
       "result": {

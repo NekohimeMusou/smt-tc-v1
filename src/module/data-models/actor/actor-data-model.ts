@@ -45,6 +45,7 @@ export class SmtPcDataModel extends foundry.abstract.TypeDataModel {
     return {
       charClass: new fields.StringField({
         choices: SMT.charClasses,
+        blank: false,
         initial: "human",
       }),
       xp: new fields.NumberField({ integer: true, initial: 0 }),
