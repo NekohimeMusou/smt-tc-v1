@@ -13,7 +13,7 @@ export default tseslint.config(
   },
   {
     rules: {
-      "no-misused-promises": [
+      "@typescript-eslint/no-misused-promises": [
         "error",
         { checksVoidReturn: { arguments: false } },
       ],
