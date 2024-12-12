@@ -6,6 +6,7 @@ declare class DataModelClass {
 		returns super.migrateData(source)
 		*/
 	static migrateData(source: Record<string, any>): Record<string,any>;
+	get parent(): DataModelClass;
 }
 
 type SchemaReturnObject = Record<string, FoundryDMField<any>>;
