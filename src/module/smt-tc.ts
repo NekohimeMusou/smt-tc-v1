@@ -13,7 +13,7 @@ declare global {
     smt: {
       SmtActor: typeof SmtActor;
       SmtItem: typeof SmtItem;
-    }
+    };
   }
 
   interface CONFIG {
@@ -29,7 +29,7 @@ Hooks.once("init", async () => {
   game.smt = {
     SmtActor,
     SmtItem,
-  }
+  };
 
   configureDocumentClasses();
 

@@ -1,5 +1,5 @@
 import { SMT } from "../../config/config.js";
-import { successRoll } from "../../helpers/dice.js";
+import { powerRoll, successRoll } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
@@ -53,6 +53,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Stat TN roll
     html.find(".roll-stat-tn").on("click", this.#onStatRoll.bind(this));
 
+    // Power roll
+    html.find(".roll-power").on("click", this.#onPowerRoll.bind(this));
+
     // Add Inventory Item
     // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
 
@@ -77,8 +80,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       return ui.notifications.error("Malformed roll data (in #onStatRoll)");
     }
 
-    const token = this.actor.token;
-
     const baseTn = this.actor.system.stats[stat][rollType];
 
     const rollCategory = rollType === "tn" ? "stats" : "specialTN";
@@ -90,7 +91,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     return await successRoll({
       rollName,
-      token,
+      token: this.actor.token,
       actor: this.actor,
       showDialog,
       baseTn,
@@ -101,6 +102,22 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     event.preventDefault();
 
     const target = $(event.currentTarget);
+
+    const { rollName, atkCategory, basePower, affinity } =
+      target.data() as PowerRollData;
+
+    const showDialog =
+      event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+
+    return await powerRoll({
+      rollName,
+      token: this.actor.token,
+      actor: this.actor,
+      showDialog,
+      basePower,
+      affinity,
+      atkCategory,
+    });
   }
 
   // /**

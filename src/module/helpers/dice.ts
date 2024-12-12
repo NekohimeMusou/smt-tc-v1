@@ -26,7 +26,6 @@ interface PowerRollOptions extends RollOptions {
   hasPowerBoost?: boolean;
   affinity?: Affinity;
   atkCategory?: AttackCategory;
-  isBasicRoll?: boolean;
 }
 
 interface StatusAilmentData {
@@ -42,9 +41,10 @@ declare global {
 
   // TODO: Figure out what info I need from the sheet
   interface PowerRollData {
-    atkCategory: AttackCategory;
+    rollName?: string;
+    atkCategory?: AttackCategory;
     affinity?: Affinity;
-    basePower: number;
+    basePower?: number;
   }
 }
 
@@ -54,7 +54,7 @@ export async function successRoll({
   actor,
   showDialog = false,
   hasCritBoost = false,
-  autoFailThreshold=96,
+  autoFailThreshold = 96,
   baseTn = 0,
 }: SuccessRollOptions = {}) {
   const tn = Math.min(baseTn, autoFailThreshold);
@@ -119,7 +119,6 @@ function getSuccessLevel(
   tn: number,
   critThreshold: number,
 ): SuccessLevel {
-
   if (roll === 100) {
     return SuccessLevel.Fumble;
   } else if (roll <= critThreshold) {
@@ -177,13 +176,12 @@ export async function powerRoll({
   basePower = 0,
   potency = 0,
   hasPowerBoost,
-  isBasicRoll,
   affinity = "unique",
   atkCategory = "phys",
 }: PowerRollOptions = {}) {
-  const dialogLabel = isBasicRoll
-    ? rollName
-    : game.i18n.format("SMT.dice.powerDialogMsg", { name: rollName });
+  const dialogLabel = game.i18n.format("SMT.dice.powerDialogMsg", {
+    name: rollName,
+  });
 
   const { mod, cancelled } = showDialog
     ? await showModifierDialog(dialogLabel)
@@ -204,7 +202,7 @@ export async function powerRoll({
 
   const powerTotalString = game.i18n.format("SMT.dice.powerChatCardMsg", {
     power: `${roll.total}`,
-    affinity: game.i18n.localize(`SMT.elements.${affinity}`),
+    affinity: game.i18n.localize(`SMT.affinities.${affinity}`),
     atkCategory: game.i18n.localize(`SMT.atkCategory.${atkCategory}`),
   });
 

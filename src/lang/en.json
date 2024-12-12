@@ -49,7 +49,7 @@
       "physResist": "(Vi + LV) / 2",
       "magResist": "(Ma + LV) / 2"
     },
-    "elements": {
+    "affinities": {
       "phys": "Phys",
       "fire": "Fire",
       "ice": "Ice",
@@ -139,9 +139,13 @@
       },
       "checkMsg": "{rollName} check ({tn}%)",
       "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power} {element} ({atkCategory})",
+      "powerChatCardMsg": "Power: {power} {affinity} ({atkCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll."
+    },
+    "dialog": {
+      "basePhysLabel": "Base Phys",
+      "baseMagLabel": "Base Mag"
     },
     "settings": {
       "invertShiftBehavior": {
