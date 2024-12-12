@@ -1,10 +1,10 @@
 declare global {
   type CharClass = keyof typeof SMT.charClasses;
   type SmtCharacterStat = keyof typeof SMT.stats;
-  type SuccessRollType = (typeof SMT.successRollTypes)[number];
-  type AttackCategory = (typeof SMT.attackCategories)[number];
-  type Affinity = (typeof SMT.affinities)[number];
-  type StatusAilment = (typeof SMT.ailments)[number];
+  type SuccessRollCategory = (typeof SMT.successRollCategories)[number];
+  type AttackCategory = keyof typeof SMT.attackCategories;
+  type Affinity = keyof typeof SMT.affinities;
+  type Ailment = keyof typeof SMT.ailments;
 }
 
 export const SMT = {
@@ -20,39 +20,42 @@ export const SMT = {
     ag: "SMT.stats.ag",
     lu: "SMT.stats.lu",
   },
-  successRollTypes: ["tn", "specialTN"],
-  attackCategories: ["phys", "mag"],
-  affinities: [
-    "phys",
-    "fire",
-    "ice",
-    "elec",
-    "force",
-    "light",
-    "dark",
-    "mind",
-    "nerve",
-    "ruin",
-    "almighty",
-    "ailment",
-    "healing",
-    "support",
-    "unique",
+  successRollCategories: ["tn", "specialTN"],
+  attackCategories: {
+    phys: "SMT.atkCategory.phys",
+    mag: "SMT.atkCategory.mag",
+  },
+  affinities: {
+    phys: "SMT.affinities.phys",
+    fire: "SMT.affinities.fire",
+    ice: "SMT.affinities.ice",
+    elec: "SMT.affinities.elec",
+    force: "SMT.affinities.force",
+    light: "SMT.affinities.light",
+    dark: "SMT.affinities.dark",
+    mind: "SMT.affinities.mind",
+    nerve: "SMT.affinities.nerve",
+    ruin: "SMT.affinities.ruin",
+    almighty: "SMT.affinities.almighty",
+    ailment: "SMT.affinities.ailment",
+    healing: "SMT.affinities.healing",
+    support: "SMT.affinities.support",
+    unique: "SMT.affinities.unique",
     // For Base Magic Power rolls off sheets
-    "mag",
-  ],
-  ailments: [
-    "stone",
-    "flied",
-    "stun",
-    "charm",
-    "poison",
-    "mute",
-    "restrain",
-    "freeze",
-    "sleep",
-    "panic",
-    "shock",
-    "curse",
-  ],
+    mag: "SMT.affinities.mag",
+  },
+  ailments: {
+    stone: "SMT.ailments.stone",
+    flied: "SMT.ailments.flied",
+    stun: "SMT.ailments.stun",
+    charm: "SMT.ailments.charm",
+    poison: "SMT.ailments.poison",
+    mute: "SMT.ailments.mute",
+    restrain: "SMT.ailments.restrain",
+    freeze: "SMT.ailments.freeze",
+    sleep: "SMT.ailments.sleep",
+    panic: "SMT.ailments.panic",
+    shock: "SMT.ailments.shock",
+    curse: "SMT.ailments.curse",
+  },
 } as const;

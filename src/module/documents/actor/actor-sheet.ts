@@ -74,7 +74,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     // Make sure this really is SuccessRollData
     if (
-      !SMT.successRollTypes.includes(rollType) ||
+      !SMT.successRollCategories.includes(rollType) ||
       !Object.keys(this.actor.system.stats).includes(stat)
     ) {
       return ui.notifications.error("Malformed roll data (in #onStatRoll)");

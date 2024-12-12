@@ -28,14 +28,14 @@ interface PowerRollOptions extends RollOptions {
   atkCategory?: AttackCategory;
 }
 
-interface StatusAilmentData {
+interface AilmentData {
   name: string;
   accuracy: number;
 }
 
 declare global {
   interface SuccessRollData {
-    rollType: SuccessRollType;
+    rollType: SuccessRollCategory;
     stat: SmtCharacterStat;
   }
 
