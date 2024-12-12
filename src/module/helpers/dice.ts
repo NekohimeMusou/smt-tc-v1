@@ -52,6 +52,7 @@ declare global {
   }
 }
 
+// BUG: Crit threshold should be based on full TN, not capped at auto-fail threshold
 export async function successRoll({
   rollName = "",
   token,
