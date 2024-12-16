@@ -38,9 +38,22 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
-// TODO: Fields for TN modifiers for effects (e.g. Expert Dodge, Sure Shot)
-// TODO: Fields for elemental attack boosts (e.g. Ice Boost)
-// TODO: Fields for power bonuses (e.g. Powerful Strikes)
+const mods = new fields.SchemaField({
+  dodge: new fields.NumberField({ integer: true, initial: 0 }),
+  gun: new fields.NumberField({ integer: true, initial: 0 }),
+  elementMultipliers: new fields.SchemaField({
+    fire: new fields.NumberField({ positive: true, initial: 1 }),
+    ice: new fields.NumberField({ positive: true, initial: 1 }),
+    elec: new fields.NumberField({ positive: true, initial: 1 }),
+    force: new fields.NumberField({ positive: true, initial: 1 }),
+  }),
+  powerfulStrikes: new fields.BooleanField({ initial: false }),
+  powerfulSpells: new fields.BooleanField({ initial: false }),
+  itemPro: new fields.BooleanField({ initial: false }),
+  // Counterattack skills: Counter, Retaliate, Avenge
+  // Might, Drain Attack, Attack All
+});
+
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
@@ -61,6 +74,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       tn,
       power,
       resist,
+      mods,
       ...resources,
     } as const;
   }

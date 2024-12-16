@@ -45,7 +45,6 @@ declare global {
     stat: CharacterStat;
   }
 
-  // TODO: Figure out what info I need from the sheet
   interface PowerRollData {
     rollName?: string;
     atkCategory?: AttackCategory;
