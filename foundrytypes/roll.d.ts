@@ -90,11 +90,12 @@ default: true
 
 type RollTerm = Die | OperatorTerm | NumericTerm;
 
+
+// TODO: Figure out how to derive this from CONST.DICE_ROLL_MODES
+// instead of using literal strings
 type RollMode = "publicroll" | "gmroll" | "blindroll" | "selfroll";
 
 interface RollChatMessageOptions {
-	// TODO: Figure out how to derive this from CONST.DICE_ROLL_MODES
-	// instead of using literal strings
 	rollMode?: RollMode;
 	create?: boolean;
 }
@@ -120,3 +121,4 @@ interface RollRenderOptions {
 	template?: string;
 	isPrivate?: boolean;
 }
+
