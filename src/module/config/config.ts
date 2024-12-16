@@ -8,7 +8,7 @@ declare global {
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
   type SkillCostType = keyof typeof skillCostTypes;
-  type PowerStat = keyof typeof powerStats;
+  type PowerCategory = keyof typeof powerCategories;
 }
 
 const charClasses = {
@@ -23,6 +23,15 @@ const stats = {
   vi: "SMT.stats.vi",
   ag: "SMT.stats.ag",
   lu: "SMT.stats.lu",
+} as const;
+
+const accuracyStats = {
+  st: "SMT.stats.st",
+  ma: "SMT.stats.ma",
+  vi: "SMT.stats.vi",
+  ag: "SMT.stats.ag",
+  lu: "SMT.stats.lu",
+  auto: "SMT.stats.auto",
 } as const;
 
 const attackCategories = {
@@ -48,6 +57,23 @@ const affinities = {
   unique: "SMT.affinities.unique",
   // For Base Magic Power rolls off sheets
   mag: "SMT.affinities.mag",
+} as const;
+
+const skillAffinities = {
+  phys: "SMT.affinities.phys",
+  fire: "SMT.affinities.fire",
+  ice: "SMT.affinities.ice",
+  elec: "SMT.affinities.elec",
+  force: "SMT.affinities.force",
+  light: "SMT.affinities.light",
+  dark: "SMT.affinities.dark",
+  mind: "SMT.affinities.mind",
+  nerve: "SMT.affinities.nerve",
+  ruin: "SMT.affinities.ruin",
+  almighty: "SMT.affinities.almighty",
+  healing: "SMT.affinities.healing",
+  support: "SMT.affinities.support",
+  unique: "SMT.affinities.unique",
 } as const;
 
 const ailments = {
@@ -80,6 +106,10 @@ const skillTypes = {
   mag: "SMT.skillType.mag",
   gun: "SMT.skillType.gun",
   spell: "SMT.skillType.spell",
+  passive: "SMT.skillType.passive",
+  talk: "SMT.skillType.talk",
+  // For "passive" skills with conditional rolls attached, like Lucky Find and Good Instincts
+  other: "SMT.skillType.other",
 } as const;
 
 const skillCostTypes = {
@@ -87,10 +117,10 @@ const skillCostTypes = {
   mp: "MP",
 } as const;
 
-const powerStats = {
-  phys: "SMT.powerStats.phys",
-  mag: "SMT.powerStats.mag",
-  gun: "SMT.powerStats.gun",
+const powerCategories = {
+  phys: "SMT.powerCategories.phys",
+  mag: "SMT.powerCategories.mag",
+  gun: "SMT.powerCategories.gun",
 } as const;
 
 const successRollCategories = ["tn", "specialTN"] as const;
@@ -98,12 +128,14 @@ const successRollCategories = ["tn", "specialTN"] as const;
 export const SMT = {
   charClasses,
   stats,
+  accuracyStats,
   attackCategories,
   affinities,
+  skillAffinities,
   ailments,
   inheritanceTraits,
   skillTypes,
   skillCostTypes,
-  powerStats,
+  powerCategories,
   successRollCategories,
 } as const;

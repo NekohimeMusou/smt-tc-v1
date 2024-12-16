@@ -9,8 +9,6 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   }
 
   static override defineSchema() {
-    // const fields = foundry.data.fields;
-
     return {
       ...skillFields(),
       ...sharedItemFields(),
@@ -23,15 +21,19 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.parent.parent as SmtActor;
 
     // @ts-expect-error This field isn't readonly
-    data.tn = actor?.system.stats[data.accuracyStat].tn ?? 1;
+    data.tn =
+      data.accuracyStat === "auto"
+        ? 100
+        : (actor?.system.stats[data.accuracyStat].tn ?? 1) + data.tnMod;
 
     // @ts-expect-error This field isn't readonly
-    data.basePower = actor?.system.power[data.powerStat] ?? 0;
+    data.basePower = actor?.system.power[data.powerCategory] ?? 0;
 
     // @ts-expect-error This field isn't readonly
     data.power = data.potency + data.basePower;
   }
 
+  // Typescript-related hack
   get #systemData() {
     return this as this & SmtItem["system"];
   }

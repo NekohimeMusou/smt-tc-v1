@@ -11,6 +11,7 @@ interface SuccessRollOptions extends RollOptions {
   hasCritBoost?: boolean;
   baseTn?: number;
   autoFailThreshold?: number;
+  auto?: boolean;
 }
 
 interface PowerRollOptions extends RollOptions {
@@ -53,7 +54,7 @@ declare global {
   }
 }
 
-// BUG: Crit threshold should be based on full TN, not capped at auto-fail threshold
+// TODO: Refactor this to work with skills + get rid of that ugly auto-success hack
 export async function successRoll({
   rollName = "",
   token,
@@ -62,7 +63,11 @@ export async function successRoll({
   hasCritBoost = false,
   autoFailThreshold = 96,
   baseTn = 0,
+  auto = false,
 }: SuccessRollOptions = {}) {
+  // Handle auto success
+  if (auto) return await autoSuccess({rollName, token, actor});
+
   const dialogLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollName,
     tn: `${baseTn}`,
@@ -118,6 +123,26 @@ export async function successRoll({
       actor,
     },
     rolls: [roll],
+  };
+
+  return await ChatMessage.create(chatData);
+}
+
+async function autoSuccess({ rollName, token, actor }: RollOptions={}) {
+  const rollNameString = `${rollName}`;
+  const content = [
+    `<p>${game.i18n.format("SMT.dice.autoCheckMsg", {rollName: rollNameString})}</p>`,
+    `<h3>${game.i18n.localize("SMT.dice.result.autoSuccess")}</h3>`,
+  ].join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      scene: game.scenes.current,
+      token,
+      actor,
+    },
   };
 
   return await ChatMessage.create(chatData);

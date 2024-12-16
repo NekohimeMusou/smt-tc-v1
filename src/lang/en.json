@@ -8,7 +8,7 @@
     },
     "tabs": {
       "main": "Main",
-      "bio": "Bio"
+      "notes": "Notes"
     },
     "charClasses": {
       "human": "Human",
@@ -20,7 +20,8 @@
       "ma": "Magic",
       "vi": "Vitality",
       "ag": "Agility",
-      "lu": "Luck"
+      "lu": "Luck",
+      "auto": "Auto"
     },
     "statShort": {
       "st": "St",
@@ -79,7 +80,8 @@
       "sleep": "Sleep",
       "panic": "Panic",
       "shock": "Shock",
-      "curse": "Curse"
+      "curse": "Curse",
+      "none": "None"
     },
     "inheritanceTraits": {
       "mouth": "Mouth",
@@ -94,7 +96,7 @@
       "phys": "Phys",
       "mag": "Mag"
     },
-    "powerStats": {
+    "powerCategories": {
       "phys": "Physical",
       "mag": "Magic",
       "gun": "Gun"
@@ -111,13 +113,24 @@
       "skillType": "Skill Type",
       "target": "Target",
       "cost": "Cost",
-      "price": "Price"
+      "price": "Price",
+      "accuracyStat": "Accuracy Stat",
+      "affinity": "Affinity",
+      "powerCategory": "Category",
+      "ailment": "Ailment",
+      "ailmentRate": "Ailment Rate",
+      "potency": "Potency",
+      "tnMod": "TN Mod",
+      "critBoost": "Crit Boost"
     },
     "skillType": {
       "phys": "Physical Attack",
       "mag": "Magical Attack",
       "gun": "Gun Attack",
-      "spell": "Spell"
+      "spell": "Spell",
+      "talk": "Talk",
+      "passive": "Passive",
+      "other": "Other"
     },
     "actorSheet": {
       "stats": "Stats",
@@ -142,9 +155,11 @@
         "fail": "Failure!",
         "autofail": "Autofail! ({threshold}-99)",
         "crit": "CRITICAL SUCCESS!",
-        "fumble": "FUMBLE!"
+        "fumble": "FUMBLE!",
+        "autoSuccess": "Success (Auto)!"
       },
       "checkMsg": "{rollName} check ({tn}%)",
+      "autoCheckMsg": "{rollName} check (Auto)",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power} {affinity} ({atkCategory})",
       "modifier": "Modifier",

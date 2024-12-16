@@ -1,3 +1,4 @@
+import { SMT } from "../../config/config.js";
 import { SmtItem } from "./item.js";
 
 export class SmtItemSheet extends ItemSheet<SmtItem> {
@@ -29,6 +30,7 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
 
     await foundry.utils.mergeObject(context, {
       system,
+      SMT,
     });
 
     return context;
