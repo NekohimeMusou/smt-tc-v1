@@ -22,5 +22,7 @@ export function skillFields() {
     ailment: new fields.StringField({ choices: SMT.ailments, blank: true }),
     ailmentRate: new fields.NumberField({ integer: true, initial: 0 }),
     hasCritBoost: new fields.BooleanField({ initial: false }),
+    // To be shown in chat card with rolls
+    effect: new fields.HTMLField(),
   } as const;
 }

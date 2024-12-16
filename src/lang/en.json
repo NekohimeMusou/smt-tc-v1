@@ -121,7 +121,8 @@
       "ailmentRate": "Ailment Rate",
       "potency": "Potency",
       "tnMod": "TN Mod",
-      "critBoost": "Crit Boost"
+      "critBoost": "Crit Boost",
+      "effect": "Effect"
     },
     "skillType": {
       "phys": "Physical Attack",
