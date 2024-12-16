@@ -139,7 +139,8 @@
     "dice": {
       "result": {
         "success": "Success!",
-        "failed": "Failed!",
+        "fail": "Failure!",
+        "autofail": "Autofail! ({threshold}-99)",
         "crit": "CRITICAL SUCCESS!",
         "fumble": "FUMBLE!"
       },
@@ -151,7 +152,8 @@
     },
     "dialog": {
       "basePhysLabel": "Base Phys",
-      "baseMagLabel": "Base Mag"
+      "baseMagLabel": "Base Mag",
+      "hasCritBoost": "Crit boost?"
     },
     "settings": {
       "invertShiftBehavior": {

@@ -1,12 +1,5 @@
 import { SmtActor } from "../documents/actor/actor.js";
 
-enum SuccessLevel {
-  Success = "success",
-  Failed = "failed",
-  Crit = "crit",
-  Fumble = "fumble",
-}
-
 interface RollOptions {
   rollName?: string;
   token?: TokenDocument<SmtActor>;
@@ -30,6 +23,14 @@ interface PowerRollOptions extends RollOptions {
 
 interface ModElement extends HTMLElement {
   mod?: { value?: string };
+  critBoost?: { value?: boolean };
+}
+
+interface ResultLabelOptions {
+  rollTotal?: number;
+  tn?: number;
+  critThreshold?: number;
+  autoFailThreshold?: number;
 }
 
 // interface AilmentData {
@@ -62,27 +63,27 @@ export async function successRoll({
   autoFailThreshold = 96,
   baseTn = 0,
 }: SuccessRollOptions = {}) {
-  const tn = Math.min(baseTn, autoFailThreshold);
-
   const dialogLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollName,
-    tn: `${tn}`,
+    tn: `${baseTn}`,
   });
 
-  const { mod, cancelled } = showDialog
+  const { mod, cancelled, critBoost } = showDialog
     ? await showModifierDialog(
         dialogLabel,
         game.i18n.localize("SMT.dice.modifierHint"),
       )
-    : { mod: 0, cancelled: false };
+    : { mod: 0, cancelled: false, critBoost: hasCritBoost };
 
   if (cancelled) return;
 
-  const modifiedTN = tn + (mod ?? 0);
+  const dialogMod = mod ?? 0;
+
+  const tn = baseTn + dialogMod;
 
   const modifiedCheckLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollName,
-    tn: `${modifiedTN}`,
+    tn: `${tn}`,
   });
 
   const msgParts = [`<p>${modifiedCheckLabel}</p>`];
@@ -91,14 +92,17 @@ export async function successRoll({
 
   const rollTotal = roll.total;
 
-  const critDivisor = hasCritBoost ? 5 : 10;
+  const critDivisor = critBoost ? 5 : 10;
 
   // A 1 is always a crit
-  const critThreshold = Math.max(Math.floor(modifiedTN / critDivisor), 1);
+  const critThreshold = Math.max(Math.floor(tn / critDivisor), 1);
 
-  const successLevel = getSuccessLevel(rollTotal, modifiedTN, critThreshold);
-
-  const resultLabel = game.i18n.localize(`SMT.dice.result.${successLevel}`);
+  const resultLabel = getResultLabel({
+    rollTotal,
+    tn,
+    critThreshold,
+    autoFailThreshold,
+  });
 
   const rollHTML = await roll.render();
 
@@ -119,30 +123,39 @@ export async function successRoll({
   return await ChatMessage.create(chatData);
 }
 
-function getSuccessLevel(
-  roll: number,
-  tn: number,
-  critThreshold: number,
-): SuccessLevel {
-  if (roll === 100) {
-    return SuccessLevel.Fumble;
-  } else if (roll <= critThreshold) {
-    return SuccessLevel.Crit;
-  } else if (roll <= tn) {
-    return SuccessLevel.Success;
+function getResultLabel({
+  rollTotal = 100,
+  tn = 1,
+  critThreshold = 1,
+  autoFailThreshold = 96,
+}: ResultLabelOptions = {}) {
+  if (rollTotal >= 100) {
+    return game.i18n.localize("SMT.dice.result.fumble");
+  } else if (rollTotal >= autoFailThreshold) {
+    return game.i18n.format("SMT.dice.result.autofail", {
+      threshold: `${autoFailThreshold}`,
+    });
+  } else if (rollTotal <= critThreshold) {
+    const critMsg = game.i18n.localize("SMT.dice.result.crit");
+    const critHint = game.i18n.localize("SMT.dice.result.critHint");
+    return `<div class=flexcol><div>${critMsg}</div><div>${critHint}</div></div>`;
+  } else if (rollTotal <= tn) {
+    return game.i18n.localize("SMT.dice.result.success");
   }
 
-  return SuccessLevel.Failed;
+  return game.i18n.localize("SMT.dice.result.fail");
 }
 
 async function showModifierDialog(
   dialogLabel: string,
   hint = "",
-): Promise<{ mod?: number; cancelled?: boolean }> {
+  hasCritBoost = false,
+): Promise<{ mod: number; critBoost: boolean; cancelled?: boolean }> {
   const template = "systems/smt-tc/templates/dialog/modifier-dialog.hbs";
   const content = await renderTemplate(template, {
     checkLabel: dialogLabel,
     hint,
+    hasCritBoost,
   });
 
   return new Promise((resolve) =>
@@ -155,19 +168,24 @@ async function showModifierDialog(
             label: "OK",
             callback: (html) =>
               resolve({
-                mod: parseInt(
-                  ($(html)[0].querySelector("form") as ModElement)?.mod
-                    ?.value ?? "0",
-                ),
+                mod:
+                  parseInt(
+                    ($(html)[0].querySelector("form") as ModElement)?.mod
+                      ?.value ?? "0",
+                  ) || 0, // Avoid NaN
+                critBoost:
+                  ($(html)[0].querySelector("form") as ModElement)?.critBoost
+                    ?.value ?? false,
               }),
           },
           cancel: {
             label: "Cancel",
-            callback: () => resolve({ cancelled: true }),
+            callback: () =>
+              resolve({ mod: 0, cancelled: true, critBoost: false }),
           },
         },
         default: "ok",
-        close: () => resolve({ cancelled: true }),
+        close: () => resolve({ mod: 0, cancelled: true, critBoost: false }),
       },
       {},
     ).render(true),
