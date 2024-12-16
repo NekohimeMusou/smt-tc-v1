@@ -66,7 +66,7 @@ export async function successRoll({
   auto = false,
 }: SuccessRollOptions = {}) {
   // Handle auto success
-  if (auto) return await autoSuccess({rollName, token, actor});
+  if (auto) return await autoSuccess({ rollName, token, actor });
 
   const dialogLabel = game.i18n.format("SMT.dice.checkMsg", {
     rollName,
@@ -128,10 +128,10 @@ export async function successRoll({
   return await ChatMessage.create(chatData);
 }
 
-async function autoSuccess({ rollName, token, actor }: RollOptions={}) {
+async function autoSuccess({ rollName, token, actor }: RollOptions = {}) {
   const rollNameString = `${rollName}`;
   const content = [
-    `<p>${game.i18n.format("SMT.dice.autoCheckMsg", {rollName: rollNameString})}</p>`,
+    `<p>${game.i18n.format("SMT.dice.autoCheckMsg", { rollName: rollNameString })}</p>`,
     `<h3>${game.i18n.localize("SMT.dice.result.autoSuccess")}</h3>`,
   ].join("\n");
 
