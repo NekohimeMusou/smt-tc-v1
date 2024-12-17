@@ -146,9 +146,9 @@
       "stat": "Stat",
       "basePhysPower": "Phys Power",
       "baseMagPower": "Mag Power",
-
       "physResist": "Phys Resist",
-      "magResist": "Mag Resist"
+      "magResist": "Mag Resist",
+      "skills": "Skills"
     },
     "dice": {
       "result": {

@@ -7,6 +7,7 @@ import { SmtActorSheet } from "./documents/actor/actor-sheet.js";
 import { SmtActor } from "./documents/actor/actor.js";
 import { SmtItemSheet } from "./documents/item/item-sheet.js";
 import { SmtItem } from "./documents/item/item.js";
+import { createBasicStrike } from "./helpers/hooks.js";
 
 declare global {
   interface Game {
@@ -39,6 +40,8 @@ Hooks.once("init", async () => {
 
   registerSystemSettings();
 
+  registerHooks();
+
   await preloadHandlebarsTemplates();
 });
 
@@ -63,4 +66,8 @@ function registerSheetApplications() {
     types: ["skill"],
     makeDefault: true,
   });
+}
+
+function registerHooks() {
+  Hooks.on("createActor", createBasicStrike);
 }

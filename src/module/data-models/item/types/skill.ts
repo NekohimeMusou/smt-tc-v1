@@ -18,7 +18,7 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   override prepareBaseData() {
     const data = this.#systemData;
 
-    const actor = this.parent.parent as SmtActor;
+    const actor = this.parent?.parent as SmtActor;
 
     // @ts-expect-error This field isn't readonly
     data.tn =

@@ -24,6 +24,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const system = this.actor.system;
     const rollData = this.actor.getRollData();
+    const skills = this.actor.items.filter((item) => item.type === "skill");
 
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
@@ -31,6 +32,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     await foundry.utils.mergeObject(context, {
       system,
       rollData,
+      skills,
       SMT,
     });
 
