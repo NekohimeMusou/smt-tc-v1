@@ -92,6 +92,10 @@
       "teeth": "Teeth",
       "none": "None"
     },
+    "itemTypes": {
+      "skill": "Skill",
+      "weapon": "Weapon"
+    },
     "atkCategory": {
       "phys": "Phys",
       "mag": "Mag"

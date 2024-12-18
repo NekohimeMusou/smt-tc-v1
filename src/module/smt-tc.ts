@@ -16,7 +16,7 @@ declare global {
   }
 
   interface CONFIG {
-    SMT: unknown;
+    SMT: typeof SMT;
   }
 }
 

@@ -6,9 +6,9 @@ export async function createBasicStrike(document: SmtActor, options: DatabaseCre
   await document.createEmbeddedDocuments("Item", [
     {
       name: "Basic Strike",
-      type: "weapon",
+      type: "skill",
       img: "icons/skills/melee/unarmed-punch-fist.webp",
-      system: { basicStrike: true },
+      system: { basicStrike: true, itemType: "weapon" },
     },
   ]);
 }

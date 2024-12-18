@@ -24,6 +24,11 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
 ] as const;
 
+const itemTypes = {
+  skill: "SMT.itemTypes.skill",
+  weapon: "SMT.itemTypes.weapon",
+} as const;
+
 const charClasses = {
   human: "SMT.charClasses.human",
   fiend: "SMT.charClasses.fiend",
@@ -158,5 +163,6 @@ export const SMT = {
   powerCategories,
   successRollCategories,
   targets,
+  itemTypes,
   templatePaths,
 } as const;

@@ -28,11 +28,11 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     // Dumb hack so the basic strike is always first
     const weapons = this.actor.items.filter(
-      (item) => item.system.type === "weapon" && item.system.basicStrike,
+      (item) => item.system.itemType === "weapon" && item.system.basicStrike,
     );
     weapons.concat(
       this.actor.items.filter(
-        (item) => item.system.type === "weapon" && !item.system.basicStrike,
+        (item) => item.system.itemType === "weapon" && !item.system.basicStrike,
       ),
     );
 
@@ -144,7 +144,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       return ui.notifications.error("Invalid skill data in #onSkillRoll");
     }
 
-    
+
   }
 
   // /**

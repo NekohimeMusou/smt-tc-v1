@@ -34,5 +34,12 @@ export function skillFields() {
     hasCritBoost: new fields.BooleanField({ initial: false }),
     // To be shown in chat card with rolls
     effect: new fields.HTMLField(),
+    basicStrike: new fields.BooleanField({ initial: false }),
+    ammo: new fields.SchemaField({
+      min: new fields.NumberField({ integer: true, initial: 0 }),
+      // TODO: Actually support ammo tracking
+      // max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
+      value: new fields.NumberField({ integer: true, initial: 0 }),
+    }),
   } as const;
 }
