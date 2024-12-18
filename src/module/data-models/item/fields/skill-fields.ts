@@ -11,12 +11,7 @@ export function skillFields() {
       choices: SMT.skillTypes,
       initial: "phys",
     }),
-    target: new fields.StringField(),
-    cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-    costType: new fields.StringField({
-      choices: SMT.skillCostTypes,
-      initial: "hp",
-    }),
+    target: new fields.StringField({ choices: SMT.targets, initial: "one" }),
     affinity: new fields.StringField({
       choices: SMT.affinities,
       initial: "phys",

@@ -9,7 +9,18 @@ declare global {
   type SkillType = keyof typeof skillTypes;
   type SkillCostType = keyof typeof skillCostTypes;
   type PowerCategory = keyof typeof powerCategories;
+  type Target = keyof typeof targets;
 }
+
+const templatePaths = [
+  "systems/smt-tc/templates/parts/actor/header.hbs",
+  "systems/smt-tc/templates/parts/actor/tab-main.hbs",
+  "systems/smt-tc/templates/parts/actor/resources.hbs",
+  "systems/smt-tc/templates/parts/actor/stats.hbs",
+  "systems/smt-tc/templates/parts/actor/derived-stats.hbs",
+  "systems/smt-tc/templates/parts/item/header.hbs",
+  "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
+] as const;
 
 const charClasses = {
   human: "SMT.charClasses.human",
@@ -125,6 +136,12 @@ const powerCategories = {
 
 const successRollCategories = ["tn", "specialTN"] as const;
 
+const targets = {
+  one: "SMT.target.one",
+  all: "SMT.target.all",
+  allCombatants: "SMT.target.allCombatants",
+};
+
 export const SMT = {
   charClasses,
   stats,
@@ -138,4 +155,6 @@ export const SMT = {
   skillCostTypes,
   powerCategories,
   successRollCategories,
+  targets,
+  templatePaths,
 } as const;

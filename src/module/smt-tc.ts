@@ -1,8 +1,6 @@
 import { SMT } from "./config/config.js";
-import { registerSystemSettings } from "./config/settings.js";
-import { preloadHandlebarsTemplates } from "./config/templates.js";
-import { SmtCharacterDataModel } from "./data-models/actor/actor-data-model.js";
-import { SmtSkillDataModel } from "./data-models/item/item-data-model.js";
+import { ACTORMODELS } from "./data-models/actor/actor-data-model.js";
+import { ITEMMODELS } from "./data-models/item/item-data-model.js";
 import { SmtActorSheet } from "./documents/actor/actor-sheet.js";
 import { SmtActor } from "./documents/actor/actor.js";
 import { SmtItemSheet } from "./documents/item/item-sheet.js";
@@ -18,7 +16,7 @@ declare global {
   }
 
   interface CONFIG {
-    SMT: typeof SMT;
+    SMT: unknown;
   }
 }
 
@@ -32,27 +30,23 @@ Hooks.once("init", async () => {
     SmtItem,
   };
 
-  configureDocumentClasses();
-
-  configureDataModels();
-
+  registerDataModels();
+  registerDocumentClasses();
   registerSheetApplications();
-
   registerSystemSettings();
-
   registerHooks();
 
   await preloadHandlebarsTemplates();
 });
 
-function configureDocumentClasses() {
-  CONFIG.Actor.documentClass = SmtActor;
-  CONFIG.Item.documentClass = SmtItem;
+function registerDataModels() {
+  CONFIG.Item.dataModels = ITEMMODELS;
+  CONFIG.Actor.dataModels = ACTORMODELS;
 }
 
-function configureDataModels() {
-  CONFIG.Item.dataModels.skill = SmtSkillDataModel;
-  CONFIG.Actor.dataModels.character = SmtCharacterDataModel;
+function registerDocumentClasses() {
+  CONFIG.Actor.documentClass = SmtActor;
+  CONFIG.Item.documentClass = SmtItem;
 }
 
 function registerSheetApplications() {
@@ -68,6 +62,22 @@ function registerSheetApplications() {
   });
 }
 
+export function registerSystemSettings() {
+  game.settings.register("smt-tc", "invertShiftBehavior", {
+    name: "SMT.settings.invertShiftBehavior.name",
+    hint: "SMT.settings.invertShiftBehavior.hint",
+    scope: "client",
+    config: true,
+    requiresReload: false,
+    type: Boolean,
+    default: false,
+  });
+}
+
 function registerHooks() {
   Hooks.on("createActor", createBasicStrike);
+}
+
+async function preloadHandlebarsTemplates() {
+  await loadTemplates(SMT.templatePaths);
 }

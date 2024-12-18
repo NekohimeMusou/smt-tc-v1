@@ -1,3 +1,32 @@
 <section class="skills">
   <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.skills"}}</div>
+  <div class="items-list flexcol">
+    <ol class="items-list">
+      <li class="item flexrow items-header">
+        {{!-- Skill --}}
+        <div class="item-name flex2">{{localize "SMT.skillPane.skill"}}</div>
+        {{!-- Type --}}
+        {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
+        <div class="item-name">{{localize "SMT.skillPane.skillType"}}</div>
+        {{!-- Target --}}
+        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
+        <div class="item-name">{{localize "SMT.skillPane.target"}}</div>
+        {{!-- Cost or Ammo Count --}}
+        <div class="item-name">{{localize "SMT.skillPane.cost"}}</div>
+        {{!-- TN --}}
+        <div class="item-name">{{localize "SMT.skillPane.tn"}}</div>
+        {{!-- Potency or Gear Power (not strictly necessary) --}}
+        <div class="item-name">{{localize "SMT.skillPane.potency"}}</div>
+        {{!-- Base Power (not strictly necessary) --}}
+        <div class="item-name">{{localize "SMT.skillPane.basePower"}}</div>
+        {{!-- Total Power --}}
+        <div class="item-name">{{localize "SMT.skillPane.power"}}</div>
+        {{!-- Element --}}
+        <div class="item-name">{{localize "SMT.skillPane.element"}}</div>
+        {{!-- Short notes? --}}
+      </li>
+      {{!-- #each skill --}}
+      {{!-- /each --}}
+    </ol>
+  </div>
 </section>

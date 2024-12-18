@@ -4,6 +4,6 @@ export async function createBasicStrike(document: SmtActor, options: DatabaseCre
   if (userId !== game.user.id) return;
 
   await document.createEmbeddedDocuments("Item", [
-    { name: "Basic Strike", type: "skill", system: { target: "1 enemy" } },
+    { name: "Basic Strike", type: "weapon" },
   ]);
 }

@@ -125,13 +125,17 @@
       "effect": "Effect"
     },
     "skillType": {
-      "phys": "Physical Attack",
-      "mag": "Magical Attack",
+      "phys": "Phys Attack",
+      "mag": "Mag Attack",
       "gun": "Gun Attack",
       "spell": "Spell",
       "talk": "Talk",
-      "passive": "Passive",
-      "other": "Other"
+      "passive": "Passive"
+    },
+    "target": {
+      "one": "One target",
+      "all": "All targets",
+      "allCombatants": "All allies and enemies"
     },
     "actorSheet": {
       "stats": "Stats",
@@ -149,6 +153,17 @@
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
       "skills": "Skills"
+    },
+    "skillPane": {
+      "skill": "Skill",
+      "skillType": "Type",
+      "target": "Target",
+      "cost": "Cost",
+      "tn": "TN",
+      "potency": "Potency",
+      "basePower": "Base Pow",
+      "power": "Power",
+      "element": "Element"
     },
     "dice": {
       "result": {

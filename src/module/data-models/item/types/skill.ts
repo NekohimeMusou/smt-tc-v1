@@ -1,3 +1,4 @@
+import { SMT } from "../../../config/config.js";
 import { SmtActor } from "../../../documents/actor/actor.js";
 import { SmtItem } from "../../../documents/item/item.js";
 import { sharedItemFields } from "../fields/shared-fields.js";
@@ -9,7 +10,13 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   }
 
   static override defineSchema() {
+    const fields = foundry.data.fields;
     return {
+      cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+      costType: new fields.StringField({
+        choices: SMT.skillCostTypes,
+        initial: "hp",
+      }),
       ...skillFields(),
       ...sharedItemFields(),
     } as const;
