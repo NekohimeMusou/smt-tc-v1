@@ -18,6 +18,8 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/resources.hbs",
   "systems/smt-tc/templates/parts/actor/stats.hbs",
   "systems/smt-tc/templates/parts/actor/derived-stats.hbs",
+  "systems/smt-tc/templates/parts/actor/weapons.hbs",
+  "systems/smt-tc/templates/parts/actor/skills.hbs",
   "systems/smt-tc/templates/parts/item/header.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
 ] as const;
@@ -113,14 +115,14 @@ const inheritanceTraits = {
 } as const;
 
 const skillTypes = {
-  phys: "SMT.skillType.phys",
-  mag: "SMT.skillType.mag",
-  gun: "SMT.skillType.gun",
-  spell: "SMT.skillType.spell",
-  passive: "SMT.skillType.passive",
-  talk: "SMT.skillType.talk",
+  phys: "SMT.skillTypes.phys",
+  mag: "SMT.skillTypes.mag",
+  gun: "SMT.skillTypes.gun",
+  spell: "SMT.skillTypes.spell",
+  passive: "SMT.skillTypes.passive",
+  talk: "SMT.skillTypes.talk",
   // For "passive" skills with conditional rolls attached, like Lucky Find and Good Instincts
-  other: "SMT.skillType.other",
+  other: "SMT.skillTypes.other",
 } as const;
 
 const skillCostTypes = {

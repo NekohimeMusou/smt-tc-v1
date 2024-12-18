@@ -124,10 +124,10 @@
       "critBoost": "Crit Boost",
       "effect": "Effect"
     },
-    "skillType": {
-      "phys": "Phys Attack",
-      "mag": "Mag Attack",
-      "gun": "Gun Attack",
+    "skillTypes": {
+      "phys": "Phys",
+      "mag": "Mag",
+      "gun": "Gun",
       "spell": "Spell",
       "talk": "Talk",
       "passive": "Passive"
@@ -152,7 +152,8 @@
       "baseMagPower": "Mag Power",
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
-      "skills": "Skills"
+      "skills": "Skills",
+      "weapons": "Weapons"
     },
     "skillPane": {
       "skill": "Skill",
@@ -163,7 +164,9 @@
       "potency": "Potency",
       "basePower": "Base Pow",
       "power": "Power",
-      "element": "Element"
+      "element": "Element",
+      "weapon": "Weapon",
+      "ammo": "Ammo"
     },
     "dice": {
       "result": {

@@ -1,0 +1,63 @@
+<section class="skills">
+  <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.weapons"}}</div>
+  <div class="items-list flexcol flexlarge">
+    <ol class="items-list">
+      <li class="item flexrow flex-group-center items-header">
+        {{!-- Skill --}}
+        <div class="item-name flex2">{{localize "SMT.skillPane.weapon"}}</div>
+        {{!-- Type --}}
+        {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
+        <div class="item-skill-type">{{localize "SMT.skillPane.skillType"}}</div>
+        {{!-- Target --}}
+        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
+        <div class="item-target">{{localize "SMT.skillPane.target"}}</div>
+        {{!-- Cost or Ammo Count --}}
+        <div class="item-ammo">{{localize "SMT.skillPane.ammo"}}</div>
+        {{!-- TN --}}
+        <div class="item-tn">{{localize "SMT.skillPane.tn"}}</div>
+        {{!-- Potency or Gear Power (not strictly necessary) --}}
+        <div class="item-potency">{{localize "SMT.skillPane.potency"}}</div>
+        {{!-- Base Power (not strictly necessary) --}}
+        <div class="item-base-power">{{localize "SMT.skillPane.basePower"}}</div>
+        {{!-- Total Power --}}
+        <div class="item-power">{{localize "SMT.skillPane.power"}}</div>
+        {{!-- Element --}}
+        <div class="item-element">{{localize "SMT.skillPane.element"}}</div>
+        {{!-- Short notes? --}}
+      </li>
+      {{#each weapons}}
+      <li class="item flexrow flex-group-center" data-item-id="{{item._id}}">
+        {{!-- Weapon --}}
+        <a class="item-name flex2 roll-weapon-atk roll-highlight">
+          <div class="item-image">
+            <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+          </div>
+          <div class="item-name">{{name}}</div>
+        </a>
+        {{!-- Type --}}
+        {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
+        <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." system.skillType)}}</div>
+        {{!-- Target --}}
+        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
+        <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>
+        {{!-- Cost or Ammo Count --}}
+        <div class="item-prop item-ammo">
+          <input type="number" name="system.ammo.value" value="{{system.ammo.value}}" placeholder="0"
+            data-dtype="Number" {{#if (ne system.skillType "gun")}}disabled{{/if}} />
+        </div>
+        {{!-- TN --}}
+        <div class="item-prop item-tn">{{system.tn}}</div>
+        {{!-- Potency or Gear Power (not strictly necessary) --}}
+        <div class="item-prop item-potency">{{system.potency}}</div>
+        {{!-- Base Power (not strictly necessary) --}}
+        <div class="item-prop item-base-power">{{system.basePower}}</div>
+        {{!-- Total Power --}}
+        <div class="item-prop item-power">{{system.power}}</div>
+        {{!-- Element --}}
+        <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
+        {{!-- Short notes? --}}
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+</section>

@@ -26,6 +26,16 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const rollData = this.actor.getRollData();
     const skills = this.actor.items.filter((item) => item.type === "skill");
 
+    // Dumb hack so the basic strike is always first
+    const weapons = this.actor.items.filter(
+      (item) => item.system.type === "weapon" && item.system.basicStrike,
+    );
+    weapons.concat(
+      this.actor.items.filter(
+        (item) => item.system.type === "weapon" && !item.system.basicStrike,
+      ),
+    );
+
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
 
@@ -33,6 +43,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       system,
       rollData,
       skills,
+      weapons,
       SMT,
     });
 
@@ -89,7 +100,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const rollName = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
 
     const showDialog =
-      event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
     return await successRoll({
       rollName,
@@ -109,7 +120,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       target.data() as PowerRollData;
 
     const showDialog =
-      event.shiftKey != game.settings.get("smt", "invertShiftBehavior");
+      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
     return await powerRoll({
       rollName,
@@ -120,6 +131,20 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       affinity,
       atkCategory,
     });
+  }
+
+  #onSkillRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const target = $(event.currentTarget);
+    const itemId = target.closest(".item").data("itemId") as string;
+    const skill = this.actor.items.get(itemId);
+
+    if (skill == undefined) {
+      return ui.notifications.error("Invalid skill data in #onSkillRoll");
+    }
+
+    
   }
 
   // /**
