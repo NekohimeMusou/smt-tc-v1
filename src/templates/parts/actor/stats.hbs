@@ -1,5 +1,5 @@
 <section class="stats">
-  <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.stats"}}</div>
+  <div class="resource-label flex-group-center">{{localize "SMT.actorSheet.stats"}}</div>
   <div class="items-list flexcol">
     <ol class="items-list">
       <li class="item flexrow items-header">
@@ -18,7 +18,7 @@
         {{!-- Stat TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
         {{!-- Special TN label --}}
-        <div>{{localize "SMT.actorSheet.specialTN"}}</div>
+        <div class="flex2">{{localize "SMT.actorSheet.specialTN"}}</div>
         {{!-- Special TN formula --}}
         <div>{{localize "SMT.actorSheet.formula"}}</div>
         {{!-- Special TN --}}
@@ -48,7 +48,7 @@
         {{!-- Stat TN --}}
         <div class="item-prop roll-highlight roll-stat-tn" data-roll-type="tn" data-stat="{{@key}}">{{tn}}%</div>
         {{!-- Special TN label --}}
-        <div class="item-prop item-name">{{localize (concat "SMT.specialTN." @key)}}</div>
+        <div class="item-prop item-name flex2">{{localize (concat "SMT.specialTN." @key)}}</div>
         {{!-- Special TN formula --}}
         <div class="item-prop">{{localize (concat "SMT.specialTNFormula." @key)}}</div>
         {{!-- Special TN --}}
