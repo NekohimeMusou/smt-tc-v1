@@ -93,6 +93,34 @@ async function successModDialog(
   );
 }
 
+interface SuccessRollData {
+  checkName?: string;
+  tn?: number;
+  critBoost?: boolean;
+  autoFailThreshold?: number;
+}
+
+// Returns result label and roll
+async function successRoll({
+  tn = 1,
+  critBoost = false,
+  autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
+}: SuccessRollData = {}): Promise<{ resultLabel: string; roll: Roll }> {
+  const critDivisor = critBoost ? 5 : 10;
+  const critThreshold = tn / critDivisor;
+
+  const roll = await new Roll("1d100").roll();
+
+  const resultLabel = getResultLabel({
+    rollTotal: roll.total,
+    tn,
+    critThreshold,
+    autoFailThreshold,
+  });
+
+  return { resultLabel, roll };
+}
+
 // For direct TN rolls off the sheet (e.g. Lu checks, Save checks)
 export async function statRoll(
   actor: SmtActor,
@@ -129,20 +157,11 @@ export async function statRoll(
     tn: `${tn}`,
   });
 
-  // e.g. "St Check: TN 55%"
   const htmlParts = [`<p>${rollName}</p>`];
 
-  const roll = await new Roll("1d100").roll();
-  const rollTotal = roll.total;
-
-  const critDivisor = critBoost ? 5 : 10;
-  const critThreshold = tn / critDivisor;
-
-  // e.g. "Success!"
-  const resultLabel = getResultLabel({
-    rollTotal,
+  const { resultLabel, roll } = await successRoll({
     tn,
-    critThreshold,
+    critBoost,
     autoFailThreshold,
   });
 
