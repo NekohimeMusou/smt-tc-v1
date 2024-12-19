@@ -1,11 +1,11 @@
 import { SMT } from "../../config/config.js";
-import {
-  oldPowerRoll,
-  oldSuccessRoll,
-  skillRoll,
-  statRoll,
-} from "../../helpers/dice.js";
+import { statRoll } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
+
+interface StatRollFormData {
+  tnType: StatRollTNType;
+  accuracyStat: CharacterStat;
+}
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
   static override get defaultOptions() {
@@ -71,9 +71,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Stat TN roll
     html.find(".roll-stat").on("click", this.#onStatRoll.bind(this));
 
-    // Power roll
-    html.find(".roll-power").on("click", this.#onPowerRoll.bind(this));
-
     // Add Inventory Item
     // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
 
@@ -85,107 +82,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   }
 
   async #onStatRoll(event: JQuery.ClickEvent) {
-    event.preventDefault();
-
-    const target = $(event.currentTarget);
-    const { rollType, stat } = target.data() as SuccessRollData;
-
-    // Make sure this really is SuccessRollData
-    if (
-      !SMT.successRollCategories.includes(rollType) ||
-      !Object.keys(this.actor.system.stats).includes(stat)
-    ) {
-      return ui.notifications.error("Malformed roll data (in #onStatRoll)");
-    }
-
-    const baseTn = this.actor.system.stats[stat][rollType];
-
-    const rollCategory = rollType === "tn" ? "stats" : "specialTN";
-
-    const rollName = game.i18n.localize(`SMT.${rollCategory}.${stat}`);
-
-    const showDialog =
-      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-
-    return await oldSuccessRoll({
-      rollName,
-      token: this.actor.token,
-      actor: this.actor,
-      showDialog,
-      baseTn,
-    });
-  }
-
-  async #onPowerRoll(event: JQuery.ClickEvent) {
-    event.preventDefault();
-
-    const target = $(event.currentTarget);
-
-    const { rollName, atkCategory, basePower, affinity } =
-      target.data() as PowerRollData;
-
-    const showDialog =
-      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-
-    return await oldPowerRoll({
-      rollName,
-      token: this.actor.token,
-      actor: this.actor,
-      showDialog,
-      basePower,
-      affinity,
-      atkCategory,
-    });
-  }
-
-  #onSkillRoll(event: JQuery.ClickEvent) {
-    event.preventDefault();
-
-    const target = $(event.currentTarget);
-    const { itemId, tnType, accuracyStat }: SkillRollData = target
-      .closest(".item")
-      .data();
-    const showDialog =
-      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-
-    if (tnType && accuracyStat) {
-      // It's a stat roll off the sheet
-      // Roll name should be like:
-      // St Check: TN XX%
-      // Dodge:  TN XX%
-      // Save: TN XX%
-      const rollLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
-      // Final rollName to pass to function
-      const rollName = game.i18n.format("SMT.dice.statCheckMsg", {
-        rollLabel,
-        tn: `${this.actor.system.stats[accuracyStat][tnType]}`,
-      });
-
-      const baseTn = this.actor.system.stats[accuracyStat][tnType];
-      const actor = this.actor;
-      const token = actor.token;
-      const targets = Array.from(
-        game.user.targets.values(),
-      ) as Token<SmtActor>[];
-
-      return skillRoll({
-        rollName,
-        accuracyStat,
-        baseTn,
-        showDialog,
-        actor,
-        token,
-        targets,
-      });
-    }
-
-    // Otherwise, it's hopefully a skill
-    const skill = this.actor.items.get(itemId ?? "");
-
-    if (!skill) return;
-  }
-
-  async #onSheetStatRoll(event: JQuery.ClickEvent) {
     event.preventDefault();
     const target = $(event.currentTarget);
 
@@ -248,14 +144,3 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   // }
 }
 
-interface SkillRollData {
-  itemId?: string;
-  tnType?: StatRollTNType;
-  accuracyStat?: CharacterStat;
-  statValue?: number;
-}
-
-interface StatRollFormData {
-  tnType: StatRollTNType;
-  accuracyStat: CharacterStat;
-}

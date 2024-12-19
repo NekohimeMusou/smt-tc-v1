@@ -33,9 +33,9 @@
     "specialTN": {
       "st": "Phys Atk",
       "ma": "Spell Atk",
-      "vi": "Save TN",
-      "ag": "Dodge TN",
-      "lu": "Negotiation TN"
+      "vi": "Save",
+      "ag": "Dodge",
+      "lu": "Negotiation"
     },
     "specialTNFormula": {
       "st": "Strength TN",
@@ -174,7 +174,7 @@
     },
     "dice": {
       "checkLabel": "{rollName}: TN {tn}%",
-      "statCheckMsg": "{stat} Check: TN {tn}%",
+      "statCheckMsg": "{checkName} Check: TN {tn}%",
       "autoCheckLabel": "{rollName}: Auto",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power} {affinity} ({atkCategory})",
