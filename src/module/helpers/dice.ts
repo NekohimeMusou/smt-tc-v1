@@ -48,15 +48,21 @@ function getResultLabel({
   return game.i18n.localize("SMT.diceResult.fail");
 }
 
-async function successModDialog(
-  checkLabel: string,
+interface ModDialogData {
+  checkName?: string;
+  hint?: string;
+  hasCritBoost?: boolean;
+}
+
+async function renderSuccessModDialog({
+  checkName = "",
   hint = "",
   hasCritBoost = false,
-): Promise<ModDialogResult> {
+}: ModDialogData = {}): Promise<ModDialogResult> {
   const template =
     "systems/smt-tc/templates/dialog/success-modifier-dialog.hbs";
   const content = await renderTemplate(template, {
-    checkLabel,
+    checkName,
     hint,
     hasCritBoost,
   });
@@ -95,19 +101,86 @@ async function successModDialog(
   );
 }
 
-interface SuccessRollData {
+interface OldSuccessRollData {
   checkName?: string;
   tn?: number;
   critBoost?: boolean;
   autoFailThreshold?: number;
 }
 
-// Returns result label and roll
+interface SuccessRollData {
+  checkName?: string;
+  baseTN?: number;
+  hasCritBoost?: boolean;
+  autoFailThreshold?: number;
+  isStatCheck?: boolean;
+  showDialog?: boolean;
+}
+
+// 1) Form original roll name w/ unmodified TN
+// 2) Show dialog
+// 3) Form checkName w/ modified TN
+
+// Expects a name like "Heat Wave" or "St Check"; adds other stuff around it
 async function successRoll({
+  checkName = "",
+  hasCritBoost = false,
+  baseTN = 1,
+  showDialog = false,
+  autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
+}: SuccessRollData = {}) {
+  const dialogCheckLabel = game.i18n.format("SMT.skillCheckLabel", {
+    checkName,
+    tn: `${baseTN}`,
+  });
+
+  const hint = game.i18n.localize("SMT.dice.modifierHint");
+
+  const { mod, cancelled, critBoost } = showDialog
+    ? await renderSuccessModDialog({
+        checkName: dialogCheckLabel,
+        hint,
+        hasCritBoost,
+      })
+    : { mod: 0, cancelled: false, critBoost: hasCritBoost };
+
+  if (cancelled) return { htmlParts: [], rolls: [] };
+
+  const tn = baseTN + (mod ?? 0);
+
+  // Modified check name
+  const modifiedCheckName = game.i18n.format("SMT.dice.skillCheckLabel", {
+    checkName,
+    tn: `${tn}`,
+  });
+
+  const critDivisor = critBoost ? 5 : 10;
+  const critThreshold = tn / critDivisor;
+  const roll = await new Roll("1d100").roll();
+
+  const resultLabel = getResultLabel({
+    rollTotal: roll.total,
+    tn,
+    critThreshold,
+    autoFailThreshold,
+  });
+
+  return {
+    rolls: [roll],
+    htmlParts: [
+      `<p>${modifiedCheckName}</p>`,
+      resultLabel,
+      await roll.render(),
+    ],
+  };
+}
+
+// Returns result label and roll
+async function oldSuccessRoll({
   tn = 1,
   critBoost = false,
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
-}: SuccessRollData = {}): Promise<{ resultLabel: string; roll: Roll }> {
+}: OldSuccessRollData = {}): Promise<{ resultLabel: string; roll: Roll }> {
   const critDivisor = critBoost ? 5 : 10;
   const critThreshold = tn / critDivisor;
 
@@ -132,43 +205,24 @@ export async function statRoll(
   showDialog: boolean,
 ) {
   const data = actor.system;
-  const baseTn = data.stats[accuracyStat][tnType];
+  const baseTN = data.stats[accuracyStat][tnType];
   const autoFailThreshold = data.autoFailThreshold;
   // Straight stat rolls generally don't have a crit boost
   const hasCritBoost = false;
 
-  // Label to show in dialog box
-  const checkName = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
-  const checkLabel = game.i18n.format("SMT.dice.statCheckMsg", {
-    checkName,
-    tn: `${baseTn}`,
+  // Label to show in dialog box e.g. "St"
+  const checkLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
+  const checkName = game.i18n.format("SMT.dice.statCheckLabel", {
+    stat: checkLabel,
   });
 
-  const hint = game.i18n.localize("SMT.dice.modifierHint");
-
-  const { mod, cancelled, critBoost } = showDialog
-    ? await successModDialog(checkLabel, hint, hasCritBoost)
-    : { mod: 0, cancelled: false, critBoost: hasCritBoost };
-
-  if (cancelled) return;
-
-  const tn = baseTn + (mod ?? 0);
-
-  // e.g. "St Check: TN 38%""
-  const rollName = game.i18n.format("SMT.dice.statCheckMsg", {
+  const { rolls, htmlParts } = await successRoll({
     checkName,
-    tn: `${tn}`,
-  });
-
-  const htmlParts = [`<p>${rollName}</p>`];
-
-  const { resultLabel, roll } = await successRoll({
-    tn,
-    critBoost,
+    hasCritBoost,
+    baseTN,
+    showDialog,
     autoFailThreshold,
   });
-
-  htmlParts.push(`<h3>${resultLabel}</h3>`, await roll.render());
 
   const content = htmlParts.join("\n");
 
@@ -180,7 +234,7 @@ export async function statRoll(
       token,
       actor,
     },
-    rolls: [roll],
+    rolls,
   };
 
   return await ChatMessage.create(chatData);
@@ -191,6 +245,7 @@ interface SkillRollData {
   showDialog?: boolean;
 }
 
+// TODO: Refactor to use the new successRoll
 export async function skillRoll({
   skill,
   showDialog = false,
@@ -198,40 +253,48 @@ export async function skillRoll({
   const actor = skill?.parent;
   const actorData = actor?.system as SmtCharacterDataModel;
   const token = skill?.parent?.token;
-  if (!skill || !actorData) {
+  if (!skill) {
     return ui.notifications.error("Malformed data in skillRoll");
   }
 
-  const skillData = skill.system;
+  if (!actorData) {
+    return ui.notifications.error("Missing actorData in skillRoll");
+  }
 
   const skillName = skill.name;
+  const skillData = skill.system;
+
   const baseTN = skillData.tn + skillData.tnMod;
   const hasCritBoost = skillData.hasCritBoost;
   const autoFailThreshold = skillData.autoFailThreshold;
 
-  const checkLabel = game.i18n.format("SMT.dice.skillCheckLabel", {
-    rollName: skillName,
+  const baseRollName = game.i18n.format("SMT.dice.skillCheckLabel", {
+    checkName: skillName,
     tn: `${baseTN}`,
   });
 
   const hint = game.i18n.localize("SMT.dice.modifierHint");
 
   const { mod, cancelled, critBoost } = showDialog
-    ? await successModDialog(checkLabel, hint, hasCritBoost)
+    ? await renderSuccessModDialog({
+        checkName: baseRollName,
+        hint,
+        hasCritBoost,
+      })
     : { mod: 0, cancelled: false, critBoost: hasCritBoost };
 
   if (cancelled) return;
 
   const tn = baseTN + (mod ?? 0);
 
-  const rollName = game.i18n.format("SMT.dice.skillCheckLabel", {
-    rollName: skillName,
+  const checkName = game.i18n.format("SMT.dice.skillCheckLabel", {
+    checkName: skillName,
     tn: `${tn}`,
   });
 
-  const htmlParts = [`<p>${rollName}</p>`];
+  const htmlParts = [`<p>${checkName}</p>`];
 
-  const { resultLabel, roll } = await successRoll({
+  const { resultLabel, roll } = await oldSuccessRoll({
     tn,
     critBoost,
     autoFailThreshold,
