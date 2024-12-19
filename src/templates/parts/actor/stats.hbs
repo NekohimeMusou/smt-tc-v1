@@ -28,7 +28,7 @@
       {{#each system.stats}}
       <li class="item flexrow">
         {{!-- Stat Name --}}
-        <div class="item-prop">{{localize (concat "SMT.statShort." @key)}}</div>
+        <div class="item-prop">{{localize (concat "SMT.tn." @key)}}</div>
         {{!-- Base --}}
         <div class="item-prop"><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
             data-dtype="Number" /></div>
@@ -46,13 +46,13 @@
             data-dtype="Number" disabled />
         </div>
         {{!-- Stat TN --}}
-        <div class="item-prop roll-highlight roll-stat-tn" data-roll-type="tn" data-stat="{{@key}}">{{tn}}%</div>
+        <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{tn}}%</div>
         {{!-- Special TN label --}}
         <div class="item-prop item-name flex2">{{localize (concat "SMT.specialTN." @key)}}</div>
         {{!-- Special TN formula --}}
         <div class="item-prop">{{localize (concat "SMT.specialTNFormula." @key)}}</div>
         {{!-- Special TN --}}
-        <div class="item-prop roll-highlight roll-stat-tn" data-roll-type="specialTN" data-stat="{{@key}}">
+        <div class="item-prop roll-highlight roll-stat" data-tn-type="specialTN" data-accuracy-stat="{{@key}}">
           {{specialTN}}%
         </div>
       </li>

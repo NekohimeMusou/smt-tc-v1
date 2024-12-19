@@ -4,6 +4,11 @@ export function skillFields() {
   const fields = foundry.data.fields;
 
   return {
+    cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+    costType: new fields.StringField({
+      choices: SMT.skillCostTypes,
+      initial: "hp",
+    }),
     // Inheritance traits (Wing, Breath, etc)
     inheritanceTraits: new fields.StringField(),
     // Phys attack, magic attack, or spell
@@ -33,7 +38,7 @@ export function skillFields() {
     ailmentRate: new fields.NumberField({ integer: true, initial: 0 }),
     hasCritBoost: new fields.BooleanField({ initial: false }),
     // To be shown in chat card with rolls
-    effect: new fields.HTMLField(),
+    effect: new fields.StringField(),
     basicStrike: new fields.BooleanField({ initial: false }),
     ammo: new fields.SchemaField({
       min: new fields.NumberField({ integer: true, initial: 0 }),

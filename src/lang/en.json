@@ -23,7 +23,7 @@
       "lu": "Luck",
       "auto": "Auto"
     },
-    "statShort": {
+    "tn": {
       "st": "St",
       "ma": "Ma",
       "vi": "Vi",
@@ -173,20 +173,21 @@
       "ammo": "Ammo"
     },
     "dice": {
-      "result": {
-        "success": "Success!",
-        "fail": "Failure!",
-        "autofail": "Autofail! ({threshold}-99)",
-        "crit": "CRITICAL SUCCESS!",
-        "fumble": "FUMBLE!",
-        "autoSuccess": "Success (Auto)!"
-      },
-      "checkMsg": "{rollName} check ({tn}%)",
-      "autoCheckMsg": "{rollName} check (Auto)",
+      "checkLabel": "{rollName}: TN {tn}%",
+      "statCheckMsg": "{stat} Check: TN {tn}%",
+      "autoCheckLabel": "{rollName}: Auto",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power} {affinity} ({atkCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll."
+    },
+    "diceResult": {
+      "success": "Success!",
+      "fail": "Failure!",
+      "autofail": "Autofail! ({threshold}-99)",
+      "crit": "CRITICAL SUCCESS!",
+      "fumble": "FUMBLE!",
+      "autoSuccess": "Auto Success!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",

@@ -70,6 +70,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       notes: new fields.HTMLField(),
       hpMultiplier: new fields.NumberField({ integer: true }),
       mpMultiplier: new fields.NumberField({ integer: true }),
+      autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
       stats,
       tn,
       power,

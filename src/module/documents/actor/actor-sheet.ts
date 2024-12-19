@@ -1,5 +1,10 @@
 import { SMT } from "../../config/config.js";
-import { powerRoll, successRoll } from "../../helpers/dice.js";
+import {
+  oldPowerRoll,
+  oldSuccessRoll,
+  skillRoll,
+  statRoll,
+} from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
@@ -64,7 +69,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     if (!this.isEditable) return;
 
     // Stat TN roll
-    html.find(".roll-stat-tn").on("click", this.#onStatRoll.bind(this));
+    html.find(".roll-stat").on("click", this.#onStatRoll.bind(this));
 
     // Power roll
     html.find(".roll-power").on("click", this.#onPowerRoll.bind(this));
@@ -102,7 +107,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    return await successRoll({
+    return await oldSuccessRoll({
       rollName,
       token: this.actor.token,
       actor: this.actor,
@@ -122,7 +127,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    return await powerRoll({
+    return await oldPowerRoll({
       rollName,
       token: this.actor.token,
       actor: this.actor,
@@ -137,14 +142,64 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     event.preventDefault();
 
     const target = $(event.currentTarget);
-    const itemId = target.closest(".item").data("itemId") as string;
-    const skill = this.actor.items.get(itemId);
+    const { itemId, tnType, accuracyStat }: SkillRollData = target
+      .closest(".item")
+      .data();
+    const showDialog =
+      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    if (skill == undefined) {
-      return ui.notifications.error("Invalid skill data in #onSkillRoll");
+    if (tnType && accuracyStat) {
+      // It's a stat roll off the sheet
+      // Roll name should be like:
+      // St Check: TN XX%
+      // Dodge:  TN XX%
+      // Save: TN XX%
+      const rollLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
+      // Final rollName to pass to function
+      const rollName = game.i18n.format("SMT.dice.statCheckMsg", {
+        rollLabel,
+        tn: `${this.actor.system.stats[accuracyStat][tnType]}`,
+      });
+
+      const baseTn = this.actor.system.stats[accuracyStat][tnType];
+      const actor = this.actor;
+      const token = actor.token;
+      const targets = Array.from(
+        game.user.targets.values(),
+      ) as Token<SmtActor>[];
+
+      return skillRoll({
+        rollName,
+        accuracyStat,
+        baseTn,
+        showDialog,
+        actor,
+        token,
+        targets,
+      });
     }
 
+    // Otherwise, it's hopefully a skill
+    const skill = this.actor.items.get(itemId ?? "");
 
+    if (!skill) return;
+  }
+
+  async #onSheetStatRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+    const target = $(event.currentTarget);
+
+    const { tnType, accuracyStat } = target.data() as StatRollFormData;
+    const showDialog =
+      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
+
+    await statRoll(
+      this.actor,
+      this.actor.token,
+      tnType,
+      accuracyStat,
+      showDialog,
+    );
   }
 
   // /**
@@ -191,4 +246,16 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   //   item.delete();
   //   li.slideUp(200, () => this.render(false));
   // }
+}
+
+interface SkillRollData {
+  itemId?: string;
+  tnType?: StatRollTNType;
+  accuracyStat?: CharacterStat;
+  statValue?: number;
+}
+
+interface StatRollFormData {
+  tnType: StatRollTNType;
+  accuracyStat: CharacterStat;
 }
