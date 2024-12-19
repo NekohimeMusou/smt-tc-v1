@@ -1,4 +1,3 @@
-import { SmtCharacterDataModel } from "../data-models/actor/actor-data-model.js";
 import { SmtActor } from "../documents/actor/actor.js";
 import { SmtItem } from "../documents/item/item.js";
 
@@ -20,10 +19,29 @@ interface ResultLabelOptions {
   autoFailThreshold?: number;
 }
 
-// interface AilmentData {
-//   name: Ailment;
-//   accuracy: number;
-// }
+interface RollResultData {
+  htmlParts: string[];
+  rolls: Roll[];
+}
+
+interface AilmentData {
+  name: Ailment;
+  rate: number;
+}
+
+interface SkillRollData {
+  skill?: SmtItem;
+  targets?: Token<SmtActor>[];
+  showDialog?: boolean;
+}
+
+interface PowerRollData {
+  power?: number;
+  powerBoost?: boolean;
+  physMagCategory?: PhysMagCategory;
+  affinity?: Affinity;
+  showDialog?: boolean;
+}
 
 function getResultLabel({
   rollTotal = 100,
@@ -39,7 +57,7 @@ function getResultLabel({
     });
   } else if (rollTotal <= critThreshold) {
     const critMsg = game.i18n.localize("SMT.diceResult.crit");
-    const critHint = game.i18n.localize("SMT.diceResult.critHint");
+    const critHint = game.i18n.localize("SMT.dice.critHint");
     return `<div class=flexcol><div>${critMsg}</div><div>${critHint}</div></div>`;
   } else if (rollTotal <= tn) {
     return game.i18n.localize("SMT.diceResult.success");
@@ -101,13 +119,6 @@ async function renderSuccessModDialog({
   );
 }
 
-interface OldSuccessRollData {
-  checkName?: string;
-  tn?: number;
-  critBoost?: boolean;
-  autoFailThreshold?: number;
-}
-
 interface SuccessRollData {
   checkName?: string;
   baseTN?: number;
@@ -124,11 +135,11 @@ interface SuccessRollData {
 // Expects a name like "Heat Wave" or "St Check"; adds other stuff around it
 async function successRoll({
   checkName = "",
-  hasCritBoost = false,
-  baseTN = 1,
   showDialog = false,
+  baseTN = 1,
+  hasCritBoost = false,
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
-}: SuccessRollData = {}) {
+}: SuccessRollData = {}): Promise<RollResultData> {
   const dialogCheckLabel = game.i18n.format("SMT.skillCheckLabel", {
     checkName,
     tn: `${baseTN}`,
@@ -175,25 +186,139 @@ async function successRoll({
   };
 }
 
-// Returns result label and roll
-async function oldSuccessRoll({
-  tn = 1,
-  critBoost = false,
-  autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
-}: OldSuccessRollData = {}): Promise<{ resultLabel: string; roll: Roll }> {
-  const critDivisor = critBoost ? 5 : 10;
-  const critThreshold = tn / critDivisor;
+async function basicPowerRoll({
+  power = 0,
+  powerBoost = false,
+  physMagCategory = "phys",
+  affinity = "phys",
+}: PowerRollData = {}) {
+  const rollString = `${powerBoost ? 2 : 1}d10x + ${power}`;
 
-  const roll = await new Roll("1d100").roll();
+  const roll = await new Roll(rollString).roll();
 
-  const resultLabel = getResultLabel({
-    rollTotal: roll.total,
-    tn,
-    critThreshold,
-    autoFailThreshold,
+  const resultMsg = game.i18n.format("SMT.dice.powerChatCardMsg", {
+    power: `${roll.total}`,
+    affinity,
+    physMagCategory,
   });
 
-  return { resultLabel, roll };
+  const htmlParts = [`<p>${resultMsg}</p>`, await roll.render()];
+
+  return {
+    htmlParts,
+    rolls: [roll],
+  };
+}
+
+interface AilmentRollData {
+  name?: string;
+  rate?: number;
+}
+
+// Poison: {rollTotal} vs. {tn}%
+// Inflicted Poison!
+export async function ailmentRoll({
+  name = "none",
+  rate = 0,
+}: AilmentRollData = {}): Promise<RollResultData> {
+  const ailmentLabel = game.i18n.localize(`SMT.ailments.${name}`);
+  const roll = await new Roll("1d100").roll();
+  const rollMsg = game.i18n.format("SMT.dice.ailmentRollMsg", {
+    name: ailmentLabel,
+    rollTotal: `${roll.total}`,
+    rate: `${rate}`,
+  });
+
+  const htmlParts = [`<p>${rollMsg}</p>`, await roll.render()];
+
+  return {
+    htmlParts,
+    rolls: [roll],
+  };
+}
+
+export async function skillRoll({
+  skill,
+  targets = [],
+  showDialog = false,
+}: SkillRollData = {}) {
+  if (!skill) return;
+
+  const skillData = skill.system;
+  const checkName = skill.name;
+  const baseTN = skillData.tn + skillData.tnMod;
+  const hasCritBoost = skillData.hasCritBoost;
+  const autoFailThreshold = skillData.autoFailThreshold;
+
+  const htmlParts: string[] = [];
+  const rolls: Roll[] = [];
+
+  const successRollResult = await successRoll({
+    checkName,
+    hasCritBoost,
+    baseTN,
+    autoFailThreshold,
+    showDialog,
+  });
+
+  htmlParts.push(...successRollResult.htmlParts);
+  rolls.push(...successRollResult.rolls);
+
+  if (skillData.isAttack) {
+    const power = skillData.power;
+    const powerBoost = skillData.hasPowerBoost;
+    const physMagCategory = skillData.physMagCategory;
+    const affinity = skillData.affinity;
+    const ailment: AilmentData = skillData.ailment as AilmentData;
+
+    if (targets.length > 0) {
+      // Roll dodge against each target, then power + ailment against failed dodges
+    } else {
+      if (!skillData.ailmentOnly) {
+        // Roll a straight power roll
+        const powerRollResult = await basicPowerRoll({
+          power,
+          powerBoost,
+          physMagCategory,
+          affinity,
+        });
+
+        htmlParts.push(...powerRollResult.htmlParts);
+        rolls.push(...powerRollResult.rolls);
+      }
+
+      if (ailment.name !== "none") {
+        const ailmentRollResult = await ailmentRoll({
+          name: ailment.name,
+          rate: ailment.rate,
+        });
+
+        htmlParts.push(...ailmentRollResult.htmlParts);
+        rolls.push(...ailmentRollResult.rolls);
+      }
+    }
+  }
+
+  // If there's an ailment roll, make it
+
+  const actor = skill.system.actor;
+
+  const token = actor.token;
+
+  const content = htmlParts.join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      scene: game.scenes.current,
+      actor,
+      token,
+    },
+    rolls,
+  };
+
+  return await ChatMessage.create(chatData);
 }
 
 // For direct TN rolls off the sheet (e.g. Lu checks, Save checks)
@@ -235,84 +360,6 @@ export async function statRoll(
       actor,
     },
     rolls,
-  };
-
-  return await ChatMessage.create(chatData);
-}
-
-interface SkillRollData {
-  skill?: SmtItem;
-  showDialog?: boolean;
-}
-
-// TODO: Refactor to use the new successRoll
-export async function skillRoll({
-  skill,
-  showDialog = false,
-}: SkillRollData = {}) {
-  const actor = skill?.parent;
-  const actorData = actor?.system as SmtCharacterDataModel;
-  const token = skill?.parent?.token;
-  if (!skill) {
-    return ui.notifications.error("Malformed data in skillRoll");
-  }
-
-  if (!actorData) {
-    return ui.notifications.error("Missing actorData in skillRoll");
-  }
-
-  const skillName = skill.name;
-  const skillData = skill.system;
-
-  const baseTN = skillData.tn + skillData.tnMod;
-  const hasCritBoost = skillData.hasCritBoost;
-  const autoFailThreshold = skillData.autoFailThreshold;
-
-  const baseRollName = game.i18n.format("SMT.dice.skillCheckLabel", {
-    checkName: skillName,
-    tn: `${baseTN}`,
-  });
-
-  const hint = game.i18n.localize("SMT.dice.modifierHint");
-
-  const { mod, cancelled, critBoost } = showDialog
-    ? await renderSuccessModDialog({
-        checkName: baseRollName,
-        hint,
-        hasCritBoost,
-      })
-    : { mod: 0, cancelled: false, critBoost: hasCritBoost };
-
-  if (cancelled) return;
-
-  const tn = baseTN + (mod ?? 0);
-
-  const checkName = game.i18n.format("SMT.dice.skillCheckLabel", {
-    checkName: skillName,
-    tn: `${tn}`,
-  });
-
-  const htmlParts = [`<p>${checkName}</p>`];
-
-  const { resultLabel, roll } = await oldSuccessRoll({
-    tn,
-    critBoost,
-    autoFailThreshold,
-  });
-
-  htmlParts.push(`<h3>${resultLabel}</h3>`, await roll.render());
-
-  const content = htmlParts.join("\n");
-
-  const chatData = {
-    user: game.user.id,
-    content,
-    speaker: {
-      scene: game.scenes.current,
-      token,
-      actor,
-    },
-    rolls: [roll],
   };
 
   return await ChatMessage.create(chatData);

@@ -2,7 +2,7 @@ declare global {
   type CharacterClass = keyof typeof charClasses;
   type CharacterStat = keyof typeof stats;
   type SuccessRollCategory = (typeof successRollCategories)[number];
-  type AttackCategory = keyof typeof attackCategories;
+  type AttackCategory = keyof typeof physMagCategories;
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
@@ -13,6 +13,7 @@ declare global {
   type AccuracyStat = keyof typeof accuracyStats;
   type StatRollTNType = (typeof sheetRollTNTypes)[number];
   type DiceRollResult = keyof typeof diceRollResults;
+  type PhysMagCategory = keyof typeof physMagCategories;
 }
 
 const sheetRollTNTypes = ["tn", "specialTN"] as const;
@@ -57,9 +58,9 @@ const accuracyStats = {
   auto: "SMT.stats.auto",
 } as const;
 
-const attackCategories = {
-  phys: "SMT.atkCategory.phys",
-  mag: "SMT.atkCategory.mag",
+const physMagCategories = {
+  phys: "SMT.physMagCategory.phys",
+  mag: "SMT.physMagCategory.mag",
 } as const;
 
 const affinities = {
@@ -78,8 +79,6 @@ const affinities = {
   healing: "SMT.affinities.healing",
   support: "SMT.affinities.support",
   unique: "SMT.affinities.unique",
-  // For Base Magic Power rolls off sheets
-  mag: "SMT.affinities.mag",
 } as const;
 
 const skillAffinities = {
@@ -112,6 +111,7 @@ const ailments = {
   panic: "SMT.ailments.panic",
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
+  none: "SMT.ailments.none",
 } as const;
 
 const inheritanceTraits = {
@@ -167,7 +167,7 @@ export const SMT = {
   charClasses,
   stats,
   accuracyStats,
-  attackCategories,
+  physMagCategories,
   affinities,
   skillAffinities,
   ailments,

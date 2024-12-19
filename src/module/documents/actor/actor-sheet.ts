@@ -87,18 +87,22 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   async #onSkillRoll(event: JQuery.ClickEvent) {
     event.preventDefault();
 
-    const target = $(event.currentTarget);
-    const itemId = target.closest(".item").data("itemId") as string;
+    const itemId = $(event.currentTarget)
+      .closest(".item")
+      .data("itemId") as string;
+
     const skill = this.actor.items.get(itemId);
 
     if (!skill) {
       return ui.notifications.error("Malformed data in #onSkillRoll");
     }
 
+    const targets = Array.from(game.user.targets) as Token<SmtActor>[];
+
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    await skillRoll({ skill, showDialog });
+    await skillRoll({ skill, targets, showDialog });
   }
 
   async #onStatRoll(event: JQuery.ClickEvent) {

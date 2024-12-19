@@ -37,6 +37,23 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return this.actor?.system.autoFailThreshold;
   }
 
+  get physMagCategory(): PhysMagCategory {
+    return this.#systemData.powerCategory === "mag" ? "mag" : "phys";
+  }
+
+  get hasPowerBoost(): boolean {
+    const actor = this.parent?.parent as SmtActor;
+    const data = this.#systemData;
+
+    const isPhysicalAttack: boolean = data.powerCategory !== "mag";
+    const isMagicAttack = !isPhysicalAttack;
+
+    return (
+      (isPhysicalAttack && actor.system.mods.powerfulStrikes) ||
+      (isMagicAttack && actor.system.mods.powerfulSpells)
+    );
+  }
+
   get actor() {
     return this.parent?.parent as SmtActor;
   }

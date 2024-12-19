@@ -65,8 +65,7 @@
       "healing": "Healing",
       "unique": "Unique",
       "support": "Support",
-      "ailment": "Ailment",
-      "mag": "Magic"
+      "ailment": "Ailment"
     },
     "ailments": {
       "stone": "Stone",
@@ -96,7 +95,7 @@
       "skill": "Skill",
       "weapon": "Weapon"
     },
-    "atkCategory": {
+    "physMagCategory": {
       "phys": "Phys",
       "mag": "Mag"
     },
@@ -177,9 +176,11 @@
       "statCheckLabel": "{stat} Check",
       "autoCheckLabel": "{rollName}: Auto",
       "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power} {affinity} ({atkCategory})",
+      "powerChatCardMsg": "Power: {power} {affinity} ({physMagCategory})",
       "modifier": "Modifier",
-      "modifierHint": "Modifiers apply to the TN, not the die roll."
+      "modifierHint": "Modifiers apply to the TN, not the die roll.",
+      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
+      "critHint": "Double damage and ailment rate (after resists)"
     },
     "diceResult": {
       "success": "Success!",

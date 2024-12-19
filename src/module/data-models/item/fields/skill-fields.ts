@@ -4,6 +4,9 @@ export function skillFields() {
   const fields = foundry.data.fields;
 
   return {
+    isAttack: new fields.BooleanField({ initial: true }),
+    ailmentOnly: new fields.BooleanField({ initial: false }),
+    hasPowerRoll: new fields.BooleanField({ initial: true }),
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     costType: new fields.StringField({
       choices: SMT.skillCostTypes,
@@ -34,8 +37,10 @@ export function skillFields() {
     power: new fields.NumberField({ integer: true }),
     tn: new fields.NumberField({ integer: true }),
     tnMod: new fields.NumberField({ integer: true, initial: 0 }),
-    ailment: new fields.StringField({ choices: SMT.ailments, blank: true }),
-    ailmentRate: new fields.NumberField({ integer: true, initial: 0 }),
+    ailment: new fields.SchemaField({
+      name: new fields.StringField({ choices: SMT.ailments, initial: "none" }),
+      rate: new fields.NumberField({ integer: true, initial: 0 }),
+    }),
     hasCritBoost: new fields.BooleanField({ initial: false }),
     // To be shown in chat card with rolls
     effect: new fields.StringField(),

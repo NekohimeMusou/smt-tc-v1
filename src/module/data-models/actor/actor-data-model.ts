@@ -111,7 +111,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     // @ts-expect-error This field isn't readonly
     data.hpMultiplier = isHuman ? 4 : 6;
     // @ts-expect-error This field isn't readonly
-    data.mpMultiplier = isHuman ? 2 : 4;
+    data.mpMultiplier = isHuman ? 2 : 3;
 
     // Calculate HP/MP/FP max
     data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
