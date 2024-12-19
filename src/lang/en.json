@@ -173,7 +173,7 @@
       "ammo": "Ammo"
     },
     "dice": {
-      "checkLabel": "{rollName}: TN {tn}%",
+      "skillCheckLabel": "{rollName}: TN {tn}%",
       "statCheckMsg": "{checkName} Check: TN {tn}%",
       "autoCheckLabel": "{rollName}: Auto",
       "powerDialogMsg": "Power: {name}",

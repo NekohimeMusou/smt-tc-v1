@@ -1,5 +1,5 @@
 import { SMT } from "../../config/config.js";
-import { statRoll } from "../../helpers/dice.js";
+import { skillRoll, statRoll } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
 interface StatRollFormData {
@@ -71,6 +71,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Stat TN roll
     html.find(".roll-stat").on("click", this.#onStatRoll.bind(this));
 
+    // Skill roll
+    html.find(".roll-skill").on("click", this.#onSkillRoll.bind(this));
+
     // Add Inventory Item
     // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
 
@@ -79,6 +82,23 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     // Active Effect management
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
+  }
+
+  async #onSkillRoll(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const target = $(event.currentTarget);
+    const itemId = target.closest(".item").data("itemId") as string;
+    const skill = this.actor.items.get(itemId);
+
+    if (!skill) {
+      return ui.notifications.error("Malformed data in #onSkillRoll");
+    }
+
+    const showDialog =
+      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
+
+    await skillRoll({ skill, showDialog });
   }
 
   async #onStatRoll(event: JQuery.ClickEvent) {

@@ -1,4 +1,6 @@
+import { SmtCharacterDataModel } from "../data-models/actor/actor-data-model.js";
 import { SmtActor } from "../documents/actor/actor.js";
+import { SmtItem } from "../documents/item/item.js";
 
 interface ModElement extends HTMLElement {
   mod?: { value?: string };
@@ -128,11 +130,12 @@ export async function statRoll(
   tnType: StatRollTNType,
   accuracyStat: CharacterStat,
   showDialog: boolean,
-  hasCritBoost = false,
 ) {
   const data = actor.system;
   const baseTn = data.stats[accuracyStat][tnType];
   const autoFailThreshold = data.autoFailThreshold;
+  // Straight stat rolls generally don't have a crit boost
+  const hasCritBoost = false;
 
   // Label to show in dialog box
   const checkName = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
@@ -154,6 +157,75 @@ export async function statRoll(
   // e.g. "St Check: TN 38%""
   const rollName = game.i18n.format("SMT.dice.statCheckMsg", {
     checkName,
+    tn: `${tn}`,
+  });
+
+  const htmlParts = [`<p>${rollName}</p>`];
+
+  const { resultLabel, roll } = await successRoll({
+    tn,
+    critBoost,
+    autoFailThreshold,
+  });
+
+  htmlParts.push(`<h3>${resultLabel}</h3>`, await roll.render());
+
+  const content = htmlParts.join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      scene: game.scenes.current,
+      token,
+      actor,
+    },
+    rolls: [roll],
+  };
+
+  return await ChatMessage.create(chatData);
+}
+
+interface SkillRollData {
+  skill?: SmtItem;
+  showDialog?: boolean;
+}
+
+export async function skillRoll({
+  skill,
+  showDialog = false,
+}: SkillRollData = {}) {
+  const actor = skill?.parent;
+  const actorData = actor?.system as SmtCharacterDataModel;
+  const token = skill?.parent?.token;
+  if (!skill || !actorData) {
+    return ui.notifications.error("Malformed data in skillRoll");
+  }
+
+  const skillData = skill.system;
+
+  const skillName = skill.name;
+  const baseTN = skillData.tn + skillData.tnMod;
+  const hasCritBoost = skillData.hasCritBoost;
+  const autoFailThreshold = skillData.autoFailThreshold;
+
+  const checkLabel = game.i18n.format("SMT.dice.skillCheckLabel", {
+    rollName: skillName,
+    tn: `${baseTN}`,
+  });
+
+  const hint = game.i18n.localize("SMT.dice.modifierHint");
+
+  const { mod, cancelled, critBoost } = showDialog
+    ? await successModDialog(checkLabel, hint, hasCritBoost)
+    : { mod: 0, cancelled: false, critBoost: hasCritBoost };
+
+  if (cancelled) return;
+
+  const tn = baseTN + (mod ?? 0);
+
+  const rollName = game.i18n.format("SMT.dice.skillCheckLabel", {
+    rollName: skillName,
     tn: `${tn}`,
   });
 

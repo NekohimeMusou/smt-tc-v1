@@ -33,6 +33,14 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     data.power = data.potency + data.basePower;
   }
 
+  get autoFailThreshold(): number {
+    return this.actor?.system.autoFailThreshold;
+  }
+
+  get actor() {
+    return this.parent?.parent as SmtActor;
+  }
+
   // Typescript-related hack
   get #systemData() {
     return this as this & SmtItem["system"];
