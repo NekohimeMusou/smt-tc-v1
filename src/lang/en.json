@@ -175,20 +175,49 @@
       "skillCheckLabel": "{checkName}: TN {tn}%",
       "statCheckLabel": "{stat} Check",
       "autoCheckLabel": "{rollName}: Auto",
+      "dodgeCheckLabel": "{character} Dodge TN: {tn}%",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power} {affinity} ({physMagCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
-      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
-      "critHint": "Double damage and ailment rate (after resists)"
+      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%"
+    },
+    "diceHint": {
+      "toHit": {
+        "crit": "Double damage and ailment rate (after resists)"
+      }
+    },
+    "rollEffect": {
+      "hit": {
+        "crit": "Double damage and ailment rate (after resists)",
+        "fumble": "Hit yourself and/or allies"
+      },
+      "dodge": {
+        "crit": "Negate a critical hit",
+        "fumble": "Double damage and negate resistances"
+      },
+      "negotiation": {
+        "crit": "Effect depends on negotiation stage",
+        "fumble": "Target is enraged and combat ensues."
+      },
+      "save": {
+        "crit": "No extra effect",
+        "fumble": "Ailment remains; HP and MP are halved"
+      },
+      "other": {
+        "crit": "Good things happen (GM's discretion)",
+        "fumble": "Bad things happen (GM's discretion)"
+      }
     },
     "diceResult": {
       "success": "Success!",
-      "fail": "Failure!",
+      "fail": "Failed!",
       "autofail": "Autofail! ({threshold}-99)",
-      "crit": "CRITICAL SUCCESS!",
-      "fumble": "FUMBLE!",
-      "autoSuccess": "Auto Success!"
+      "crit": "Critical success!",
+      "fumble": "Fumble!",
+      "autoSuccess": "Auto Success!",
+      "dodge": "Dodged!",
+      "critDodge": "Critical dodge!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",

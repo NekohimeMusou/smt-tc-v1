@@ -14,6 +14,7 @@ declare global {
   type StatRollTNType = (typeof sheetRollTNTypes)[number];
   type DiceRollResult = keyof typeof diceRollResults;
   type PhysMagCategory = keyof typeof physMagCategories;
+  type RollEffectType = (typeof rollEffectTypes)[number];
 }
 
 const sheetRollTNTypes = ["tn", "specialTN"] as const;
@@ -28,6 +29,14 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/skills.hbs",
   "systems/smt-tc/templates/parts/item/header.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
+] as const;
+
+const rollEffectTypes = [
+  "hit",
+  "dodge",
+  "negotiation",
+  "save",
+  "other",
 ] as const;
 
 const itemTypes = {
@@ -181,5 +190,6 @@ export const SMT = {
   templatePaths,
   sheetRollTNTypes,
   diceRollResults,
+  rollEffectTypes,
   defaultAutofailThreshold: 96,
 } as const;

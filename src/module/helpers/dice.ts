@@ -24,6 +24,9 @@ interface RollResultData {
   rolls: Roll[];
 }
 
+interface DodgeRollResultData extends RollResultData {
+  dodged?: boolean;
+}
 interface AilmentData {
   name: Ailment;
   rate: number;
@@ -43,27 +46,49 @@ interface PowerRollData {
   showDialog?: boolean;
 }
 
-function getResultLabel({
+function getResult({
   rollTotal = 100,
   tn = 1,
   critThreshold = 1,
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
-}: ResultLabelOptions = {}) {
+}: ResultLabelOptions = {}): DiceRollResult {
   if (rollTotal >= 100) {
-    return game.i18n.localize("SMT.diceResult.fumble");
+    return "fumble";
   } else if (rollTotal >= autoFailThreshold) {
-    return game.i18n.format("SMT.diceResult.autofail", {
-      threshold: `${autoFailThreshold}`,
-    });
+    return "autofail";
   } else if (rollTotal <= critThreshold) {
-    const critMsg = game.i18n.localize("SMT.diceResult.crit");
-    const critHint = game.i18n.localize("SMT.dice.critHint");
-    return `<div class=flexcol><div>${critMsg}</div><div>${critHint}</div></div>`;
+    return "crit";
   } else if (rollTotal <= tn) {
-    return game.i18n.localize("SMT.diceResult.success");
+    return "success";
   }
 
-  return game.i18n.localize("SMT.diceResult.fail");
+  return "fail";
+}
+
+function getResultLabel(result: DiceRollResult, effectType: RollEffectType) {
+  // const result = getResult({ rollTotal, tn, critThreshold, autoFailThreshold, effectType });
+
+  let resultName: DiceRollResult | "dodge" | "critDodge" = result;
+
+  if (effectType === "dodge") {
+    if (result === "success" || result === "autoSuccess") {
+      resultName = "dodge";
+    } else if (result === "crit") {
+      resultName = "critDodge";
+    }
+  }
+
+  const resultHtml = [
+    `<div>${game.i18n.localize(`SMT.diceResult.${resultName}`)}</div>`,
+  ];
+
+  if (result === "crit" || result === "fumble") {
+    // Add an extra hint
+    const hintLoc = `SMT.${effectType}.${result}`;
+    resultHtml.push(`<div>${game.i18n.localize(hintLoc)}</div>`);
+  }
+
+  return resultHtml.join("\n");
 }
 
 interface ModDialogData {
@@ -126,6 +151,7 @@ interface SuccessRollData {
   autoFailThreshold?: number;
   isStatCheck?: boolean;
   showDialog?: boolean;
+  effectType?: RollEffectType;
 }
 
 // 1) Form original roll name w/ unmodified TN
@@ -139,6 +165,7 @@ async function successRoll({
   baseTN = 1,
   hasCritBoost = false,
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
+  effectType = "hit",
 }: SuccessRollData = {}): Promise<RollResultData> {
   const dialogCheckLabel = game.i18n.format("SMT.skillCheckLabel", {
     checkName,
@@ -165,16 +192,18 @@ async function successRoll({
     tn: `${tn}`,
   });
 
-  const critDivisor = critBoost ? 5 : 10;
-  const critThreshold = tn / critDivisor;
+  const critThreshold = getCritThreshold(tn, critBoost ?? false);
   const roll = await new Roll("1d100").roll();
 
-  const resultLabel = getResultLabel({
-    rollTotal: roll.total,
-    tn,
-    critThreshold,
-    autoFailThreshold,
-  });
+  const resultLabel = getResultLabel(
+    getResult({
+      rollTotal: roll.total,
+      tn,
+      critThreshold,
+      autoFailThreshold,
+    }),
+    effectType,
+  );
 
   return {
     rolls: [roll],
@@ -237,6 +266,48 @@ export async function ailmentRoll({
   };
 }
 
+interface DodgeRollData {
+  characterName?: string;
+  tn?: number;
+  autoFailThreshold?: number;
+}
+
+// For internal dodges within skill rolls; may refactor later
+export async function dodgeRoll({
+  characterName = "",
+  tn = 1,
+  autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
+}: DodgeRollData = {}): Promise<DodgeRollResultData> {
+  const checkLabel = game.i18n.format("SMT.dice.dodgeCheckLabel", {
+    character: characterName,
+    tn: `${tn}`,
+  });
+  const htmlParts = [`<div>${checkLabel}</div>`];
+
+  const roll = await new Roll("1d100").roll();
+
+  const critThreshold = getCritThreshold(tn, false);
+
+  const result = getResult({
+    rollTotal: roll.total,
+    tn,
+    critThreshold,
+    autoFailThreshold,
+  });
+
+  // e.g. Dodged!
+  const label = getResultLabel(result, "dodge");
+
+  htmlParts.push(`<div>${label}</div>`, await roll.render());
+
+  return {
+    htmlParts,
+    rolls: [roll],
+    dodged:
+      result === "success" || result === "autoSuccess" || result === "crit",
+  };
+}
+
 export async function skillRoll({
   skill,
   targets = [],
@@ -273,8 +344,36 @@ export async function skillRoll({
 
     if (targets.length > 0) {
       // Roll dodge against each target, then power + ailment against failed dodges
+
+      // Make a dodge and power and ailment roll (if applicable) for each target
+      for (const target of targets) {
+        // Make a dodge roll
+        const targetName = target.name;
+        const targetData = target.actor.system;
+        const dodgeTN = targetData.tn.dodge;
+
+        const dodgeRollResult = await dodgeRoll({
+          characterName: targetName,
+          tn: dodgeTN,
+          autoFailThreshold,
+        });
+
+        htmlParts.push(...dodgeRollResult.htmlParts);
+        rolls.push(...dodgeRollResult.rolls);
+
+        if (dodgeRollResult.dodged) break;
+
+        // Make power and/or ailment rolls if applicable
+        if (skillData.hasPowerRoll) {
+          // Make a power roll
+        }
+
+        if (skillData.ailment.name !== "none") {
+          // Make an ailment roll
+        }
+      }
     } else {
-      if (!skillData.ailmentOnly) {
+      if (skillData.hasPowerRoll) {
         // Roll a straight power roll
         const powerRollResult = await basicPowerRoll({
           power,
@@ -363,4 +462,9 @@ export async function statRoll(
   };
 
   return await ChatMessage.create(chatData);
+}
+
+function getCritThreshold(tn: number, critBoost: boolean) {
+  const divisor = critBoost ? 5 : 10;
+  return Math.max(Math.floor(tn / divisor), 1);
 }

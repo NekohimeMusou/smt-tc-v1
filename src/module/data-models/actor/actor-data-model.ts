@@ -6,8 +6,6 @@ import { generateStatSchema } from "./fields/stat-fields.js";
 const fields = foundry.data.fields;
 
 const tn = new fields.SchemaField({
-  basicStrike: new fields.NumberField({ integer: true }),
-  spell: new fields.NumberField({ integer: true }),
   save: new fields.NumberField({ integer: true }),
   dodge: new fields.NumberField({ integer: true }),
   negotiation: new fields.NumberField({ integer: true }),
@@ -39,7 +37,7 @@ const resources = {
 };
 
 const mods = new fields.SchemaField({
-  dodge: new fields.NumberField({ integer: true, initial: 0 }),
+  dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
   gun: new fields.NumberField({ integer: true, initial: 0 }),
   elementMultipliers: new fields.SchemaField({
     fire: new fields.NumberField({ positive: true, initial: 1 }),
@@ -96,12 +94,15 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
         case "ma": // Mag attack TN
         case "vi": // Save TN
           stat.specialTN = stat.tn;
+          data.tn.save = stat.tn;
           break;
         case "ag": // Dodge TN
           stat.specialTN = stat.value + 10;
+          data.tn.dodge = stat.specialTN + data.mods.dodgeBonus;
           break;
         case "lu": // Negotiation TN
           stat.specialTN = stat.value * 2 + 20;
+          data.tn.negotiation = stat.specialTN;
           break;
       }
     }

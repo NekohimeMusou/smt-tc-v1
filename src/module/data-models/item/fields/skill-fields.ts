@@ -5,7 +5,6 @@ export function skillFields() {
 
   return {
     isAttack: new fields.BooleanField({ initial: true }),
-    ailmentOnly: new fields.BooleanField({ initial: false }),
     hasPowerRoll: new fields.BooleanField({ initial: true }),
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     costType: new fields.StringField({
