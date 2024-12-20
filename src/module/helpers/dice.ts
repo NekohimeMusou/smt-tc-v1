@@ -38,14 +38,6 @@ interface SkillRollData {
   showDialog?: boolean;
 }
 
-interface PowerRollData {
-  power?: number;
-  powerBoost?: boolean;
-  physMagCategory?: PhysMagCategory;
-  affinity?: Affinity;
-  showDialog?: boolean;
-}
-
 function getResult({
   rollTotal = 100,
   tn = 1,
@@ -215,23 +207,75 @@ async function successRoll({
   };
 }
 
+interface PowerRollData {
+  power?: number;
+  powerBoost?: boolean;
+  physMagCategory?: PhysMagCategory;
+  affinity?: Affinity;
+  targeted?: boolean;
+  targetName?: string;
+  targetResist?: number;
+  targetAffinityLevel?: AffinityLevel;
+  pierce?: boolean;
+}
+
+// TODO: Crits deal double damage and ignore resistance
 async function basicPowerRoll({
   power = 0,
   powerBoost = false,
   physMagCategory = "phys",
   affinity = "phys",
-}: PowerRollData = {}) {
+  targeted = false,
+  targetName = "",
+  targetResist = 0,
+  targetAffinityLevel = "none",
+  pierce = false,
+}: PowerRollData = {}): Promise<RollResultData> {
   const rollString = `${powerBoost ? 2 : 1}d10x + ${power}`;
 
   const roll = await new Roll(rollString).roll();
 
-  const resultMsg = game.i18n.format("SMT.dice.powerChatCardMsg", {
-    power: `${roll.total}`,
-    affinity,
-    physMagCategory,
-  });
+  const htmlParts: string[] = [];
+  if (!targeted) {
+    const resultMsg = game.i18n.format("SMT.dice.powerChatCardMsg", {
+      power: `${roll.total}`,
+      affinity: game.i18n.localize(`SMT.affinities.${affinity}`),
+      physMagCategory,
+    });
 
-  const htmlParts = [`<p>${resultMsg}</p>`, await roll.render()];
+    htmlParts.push(`<p>${resultMsg}</p>`);
+  } else {
+    // Apply resist and affinity
+    let damage = Math.max(roll.total - targetResist, 0);
+
+    // If the target's affinity is normal, no need to do anything
+    if (targetAffinityLevel !== "none") {
+      const affinityMsg = game.i18n.localize(
+        `SMT.resistChatResult.${pierce ? "pierce" : targetAffinityLevel}`,
+      );
+      htmlParts.push(`<div>${affinityMsg}</div>`);
+
+      if (targetAffinityLevel === "resist" && !pierce) {
+        damage = Math.floor(damage / 2);
+      }
+
+      if (targetAffinityLevel === "weak") {
+        damage = damage * 2;
+      }
+    }
+    if (pierce || targetAffinityLevel !== "null") {
+      const damageMsg = game.i18n.format("SMT.dice.damageCardMsg", {
+        target: targetName,
+        damage: `${damage}`,
+        resist: `${targetResist}`,
+        physOrMag: game.i18n.localize(`SMT.physMagCategory.${physMagCategory}`),
+      });
+
+      htmlParts.push(`<div>${damageMsg}</div>`);
+    }
+  }
+
+  htmlParts.push(await roll.render());
 
   return {
     htmlParts,
@@ -366,6 +410,28 @@ export async function skillRoll({
         // Make power and/or ailment rolls if applicable
         if (skillData.hasPowerRoll) {
           // Make a power roll
+          const targetResist = targetData.resist[physMagCategory];
+          const targetAffinityLevel = targetData.affinities[affinity];
+          const pierce =
+            skillData.pierce &&
+            affinity === "phys" &&
+            (targetAffinityLevel === "drain" ||
+              targetAffinityLevel === "null" ||
+              targetAffinityLevel === "resist");
+
+          const powerRollResult = await basicPowerRoll({
+            power,
+            powerBoost,
+            physMagCategory,
+            affinity,
+            targeted: true,
+            targetResist,
+            targetAffinityLevel,
+            pierce,
+          });
+
+          htmlParts.push(...powerRollResult.htmlParts);
+          rolls.push(...powerRollResult.rolls);
         }
 
         if (skillData.ailment.name !== "none") {

@@ -15,6 +15,7 @@ declare global {
   type DiceRollResult = keyof typeof diceRollResults;
   type PhysMagCategory = keyof typeof physMagCategories;
   type RollEffectType = (typeof rollEffectTypes)[number];
+  type AffinityLevel = keyof typeof affinityLevels;
 }
 
 const sheetRollTNTypes = ["tn", "specialTN"] as const;
@@ -90,21 +91,13 @@ const affinities = {
   unique: "SMT.affinities.unique",
 } as const;
 
-const skillAffinities = {
-  phys: "SMT.affinities.phys",
-  fire: "SMT.affinities.fire",
-  ice: "SMT.affinities.ice",
-  elec: "SMT.affinities.elec",
-  force: "SMT.affinities.force",
-  light: "SMT.affinities.light",
-  dark: "SMT.affinities.dark",
-  mind: "SMT.affinities.mind",
-  nerve: "SMT.affinities.nerve",
-  ruin: "SMT.affinities.ruin",
-  almighty: "SMT.affinities.almighty",
-  healing: "SMT.affinities.healing",
-  support: "SMT.affinities.support",
-  unique: "SMT.affinities.unique",
+const affinityLevels = {
+  reflect: "SMT.affinityLevels.reflect",
+  drain: "SMT.affinityLevels.drain",
+  null: "SMT.affinityLevels.null",
+  resist: "SMT.affinityLevels.resist",
+  weak: "SMT.affinityLevels.weak",
+  none: "SMT.affinityLevels.none",
 } as const;
 
 const ailments = {
@@ -178,7 +171,7 @@ export const SMT = {
   accuracyStats,
   physMagCategories,
   affinities,
-  skillAffinities,
+  affinityLevels,
   ailments,
   inheritanceTraits,
   skillTypes,

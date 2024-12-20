@@ -67,6 +67,14 @@
       "support": "Support",
       "ailment": "Ailment"
     },
+    "affinityLevels": {
+      "reflect": "Reflect",
+      "drain": "Drain",
+      "null": "Null",
+      "resist": "Resist",
+      "weak": "Weak",
+      "none": "None"
+    },
     "ailments": {
       "stone": "Stone",
       "fly": "Fly",
@@ -180,12 +188,8 @@
       "powerChatCardMsg": "Power: {power} {affinity} ({physMagCategory})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
-      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%"
-    },
-    "diceHint": {
-      "toHit": {
-        "crit": "Double damage and ailment rate (after resists)"
-      }
+      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
+      "damageCardMsg": "{target}: {damage} Damage ({resist} {physOrMag} Resist)"
     },
     "rollEffect": {
       "hit": {
@@ -218,6 +222,14 @@
       "autoSuccess": "Auto Success!",
       "dodge": "Dodged!",
       "critDodge": "Critical dodge!"
+    },
+    "resistChatResult": {
+      "reflect": "REFLECT!",
+      "drain": "DRAIN!",
+      "null": "NULL!",
+      "resist": "Resist!",
+      "weak": "WEAK!",
+      "pierce": "PIERCE!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",

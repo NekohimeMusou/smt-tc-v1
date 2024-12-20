@@ -1,5 +1,3 @@
-import { SMT } from "../../../config/config.js";
-
 export function skillFields() {
   const fields = foundry.data.fields;
 
@@ -8,28 +6,31 @@ export function skillFields() {
     hasPowerRoll: new fields.BooleanField({ initial: true }),
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     costType: new fields.StringField({
-      choices: SMT.skillCostTypes,
+      choices: CONFIG.SMT.skillCostTypes,
       initial: "hp",
     }),
     // Inheritance traits (Wing, Breath, etc)
     inheritanceTraits: new fields.StringField(),
     // Phys attack, magic attack, or spell
     skillType: new fields.StringField({
-      choices: SMT.skillTypes,
+      choices: CONFIG.SMT.skillTypes,
       initial: "phys",
     }),
-    target: new fields.StringField({ choices: SMT.targets, initial: "one" }),
+    target: new fields.StringField({
+      choices: CONFIG.SMT.targets,
+      initial: "one",
+    }),
     affinity: new fields.StringField({
-      choices: SMT.affinities,
+      choices: CONFIG.SMT.affinities,
       initial: "phys",
     }),
     potency: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     accuracyStat: new fields.StringField({
-      choices: SMT.accuracyStats,
+      choices: CONFIG.SMT.accuracyStats,
       initial: "st",
     }),
     powerCategory: new fields.StringField({
-      choices: SMT.powerCategories,
+      choices: CONFIG.SMT.powerCategories,
       initial: "phys",
     }),
     basePower: new fields.NumberField({ integer: true }),
@@ -37,7 +38,10 @@ export function skillFields() {
     tn: new fields.NumberField({ integer: true }),
     tnMod: new fields.NumberField({ integer: true, initial: 0 }),
     ailment: new fields.SchemaField({
-      name: new fields.StringField({ choices: SMT.ailments, initial: "none" }),
+      name: new fields.StringField({
+        choices: CONFIG.SMT.ailments,
+        initial: "none",
+      }),
       rate: new fields.NumberField({ integer: true, initial: 0 }),
     }),
     hasCritBoost: new fields.BooleanField({ initial: false }),
@@ -50,5 +54,6 @@ export function skillFields() {
       // max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
       value: new fields.NumberField({ integer: true, initial: 0 }),
     }),
+    pierce: new fields.BooleanField({ initial: false }),
   } as const;
 }

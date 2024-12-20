@@ -52,6 +52,24 @@ const mods = new fields.SchemaField({
   // Might, Drain Attack, Attack All
 });
 
+const affinities = new fields.SchemaField({
+  phys: new fields.StringField({ choices: SMT.affinityLevels }),
+  fire: new fields.StringField({ choices: SMT.affinityLevels }),
+  ice: new fields.StringField({ choices: SMT.affinityLevels }),
+  elec: new fields.StringField({ choices: SMT.affinityLevels }),
+  force: new fields.StringField({ choices: SMT.affinityLevels }),
+  light: new fields.StringField({ choices: SMT.affinityLevels }),
+  dark: new fields.StringField({ choices: SMT.affinityLevels }),
+  mind: new fields.StringField({ choices: SMT.affinityLevels }),
+  nerve: new fields.StringField({ choices: SMT.affinityLevels }),
+  ruin: new fields.StringField({ choices: SMT.affinityLevels }),
+  almighty: new fields.StringField({ choices: SMT.affinityLevels }),
+  ailment: new fields.StringField({ choices: SMT.affinityLevels }),
+  healing: new fields.StringField({ choices: SMT.affinityLevels }),
+  support: new fields.StringField({ choices: SMT.affinityLevels }),
+  unique: new fields.StringField({ choices: SMT.affinityLevels }),
+});
+
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
@@ -69,6 +87,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       hpMultiplier: new fields.NumberField({ integer: true }),
       mpMultiplier: new fields.NumberField({ integer: true }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
+      affinities,
       stats,
       tn,
       power,
