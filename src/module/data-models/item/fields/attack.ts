@@ -6,8 +6,8 @@ export function attackDataFields() {
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
     // Temporary for compatibility
-    attackType: new fields.StringField({
-      choices: CONFIG.SMT.attackTypes,
+    powerType: new fields.StringField({
+      choices: CONFIG.SMT.powerTypes,
       initial: "phys",
     }),
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
@@ -34,10 +34,6 @@ export function attackDataFields() {
       initial: "phys",
     }),
     hasPowerRoll: new fields.BooleanField({ initial: true }),
-    powerStatType: new fields.StringField({
-      choices: CONFIG.SMT.powerStatTypes,
-      initial: "phys",
-    }),
     potency: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     tnMod: new fields.NumberField({ integer: true, initial: 0 }),
     ailment: new fields.SchemaField({
@@ -49,7 +45,6 @@ export function attackDataFields() {
     }),
     // Exclusively required for Deadly Fury. Doesn't stack with Might
     hasCritBoost: new fields.BooleanField({ initial: false }),
-    pierce: new fields.BooleanField({ initial: false }),
     canMultiAct: new fields.BooleanField({ initial: true }),
   } as const;
 }

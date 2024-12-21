@@ -17,6 +17,12 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     } as const;
   }
 
+  get damageType(): DamageType {
+    const data = this.#systemData;
+
+    return data.powerType === "mag" ? "mag" : "phys";
+  }
+
   get tn(): number {
     const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
@@ -30,7 +36,7 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
 
-    const basePower = actor.system.power[data.powerStatType];
+    const basePower = actor.system.power[data.damageType];
 
     return data.potency + basePower;
   }
@@ -40,15 +46,11 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return actor?.system.autoFailThreshold;
   }
 
-  get physMagCategory(): PhysMagCategory {
-    return this.#systemData.attackType === "mag" ? "mag" : "phys";
-  }
-
   get hasPowerBoost(): boolean {
     const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
 
-    const isPhysicalAttack: boolean = data.attackType !== "mag";
+    const isPhysicalAttack: boolean = data.powerType !== "mag";
     const isMagicAttack = !isPhysicalAttack;
 
     return (

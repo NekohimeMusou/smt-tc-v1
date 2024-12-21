@@ -2,7 +2,7 @@ declare global {
   type CharacterClass = keyof typeof charClasses;
   type CharacterStat = keyof typeof stats;
   type SuccessRollCategory = (typeof successRollCategories)[number];
-  type AttackCategory = keyof typeof attackTypes;
+  type PowerType = keyof typeof powerTypes;
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
@@ -12,10 +12,9 @@ declare global {
   type AccuracyStat = keyof typeof accuracyStats;
   type StatRollTNType = (typeof sheetRollTNTypes)[number];
   type DiceRollResult = keyof typeof diceRollResults;
-  type PhysMagCategory = keyof typeof attackTypes;
   type RollEffectType = (typeof rollEffectTypes)[number];
   type AffinityLevel = keyof typeof affinityLevels;
-  type PowerStatType = keyof typeof powerStatTypes;
+  type DamageType = keyof typeof damageTypes;
 }
 
 const sheetRollTNTypes = ["tn", "specialTN"] as const;
@@ -68,9 +67,19 @@ const accuracyStats = {
   auto: "SMT.stats.auto",
 } as const;
 
-const attackTypes = {
-  phys: "SMT.physMagCategory.phys",
-  mag: "SMT.physMagCategory.mag",
+const powerTypes = {
+  phys: "SMT.powerTypes.phys",
+  mag: "SMT.powerTypes.mag",
+  gun: "SMT.powerTypes.gun",
+} as const;
+
+const damageTypes = {
+  phys: "SMT.powerTypes.phys",
+  mag: "SMT.powerTypes.mag",
+};
+const costTypes = {
+  hp: "HP",
+  mp: "MP",
 } as const;
 
 const affinities = {
@@ -138,16 +147,6 @@ const skillTypes = {
   other: "SMT.skillTypes.other",
 } as const;
 
-const powerStatTypes = {
-  phys: "phys",
-  mag: "mag",
-  gun: "gun",
-};
-const costTypes = {
-  hp: "HP",
-  mp: "MP",
-} as const;
-
 const successRollCategories = ["tn", "specialTN"] as const;
 
 const targets = {
@@ -169,8 +168,8 @@ export const SMT = {
   charClasses,
   stats,
   accuracyStats,
-  attackTypes,
-  powerStatTypes,
+  powerTypes,
+  damageTypes,
   affinities,
   affinityLevels,
   ailments,

@@ -103,11 +103,7 @@
       "skill": "Skill",
       "weapon": "Weapon"
     },
-    "physMagCategory": {
-      "phys": "Phys",
-      "mag": "Mag"
-    },
-    "attackTypes": {
+    "powerTypes": {
       "phys": "Physical",
       "mag": "Magic",
       "gun": "Gun"
@@ -185,11 +181,11 @@
       "autoCheckLabel": "{rollName}: Auto",
       "dodgeCheckLabel": "{character} Dodge TN: {tn}%",
       "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power} {affinity} ({physMagCategory})",
+      "powerChatCardMsg": "Power: {power} {affinity} ({powerType})",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
       "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
-      "damageCardMsg": "{target} takes {damage} Damage ({resist} {physOrMag} Resist)"
+      "damageCardMsg": "{target} takes {damage} Damage ({resist} {damageType} Resist)"
     },
     "rollEffect": {
       "hit": {
@@ -228,8 +224,7 @@
       "drain": "DRAIN!",
       "null": "NULL!",
       "resist": "Resist!",
-      "weak": "WEAK!",
-      "pierce": "PIERCE!"
+      "weak": "WEAK!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",

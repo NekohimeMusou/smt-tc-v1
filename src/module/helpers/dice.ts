@@ -210,26 +210,24 @@ async function successRoll({
 interface PowerRollData {
   power?: number;
   powerBoost?: boolean;
-  physMagCategory?: PhysMagCategory;
+  damageType?: DamageType;
   affinity?: Affinity;
   targeted?: boolean;
   targetName?: string;
   targetResist?: number;
   targetAffinityLevel?: AffinityLevel;
-  pierce?: boolean;
 }
 
 // TODO: Crits deal double damage and ignore resistance
 async function basicPowerRoll({
   power = 0,
   powerBoost = false,
-  physMagCategory = "phys",
+  damageType = "phys",
   affinity = "phys",
   targeted = false,
   targetName = "",
   targetResist = 0,
   targetAffinityLevel = "none",
-  pierce = false,
 }: PowerRollData = {}): Promise<RollResultData> {
   const rollString = `${powerBoost ? 2 : 1}d10x + ${power}`;
 
@@ -240,7 +238,7 @@ async function basicPowerRoll({
     const resultMsg = game.i18n.format("SMT.dice.powerChatCardMsg", {
       power: `${roll.total}`,
       affinity: game.i18n.localize(`SMT.affinities.${affinity}`),
-      physMagCategory,
+      damageType,
     });
 
     htmlParts.push(`<p>${resultMsg}</p>`);
@@ -251,11 +249,11 @@ async function basicPowerRoll({
     // If the target's affinity is normal, no need to do anything
     if (targetAffinityLevel !== "none") {
       const affinityMsg = game.i18n.localize(
-        `SMT.resistChatResult.${pierce ? "pierce" : targetAffinityLevel}`,
+        `SMT.resistChatResult.${targetAffinityLevel}`,
       );
       htmlParts.push(`<div>${affinityMsg}</div>`);
 
-      if (targetAffinityLevel === "resist" && !pierce) {
+      if (targetAffinityLevel === "resist") {
         damage = Math.floor(damage / 2);
       }
 
@@ -263,12 +261,12 @@ async function basicPowerRoll({
         damage = damage * 2;
       }
     }
-    if (pierce || targetAffinityLevel !== "null") {
+    if (targetAffinityLevel !== "null") {
       const damageMsg = game.i18n.format("SMT.dice.damageCardMsg", {
         target: targetName,
         damage: `${damage}`,
         resist: `${targetResist}`,
-        physOrMag: game.i18n.localize(`SMT.physMagCategory.${physMagCategory}`),
+        damageType: game.i18n.localize(`SMT.powerTypes.${damageType}`),
       });
 
       htmlParts.push(`<div>${damageMsg}</div>`);
@@ -382,13 +380,11 @@ export async function skillRoll({
   if (skillData.hasAttack) {
     const power = skillData.power;
     const powerBoost = skillData.hasPowerBoost;
-    const physMagCategory = skillData.physMagCategory;
+    const damageType = skillData.damageType;
     const affinity = skillData.affinity;
     const ailment: AilmentData = skillData.ailment as AilmentData;
 
     if (targets.length > 0) {
-      // Roll dodge against each target, then power + ailment against failed dodges
-
       // Make a dodge and power and ailment roll (if applicable) for each target
       for (const target of targets) {
         // Make a dodge roll
@@ -410,25 +406,18 @@ export async function skillRoll({
         // Make power and/or ailment rolls if applicable
         if (skillData.hasPowerRoll) {
           // Make a power roll
-          const targetResist = targetData.resist[physMagCategory];
+          const targetResist = targetData.resist[damageType];
           const targetAffinityLevel = targetData.affinities[affinity];
-          const pierce =
-            skillData.pierce &&
-            affinity === "phys" &&
-            (targetAffinityLevel === "drain" ||
-              targetAffinityLevel === "null" ||
-              targetAffinityLevel === "resist");
 
           const powerRollResult = await basicPowerRoll({
             power,
             powerBoost,
-            physMagCategory,
+            damageType,
             affinity,
             targeted: true,
             targetName,
             targetResist,
             targetAffinityLevel,
-            pierce,
           });
 
           htmlParts.push(...powerRollResult.htmlParts);
@@ -445,7 +434,7 @@ export async function skillRoll({
         const powerRollResult = await basicPowerRoll({
           power,
           powerBoost,
-          physMagCategory,
+          damageType,
           affinity,
         });
 
@@ -465,7 +454,7 @@ export async function skillRoll({
     }
   }
 
-  // If there's an ailment roll, make it
+  // Add effect string to HTML, if any
 
   const actor = skill.system.parent?.parent as SmtActor;
 
