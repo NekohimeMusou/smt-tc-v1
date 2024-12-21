@@ -107,7 +107,7 @@
       "phys": "Phys",
       "mag": "Mag"
     },
-    "powerCategories": {
+    "attackTypes": {
       "phys": "Physical",
       "mag": "Magic",
       "gun": "Gun"

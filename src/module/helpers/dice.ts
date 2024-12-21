@@ -379,7 +379,7 @@ export async function skillRoll({
   htmlParts.push(...successRollResult.htmlParts);
   rolls.push(...successRollResult.rolls);
 
-  if (skillData.isAttack) {
+  if (skillData.hasAttack) {
     const power = skillData.power;
     const powerBoost = skillData.hasPowerBoost;
     const physMagCategory = skillData.physMagCategory;
@@ -467,7 +467,7 @@ export async function skillRoll({
 
   // If there's an ailment roll, make it
 
-  const actor = skill.system.actor;
+  const actor = skill.system.parent?.parent as SmtActor;
 
   const token = actor.token;
 

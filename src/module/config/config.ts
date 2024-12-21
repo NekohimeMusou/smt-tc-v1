@@ -2,20 +2,20 @@ declare global {
   type CharacterClass = keyof typeof charClasses;
   type CharacterStat = keyof typeof stats;
   type SuccessRollCategory = (typeof successRollCategories)[number];
-  type AttackCategory = keyof typeof physMagCategories;
+  type AttackCategory = keyof typeof attackTypes;
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
-  type SkillCostType = keyof typeof skillCostTypes;
-  type PowerCategory = keyof typeof powerCategories;
+  type SkillCostType = keyof typeof costTypes;
   type Target = keyof typeof targets;
   type AccuracyStat = keyof typeof accuracyStats;
   type StatRollTNType = (typeof sheetRollTNTypes)[number];
   type DiceRollResult = keyof typeof diceRollResults;
-  type PhysMagCategory = keyof typeof physMagCategories;
+  type PhysMagCategory = keyof typeof attackTypes;
   type RollEffectType = (typeof rollEffectTypes)[number];
   type AffinityLevel = keyof typeof affinityLevels;
+  type PowerStatType = keyof typeof powerStatTypes;
 }
 
 const sheetRollTNTypes = ["tn", "specialTN"] as const;
@@ -68,7 +68,7 @@ const accuracyStats = {
   auto: "SMT.stats.auto",
 } as const;
 
-const physMagCategories = {
+const attackTypes = {
   phys: "SMT.physMagCategory.phys",
   mag: "SMT.physMagCategory.mag",
 } as const;
@@ -116,6 +116,7 @@ const ailments = {
   none: "SMT.ailments.none",
 } as const;
 
+// TODO: Use these instead of a string field
 const inheritanceTraits = {
   mouth: "SMT.inheritanceTraits.mouth",
   eye: "SMT.inheritanceTraits.eye",
@@ -137,15 +138,14 @@ const skillTypes = {
   other: "SMT.skillTypes.other",
 } as const;
 
-const skillCostTypes = {
+const powerStatTypes = {
+  phys: "phys",
+  mag: "mag",
+  gun: "gun",
+};
+const costTypes = {
   hp: "HP",
   mp: "MP",
-} as const;
-
-const powerCategories = {
-  phys: "SMT.powerCategories.phys",
-  mag: "SMT.powerCategories.mag",
-  gun: "SMT.powerCategories.gun",
 } as const;
 
 const successRollCategories = ["tn", "specialTN"] as const;
@@ -169,14 +169,14 @@ export const SMT = {
   charClasses,
   stats,
   accuracyStats,
-  physMagCategories,
+  attackTypes,
+  powerStatTypes,
   affinities,
   affinityLevels,
   ailments,
   inheritanceTraits,
   skillTypes,
-  skillCostTypes,
-  powerCategories,
+  costTypes,
   successRollCategories,
   targets,
   itemTypes,

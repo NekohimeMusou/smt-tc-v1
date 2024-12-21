@@ -49,10 +49,10 @@
 
   <div class="flexrow">
     <div class="flexrow">
-      {{!-- Power Class (phys, mag, gun) --}}
-      <label for="power-category-field" class="resource-label">{{localize "SMT.itemFields.powerCategory"}}</label>
-      <select id="power-category-field" name="system.powerCategory">
-        {{selectOptions SMT.powerCategories localize=true}}
+      {{!-- Power Class (phys, mag) --}}
+      <label for="power-category-field" class="resource-label">{{localize "SMT.itemFields.attackType"}}</label>
+      <select id="power-category-field" name="system.attackType">
+        {{selectOptions SMT.attackTypes localize=true}}
       </select>
     </div>
     <div class="flexrow">

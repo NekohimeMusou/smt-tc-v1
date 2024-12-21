@@ -48,6 +48,7 @@ const mods = new fields.SchemaField({
   powerfulStrikes: new fields.BooleanField({ initial: false }),
   powerfulSpells: new fields.BooleanField({ initial: false }),
   itemPro: new fields.BooleanField({ initial: false }),
+  focused: new fields.BooleanField({ initial: false }),
   // Counterattack skills: Counter, Retaliate, Avenge
   // Might, Drain Attack, Attack All
 });
