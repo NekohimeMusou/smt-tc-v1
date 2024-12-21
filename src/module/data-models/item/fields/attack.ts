@@ -5,7 +5,6 @@ export function attackDataFields() {
   // Handle fixed HP reduction (HP to 1, reduced to 20%, etc)
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
-    // Temporary for compatibility
     powerType: new fields.StringField({
       choices: CONFIG.SMT.powerTypes,
       initial: "phys",

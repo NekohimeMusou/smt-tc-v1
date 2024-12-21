@@ -104,7 +104,7 @@
       "weapon": "Weapon"
     },
     "powerTypes": {
-      "phys": "Physical",
+      "phys": "Phys",
       "mag": "Magic",
       "gun": "Gun"
     },
@@ -181,11 +181,11 @@
       "autoCheckLabel": "{rollName}: Auto",
       "dodgeCheckLabel": "{character} Dodge TN: {tn}%",
       "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power} {affinity} ({powerType})",
+      "powerChatCardMsg": "Power: {power}",
+      "dmgChatCardMsg": "{target} takes {damage} {affinity} Damage ({resist} {damageType} Resist)",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
-      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
-      "damageCardMsg": "{target} takes {damage} Damage ({resist} {damageType} Resist)"
+      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%"
     },
     "rollEffect": {
       "hit": {

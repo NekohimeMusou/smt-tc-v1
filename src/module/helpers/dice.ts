@@ -26,6 +26,7 @@ interface RollResultData {
 
 interface DodgeRollResultData extends RollResultData {
   dodged?: boolean;
+  dodgeLevel: "success" | "fail" | "crit" | "fumble";
 }
 interface AilmentData {
   name: Ailment;
@@ -57,9 +58,11 @@ function getResult({
   return "fail";
 }
 
-function getResultLabel(result: DiceRollResult, effectType: RollEffectType) {
-  // const result = getResult({ rollTotal, tn, critThreshold, autoFailThreshold, effectType });
-
+function getResultLabel(
+  result: DiceRollResult,
+  effectType: RollEffectType,
+  autoFailThreshold: number,
+) {
   let resultName: DiceRollResult | "dodge" | "critDodge" = result;
 
   if (effectType === "dodge") {
@@ -71,7 +74,7 @@ function getResultLabel(result: DiceRollResult, effectType: RollEffectType) {
   }
 
   const resultHtml = [
-    `<div>${game.i18n.localize(`SMT.diceResult.${resultName}`)}</div>`,
+    `<div>${game.i18n.format(`SMT.diceResult.${resultName}`, { autoFailThreshold: `${autoFailThreshold}` })}</div>`,
   ];
 
   if (result === "crit" || result === "fumble") {
@@ -195,6 +198,7 @@ async function successRoll({
       autoFailThreshold,
     }),
     effectType,
+    autoFailThreshold,
   );
 
   return {
@@ -212,65 +216,68 @@ interface PowerRollData {
   powerBoost?: boolean;
   damageType?: DamageType;
   affinity?: Affinity;
-  targeted?: boolean;
   targetName?: string;
   targetResist?: number;
   targetAffinityLevel?: AffinityLevel;
+  dodgeResult?: "success" | "fail" | "crit" | "fumble";
+  criticalHit?: boolean;
 }
 
 // TODO: Crits deal double damage and ignore resistance
-async function basicPowerRoll({
+async function powerRoll({
   power = 0,
   powerBoost = false,
   damageType = "phys",
   affinity = "phys",
-  targeted = false,
   targetName = "",
   targetResist = 0,
   targetAffinityLevel = "none",
+  // dodgeResult = "fail",
+  criticalHit = false,
 }: PowerRollData = {}): Promise<RollResultData> {
   const rollString = `${powerBoost ? 2 : 1}d10x + ${power}`;
 
   const roll = await new Roll(rollString).roll();
 
   const htmlParts: string[] = [];
-  if (!targeted) {
-    const resultMsg = game.i18n.format("SMT.dice.powerChatCardMsg", {
-      power: `${roll.total}`,
-      affinity: game.i18n.localize(`SMT.affinities.${affinity}`),
-      damageType,
-    });
 
-    htmlParts.push(`<p>${resultMsg}</p>`);
-  } else {
-    // Apply resist and affinity
-    let damage = Math.max(roll.total - targetResist, 0);
+  // Apply resist and affinity
+  let damage = roll.total;
 
-    // If the target's affinity is normal, no need to do anything
-    if (targetAffinityLevel !== "none") {
-      const affinityMsg = game.i18n.localize(
-        `SMT.resistChatResult.${targetAffinityLevel}`,
-      );
-      htmlParts.push(`<div>${affinityMsg}</div>`);
+  // If the target's affinity is normal, no need to do anything
+  if (targetAffinityLevel !== "none") {
+    const affinityMsg = game.i18n.localize(
+      `SMT.resistChatResult.${targetAffinityLevel}`,
+    );
+    htmlParts.push(`<div>${affinityMsg}</div>`);
 
-      if (targetAffinityLevel === "resist") {
-        damage = Math.floor(damage / 2);
-      }
-
-      if (targetAffinityLevel === "weak") {
-        damage = damage * 2;
-      }
+    if (targetAffinityLevel === "resist") {
+      damage = Math.floor(damage / 2);
     }
-    if (targetAffinityLevel !== "null") {
-      const damageMsg = game.i18n.format("SMT.dice.damageCardMsg", {
-        target: targetName,
-        damage: `${damage}`,
-        resist: `${targetResist}`,
-        damageType: game.i18n.localize(`SMT.powerTypes.${damageType}`),
-      });
 
-      htmlParts.push(`<div>${damageMsg}</div>`);
+    if (targetAffinityLevel === "weak") {
+      damage = damage * 2;
     }
+  }
+
+  if (targetAffinityLevel !== "null") {
+    // Apply resist AFTER affinities
+    // Critical hits ignore resistance
+    damage -= criticalHit ? 0 : targetResist;
+
+    const damageMsg = targetName
+      ? game.i18n.format("SMT.dice.dmgChatCardMsg", {
+          target: targetName,
+          damage: `${damage}`,
+          affinity,
+          resist: `${targetResist}`,
+          damageType: game.i18n.localize(`SMT.powerTypes.${damageType}`),
+        })
+      : game.i18n.format("SMT.dice.powerChatCardMsg", {
+          power: `${roll.total}`,
+        });
+
+    htmlParts.push(`<div>${damageMsg}</div>`);
   }
 
   htmlParts.push(await roll.render());
@@ -330,23 +337,26 @@ export async function dodgeRoll({
 
   const critThreshold = getCritThreshold(tn, false);
 
-  const result = getResult({
+  let dodgeLevel = getResult({
     rollTotal: roll.total,
     tn,
     critThreshold,
     autoFailThreshold,
   });
 
+  dodgeLevel = dodgeLevel === "autoSuccess" ? "success" : dodgeLevel;
+  dodgeLevel = dodgeLevel === "autofail" ? "fail" : dodgeLevel;
+
   // e.g. Dodged!
-  const label = getResultLabel(result, "dodge");
+  const label = getResultLabel(dodgeLevel, "dodge", autoFailThreshold);
 
   htmlParts.push(`<div>${label}</div>`, await roll.render());
 
   return {
     htmlParts,
     rolls: [roll],
-    dodged:
-      result === "success" || result === "autoSuccess" || result === "crit",
+    dodgeLevel: dodgeLevel,
+    dodged: dodgeLevel === "success" || dodgeLevel === "crit",
   };
 }
 
@@ -388,36 +398,32 @@ export async function skillRoll({
       // Make a dodge and power and ailment roll (if applicable) for each target
       for (const target of targets) {
         // Make a dodge roll
-        const targetName = target.name;
         const targetData = target.actor.system;
-        const dodgeTN = targetData.tn.dodge;
 
         const dodgeRollResult = await dodgeRoll({
-          characterName: targetName,
-          tn: dodgeTN,
+          characterName: target.name,
+          tn: targetData.tn.dodge,
           autoFailThreshold,
         });
 
         htmlParts.push(...dodgeRollResult.htmlParts);
         rolls.push(...dodgeRollResult.rolls);
 
+        // If they dodged we don't gotta do no more
         if (dodgeRollResult.dodged) break;
 
-        // Make power and/or ailment rolls if applicable
+        // If they didn't dodge, make power and/or ailment rolls if applicable
         if (skillData.hasPowerRoll) {
           // Make a power roll
-          const targetResist = targetData.resist[damageType];
-          const targetAffinityLevel = targetData.affinities[affinity];
-
-          const powerRollResult = await basicPowerRoll({
+          const powerRollResult = await powerRoll({
             power,
             powerBoost,
             damageType,
             affinity,
-            targeted: true,
-            targetName,
-            targetResist,
-            targetAffinityLevel,
+            targetName: target.name,
+            targetResist: targetData.resist[damageType],
+            targetAffinityLevel: targetData.affinities[affinity],
+            dodgeResult: dodgeRollResult.dodgeLevel,
           });
 
           htmlParts.push(...powerRollResult.htmlParts);
@@ -431,7 +437,7 @@ export async function skillRoll({
     } else {
       if (skillData.hasPowerRoll) {
         // Roll a straight power roll
-        const powerRollResult = await basicPowerRoll({
+        const powerRollResult = await powerRoll({
           power,
           powerBoost,
           damageType,
