@@ -189,7 +189,7 @@
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
       "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%",
-      "damageCardMsg": "{target}: {damage} Damage ({resist} {physOrMag} Resist)"
+      "damageCardMsg": "{target} takes {damage} Damage ({resist} {physOrMag} Resist)"
     },
     "rollEffect": {
       "hit": {

@@ -76,7 +76,7 @@ function getResultLabel(result: DiceRollResult, effectType: RollEffectType) {
 
   if (result === "crit" || result === "fumble") {
     // Add an extra hint
-    const hintLoc = `SMT.${effectType}.${result}`;
+    const hintLoc = `SMT.rollEffect.${effectType}.${result}`;
     resultHtml.push(`<div>${game.i18n.localize(hintLoc)}</div>`);
   }
 
@@ -425,6 +425,7 @@ export async function skillRoll({
             physMagCategory,
             affinity,
             targeted: true,
+            targetName,
             targetResist,
             targetAffinityLevel,
             pierce,
