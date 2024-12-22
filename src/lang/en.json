@@ -176,16 +176,19 @@
       "ammo": "Ammo"
     },
     "dice": {
-      "skillCheckLabel": "{checkName}: TN {tn}%",
+      "skillCheckTitle": "{checkName}: TN {tn}%",
       "statCheckLabel": "{stat} Check",
-      "autoCheckLabel": "{rollName}: Auto",
-      "dodgeCheckLabel": "{character} Dodge TN: {tn}%",
+      "autoCheckLabel": "{checkName}: Auto",
+      "ailmentCheckTitle": "{ailmentNameLabel} chance: {ailmentRate}%",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power}",
       "dmgChatCardMsg": "{target} takes {damage} {affinity} Damage ({resist} {damageType} Resist)",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
-      "ailmentRollMsg": "{name}: {rollTotal} vs. {rate}%"
+      "ailmentRollHit": "{target} is inflicted with {ailmentNameLabel}!",
+      "totalPower": "Total Power: {power}",
+      "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
+      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
     },
     "rollEffect": {
       "hit": {
@@ -214,8 +217,7 @@
       "fail": "Failed!",
       "autofail": "Autofail! ({threshold}-99)",
       "crit": "Critical success!",
-      "fumble": "Fumble!",
-      "critDodge": "Critical dodge!"
+      "fumble": "Fumble!"
     },
     "resistChatResult": {
       "reflect": "REFLECT!",

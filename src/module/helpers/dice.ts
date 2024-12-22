@@ -190,7 +190,7 @@ async function successRoll({
   effectType = "hit",
 }: SuccessRollData = {}): Promise<RollResultData> {
   // "{checkName}: TN {tn}%"
-  const dialogCheckLabel = game.i18n.format("SMT.skillCheckLabel", {
+  const dialogCheckLabel = game.i18n.format("SMT.skillCheckTitle", {
     checkName,
     tn: `${baseTN}`,
   });
@@ -212,7 +212,7 @@ async function successRoll({
 
   // Modified check name
   // "{checkName}: TN {tn}%"
-  const modifiedCheckName = game.i18n.format("SMT.dice.skillCheckLabel", {
+  const modifiedCheckName = game.i18n.format("SMT.dice.skillCheckTitle", {
     checkName,
     tn: `${tn}`,
   });
