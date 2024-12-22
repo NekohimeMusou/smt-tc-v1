@@ -36,7 +36,7 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
-const mods = new fields.SchemaField({
+const modifiers = new fields.SchemaField({
   dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
   gun: new fields.NumberField({ integer: true, initial: 0 }),
   elementMultipliers: new fields.SchemaField({
@@ -93,7 +93,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       tn,
       power,
       resist,
-      mods,
+      modifiers,
       ...resources,
     } as const;
   }
@@ -118,7 +118,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
         case "ag": // Dodge TN
           stat.specialTN = stat.value + 10;
-          data.tn.dodge = stat.specialTN + data.mods.dodgeBonus;
+          data.tn.dodge = stat.specialTN + data.modifiers.dodgeBonus;
           break;
         case "lu": // Negotiation TN
           stat.specialTN = stat.value * 2 + 20;

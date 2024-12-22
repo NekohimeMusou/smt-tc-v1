@@ -215,8 +215,6 @@
       "autofail": "Autofail! ({threshold}-99)",
       "crit": "Critical success!",
       "fumble": "Fumble!",
-      "autoSuccess": "Auto Success!",
-      "dodge": "Dodged!",
       "critDodge": "Critical dodge!"
     },
     "resistChatResult": {

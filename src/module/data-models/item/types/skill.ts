@@ -54,8 +54,8 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const isMagicAttack = !isPhysicalAttack;
 
     return (
-      (isPhysicalAttack && actor.system.mods.powerfulStrikes) ||
-      (isMagicAttack && actor.system.mods.powerfulSpells)
+      (isPhysicalAttack && actor.system.modifiers.powerfulStrikes) ||
+      (isMagicAttack && actor.system.modifiers.powerfulSpells)
     );
   }
 

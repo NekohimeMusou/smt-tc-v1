@@ -161,7 +161,6 @@ const diceRollResults = {
   autofail: "SMT.diceResult.autofail",
   crit: "SMT.diceResult.crit",
   fumble: "SMT.diceResult.fumble",
-  autoSuccess: "SMT.diceResult.autoSuccess",
 };
 
 export const SMT = {

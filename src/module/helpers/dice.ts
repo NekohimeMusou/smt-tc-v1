@@ -22,6 +22,7 @@ interface ResultLabelOptions {
 interface RollResultData {
   htmlParts: string[];
   rolls: Roll[];
+  successLevel: DiceRollResult;
 }
 
 interface DodgeRollResultData extends RollResultData {
@@ -66,7 +67,7 @@ function getResultLabel(
   let resultName: DiceRollResult | "dodge" | "critDodge" = result;
 
   if (effectType === "dodge") {
-    if (result === "success" || result === "autoSuccess") {
+    if (result === "success") {
       resultName = "dodge";
     } else if (result === "crit") {
       resultName = "critDodge";
@@ -149,9 +150,35 @@ interface SuccessRollData {
   effectType?: RollEffectType;
 }
 
-// 1) Form original roll name w/ unmodified TN
-// 2) Show dialog
-// 3) Form checkName w/ modified TN
+/**
+ * 1) Determine success of attack roll
+ *
+ * FAIL:
+ * Basic Strike: TN 85%
+ * Failed!
+ * $SUCCESS_DICE_RENDER
+ *
+ * FUMBLE:
+ * Basic Strike: TN 85%
+ * Fumbled!
+ * // ROLL POWER
+ * {attacker} takes {damage}!
+ * // ROLL AILMENT
+ * $AILMENT_SUCCESS_FAIL_MSG
+ * // Apply Curse to attacker
+ * // Display additional msg about fumble effect?
+ *
+ * SUCCESS:
+ * Basic Strike: TN 85%
+ * Success!
+ * $SUCCESS_DICE_RENDER
+ * // ROLL DODGE CHECK
+ * // IF successful
+ * {target} dodged!
+ * // IF failed
+ * // ROLL POWER
+ * // APPLY WEAKNESS
+ */
 
 // Expects a name like "Heat Wave" or "St Check"; adds other stuff around it
 async function successRoll({
@@ -162,11 +189,13 @@ async function successRoll({
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
   effectType = "hit",
 }: SuccessRollData = {}): Promise<RollResultData> {
+  // "{checkName}: TN {tn}%"
   const dialogCheckLabel = game.i18n.format("SMT.skillCheckLabel", {
     checkName,
     tn: `${baseTN}`,
   });
 
+  // "Modifiers apply to the TN, not the die roll."
   const hint = game.i18n.localize("SMT.dice.modifierHint");
 
   const { mod, cancelled, critBoost } = showDialog
@@ -182,11 +211,13 @@ async function successRoll({
   const tn = baseTN + (mod ?? 0);
 
   // Modified check name
+  // "{checkName}: TN {tn}%"
   const modifiedCheckName = game.i18n.format("SMT.dice.skillCheckLabel", {
     checkName,
     tn: `${tn}`,
   });
 
+  // 10% of TN normally, 20% with boost (Might or that one fiend skill)
   const critThreshold = getCritThreshold(tn, critBoost ?? false);
   const roll = await new Roll("1d100").roll();
 
@@ -232,7 +263,7 @@ async function powerRoll({
   targetName = "",
   targetResist = 0,
   targetAffinityLevel = "none",
-  // dodgeResult = "fail",
+  dodgeResult = "fail",
   criticalHit = false,
 }: PowerRollData = {}): Promise<RollResultData> {
   const rollString = `${powerBoost ? 2 : 1}d10x + ${power}`;
@@ -246,6 +277,7 @@ async function powerRoll({
 
   // If the target's affinity is normal, no need to do anything
   if (targetAffinityLevel !== "none") {
+    // Modify damage according to affinity level
     const affinityMsg = game.i18n.localize(
       `SMT.resistChatResult.${targetAffinityLevel}`,
     );
@@ -258,6 +290,11 @@ async function powerRoll({
     if (targetAffinityLevel === "weak") {
       damage = damage * 2;
     }
+  }
+
+  // Modify damage based on critical hit/dodge
+  if (criticalHit && dodgeResult !== "crit") {
+    damage *= 2;
   }
 
   if (targetAffinityLevel !== "null") {
@@ -344,7 +381,6 @@ export async function dodgeRoll({
     autoFailThreshold,
   });
 
-  dodgeLevel = dodgeLevel === "autoSuccess" ? "success" : dodgeLevel;
   dodgeLevel = dodgeLevel === "autofail" ? "fail" : dodgeLevel;
 
   // e.g. Dodged!
@@ -368,18 +404,15 @@ export async function skillRoll({
   if (!skill) return;
 
   const skillData = skill.system;
-  const checkName = skill.name;
-  const baseTN = skillData.tn + skillData.tnMod;
-  const hasCritBoost = skillData.hasCritBoost;
   const autoFailThreshold = skillData.autoFailThreshold;
 
   const htmlParts: string[] = [];
   const rolls: Roll[] = [];
 
   const successRollResult = await successRoll({
-    checkName,
-    hasCritBoost,
-    baseTN,
+    checkName: skill.name,
+    hasCritBoost: skillData.hasCritBoost,
+    baseTN: skillData.tn + skillData.tnMod,
     autoFailThreshold,
     showDialog,
   });
