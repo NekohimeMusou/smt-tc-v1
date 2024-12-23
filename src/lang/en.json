@@ -253,7 +253,9 @@
     "dialog": {
       "basePhysLabel": "Base Phys",
       "baseMagLabel": "Base Mag",
-      "hasCritBoost": "Crit boost?"
+      "hasCritBoost": "Crit boost?",
+      "confirmDeleteDialogTitle": "Delete Item",
+      "confirmDeletePrompt": "Really delete {name}?"
     },
     "settings": {
       "invertShiftBehavior": {

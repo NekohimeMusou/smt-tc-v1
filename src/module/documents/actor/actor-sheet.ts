@@ -147,16 +147,16 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Get the type of item to create.
     const system = element.data();
     // Grab any data associated with this control.
-    const type = system.type as string;
+    const itemType = system.itemType as string;
     // Initialize a default name.
-    const name = type.replace(/\b\w+/g, function (s) {
+    const name = itemType.replace(/\b\w+/g, function (s) {
       return s.charAt(0).toUpperCase() + s.substring(1).toLowerCase();
     });
     const itemName = `${game.i18n.format("SMT.sheet.newItem", { name })}`;
     // Prepare the item object.
     const itemData = {
       name: itemName,
-      type,
+      type: "skill",
       system,
     };
     // Remove the type from the dataset since it's in the itemData.type prop.
