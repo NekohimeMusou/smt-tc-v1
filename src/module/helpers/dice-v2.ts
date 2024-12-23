@@ -167,12 +167,12 @@ export async function rollCheck({
       totalPower *= 2;
     }
 
-    const powerMsg = game.i18n.format("SMT.dice.totalPower", {
+    const totalPowerMsg = game.i18n.format("SMT.dice.totalPower", {
       power: `${totalPower}`,
     });
 
     successCardHtml.push(
-      `<div>${powerMsg}</div>`,
+      `<div>${totalPowerMsg}</div>`,
       await powerRollResult.roll.render(),
     );
     successCardRolls.push(powerRollResult.roll);
@@ -228,7 +228,7 @@ export async function rollCheck({
   await ChatMessage.create(successChatData);
 
   // Process each target and apply damage and ailment (if any)
-  if (targets.size > 0 && skill) {
+  if (success && targets.size > 0 && skill) {
     for (const target of targets) {
       await processTarget({
         target,
@@ -350,12 +350,14 @@ async function processTarget({
       : targetName;
   const affinityString = game.i18n.localize(`SMT.affinities.${affinity}`);
 
-  if (power > 0) {
+  if (power > 0 && !dodged) {
     // e.g. "TargetName takes 20 Phys damage! (Phys resist: 12)"
     const powerMsg = game.i18n.format(`SMT.dice.powerMsg.${powerTag}`, {
       target: finalTarget,
       damage: `${power}`,
       affinity: affinityString,
+      damageType: game.i18n.localize(`SMT.damageTypes.${damageType}`),
+      resist: `${targetResist}`,
     });
 
     // PUSH HTML CONTENT

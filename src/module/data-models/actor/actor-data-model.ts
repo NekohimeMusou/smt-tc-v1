@@ -54,21 +54,63 @@ const modifiers = new fields.SchemaField({
 });
 
 const affinities = new fields.SchemaField({
-  phys: new fields.StringField({ choices: SMT.affinityLevels }),
-  fire: new fields.StringField({ choices: SMT.affinityLevels }),
-  ice: new fields.StringField({ choices: SMT.affinityLevels }),
-  elec: new fields.StringField({ choices: SMT.affinityLevels }),
-  force: new fields.StringField({ choices: SMT.affinityLevels }),
-  light: new fields.StringField({ choices: SMT.affinityLevels }),
-  dark: new fields.StringField({ choices: SMT.affinityLevels }),
-  mind: new fields.StringField({ choices: SMT.affinityLevels }),
-  nerve: new fields.StringField({ choices: SMT.affinityLevels }),
-  ruin: new fields.StringField({ choices: SMT.affinityLevels }),
-  almighty: new fields.StringField({ choices: SMT.affinityLevels }),
-  ailment: new fields.StringField({ choices: SMT.affinityLevels }),
-  healing: new fields.StringField({ choices: SMT.affinityLevels }),
-  support: new fields.StringField({ choices: SMT.affinityLevels }),
-  unique: new fields.StringField({ choices: SMT.affinityLevels }),
+  phys: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  fire: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  ice: new fields.StringField({ choices: SMT.affinityLevels, initial: "none" }),
+  elec: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  force: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  light: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  dark: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  mind: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  nerve: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  ruin: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  almighty: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  ailment: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  healing: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  support: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
+  unique: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
 });
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
