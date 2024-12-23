@@ -20,7 +20,9 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   get damageType(): DamageType {
     const data = this.#systemData;
 
-    return data.powerType === "mag" ? "mag" : "phys";
+    const skillType = data.skillType;
+
+    return skillType === "phys" || skillType === "gun" ? "phys" : "mag";
   }
 
   get tn(): number {
@@ -50,7 +52,9 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
 
-    const isPhysicalAttack: boolean = data.powerType !== "mag";
+    const skillType = data.skillType;
+
+    const isPhysicalAttack = skillType === "phys" || skillType === "gun";
     const isMagicAttack = !isPhysicalAttack;
 
     return (

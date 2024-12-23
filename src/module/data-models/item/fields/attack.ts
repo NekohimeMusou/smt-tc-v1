@@ -5,10 +5,6 @@ export function attackDataFields() {
   // Handle fixed HP reduction (HP to 1, reduced to 20%, etc)
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
-    powerType: new fields.StringField({
-      choices: CONFIG.SMT.powerTypes,
-      initial: "phys",
-    }),
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     costType: new fields.StringField({
       choices: CONFIG.SMT.costTypes,
@@ -44,6 +40,5 @@ export function attackDataFields() {
     }),
     // Exclusively required for Deadly Fury. Doesn't stack with Might
     hasCritBoost: new fields.BooleanField({ initial: false }),
-    canMultiAct: new fields.BooleanField({ initial: true }),
   } as const;
 }

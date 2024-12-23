@@ -2,7 +2,6 @@ declare global {
   type CharacterClass = keyof typeof charClasses;
   type CharacterStat = keyof typeof stats;
   type SuccessRollCategory = (typeof successRollCategories)[number];
-  type PowerType = keyof typeof powerTypes;
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
@@ -65,12 +64,6 @@ const accuracyStats = {
   ag: "SMT.stats.ag",
   lu: "SMT.stats.lu",
   auto: "SMT.stats.auto",
-} as const;
-
-const powerTypes = {
-  phys: "SMT.powerTypes.phys",
-  mag: "SMT.powerTypes.mag",
-  gun: "SMT.powerTypes.gun",
 } as const;
 
 const damageTypes = {
@@ -167,7 +160,6 @@ export const SMT = {
   charClasses,
   stats,
   accuracyStats,
-  powerTypes,
   damageTypes,
   affinities,
   affinityLevels,
