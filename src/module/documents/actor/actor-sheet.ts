@@ -59,11 +59,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     super.activateListeners(html);
 
     // Render the item sheet for viewing/editing prior to the editable check.
-    // html.find(".item-edit").click((ev) => {
-    //   const li = $(ev.currentTarget).parents(".item");
-    //   const item = this.actor.items.get(li.data("itemId"));
-    //   item.sheet.render(true);
-    // });
+    html.find(".item-edit").on("click", async (ev) => {
+      const li = $(ev.currentTarget).parents(".item");
+      const itemId = li.data("itemId") as string;
+      const item = this.actor.items.get(itemId);
+      if (item) {
+        await item.sheet.render(true);
+      }
+    });
 
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
@@ -75,10 +78,10 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     html.find(".roll-skill").on("click", this.#onSkillRoll.bind(this));
 
     // Add Inventory Item
-    // html.find(".item-create").on("click", this.#onItemCreate.bind(this));
+    html.find(".item-create").on("click", this.#onItemCreate.bind(this));
 
     // Delete Inventory Item
-    // html.find(".item-delete").on("click", this.#onItemDelete(ev));
+    html.find(".item-delete").on("click", this.#onItemDelete.bind(this));
 
     // Active Effect management
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
@@ -133,48 +136,54 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     });
   }
 
-  // /**
-  //  * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-  //  * @param {Event} event   The originating click event
-  //  * @private
-  //  */
-  // async #onItemCreate(event) {
-  //   event.preventDefault();
-  //   const element = event.currentTarget;
-  //   // Get the type of item to create.
-  //   const type = element.dataset.type;
-  //   // Grab any data associated with this control.
-  //   const system = duplicate(element.dataset);
-  //   // Initialize a default name.
-  //   const itemName = `${game.i18n.format("SMT.sheet.newItem", { name: type.capitalize() })}`;
-  //   // Prepare the item object.
-  //   const itemData = {
-  //     name: itemName,
-  //     type,
-  //     system,
-  //   };
-  //   // Remove the type from the dataset since it's in the itemData.type prop.
-  //   delete itemData.system["type"];
+  /**
+   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
+   * @param {Event} event   The originating click event
+   * @private
+   */
+  async #onItemCreate(event: JQuery.ClickEvent) {
+    event.preventDefault();
+    const element = $(event.currentTarget);
+    // Get the type of item to create.
+    const system = element.data();
+    // Grab any data associated with this control.
+    const type = system.type as string;
+    // Initialize a default name.
+    const name = type.replace(/\b\w+/g, function (s) {
+      return s.charAt(0).toUpperCase() + s.substring(1).toLowerCase();
+    });
+    const itemName = `${game.i18n.format("SMT.sheet.newItem", { name })}`;
+    // Prepare the item object.
+    const itemData = {
+      name: itemName,
+      type,
+      system,
+    };
+    // Remove the type from the dataset since it's in the itemData.type prop.
+    // delete itemData.system.type;
 
-  //   // Finally, create the item!
-  //   return await Item.create(itemData, { parent: this.actor });
-  // }
+    // Finally, create the item!
+    await this.actor.createEmbeddedDocuments("Item", [itemData]);
+  }
 
-  // async #onItemDelete(event) {
-  //   const li = $(event.currentTarget).parents(".item");
-  //   const item = this.actor.items.get(li.data("itemId"));
+  async #onItemDelete(event: JQuery.ClickEvent) {
+    const li = $(event.currentTarget).parents(".item");
+    const itemId = li.data("itemId") as string;
+    const item = this.actor.items.get(itemId);
 
-  //   const confirmDelete = await Dialog.confirm({
-  //     title: game.i18n.localize("SMT.dialog.confirmDeleteDialogTitle"),
-  //     content: `<p>${game.i18n.format("SMT.dialog.confirmDeletePrompt", { name: item.name })}</p>`,
-  //     yes: () => true,
-  //     no: () => false,
-  //     defaultYes: false,
-  //   });
+    if (!item) return;
 
-  //   if (!confirmDelete) return;
+    const confirmDelete = (await Dialog.confirm({
+      title: game.i18n.localize("SMT.dialog.confirmDeleteDialogTitle"),
+      content: `<p>${game.i18n.format("SMT.dialog.confirmDeletePrompt", { name: item.name })}</p>`,
+      yes: () => true,
+      no: () => false,
+      defaultYes: false,
+    })) as boolean;
 
-  //   item.delete();
-  //   li.slideUp(200, () => this.render(false));
-  // }
+    if (!confirmDelete) return;
+
+    await item.delete();
+    li.slideUp(200, () => this.render(false));
+  }
 }

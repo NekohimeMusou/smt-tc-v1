@@ -6,6 +6,10 @@
       "passive": "Passive Effects",
       "inactive": "Inactive Effects"
     },
+    "sheet": {
+      "createItem": "Create Item",
+      "addItem": "Add Item"
+    },
     "tabs": {
       "main": "Main",
       "notes": "Notes"
