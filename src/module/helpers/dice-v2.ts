@@ -9,13 +9,13 @@ declare global {
 interface CheckOptions {
   skill?: SmtItem;
   actor?: SmtActor;
-  token?: Token<SmtActor>;
-  accuracyStat?: AccuracyStat;
+  token?: TokenDocument<SmtActor>;
+  accuracyStat?: CharacterStat;
   showDialog?: boolean;
   tnType?: SuccessRollCategory;
   tnMod?: number;
-  critBoost?: boolean;
   autoFailThreshold?: number;
+  focused?: boolean;
 }
 
 interface AilmentData {
@@ -39,31 +39,52 @@ interface SuccessCheckResult {
   roll: Roll;
 }
 
+interface TargetData {
+  actor?: SmtActor;
+  token?: Token<SmtActor>;
+  target?: Token<SmtActor>;
+  totalPower?: number;
+  criticalHit?: boolean;
+  ailment?: AilmentData;
+  skipDodgeRoll?: boolean;
+  damageType?: DamageType;
+  hasDamage?: boolean;
+  affinity?: Affinity;
+  healing?: boolean;
+  attackerName?: string;
+}
+
+interface AilmentCheckData {
+  ailmentInflicted: boolean;
+  roll: Roll;
+}
+
 // This rolls the check(s) and displays the chat card(s) at the end
 // (maybe the success one separately)
 export async function rollCheck({
   skill,
   actor,
   token,
-  accuracyStat = "auto",
-  tnType = "tn",
+  accuracyStat,
+  tnType,
   tnMod = 0,
   showDialog = false,
-  critBoost = false,
   autoFailThreshold = CONFIG.SMT.defaultAutofailThreshold,
+  focused = false,
 }: CheckOptions = {}) {
-  const auto = accuracyStat === "auto";
-
   // Get necessary data for an accuracy roll
   let checkName: string;
   let baseTN = 1;
-  if (actor && !auto) {
-    const statLabel = game.i18n.localize(`SMT.tn.${accuracyStat}`);
+  let auto = false;
+
+  if (actor && tnType && accuracyStat) {
+    const statLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
     baseTN = actor.system.stats[accuracyStat][tnType];
     checkName = game.i18n.format("SMT.dice.statCheckLabel", {
       stat: statLabel,
     });
   } else if (skill) {
+    auto = skill.system.accuracyStat === "auto";
     baseTN = skill.system.tn + skill.system.tnMod;
     checkName = skill.name;
   } else {
@@ -72,7 +93,7 @@ export async function rollCheck({
 
   const successCardHtml: string[] = [];
   const successCardRolls: Roll[] = [];
-  let successLevel: SuccessLevel = "success";
+  let successLevel: SuccessLevel = "fail";
 
   if (auto) {
     successCardHtml.push(
@@ -105,6 +126,8 @@ export async function rollCheck({
     // Push the check title (e.g. "Strength Check: TN XX%")
     successCardHtml.push(`<div>${modifiedCheckTitle}</div>`);
 
+    // TODO: Fix to account for Might skill
+    const critBoost = skill?.system.hasCritBoost ?? false;
     const successCheckResult = await successCheck({
       tn,
       critBoost,
@@ -125,7 +148,7 @@ export async function rollCheck({
   }
 
   const criticalHit = successLevel === "crit";
-  const success = criticalHit || successLevel === "success";
+  const success = criticalHit || successLevel === "success" || auto;
   let totalPower = 0;
 
   if (success && skill?.system.hasPowerRoll) {
@@ -134,7 +157,15 @@ export async function rollCheck({
     const powerBoost = skill.system.hasPowerBoost;
 
     const powerRollResult = await powerRoll(power, powerBoost);
-    totalPower = powerRollResult.totalPower * (criticalHit ? 2 : 1);
+    totalPower = powerRollResult.totalPower;
+
+    if (criticalHit) {
+      totalPower *= 2;
+    }
+
+    if (focused && skill.system.damageType === "phys") {
+      totalPower *= 2;
+    }
 
     const powerMsg = game.i18n.format("SMT.dice.totalPower", {
       power: `${totalPower}`,
@@ -168,7 +199,7 @@ export async function rollCheck({
       successCardHtml.push(`<div>${checkTitle}</div>`);
 
       const { ailmentInflicted, roll: ailmentRoll } = await ailmentCheck(
-        skill.system.ailment,
+        skill.system.ailment.rate,
       );
 
       if (ailmentInflicted) {
@@ -199,7 +230,7 @@ export async function rollCheck({
   // Process each target and apply damage and ailment (if any)
   if (targets.size > 0 && skill) {
     for (const target of targets) {
-      const { htmlStrings, rolls } = await processTarget({
+      await processTarget({
         target,
         totalPower,
         criticalHit,
@@ -208,52 +239,24 @@ export async function rollCheck({
           skill.system.affinity,
         ),
       });
-
-      const targetCardHtml = htmlStrings.join("\n");
-
-      const chatData = {
-        user: game.user.id,
-        content: targetCardHtml,
-        speaker: {
-          scene: game.scenes.current,
-          actor,
-          token,
-        },
-        rolls,
-      };
-
-      await ChatMessage.create(chatData);
     }
   }
 }
 
-interface TargetData {
-  target?: Token<SmtActor>;
-  totalPower?: number;
-  criticalHit?: boolean;
-  ailment?: AilmentData;
-  skipDodgeRoll?: boolean;
-  damageType?: DamageType;
-  hasDamage?: boolean;
-  affinity?: Affinity;
-  healing?: boolean;
-}
-
-interface TargetProcessResult {
-  htmlStrings: string[];
-  rolls: Roll[];
-}
-
 // Directly generate HTML strings in here
 async function processTarget({
+  actor,
+  token,
   target,
   totalPower = 0,
   criticalHit = false,
   ailment = { name: "none", rate: 0 },
+  affinity = "phys",
   skipDodgeRoll = false,
   damageType = "phys",
   healing = false,
-}: TargetData = {}): Promise<TargetProcessResult> {
+  attackerName = "Someone",
+}: TargetData = {}) {
   if (!target) {
     throw new TypeError("Can't process a target with no target");
   }
@@ -270,23 +273,29 @@ async function processTarget({
   let dodgeSuccess: SuccessLevel = "fail";
   const dodgeTN = targetData.tn.dodge;
 
-  if (!skipDodgeRoll) {
+  const targetAffinity = targetData.affinities[affinity];
+
+  if (
+    !skipDodgeRoll &&
+    !(targetAffinity === "reflect" || targetAffinity === "drain")
+  ) {
     const autoFailThreshold = targetData.autoFailThreshold;
-
-    const dodgeCheckLabel = game.i18n.format("SMT.dice.", {
-      targetName,
-      tn: `${dodgeTN}`,
-    });
-
-    htmlParts.push(`<div>${dodgeCheckLabel}</div>`);
 
     const successData = await successCheck({
       tn: dodgeTN,
       autoFailThreshold,
     });
 
+    const dodgeRoll = successData.roll;
     dodgeSuccess = successData.successLevel;
-    rolls.push(successData.roll);
+    rolls.push(dodgeRoll);
+
+    // PUSH HTML CONTENT
+    // e.g. Target dodged! TN: XX%
+    htmlParts.push(
+      `<div>${game.i18n.format(`SMT.dice.dodge.${dodgeSuccess}`, { targetName, tn: `${dodgeTN}` })}</div>`,
+      await dodgeRoll.render(),
+    );
   }
 
   // If it's a critical hit, a successful dodge downgrades to normal
@@ -298,27 +307,123 @@ async function processTarget({
       power *= 4;
     } else if (dodgeSuccess === "fail" || dodgeSuccess === "autofail") {
       power *= 2;
+    } else if (!healing) {
+      // PUSH HTML CONTENT
+      // "Critical hit downgraded!"
+      htmlParts.push(
+        `<div>${game.i18n.localize("SMT.dice.critDowngrade")}</div>`,
+      );
     }
   }
 
   const dodged =
     dodgeSuccess === "crit" || (dodgeSuccess === "success" && !criticalHit);
 
-  const dodgeMsg = dodged ? "dodgeSuccess" : "dodgeFail";
-
-  htmlParts.push(
-    `<div>${game.i18n.format(`SMT.dice.${dodgeMsg}`, { targetName, tn: `${dodgeTN}` })}</div>`,
-  );
-
   const ignoreResist =
     (criticalHit && !dodged && dodgeSuccess !== "success") || healing;
 
-  // TODO: Do affinity before resist
+  // e.g. REFLECT!
+  if (targetAffinity !== "none") {
+    const affinityResult = game.i18n.localize(
+      `SMT.affinityResult.${targetAffinity}`,
+    );
 
-  // IF unsuccessful, calculate damage and make an ailment roll (if applicable)
+    htmlParts.push(`<div>${affinityResult}</div>`);
+  }
+
+  if (targetAffinity === "null") {
+    power = 0;
+  }
+
+  if (targetAffinity === "weak") {
+    power *= 2;
+  }
+
   const targetResist = ignoreResist ? 0 : targetData.resist[damageType];
 
-  const damageTotal = power - targetResist;
+  power -= targetResist;
+
+  const powerTag = healing || targetAffinity === "drain" ? "healing" : "damage";
+  const finalTarget =
+    targetAffinity === "reflect" || dodgeSuccess === "fumble"
+      ? attackerName
+      : targetName;
+  const affinityString = game.i18n.localize(`SMT.affinities.${affinity}`);
+
+  if (power > 0) {
+    // e.g. "TargetName takes 20 Phys damage! (Phys resist: 12)"
+    const powerMsg = game.i18n.format(`SMT.dice.powerMsg.${powerTag}`, {
+      target: finalTarget,
+      damage: `${power}`,
+      affinity: affinityString,
+    });
+
+    // PUSH HTML CONTENT
+    htmlParts.push(`<div>${powerMsg}</div`);
+  }
+
+  // Make an ailment roll if there is one
+  if (ailment.name !== "none") {
+    const ailmentAffinity = targetData.affinities.ailment;
+    const nullifyingAffinities: AffinityLevel[] = ["drain", "null", "reflect"];
+    const nullify =
+      nullifyingAffinities.includes(ailmentAffinity) ||
+      nullifyingAffinities.includes(targetAffinity);
+
+    if (nullify) {
+      // PUSH HTML CONTENT
+      // "Ailment nullified!"
+      htmlParts.push(
+        // "Ailment nullified!"
+        `<div>${game.i18n.localize("SMT.dice.ailmentNullified")}</div>`,
+      );
+    } else {
+      let ailmentRate = ailment.rate;
+
+      if (ailmentAffinity === "resist") {
+        ailmentRate = Math.floor(ailmentRate / 2);
+      } else if (ailmentAffinity === "weak") {
+        ailmentRate *= 2;
+      }
+
+      if (targetAffinity === "resist") {
+        ailmentRate = Math.floor(ailmentRate / 2);
+      } else if (targetAffinity === "weak") {
+        ailmentRate *= 2;
+      }
+
+      const { ailmentInflicted, roll } = await ailmentCheck(ailmentRate);
+      rolls.push(roll);
+
+      const ailmentName = game.i18n.localize(`SMT.ailments.${ailment.name}`);
+
+      const ailmentTag = ailmentInflicted ? "hit" : "miss";
+
+      const ailmentMsg = game.i18n.format(`SMT.dice.ailment.${ailmentTag}`, {
+        ailmentName,
+        target: targetName,
+      });
+
+      // PUSH HTML CONTENT
+      // e.g. "TargetName avoided Freeze!" "TargetName is inflicted with Freeze!"
+      htmlParts.push(`<div>${ailmentMsg}</div>`);
+    }
+  }
+
+  if (htmlParts.length > 0) {
+    const chatData = {
+      user: game.user.id,
+      content: htmlParts.join("\n"),
+      speaker: {
+        scene: game.scenes.current,
+        actor,
+        token,
+      },
+      rolls,
+    };
+
+    await ChatMessage.create(chatData);
+  }
 }
 
 async function powerRoll(
@@ -358,18 +463,9 @@ async function successCheck({
   return { successLevel, roll };
 }
 
-interface AilmentCheckData {
-  ailmentInflicted: boolean;
-  roll: Roll;
-}
-
-async function ailmentCheck(
-  ailment: AilmentData = { name: "none", rate: 0 },
-): Promise<AilmentCheckData> {
-  const { rate: ailmentRate } = ailment;
-
+async function ailmentCheck(rate: number): Promise<AilmentCheckData> {
   const { successLevel, roll } = await successCheck({
-    tn: Math.max(ailmentRate, 5),
+    tn: Math.max(rate, 5),
     autoFailThreshold: 96,
   });
 

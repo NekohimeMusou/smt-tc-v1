@@ -108,6 +108,10 @@
       "mag": "Magic",
       "gun": "Gun"
     },
+    "damageTypes": {
+      "phys": "Phys",
+      "mag": "Mag"
+    },
     "actorFields": {
       "level": "Level",
       "charClass": "Class",
@@ -179,14 +183,30 @@
       "skillCheckTitle": "{checkName}: TN {tn}%",
       "statCheckLabel": "{stat} Check",
       "autoCheckLabel": "{checkName}: Auto",
-      "ailmentCheckTitle": "{ailmentNameLabel} chance: {ailmentRate}%",
+      "ailmentCheckTitle": "{ailmentLabel} rate: {ailmentRate}%",
+      "ailmentNullified": "Ailment nullified!",
+      "ailmentMissed": "{target} avoided {ailmentName}!",
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power}",
-      "dmgChatCardMsg": "{target} takes {damage} {affinity} Damage ({resist} {damageType} Resist)",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
-      "ailmentRollHit": "{target} is inflicted with {ailmentNameLabel}!",
       "totalPower": "Total Power: {power}",
+      "powerMsg": {
+        "damage": "{target} takes {damage} {affinity} damage! ({damageType} Resist: {resist})",
+        "healing": "{target} recovers {damage} HP!"
+      },
+      "critDowngrade": "Critical hit downgraded!",
+      "ailment": {
+        "hit": "{target} is inflicted with {ailmentName}!",
+        "miss": "{target} avoided {ailmentName}!"
+      },
+      "dodge": {
+        "crit": "{targetName} critically dodged! TN: {tn}%",
+        "success": "{targetName} dodged! TN: {tn}%",
+        "fail": "{targetName} failed to dodge! TN: {tn}%",
+        "autofail": "{targetName} failed to dodge! TN: {tn}%",
+        "fumble": "{targetName} fumbled a dodge! TN: {tn}%"
+      },
       "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
       "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
     },
@@ -219,11 +239,11 @@
       "crit": "Critical success!",
       "fumble": "Fumble!"
     },
-    "resistChatResult": {
+    "affinityResult": {
       "reflect": "REFLECT!",
       "drain": "DRAIN!",
       "null": "NULL!",
-      "resist": "Resist!",
+      "resist": "RESIST!",
       "weak": "WEAK!"
     },
     "dialog": {

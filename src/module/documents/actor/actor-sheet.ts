@@ -1,5 +1,5 @@
 import { SMT } from "../../config/config.js";
-import { skillRoll, statRoll } from "../../helpers/dice.js";
+import { rollCheck } from "../../helpers/dice-v2.js";
 import { SmtActor } from "./actor.js";
 
 interface StatRollFormData {
@@ -97,12 +97,18 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       return ui.notifications.error("Malformed data in #onSkillRoll");
     }
 
-    const targets = Array.from(game.user.targets) as Token<SmtActor>[];
-
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    await skillRoll({ skill, targets, showDialog });
+    await rollCheck({
+      skill,
+      actor: this.actor,
+      token: this.actor.token,
+      tnMod: skill.system.tnMod,
+      showDialog,
+      autoFailThreshold: this.actor.system.autoFailThreshold,
+      focused: this.actor.system.modifiers.focused,
+    });
   }
 
   async #onStatRoll(event: JQuery.ClickEvent) {
@@ -113,13 +119,18 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    await statRoll(
-      this.actor,
-      this.actor.token,
-      tnType,
+    const autoFailThreshold = this.actor.system.autoFailThreshold;
+    const focused = this.actor.system.modifiers.focused;
+
+    await rollCheck({
+      actor: this.actor,
+      token: this.actor.token,
       accuracyStat,
+      tnType,
       showDialog,
-    );
+      autoFailThreshold,
+      focused,
+    });
   }
 
   // /**
@@ -167,4 +178,3 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   //   li.slideUp(200, () => this.render(false));
   // }
 }
-
