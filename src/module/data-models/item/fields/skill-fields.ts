@@ -13,6 +13,6 @@ export function skillFields() {
       initial: "phys",
     }),
     // To be shown in chat card with rolls
-    effect: new fields.StringField(),
+    effect: new fields.HTMLField(),
   } as const;
 }

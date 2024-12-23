@@ -213,6 +213,10 @@ export async function rollCheck({
     }
   }
 
+  if (skill?.system.effect) {
+    successCardHtml.push(`<div>${skill.system.effect}</div>`);
+  }
+
   // Spit out a chat card here to break up the output a bit
   const successChatData = {
     user: game.user.id,
