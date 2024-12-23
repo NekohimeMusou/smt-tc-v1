@@ -145,7 +145,8 @@
       "gun": "Gun",
       "spell": "Spell",
       "talk": "Talk",
-      "passive": "Passive"
+      "passive": "Passive",
+      "other": "Other"
     },
     "target": {
       "one": "One target",

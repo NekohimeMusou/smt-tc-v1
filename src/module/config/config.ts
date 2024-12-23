@@ -28,6 +28,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/skills.hbs",
   "systems/smt-tc/templates/parts/item/header.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
+  "systems/smt-tc/templates/parts/item/attack-pane.hbs",
 ] as const;
 
 const rollEffectTypes = [

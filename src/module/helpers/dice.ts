@@ -126,6 +126,11 @@ export async function rollCheck({
     // Push the check title (e.g. "Strength Check: TN XX%")
     successCardHtml.push(`<div>${modifiedCheckTitle}</div>`);
 
+    // Add skill effect
+    if (skill?.system.effect) {
+      successCardHtml.push(`<div>${skill.system.effect}</div>`);
+    }
+
     // TODO: Fix to account for Might skill
     const critBoost = skill?.system.hasCritBoost ?? false;
     const successCheckResult = await successCheck({
@@ -281,7 +286,11 @@ async function processTarget({
 
   if (
     !skipDodgeRoll &&
-    !(targetAffinity === "reflect" || targetAffinity === "drain")
+    !(
+      targetAffinity === "reflect" ||
+      targetAffinity === "drain" ||
+      targetAffinity === "null"
+    )
   ) {
     const autoFailThreshold = targetData.autoFailThreshold;
 

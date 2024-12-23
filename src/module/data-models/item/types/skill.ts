@@ -63,6 +63,14 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     );
   }
 
+  get costType(): SkillCostType {
+    const data = this.#systemData;
+
+    const skillType = data.skillType;
+
+    return skillType === "phys" ? "hp" : "mp";
+  }
+
   // Typescript-related hack
   get #systemData() {
     return this as this & SmtItem["system"];

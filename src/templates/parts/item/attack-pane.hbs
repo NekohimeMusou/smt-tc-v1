@@ -1,0 +1,66 @@
+<section class="attack-pane flexcol">
+  <div class="flexrow">
+    {{!-- Skill Type (determines phys/mag damage type) --}}
+    <div class="flexcol">
+      <label for="skill-type-field" class="resource-label">{{localize "SMT.itemFields.skillType"}}</label>
+      <select id="skill-type-field" name="system.skillType">
+        {{selectOptions SMT.skillTypes localize=true}}
+      </select>
+    </div>
+
+    {{!-- Accuracy Stat --}}
+    <div class="flexcol">
+      <label for="accuracy-stat-field" class="resource-label">{{localize "SMT.itemFields.accuracyStat"}}</label>
+      <select id="accuracy-stat-field" name="system.accuracyStat">
+        {{selectOptions SMT.accuracyStats localize=true}}
+      </select>
+    </div>
+  </div>
+
+  <div class="flexrow">
+    {{!-- Cost (HP/MP determined by power type) --}}
+    <div class="flexcol">
+      <label for="skill-cost-field" class="resource-label">{{localize "SMT.itemFields.cost"}}</label>
+      <input type="number" id="cost-field" name="system.cost" value="{{system.cost}}" placeholder="0"
+        data-dtype="Number" />
+    </div>
+
+    {{!-- Potency --}}
+    <div class="flexcol">
+      <label for="potency-field" class="resource-label">{{localize "SMT.itemFields.potency"}}</label>
+      <input type="number" id="potency-field" name="system.potency" value="{{system.potency}}" placeholder="0"
+        data-dtype="Number" />
+    </div>
+  </div>
+
+  <div class="flexrow">
+    {{!-- Target --}}
+    <div class="flexcol">
+      <label for="target-field" class="resource-label">{{localize "SMT.itemFields.target"}}</label>
+      <select id="target-field" name="system.target">
+        {{selectOptions SMT.targets localize=true}}
+      </select>
+    </div>
+    {{!-- Affinity --}}
+    <div class="flexcol">
+      <label for="affinity-field" class="resource-label">{{localize "SMT.itemFields.affinity"}}</label>
+      <select id="affinity-field" name="system.affinity">
+        {{selectOptions SMT.affinities localize=true}}
+      </select>
+    </div>
+  </div>
+
+  <div class="flexcol">
+    <div class="resource-label">{{localize "SMT.itemFields.effect"}}</div>
+    <div>{{editor system.effect target="system.effect" editable=editable}}</div>
+  </div>
+</section>
+
+{{!-- TN Modifier --}}
+{{!-- Crit Boost? --}}
+{{!-- Ailment (name and rate) --}}
+{{!-- Effect --}}
+
+{{!-- Reference/would be nice stuff --}}
+{{!-- Inheritance Traits --}}
+{{!-- Ammo --}}
