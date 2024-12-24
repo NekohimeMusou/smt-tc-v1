@@ -35,11 +35,15 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const weapons = this.actor.items.filter(
       (item) => item.system.itemType === "weapon" && item.system.basicStrike,
     );
-    weapons.concat(
-      this.actor.items.filter(
-        (item) => item.system.itemType === "weapon" && !item.system.basicStrike,
-      ),
-    );
+
+    if (this.actor.system.charClass === "human") {
+      weapons.concat(
+        this.actor.items.filter(
+          (item) =>
+            item.system.itemType === "weapon" && !item.system.basicStrike,
+        ),
+      );
+    }
 
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);

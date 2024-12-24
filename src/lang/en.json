@@ -12,7 +12,8 @@
     },
     "tabs": {
       "main": "Main",
-      "notes": "Notes"
+      "notes": "Notes",
+      "options": "Options"
     },
     "charClasses": {
       "human": "Human",
@@ -81,7 +82,7 @@
     },
     "ailments": {
       "stone": "Stone",
-      "fly": "Fly",
+      "flied": "Fly",
       "stun": "Stun",
       "charm": "Charm",
       "poison": "Poison",
@@ -137,7 +138,14 @@
       "potency": "Potency",
       "tnMod": "TN Mod",
       "critBoost": "Crit Boost",
-      "effect": "Effect"
+      "effect": "Effect",
+      "hasPowerRoll": "Includes Power Roll",
+      "hasPowerBoost": "Power Boost (2d10 power)",
+      "hasCritBoost": "Crit Boost (e.g. Might)",
+      "isGun": "Is This a Gun?",
+      "ammo": "Ammo",
+      "maxAmmo": "Max Ammo",
+      "itemType": "Item Type"
     },
     "skillTypes": {
       "phys": "Phys",

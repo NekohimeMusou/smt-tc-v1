@@ -3,8 +3,6 @@ export function skillFields() {
 
   return {
     basicStrike: new fields.BooleanField({ initial: false }),
-    // TODO: Factor out
-    hasAttack: new fields.BooleanField({ initial: true }),
     // Inheritance traits (Wing, Breath, etc)
     inheritanceTraits: new fields.StringField(),
     // Phys attack, magic attack, or spell

@@ -48,20 +48,20 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return actor?.system.autoFailThreshold;
   }
 
-  get hasPowerBoost(): boolean {
-    const actor = this.parent?.parent as SmtActor;
-    const data = this.#systemData;
+  // get hasPowerBoost(): boolean {
+  //   const actor = this.parent?.parent as SmtActor;
+  //   const data = this.#systemData;
 
-    const skillType = data.skillType;
+  //   const skillType = data.skillType;
 
-    const isPhysicalAttack = skillType === "phys" || skillType === "gun";
-    const isMagicAttack = !isPhysicalAttack;
+  //   const isPhysicalAttack = skillType === "phys" || skillType === "gun";
+  //   const isMagicAttack = !isPhysicalAttack;
 
-    return (
-      (isPhysicalAttack && actor.system.modifiers.powerfulStrikes) ||
-      (isMagicAttack && actor.system.modifiers.powerfulSpells)
-    );
-  }
+  //   return (
+  //     (isPhysicalAttack && actor.system.modifiers.powerfulStrikes) ||
+  //     (isMagicAttack && actor.system.modifiers.powerfulSpells)
+  //   );
+  // }
 
   get costType(): SkillCostType {
     const data = this.#systemData;

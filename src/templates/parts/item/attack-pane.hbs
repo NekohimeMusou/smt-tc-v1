@@ -4,7 +4,7 @@
     <div class="flexcol">
       <label for="skill-type-field" class="resource-label">{{localize "SMT.itemFields.skillType"}}</label>
       <select id="skill-type-field" name="system.skillType">
-        {{selectOptions SMT.skillTypes localize=true}}
+        {{selectOptions SMT.skillTypes selected=system.skillType localize=true}}
       </select>
     </div>
 
@@ -12,18 +12,30 @@
     <div class="flexcol">
       <label for="accuracy-stat-field" class="resource-label">{{localize "SMT.itemFields.accuracyStat"}}</label>
       <select id="accuracy-stat-field" name="system.accuracyStat">
-        {{selectOptions SMT.accuracyStats localize=true}}
+        {{selectOptions SMT.accuracyStats selected=system.accuracyStat localize=true}}
       </select>
     </div>
   </div>
 
   <div class="flexrow">
     {{!-- Cost (HP/MP determined by power type) --}}
-    <div class="flexcol">
-      <label for="skill-cost-field" class="resource-label">{{localize "SMT.itemFields.cost"}}</label>
-      <input type="number" id="cost-field" name="system.cost" value="{{system.cost}}" placeholder="0"
-        data-dtype="Number" />
-    </div>
+    {{#if system.isGun}}
+      <div class="flexcol">
+        <label for="current-ammo-field" class="resource-label">{{localize "SMT.itemFields.ammo"}}</label>
+        <input type="number" id="ammo-field" name="system.ammo.value" value="{{system.ammo.value}}" placeholder="0"
+          data-dtype="Number" />
+        </div>
+        <div class="flexcol">
+          <label for="max-ammo-field" class="resource-label">{{localize "SMT.itemFields.maxAmmo"}}</label>
+          <input type="number" id="max-ammo-field" name="system.ammo.max" value="{{system.ammo.max}}" placeholder="0"
+            data-dtype="Number" />
+        </div>
+        {{else}}
+        <div class="flexcol">
+          <label for="skill-cost-field" class="resource-label">{{localize "SMT.itemFields.cost"}}</label>
+          <input type="number" id="cost-field" name="system.cost" value="{{system.cost}}" placeholder="0" data-dtype="Number" />
+        </div>
+        {{/if}}
 
     {{!-- Potency --}}
     <div class="flexcol">
@@ -38,29 +50,36 @@
     <div class="flexcol">
       <label for="target-field" class="resource-label">{{localize "SMT.itemFields.target"}}</label>
       <select id="target-field" name="system.target">
-        {{selectOptions SMT.targets localize=true}}
+        {{selectOptions SMT.targets selected=system.target localize=true}}
       </select>
     </div>
     {{!-- Affinity --}}
     <div class="flexcol">
       <label for="affinity-field" class="resource-label">{{localize "SMT.itemFields.affinity"}}</label>
       <select id="affinity-field" name="system.affinity">
-        {{selectOptions SMT.affinities localize=true}}
+        {{selectOptions SMT.affinities selected=system.affinity localize=true}}
       </select>
     </div>
   </div>
-
+  
+  <div class="flexrow">
+    <div class="flexcol">
+      <label for="ailment-name-field" class="resource-label">{{localize "SMT.itemFields.ailment"}}</label>
+      <select id="ailment-name-field" name="system.ailment.name">
+        {{selectOptions SMT.ailments selected=system.ailment.name localize=true}}
+      </select>
+    </div>
+    <div class="flexcol">
+      <label for="ailment-rate-field" class="resource-label">{{localize "SMT.itemFields.ailmentRate"}}</label>
+      <input type="number" id="ailment-rate-field" name="system.ailment.rate" value="{{system.ailment.rate}}"
+        placeholder="0" data-dtype="Number" />
+    </div>
+  </div>
+  
   <div class="flexcol">
-    <div class="resource-label">{{localize "SMT.itemFields.effect"}}</div>
-    <div>{{editor system.effect target="system.effect" editable=editable}}</div>
+  <div class="resource-label">{{localize "SMT.itemFields.effect"}}</div>
+  <div>{{editor system.effect target="system.effect" editable=editable}}</div>
   </div>
 </section>
 
-{{!-- TN Modifier --}}
-{{!-- Crit Boost? --}}
-{{!-- Ailment (name and rate) --}}
-{{!-- Effect --}}
-
-{{!-- Reference/would be nice stuff --}}
-{{!-- Inheritance Traits --}}
 {{!-- Ammo --}}

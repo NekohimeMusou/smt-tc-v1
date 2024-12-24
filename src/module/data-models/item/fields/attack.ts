@@ -6,6 +6,7 @@ export function attackDataFields() {
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+    isGun: new fields.BooleanField({ initial: false }),
     ammo: new fields.SchemaField({
       min: new fields.NumberField({ integer: true, initial: 0 }),
       // TODO: Actually support ammo tracking
@@ -36,5 +37,6 @@ export function attackDataFields() {
     }),
     // Exclusively required for Deadly Fury. Doesn't stack with Might
     hasCritBoost: new fields.BooleanField({ initial: false }),
+    hasPowerBoost: new fields.BooleanField({ initial: false }),
   } as const;
 }

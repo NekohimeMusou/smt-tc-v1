@@ -29,6 +29,8 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/header.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
   "systems/smt-tc/templates/parts/item/attack-pane.hbs",
+  "systems/smt-tc/templates/parts/item/options-pane.hbs",
+  "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
 ] as const;
 
 const rollEffectTypes = [
@@ -104,6 +106,7 @@ const affinityLevels = {
 } as const;
 
 const ailments = {
+  none: "SMT.ailments.none",
   stone: "SMT.ailments.stone",
   flied: "SMT.ailments.flied",
   stun: "SMT.ailments.stun",
@@ -116,7 +119,6 @@ const ailments = {
   panic: "SMT.ailments.panic",
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
-  none: "SMT.ailments.none",
 } as const;
 
 // TODO: Use these instead of a string field

@@ -1,0 +1,46 @@
+<section class="options-pane flexcol">
+  <div class="flexrow">
+    {{!-- Inheritance Traits --}}
+    <div class="flexcol">
+      <label for="inheritance-trait-field"
+        class="resource-label">{{localize "SMT.itemFields.inheritanceTraits"}}</label>
+      <input type="text" id="inheritance-trait-field" name="system.inheritanceTraits"
+        value="{{system.inheritanceTraits}}" data-dtype="String" />
+    </div>
+    {{!-- TN Modifier --}}
+    <div class="flexcol">
+      <label for="tn-modifier-field" class="resource-label">{{localize "SMT.itemFields.tnMod"}}</label>
+      <input type="number" id="tn-modifier-field" name="system.tnMod" value="{{system.tnMod}}" placeholder="0"
+        data-dtype="Number" />
+    </div>
+    {{!-- Should we roll power for this? --}}
+    <div class="flexcol">
+      <label for="power-roll-field" class="resource-label">{{localize "SMT.itemFields.hasPowerRoll"}}</label>
+      <input type="checkbox" id="power-roll-field" name="system.hasPowerRoll" {{checked system.hasPowerRoll}} />
+    </div>
+  </div>
+
+  <div class="flexrow">
+    {{!-- Crit Boost? --}}
+    <div class="flexcol">
+      <label for="crit-boost-field" class="resource-label">{{localize "SMT.itemFields.hasCritBoost"}}</label>
+      <input type="checkbox" id="crit-boost-field" name="system.hasCritBoost" {{checked system.hasCritBoost}} />
+    </div>
+    {{!-- Power boost? --}}
+    <div class="flexcol">
+      <label for="power-boost-field" class="resource-label">{{localize "SMT.itemFields.hasPowerBoost"}}</label>
+      <input type="checkbox" id="power-boost-field" name="system.hasPowerBoost" {{checked system.hasPowerBoost}} />
+    </div>
+    {{!-- Is this a gun? --}}
+    <div class="flexcol">
+      <label for="is-gun-field" class="resource-label">{{localize "SMT.itemFields.isGun"}}</label>
+      <input type="checkbox" id="is-gun-field" name="system.isGun" {{checked system.isGun}} />
+    </div>
+    <div class="flexcol">
+      <label for="item-type-field" class="resource-label">{{localize "SMT.itemFields.itemType"}}</label>
+      <select id="item-type-field" name="system.itemType">
+        {{selectOptions SMT.itemTypes selected=system.itemType localize=true}}
+      </select>
+    </div>
+  </div>
+</section>
