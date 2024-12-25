@@ -18,6 +18,9 @@
       "notes": "Notes",
       "options": "Options"
     },
+    "error": {
+      "insufficientResource": "Not enough {resource}!"
+    },
     "charClasses": {
       "human": "Human",
       "demon": "Demon",
@@ -199,6 +202,7 @@
     },
     "dice": {
       "skillCheckTitle": "{checkName}: TN {tn}%",
+      "skillCost": "Cost: {cost} {resource}",
       "statCheckLabel": "{stat} Check",
       "autoCheckLabel": "{checkName}: Auto",
       "ailmentCheckTitle": "{ailmentLabel} rate: {ailmentRate}%",

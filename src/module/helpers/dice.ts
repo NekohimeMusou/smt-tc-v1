@@ -91,6 +91,38 @@ export async function rollCheck({
     throw new TypeError("Malformed dice roll data");
   }
 
+  const cost = skill?.system.cost ?? 0;
+  const costType = skill?.system.costType;
+
+  if (cost > 0 && costType) {
+    // Return if insufficient HP/MP
+    if (actor) {
+      if (actor.system[costType].value < cost) {
+        ui.notifications.warn(
+          game.i18n.format("SMT.error.insufficientResources", {
+            resource: game.i18n.localize(`SMT.resources.${costType}`),
+          }),
+        );
+
+        return;
+      }
+
+      // There's gotta be a better way to do this
+      switch (costType) {
+        case "hp":
+          await actor.update({
+            "system.hp.value": actor.system.hp.value - cost,
+          });
+          break;
+        case "mp":
+          await actor.update({
+            "system.mp.value": actor.system.mp.value - cost,
+          });
+          break;
+      }
+    }
+  }
+
   const successCardHtml: string[] = [];
   const successCardRolls: Roll[] = [];
   let successLevel: SuccessLevel = "fail";
@@ -99,6 +131,12 @@ export async function rollCheck({
     successCardHtml.push(
       `<div>${game.i18n.format("SMT.dice.autoCheckLabel", { checkName })}</div>`,
     );
+
+    if (cost > 0 && costType) {
+      successCardHtml.push(
+        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType })}</div>`,
+      );
+    }
   } else {
     // Show the modifier dialog, if applicable
     const dialogTitle = game.i18n.format("SMT.dice.skillCheckTitle", {
@@ -125,6 +163,14 @@ export async function rollCheck({
 
     // Push the check title (e.g. "Strength Check: TN XX%")
     successCardHtml.push(`<div>${modifiedCheckTitle}</div>`);
+
+    if (cost > 0 && costType) {
+      const costTypeLabel = game.i18n.localize(`SMT.resources.${costType}`);
+
+      successCardHtml.push(
+        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costTypeLabel })}</div>`,
+      );
+    }
 
     // Add skill effect
     if (skill?.system.effect) {
@@ -244,9 +290,13 @@ export async function rollCheck({
         totalPower,
         criticalHit,
         ailment: skill.system.ailment,
+        affinity: skill.system.affinity,
         skipDodgeRoll: ["healing", "support", "unique"].includes(
           skill.system.affinity,
         ),
+        damageType: skill.system.damageType,
+        healing: skill.system.affinity === "healing",
+        attackerName: actor?.name ?? "Someone",
       });
     }
   }
