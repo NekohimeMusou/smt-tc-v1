@@ -1,7 +1,10 @@
 <section class="flexcol">
   {{> "systems/smt-tc/templates/parts/actor/resources.hbs"}}
-  {{> "systems/smt-tc/templates/parts/actor/stats.hbs"}}
-  {{> "systems/smt-tc/templates/parts/actor/derived-stats.hbs"}}
+  <div class="resource-label flex-group-center">{{localize "SMT.actorSheet.stats"}}</div>
+  <div class="flexrow">
+    {{> "systems/smt-tc/templates/parts/actor/stats.hbs"}}
+    {{> "systems/smt-tc/templates/parts/actor/derived-stats.hbs"}}
+  </div>
   {{> "systems/smt-tc/templates/parts/actor/weapons.hbs"}}
   {{> "systems/smt-tc/templates/parts/actor/skills.hbs"}}
 </section>
