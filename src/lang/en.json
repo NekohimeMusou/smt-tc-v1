@@ -8,7 +8,10 @@
     },
     "sheet": {
       "createItem": "Create Item",
-      "addItem": "Add Item"
+      "newItem": "New {name}",
+      "addItem": "Add Item",
+      "editItem": "Edit Item",
+      "deleteItem": "Delete Item"
     },
     "tabs": {
       "main": "Main",
@@ -117,12 +120,14 @@
       "phys": "Phys",
       "mag": "Mag"
     },
-    "actorFields": {
-      "level": "Level",
-      "charClass": "Class",
+    "resources": {
       "hp": "HP",
       "mp": "MP",
       "fp": "FP"
+    },
+    "actorFields": {
+      "level": "Level",
+      "charClass": "Class"
     },
     "itemFields": {
       "inheritanceTraits": "Inheritance Traits",

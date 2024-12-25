@@ -20,6 +20,10 @@
         {{!-- Element --}}
         <div class="item-element">{{localize "SMT.skillPane.element"}}</div>
         {{!-- Short notes? --}}
+        <div class="item-controls">
+          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="weapon">
+            <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
+        </div>
       </li>
       {{#each weapons}}
       <li class="item flexrow flex-group-center" data-item-id="{{id}}">
@@ -48,6 +52,13 @@
         {{!-- Element --}}
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
         {{!-- Short notes? --}}
+        <div class="item-controls">
+          <a class="item-control{{#unless system.basicStrike}} item-edit{{/unless}}"
+            title="{{localize "SMT.sheet.editItem"}}"><i class="fas{{#unless system.basicStrike}} fa-edit{{/unless}}"></i></a>
+          <a class="item-control{{#unless system.basicStrike}} item-delete{{/unless}}"
+            title="{{localize "SMT.sheet.deleteItem"}}"><i
+              class="fas{{#unless system.basicStrike}} fa-trash{{/unless}}"></i></a>
+        </div>
       </li>
       {{/each}}
     </ol>

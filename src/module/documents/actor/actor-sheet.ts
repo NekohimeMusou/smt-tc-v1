@@ -29,7 +29,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const system = this.actor.system;
     const rollData = this.actor.getRollData();
-    const skills = this.actor.items.filter((item) => item.type === "skill");
+    const skills = this.actor.items.filter(
+      (item) => item.system.itemType === "skill",
+    );
 
     // Dumb hack so the basic strike is always first
     const weapons = this.actor.items.filter(
@@ -37,8 +39,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     );
 
     if (this.actor.system.charClass === "human") {
-      weapons.concat(
-        this.actor.items.filter(
+      weapons.push(
+        ...this.actor.items.filter(
           (item) =>
             item.system.itemType === "weapon" && !item.system.basicStrike,
         ),
