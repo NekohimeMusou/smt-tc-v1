@@ -391,7 +391,7 @@ async function processTarget({
       `SMT.affinityResult.${targetAffinity}`,
     );
 
-    htmlParts.push(`<div>${affinityResult}</div>`);
+    htmlParts.push(`<h3>${affinityResult}</h3>`);
   }
 
   if (targetAffinity === "null") {
@@ -400,6 +400,10 @@ async function processTarget({
 
   if (targetAffinity === "weak") {
     power *= 2;
+  }
+
+  if (targetAffinity === "resist") {
+    power = Math.floor(power / 2);
   }
 
   const targetResist = ignoreResist ? 0 : targetData.resist[damageType];
@@ -438,6 +442,13 @@ async function processTarget({
     if (nullify) {
       // PUSH HTML CONTENT
       // "Ailment nullified!"
+      const ailmentLabel = game.i18n.localize(`SMT.ailments.${ailment.name}`);
+      const ailmentCheckTitle = game.i18n.format("SMT.dice.ailmentCheckTitle", {
+        ailmentLabel,
+        rate: `${ailment.rate}`,
+      });
+
+      htmlParts.push(`<div>${ailmentCheckTitle}</div>`);
       htmlParts.push(
         // "Ailment nullified!"
         `<div>${game.i18n.localize("SMT.dice.ailmentNullified")}</div>`,
@@ -467,11 +478,12 @@ async function processTarget({
       const ailmentMsg = game.i18n.format(`SMT.dice.ailment.${ailmentTag}`, {
         ailmentName,
         target: targetName,
+        rate: `${ailmentRate}`,
       });
 
       // PUSH HTML CONTENT
       // e.g. "TargetName avoided Freeze!" "TargetName is inflicted with Freeze!"
-      htmlParts.push(`<div>${ailmentMsg}</div>`);
+      htmlParts.push(`<div>${ailmentMsg}</div>`, await roll.render());
     }
   }
 

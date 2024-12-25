@@ -49,11 +49,11 @@
       "lu": "Negotiation"
     },
     "specialTNFormula": {
-      "st": "Strength TN",
-      "ma": "Magic TN",
-      "vi": "Save TN",
-      "ag": "Agility + 10",
-      "lu": "(Luck x 2) + 20"
+      "st": "St TN",
+      "ma": "Ma TN",
+      "vi": "Vi TN",
+      "ag": "Ag + 10",
+      "lu": "(Lu x 2) + 20"
     },
     "derivedStatFormula": {
       "basePhysPower": "St + LV",
@@ -64,7 +64,7 @@
     "affinities": {
       "phys": "Phys",
       "fire": "Fire",
-      "ice": "Ice",
+      "cold": "Cold",
       "elec": "Elec",
       "force": "Force",
       "light": "Light",
@@ -185,7 +185,8 @@
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
       "skills": "Skills",
-      "weapons": "Weapons"
+      "weapons": "Weapons",
+      "affinities": "Affinities"
     },
     "skillPane": {
       "skill": "Skill",
@@ -213,14 +214,15 @@
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll.",
       "totalPower": "Total Power: {power}",
+      "affinityMessage": "{name}: {targetAffinity}",
       "powerMsg": {
         "damage": "{target} takes {damage} {affinity} damage! ({damageType} Resist: {resist})",
         "healing": "{target} recovers {damage} HP!"
       },
       "critDowngrade": "Critical hit downgraded!",
       "ailment": {
-        "hit": "{target} is inflicted with {ailmentName}!",
-        "miss": "{target} avoided {ailmentName}!"
+        "hit": "{target} is inflicted with {ailmentName}! (Rate: {rate}%)",
+        "miss": "{target} avoided {ailmentName}! (Rate: {rate}%)"
       },
       "dodge": {
         "crit": "{targetName} critically dodged! TN: {tn}%",

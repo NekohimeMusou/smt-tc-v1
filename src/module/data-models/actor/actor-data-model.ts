@@ -41,7 +41,7 @@ const modifiers = new fields.SchemaField({
   gun: new fields.NumberField({ integer: true, initial: 0 }),
   elementMultipliers: new fields.SchemaField({
     fire: new fields.NumberField({ positive: true, initial: 1 }),
-    ice: new fields.NumberField({ positive: true, initial: 1 }),
+    cold: new fields.NumberField({ positive: true, initial: 1 }),
     elec: new fields.NumberField({ positive: true, initial: 1 }),
     force: new fields.NumberField({ positive: true, initial: 1 }),
   }),
@@ -62,7 +62,10 @@ const affinities = new fields.SchemaField({
     choices: SMT.affinityLevels,
     initial: "none",
   }),
-  ice: new fields.StringField({ choices: SMT.affinityLevels, initial: "none" }),
+  cold: new fields.StringField({
+    choices: SMT.affinityLevels,
+    initial: "none",
+  }),
   elec: new fields.StringField({
     choices: SMT.affinityLevels,
     initial: "none",
@@ -91,11 +94,11 @@ const affinities = new fields.SchemaField({
     choices: SMT.affinityLevels,
     initial: "none",
   }),
-  almighty: new fields.StringField({
+  ailment: new fields.StringField({
     choices: SMT.affinityLevels,
     initial: "none",
   }),
-  ailment: new fields.StringField({
+  almighty: new fields.StringField({
     choices: SMT.affinityLevels,
     initial: "none",
   }),

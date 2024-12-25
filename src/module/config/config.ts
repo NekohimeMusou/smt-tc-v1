@@ -31,6 +31,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/attack-pane.hbs",
   "systems/smt-tc/templates/parts/item/options-pane.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
+  "systems/smt-tc/templates/parts/actor/affinities.hbs",
 ] as const;
 
 const rollEffectTypes = [
@@ -81,7 +82,7 @@ const costTypes = {
 const affinities = {
   phys: "SMT.affinities.phys",
   fire: "SMT.affinities.fire",
-  ice: "SMT.affinities.ice",
+  cold: "SMT.affinities.cold",
   elec: "SMT.affinities.elec",
   force: "SMT.affinities.force",
   light: "SMT.affinities.light",
@@ -89,7 +90,6 @@ const affinities = {
   mind: "SMT.affinities.mind",
   nerve: "SMT.affinities.nerve",
   ruin: "SMT.affinities.ruin",
-  almighty: "SMT.affinities.almighty",
   ailment: "SMT.affinities.ailment",
   healing: "SMT.affinities.healing",
   support: "SMT.affinities.support",
