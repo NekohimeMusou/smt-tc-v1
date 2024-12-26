@@ -1,9 +1,6 @@
 <section class="skills">
   <div class="items-list flexcol flexlarge">
     <ol class="items-list">
-      <li class="item flex-group-center flex-center flex-between items-header">
-        {{localize "SMT.actorSheet.skills"}}
-      </li>
       <li class="item flexrow flex-group-center items-header">
         {{!-- Skill --}}
         <div class="item-name flex2">{{localize "SMT.skillPane.weapon"}}</div>
@@ -59,11 +56,10 @@
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
         {{!-- Short notes? --}}
         <div class="item-controls">
-          <a class="item-control{{#unless system.basicStrike}} item-edit{{/unless}}"
-            title="{{localize "SMT.sheet.editItem"}}"><i class="fas{{#unless system.basicStrike}} fa-edit{{/unless}}"></i></a>
-          <a class="item-control{{#unless system.basicStrike}} item-delete{{/unless}}"
+          <a class="item-control item-edit" title="{{localize "SMT.sheet.editItem"}}"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete"
             title="{{localize "SMT.sheet.deleteItem"}}"><i
-              class="fas{{#unless system.basicStrike}} fa-trash{{/unless}}"></i></a>
+              class="fas fa-trash"></i></a>
         </div>
       </li>
       {{/each}}

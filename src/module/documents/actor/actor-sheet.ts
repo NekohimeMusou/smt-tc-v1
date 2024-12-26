@@ -29,23 +29,17 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const system = this.actor.system;
     const rollData = this.actor.getRollData();
-    const skills = this.actor.items.filter(
-      (item) => item.system.itemType === "skill",
+    const skills = this.actor.items.filter((item) => item.system.basicStrike);
+
+    skills.push(
+      ...this.actor.items.filter(
+        (item) => item.system.itemType === "skill" && !item.system.basicStrike,
+      ),
     );
 
-    // Dumb hack so the basic strike is always first
     const weapons = this.actor.items.filter(
-      (item) => item.system.itemType === "weapon" && item.system.basicStrike,
+      (item) => item.system.itemType === "weapon",
     );
-
-    if (this.actor.system.charClass === "human") {
-      weapons.push(
-        ...this.actor.items.filter(
-          (item) =>
-            item.system.itemType === "weapon" && !item.system.basicStrike,
-        ),
-      );
-    }
 
     // TODO: Figure out active effects in TS
     // const effects = prepareActiveEffectCategories(this.item.effects);
