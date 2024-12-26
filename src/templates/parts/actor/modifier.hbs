@@ -1,12 +1,17 @@
-<section class="modifiers flexcol flex-group-center">
-  <div class="resource-label">{{localize "SMT.actorSheet.tnMod"}}</div>
-  <div class="grid grid-3col">
-    <a class="adjust-tn-bonus roll-highlight" data-direction="-">
-      <i class="fas fa-minus"></i>
-    </a>
-    <span>{{system.modifiers.tnBonuses}}</span>
-    <a class="adjust-tn-bonus roll-highlight" data-direction="+">
-      <i class="fas fa-plus"></i>
-    </a>
-  </div>
+<section class="modifiers items-list flexcol">
+  <ol class="items-list">
+    <li class="item flexrow items-header">
+      <div>{{localize "SMT.actorSheet.tnMod"}}</div>
+    </li>
+
+    <li class="item grid grid-3col flex-group-center">
+      <a class="adjust-tn-bonus roll-highlight" data-direction="-">
+        <i class="fas fa-minus"></i>
+      </a>
+      <span>{{system.modifiers.tnBonuses}}</span>
+      <a class="adjust-tn-bonus roll-highlight" data-direction="+">
+        <i class="fas fa-plus"></i>
+      </a>
+    </li>
+    </ol>
 </section>
