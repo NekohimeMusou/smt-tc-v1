@@ -188,7 +188,8 @@
       "magResist": "Mag Resist",
       "skills": "Skills",
       "weapons": "Weapons",
-      "affinities": "Affinities"
+      "affinities": "Affinities",
+      "tnMod": "TN Mods (20%)"
     },
     "skillPane": {
       "skill": "Skill",

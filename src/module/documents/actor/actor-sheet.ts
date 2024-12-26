@@ -91,8 +91,20 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     html.find(".item-update").on("change", this.#onItemUpdate.bind(this));
 
+    html.find(".adjust-tn-bonus").on("click", this.#onModifierChange.bind(this));
+
     // Active Effect management
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
+  }
+
+  async #onModifierChange(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const direction = $(event.currentTarget).data("direction") as string;
+    const increment = direction === "+" ? 1 : -1;
+    const newBonus = this.actor.system.modifiers.tnBonuses + increment;
+
+    await this.actor.update({ "system.modifiers.tnBonuses": newBonus });
   }
 
   async #onSkillRoll(event: JQuery.ClickEvent) {
@@ -110,12 +122,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
+    
+    const tnMod = skill.system.tnMod + this.actor.system.modifiers.tnBonuses * 20;
 
     await rollCheck({
       skill,
       actor: this.actor,
       token: this.actor.token,
-      tnMod: skill.system.tnMod,
+      tnMod,
       showDialog,
       autoFailThreshold: this.actor.system.autoFailThreshold,
       focused: this.actor.system.modifiers.focused,
@@ -132,6 +146,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const autoFailThreshold = this.actor.system.autoFailThreshold;
     const focused = this.actor.system.modifiers.focused;
+    const tnMod = this.actor.system.modifiers.tnBonuses * 20;
 
     await rollCheck({
       actor: this.actor,
@@ -141,6 +156,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       showDialog,
       autoFailThreshold,
       focused,
+      tnMod,
     });
   }
 

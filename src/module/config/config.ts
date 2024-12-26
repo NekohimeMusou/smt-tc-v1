@@ -28,6 +28,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/options-pane.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
   "systems/smt-tc/templates/parts/actor/affinities.hbs",
+  "systems/smt-tc/templates/parts/actor/modifier.hbs",
 ] as const;
 
 const itemTypes = {

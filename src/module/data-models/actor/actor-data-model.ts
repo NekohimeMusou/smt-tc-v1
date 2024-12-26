@@ -49,6 +49,7 @@ const modifiers = new fields.SchemaField({
   powerfulSpells: new fields.BooleanField({ initial: false }),
   itemPro: new fields.BooleanField({ initial: false }),
   focused: new fields.BooleanField({ initial: false }),
+  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }),
   // Counterattack skills: Counter, Retaliate, Avenge
   // Might, Drain Attack, Attack All
 });
