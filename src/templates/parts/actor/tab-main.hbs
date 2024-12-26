@@ -1,13 +1,17 @@
 <section class="flexcol">
-  <div class="resource-label flex-group-center">{{localize "SMT.actorSheet.affinities"}}</div>
-  {{> "systems/smt-tc/templates/parts/actor/affinities.hbs"}}
+  <div class="flexrow">
+    <div class="flexcol flex3">
+      <div class="resource-label flex-group-center flex0">{{localize "SMT.actorSheet.affinities"}}</div>
+      {{> "systems/smt-tc/templates/parts/actor/affinities.hbs"}}
+    </div>
+    {{> "systems/smt-tc/templates/parts/actor/buffs.hbs"}}
+    </div>
   <div class="resource-label flex-group-center">{{localize "SMT.actorSheet.stats"}}</div>
   <div class="flexrow">
     {{> "systems/smt-tc/templates/parts/actor/stats.hbs"}}
     <div class="flexcol">
       {{> "systems/smt-tc/templates/parts/actor/derived-stats.hbs"}}
       {{> "systems/smt-tc/templates/parts/actor/modifier.hbs"}}
-      {{> "systems/smt-tc/templates/parts/actor/buffs.hbs"}}
       </div>
   </div>
   <div class="resource-label flex-group-center">{{localize "SMT.actorSheet.weapons"}}</div>
