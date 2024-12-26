@@ -99,6 +99,7 @@
       "panic": "Panic",
       "shock": "Shock",
       "curse": "Curse",
+      "instantKill": "Instant Death",
       "none": "None"
     },
     "buffs": {

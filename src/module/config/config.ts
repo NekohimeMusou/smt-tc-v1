@@ -109,6 +109,7 @@ const ailments = {
   panic: "SMT.ailments.panic",
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
+  instantKill: "SMT.ailments.instantKill",
 } as const;
 
 // TODO: Use these instead of a string field
