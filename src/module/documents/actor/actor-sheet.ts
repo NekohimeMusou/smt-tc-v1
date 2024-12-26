@@ -85,7 +85,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     html.find(".item-update").on("change", this.#onItemUpdate.bind(this));
 
-    html.find(".adjust-tn-bonus").on("click", this.#onModifierChange.bind(this));
+    html.find(".adjust-modifier").on("click", this.#onModifierChange.bind(this));
 
     // Active Effect management
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
@@ -94,11 +94,34 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
   async #onModifierChange(event: JQuery.ClickEvent) {
     event.preventDefault();
 
-    const direction = $(event.currentTarget).data("direction") as string;
-    const increment = direction === "+" ? 1 : -1;
-    const newBonus = this.actor.system.modifiers.tnBonuses + increment;
+    const { direction, field, min, max } = $(event.currentTarget).data() as {
+      direction: "+" | "-";
+      field: "multi" | "tnBonuses";
+      min: string | undefined;
+      max: string | undefined;
+    };
 
-    await this.actor.update({ "system.modifiers.tnBonuses": newBonus });
+    const increment = direction === "+" ? 1 : -1;
+
+    let newBonus = this.actor.system.modifiers[field] + increment;
+
+    if (min != undefined) {
+      const minimum = parseInt(min) || 0;
+      if (newBonus < minimum) {
+        newBonus = minimum;
+      }
+    }
+
+    if (max != undefined) {
+      const maximum = parseInt(max) || 0;
+      if (newBonus > maximum) {
+        newBonus = maximum;
+      }
+    }
+
+    const data = Object.fromEntries([[`system.modifiers.${field}`, newBonus]]);
+
+    await this.actor.update(data);
   }
 
   async #onSkillRoll(event: JQuery.ClickEvent) {
@@ -117,7 +140,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
     
-    const tnMod = skill.system.tnMod + this.actor.system.modifiers.tnBonuses * 20;
+    const tnMod = this.actor.system.modifiers.tnBonuses * 20;
 
     await rollCheck({
       skill,

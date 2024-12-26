@@ -85,7 +85,7 @@ export async function rollCheck({
     });
   } else if (skill) {
     auto = skill.system.accuracyStat === "auto";
-    baseTN = skill.system.tn + skill.system.tnMod;
+    baseTN = skill.system.tn;
     checkName = skill.name;
   } else {
     throw new TypeError("Malformed dice roll data");
@@ -138,6 +138,7 @@ export async function rollCheck({
       );
     }
   } else {
+    const multi = actor?.system.modifiers.multi ?? 1;
     // Show the modifier dialog, if applicable
     const dialogTitle = game.i18n.format("SMT.dice.skillCheckTitle", {
       checkName,
@@ -154,7 +155,7 @@ export async function rollCheck({
     if (cancelled) return;
 
     // NOW make the success roll
-    const tn = baseTN + tnMod + (mod ?? 0);
+    const tn = Math.floor((baseTN + tnMod + (mod ?? 0)) / multi);
 
     const modifiedCheckTitle = game.i18n.format("SMT.dice.skillCheckTitle", {
       checkName,

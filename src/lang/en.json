@@ -174,7 +174,7 @@
     "target": {
       "one": "One target",
       "all": "All targets",
-      "allCombatants": "All allies and enemies",
+      "allCombatants": "All combatants",
       "self": "Self"
     },
     "actorSheet": {
@@ -195,8 +195,10 @@
       "skills": "Skills",
       "weapons": "Weapons",
       "affinities": "Affinities",
-      "tnMod": "TN Mods (20%)",
-      "buffs": "Buffs"
+      "tnMod": "TN (20%)",
+      "buffs": "Buffs",
+      "modifiers": "Mods",
+      "multi": "Multi"
     },
     "skillPane": {
       "skill": "Skill",
@@ -223,7 +225,7 @@
       "powerDialogMsg": "Power: {name}",
       "powerChatCardMsg": "Power: {power}",
       "modifier": "Modifier",
-      "modifierHint": "Modifiers apply to the TN, not the die roll.",
+      "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
       "totalPower": "Total Power: {power}",
       "affinityMessage": "{name}: {targetAffinity}",
       "powerMsg": {

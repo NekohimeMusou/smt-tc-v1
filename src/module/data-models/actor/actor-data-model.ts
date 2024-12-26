@@ -50,6 +50,12 @@ const modifiers = new fields.SchemaField({
   itemPro: new fields.BooleanField({ initial: false }),
   focused: new fields.BooleanField({ initial: false }),
   tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
+  multi: new fields.NumberField({
+    integer: true,
+    initial: 1,
+    positive: true,
+    max: 3,
+  }),
   // Counterattack skills: Counter, Retaliate, Avenge
   // Might, Drain Attack, Attack All
 });
