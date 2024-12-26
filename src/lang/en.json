@@ -104,8 +104,8 @@
     "buffs": {
       "physPower": "Phys Pow",
       "magPower": "Mag Pow",
-      "accuracy": "Acc/Dodge",
-      "resist": "Resists"
+      "accuracy": "Acc",
+      "resist": "Resist"
     },
     "inheritanceTraits": {
       "mouth": "Mouth",
