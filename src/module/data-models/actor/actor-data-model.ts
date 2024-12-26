@@ -161,24 +161,27 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const stats = data.stats;
+    const tnMod = data.modifiers.tnBonuses * 20;
 
     // Calculate stat totals and TNs
     for (const [key, stat] of Object.entries(stats)) {
       const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
       stat.value = stat.base + stat.lv + magatamaBonus;
-      stat.tn = stat.value * 5 + data.level;
+      stat.tn = stat.value * 5 + data.level + tnMod;
       // Calculate the "special" TN associated with each stat
       switch (key) {
         case "st": // Phys attack TN
         case "ma": // Mag attack TN
-        case "vi": // Save TN
           stat.specialTN = stat.tn;
-          data.tn.save = stat.tn;
+          break;
+        case "vi": // Save TN
+          stat.specialTN = stat.tn - tnMod;
+          data.tn.save = stat.specialTN;
           break;
         case "ag": // Dodge TN
-          stat.specialTN = stat.value + 10;
-          data.tn.dodge =
-            stat.specialTN + data.modifiers.dodgeBonus + data.buffs.accuracy;
+          stat.specialTN =
+            stat.value + 10 + data.modifiers.dodgeBonus + data.buffs.accuracy;
+          data.tn.dodge = stat.specialTN;
           break;
         case "lu": // Negotiation TN
           stat.specialTN = stat.value * 2 + 20;

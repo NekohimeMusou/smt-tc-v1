@@ -139,14 +139,11 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-    
-    const tnMod = this.actor.system.modifiers.tnBonuses * 20;
 
     await rollCheck({
       skill,
       actor: this.actor,
       token: this.actor.token,
-      tnMod,
       showDialog,
       autoFailThreshold: this.actor.system.autoFailThreshold,
       focused: this.actor.system.modifiers.focused,
@@ -163,7 +160,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const autoFailThreshold = this.actor.system.autoFailThreshold;
     const focused = this.actor.system.modifiers.focused;
-    const tnMod = this.actor.system.modifiers.tnBonuses * 20;
 
     await rollCheck({
       actor: this.actor,
@@ -173,7 +169,6 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       showDialog,
       autoFailThreshold,
       focused,
-      tnMod,
     });
   }
 
