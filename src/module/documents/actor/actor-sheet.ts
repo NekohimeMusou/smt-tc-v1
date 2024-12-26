@@ -89,6 +89,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Delete Inventory Item
     html.find(".item-delete").on("click", this.#onItemDelete.bind(this));
 
+    html.find(".item-update").on("change", this.#onItemUpdate.bind(this));
+
     // Active Effect management
     // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
   }
@@ -191,5 +193,53 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     await item.delete();
     li.slideUp(200, () => this.render(false));
+  }
+
+  async #onItemUpdate(event: JQuery.ChangeEvent) {
+    event.preventDefault();
+
+    const element = $(event.currentTarget);
+    const itemId = element.closest(".item").data("itemId") as string;
+    const item = this.actor.items.get(itemId);
+
+    if (!item) return;
+
+    const dtype = element.data("dtype") as string;
+    const fieldName = element.data("fieldName") as string;
+
+    let newValue: boolean | string | number;
+
+    if (dtype === "Boolean") {
+      newValue = !(element.data("checked") as boolean);
+    } else {
+      newValue = element.val() as string | number;
+    }
+    
+    // const newValue = element.val() as string | number | boolean;
+    const updates = Object.fromEntries([[fieldName, newValue]]);
+
+    await item.update(updates);
+  }
+
+  async #onItemUpdate1(event: JQuery.ClickEvent) {
+    event.preventDefault();
+
+    const target = $(event.currentTarget);
+    const li = target.parents(".item");
+    const itemId = li.data("itemId") as string;
+    const item = this.actor.items.get(itemId);
+
+    if (!item) return;
+
+    // TODO: Make this more generic
+    const path = target.attr("name");
+    const dtype = target.data("dtype") as string;
+
+    if (path === "system.ammo.value" && dtype === "Number") {
+      const newVal = target.attr("value");
+      await this.actor.updateEmbeddedDocuments("Item", { _id: itemId, system: { ammo: { value: newVal } } });
+    } else if (path === "system.expended" && dtype === "Boolean") {
+      await this.actor.updateEmbeddedDocuments("Item", {_id: itemId, system: {  }})
+    }
   }
 }

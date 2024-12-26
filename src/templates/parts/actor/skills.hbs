@@ -18,6 +18,7 @@
         <div class="item-power">{{localize "SMT.skillPane.power"}}</div>
         {{!-- Element --}}
         <div class="item-element">{{localize "SMT.skillPane.element"}}</div>
+        <div class="item-element">{{localize "SMT.skillPane.expended"}}</div>
         {{!-- Short notes? --}}
         <div class="item-controls">
           <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="skill">
@@ -49,6 +50,10 @@
         <div class="item-prop item-power">{{system.power}}</div>
         {{!-- Element --}}
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
+        <div class="item-prop item-expended"><input class="item-update" type="checkbox" data-field-name="system.expended"
+            data-checked="{{system.expended}}" data-dtype="Boolean" {{checked system.expended}}
+            {{#unless (eq system.skillType "other")}}disabled{{/unless}} />
+        </div>
         {{!-- Short notes? --}}
         <div class="item-controls">
           <a class="item-control item-edit" title="{{localize "SMT.sheet.editItem"}}"><i class="fas fa-edit"></i></a>

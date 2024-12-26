@@ -3,6 +3,7 @@ export function skillFields() {
 
   return {
     basicStrike: new fields.BooleanField({ initial: false }),
+    expended: new fields.BooleanField({ initial: false }),
     // Inheritance traits (Wing, Breath, etc)
     inheritanceTraits: new fields.StringField(),
     // Phys attack, magic attack, or spell

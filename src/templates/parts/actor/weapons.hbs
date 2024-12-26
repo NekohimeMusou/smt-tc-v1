@@ -42,8 +42,8 @@
         {{!-- Cost or Ammo Count --}}
         <div class="item-prop item-ammo">
           {{#if (gt system.ammo.max 0)}}
-          <input type="number" name="system.ammo.value" value="{{system.ammo.value}}" placeholder="0"
-            data-dtype="Number" />
+          <input type="number" class="item-update" value="{{system.ammo.value}}" data-dtype="Number"
+            data-field-name="system.ammo.value" placeholder="0" />
           {{else}}
           —
           {{/if}}

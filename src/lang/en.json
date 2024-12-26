@@ -201,7 +201,8 @@
       "power": "Power",
       "element": "Element",
       "weapon": "Weapon",
-      "ammo": "Ammo"
+      "ammo": "Ammo",
+      "expended": "Used?"
     },
     "dice": {
       "skillCheckTitle": "{checkName}: TN {tn}%",
