@@ -1,0 +1,33 @@
+<section class="buffs">
+  <div class="items-list flexcol">
+    <ol class="items-list">
+      <li class="item flexrow items-header">
+        <div>{{localize "SMT.actorSheet.buffs"}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <label for="phys-power-buff-field" class="item-prop">{{localize "SMT.buffs.physPower"}}</label>
+        <input type="number" class="item-prop" id="phys-power-buff-field" name="system.buffs.physPower"
+          value="{{system.buffs.physPower}}" placeholder="0" data-dtype="Number" />
+      </li>
+
+      <li class="item flexrow">
+        <label for="mag-power-buff-field" class="item-prop">{{localize "SMT.buffs.magPower"}}</label>
+        <input type="number" class="item-prop" id="mag-power-buff-field" name="system.buffs.magPower"
+          value="{{system.buffs.magPower}}" placeholder="0" data-dtype="Number" />
+      </li>
+
+      <li class="item flexrow">
+        <label for="accuracy-buff-field" class="item-prop">{{localize "SMT.buffs.accuracy"}}</label>
+        <input type="number" class="item-prop" id="accuracy-buff-field" name="system.buffs.accuracy"
+          value="{{system.buffs.accuracy}}" placeholder="0" data-dtype="Number" />
+      </li>
+
+      <li class="item flexrow">
+        <label for="resist-buff-field" class="item-prop">{{localize "SMT.buffs.resist"}}</label>
+        <input type="number" class="item-prop" id="resist-buff-field" name="system.buffs.resist"
+          value="{{system.buffs.resist}}" placeholder="0" data-dtype="Number" />
+      </li>
+    </ol>
+  </div>
+</section>

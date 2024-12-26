@@ -49,7 +49,7 @@ const modifiers = new fields.SchemaField({
   powerfulSpells: new fields.BooleanField({ initial: false }),
   itemPro: new fields.BooleanField({ initial: false }),
   focused: new fields.BooleanField({ initial: false }),
-  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }),
+  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
   // Counterattack skills: Counter, Retaliate, Avenge
   // Might, Drain Attack, Attack All
 });
@@ -134,6 +134,13 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       hpMultiplier: new fields.NumberField({ integer: true }),
       mpMultiplier: new fields.NumberField({ integer: true }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
+      // -kaja and -kunda spells
+      buffs: new fields.SchemaField({
+        physPower: new fields.NumberField({ integer: true }),
+        magPower: new fields.NumberField({ integer: true }),
+        accuracy: new fields.NumberField({ integer: true }),
+        resist: new fields.NumberField({ integer: true }),
+      }),
       affinities,
       stats,
       tn,
@@ -164,7 +171,8 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
         case "ag": // Dodge TN
           stat.specialTN = stat.value + 10;
-          data.tn.dodge = stat.specialTN + data.modifiers.dodgeBonus;
+          data.tn.dodge =
+            stat.specialTN + data.modifiers.dodgeBonus + data.buffs.accuracy;
           break;
         case "lu": // Negotiation TN
           stat.specialTN = stat.value * 2 + 20;
@@ -186,12 +194,14 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     data.fp.max = Math.floor(stats.lu.value / 5 + 5);
 
     // Calculate power and resistance
-    data.power.phys = stats.st.value + data.level;
-    data.power.mag = stats.ma.value + data.level;
-    data.power.gun = stats.ag.value;
+    data.power.phys = stats.st.value + data.level + data.buffs.physPower;
+    data.power.mag = stats.ma.value + data.level + data.buffs.magPower;
+    data.power.gun = stats.ag.value + data.buffs.physPower;
 
-    data.resist.phys = Math.floor((stats.vi.value + data.level) / 2);
-    data.resist.mag = Math.floor((stats.ma.value + data.level) / 2);
+    data.resist.phys =
+      Math.floor((stats.vi.value + data.level) / 2) + data.buffs.resist;
+    data.resist.mag =
+      Math.floor((stats.ma.value + data.level) / 2) + data.buffs.resist;
   }
 
   get #systemData() {

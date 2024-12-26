@@ -27,11 +27,15 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
 
   get tn(): number {
     const actor = this.parent?.parent as SmtActor;
+    if (!actor) return 1;
+
     const data = this.#systemData;
 
     return data.accuracyStat === "auto"
       ? 100
-      : (actor?.system.stats[data.accuracyStat].tn ?? 1) + data.tnMod;
+      : actor.system.stats[data.accuracyStat].tn +
+          data.tnMod +
+          actor.system.buffs.accuracy;
   }
 
   get power(): number {

@@ -24,11 +24,12 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/skills.hbs",
   "systems/smt-tc/templates/parts/item/header.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-main.hbs",
-  "systems/smt-tc/templates/parts/item/attack-pane.hbs",
-  "systems/smt-tc/templates/parts/item/options-pane.hbs",
+  "systems/smt-tc/templates/parts/item/attack.hbs",
+  "systems/smt-tc/templates/parts/item/options.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
   "systems/smt-tc/templates/parts/actor/affinities.hbs",
   "systems/smt-tc/templates/parts/actor/modifier.hbs",
+  "systems/smt-tc/templates/parts/actor/buffs.hbs",
 ] as const;
 
 const itemTypes = {

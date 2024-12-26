@@ -101,6 +101,12 @@
       "curse": "Curse",
       "none": "None"
     },
+    "buffs": {
+      "physPower": "Phys Pow",
+      "magPower": "Mag Pow",
+      "accuracy": "Acc/Dodge",
+      "resist": "Resists"
+    },
     "inheritanceTraits": {
       "mouth": "Mouth",
       "eye": "Eye",
@@ -189,7 +195,8 @@
       "skills": "Skills",
       "weapons": "Weapons",
       "affinities": "Affinities",
-      "tnMod": "TN Mods (20%)"
+      "tnMod": "TN Mods (20%)",
+      "buffs": "Buffs"
     },
     "skillPane": {
       "skill": "Skill",
