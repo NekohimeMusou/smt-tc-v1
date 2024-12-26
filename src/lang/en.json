@@ -130,7 +130,8 @@
     },
     "actorFields": {
       "level": "Level",
-      "charClass": "Class"
+      "charClass": "Class",
+      "xp": "XP"
     },
     "itemFields": {
       "inheritanceTraits": "Inheritance Traits",

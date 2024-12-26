@@ -5,7 +5,7 @@
       <input name="name" type="text" value="{{actor.name}}" placeholder="Name" />
     </h1>
 
-    <div class="flexrow">
+    <div class="flexrow flex-group-center">
       <div class="flexrow">
         <label for="charClass" class="resource-label">{{localize "SMT.actorFields.charClass"}}</label>
         <select name="system.charClass" id="charClass">
@@ -17,6 +17,11 @@
         <label for="level" class="resource-label">{{localize "SMT.actorFields.level"}}</label>
         <input type="number" id="level" name="system.level" data-dtype="Number" value="{{system.level}}" />
       </div>
+<div class="flexrow">
+  <label for="xp-field" class="resource-label">{{localize "SMT.actorFields.xp"}}</label>
+  <input type="number" id="xp-field" name="system.xp" data-dtype="Number" value="{{system.xp}}" />
+      </div>
     </div>
+    {{> "systems/smt-tc/templates/parts/actor/resources.hbs"}}
   </div>
 </header>
