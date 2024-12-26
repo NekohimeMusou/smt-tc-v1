@@ -9,14 +9,10 @@ declare global {
   type SkillCostType = keyof typeof costTypes;
   type Target = keyof typeof targets;
   type AccuracyStat = keyof typeof accuracyStats;
-  type StatRollTNType = (typeof sheetRollTNTypes)[number];
   type DiceRollResult = keyof typeof diceRollResults;
-  type RollEffectType = (typeof rollEffectTypes)[number];
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
 }
-
-const sheetRollTNTypes = ["tn", "specialTN"] as const;
 
 const templatePaths = [
   "systems/smt-tc/templates/parts/actor/header.hbs",
@@ -32,14 +28,6 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/options-pane.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
   "systems/smt-tc/templates/parts/actor/affinities.hbs",
-] as const;
-
-const rollEffectTypes = [
-  "hit",
-  "dodge",
-  "negotiation",
-  "save",
-  "other",
 ] as const;
 
 const itemTypes = {
@@ -149,6 +137,7 @@ const targets = {
   one: "SMT.target.one",
   all: "SMT.target.all",
   allCombatants: "SMT.target.allCombatants",
+  self: "SMT.target.self",
 };
 
 const diceRollResults = {
@@ -174,8 +163,6 @@ export const SMT = {
   targets,
   itemTypes,
   templatePaths,
-  sheetRollTNTypes,
   diceRollResults,
-  rollEffectTypes,
   defaultAutofailThreshold: 96,
 } as const;

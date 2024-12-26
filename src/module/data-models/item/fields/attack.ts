@@ -9,8 +9,7 @@ export function attackDataFields() {
     isGun: new fields.BooleanField({ initial: false }),
     ammo: new fields.SchemaField({
       min: new fields.NumberField({ integer: true, initial: 0 }),
-      // TODO: Actually support ammo tracking
-      // max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
+      max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
       value: new fields.NumberField({ integer: true, initial: 0 }),
     }),
     accuracyStat: new fields.StringField({

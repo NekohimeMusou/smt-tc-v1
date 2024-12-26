@@ -17,9 +17,7 @@
         {{!-- Stat TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
         {{!-- Special TN label --}}
-        <div class="flex2">{{localize "SMT.actorSheet.specialTN"}}</div>
-        {{!-- Special TN formula --}}
-        <div>{{localize "SMT.actorSheet.formula"}}</div>
+        <div>{{localize "SMT.actorSheet.specialTN"}}</div>
         {{!-- Special TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
       </li>
@@ -41,15 +39,11 @@
             data-dtype="Number" />
         </div>
         {{!-- Total Stat --}}
-        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.value" value="{{value}}" placeholder="0"
-            data-dtype="Number" disabled />
-        </div>
+        <div class="item-prop">{{value}}</div>
         {{!-- Stat TN --}}
         <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{tn}}%</div>
         {{!-- Special TN label --}}
-        <div class="item-prop item-name flex2">{{localize (concat "SMT.specialTN." @key)}}</div>
-        {{!-- Special TN formula --}}
-        <div class="item-prop">{{localize (concat "SMT.specialTNFormula." @key)}}</div>
+        <div class="item-prop item-name">{{localize (concat "SMT.specialTN." @key)}}</div>
         {{!-- Special TN --}}
         <div class="item-prop roll-highlight roll-stat" data-tn-type="specialTN" data-accuracy-stat="{{@key}}">
           {{specialTN}}%

@@ -167,7 +167,8 @@
     "target": {
       "one": "One target",
       "all": "All targets",
-      "allCombatants": "All allies and enemies"
+      "allCombatants": "All allies and enemies",
+      "self": "Self"
     },
     "actorSheet": {
       "stats": "Stats",

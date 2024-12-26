@@ -3,7 +3,7 @@ import { rollCheck } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
 interface StatRollFormData {
-  tnType: StatRollTNType;
+  tnType: SuccessRollCategory;
   accuracyStat: CharacterStat;
 }
 

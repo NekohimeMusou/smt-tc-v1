@@ -40,9 +40,11 @@
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
         <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>
         {{!-- Cost or Ammo Count --}}
-        <div class="item-prop item-cost">{{concat system.cost " " (localize (concat "SMT.resources." system.costType))}}</div>
+        <div class="item-prop item-cost">
+          {{#if (gt system.cost 0)}}{{concat system.cost " " (localize (concat "SMT.resources." system.costType))}}{{else}}—{{/if}}
+        </div>
         {{!-- TN --}}
-        <div class="item-prop item-tn">{{system.tn}}</div>
+        <div class="item-prop item-tn">{{#if (eq system.accuracyStat "auto")}}Auto{{else}}{{system.tn}}{{/if}}</div>
         {{!-- Total Power --}}
         <div class="item-prop item-power">{{system.power}}</div>
         {{!-- Element --}}
