@@ -132,6 +132,10 @@ const modifiers = {
     positive: true,
     max: 3,
   }),
+  resourceBoost: new fields.SchemaField({
+    hp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+    mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+  }),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
@@ -204,9 +208,9 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     // Get HP and MP multipliers
     const isHuman = data.charClass === "human";
     // @ts-expect-error This field isn't readonly
-    data.hpMultiplier = isHuman ? 4 : 6;
+    data.hpMultiplier = (isHuman ? 4 : 6) + (data.resourceBoost.hp ?? 0);
     // @ts-expect-error This field isn't readonly
-    data.mpMultiplier = isHuman ? 2 : 3;
+    data.mpMultiplier = (isHuman ? 2 : 3) + (data.resourceBoost.mp ?? 0);
 
     // Calculate HP/MP/FP max
     data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;

@@ -210,6 +210,10 @@
       "multi": "Multi",
       "misc": "Misc"
     },
+    "resourceBoost": {
+      "hp": "Life Multiplier Boost",
+      "mp": "Mana Multiplier Boost"
+    },
     "characterMods": {
       "expertDodge": "Expert Dodge",
       "sureShot": "Sure Shot",
