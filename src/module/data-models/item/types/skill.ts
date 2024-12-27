@@ -31,7 +31,8 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
 
     const data = this.#systemData;
 
-    const sureShotMod = data.isGun && actor.system.sureShot ? 10 : 0;
+    const sureShotMod =
+      data.skillType === "gun" && actor.system.sureShot ? 10 : 0;
 
     if (data.skillType === "talk") {
       return actor.system.tn.negotiation + 20;

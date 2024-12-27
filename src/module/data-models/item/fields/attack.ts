@@ -6,7 +6,6 @@ export function attackDataFields() {
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-    isGun: new fields.BooleanField({ initial: false }),
     ammo: new fields.SchemaField({
       min: new fields.NumberField({ integer: true, initial: 0 }),
       max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),

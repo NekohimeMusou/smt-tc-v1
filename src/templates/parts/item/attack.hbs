@@ -19,7 +19,7 @@
 
   <div class="flexrow">
     {{!-- Cost (HP/MP determined by power type) --}}
-    {{#if system.isGun}}
+    {{#if (and (eq system.skillType "gun") (eq system.itemType "weapon"))}}
       <div class="flexcol">
         <label for="current-ammo-field" class="resource-label">{{localize "SMT.itemFields.ammo"}}</label>
         <input type="number" id="ammo-field" name="system.ammo.value" value="{{system.ammo.value}}" placeholder="0"
