@@ -227,6 +227,26 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     data.autoFailThreshold = data.cursed ? 86 : 96;
   }
 
+  get st(): number {
+    return this.#systemData.stats.st.value;
+  }
+
+  get ma(): number {
+    return this.#systemData.stats.ma.value;
+  }
+
+  get vi(): number {
+    return this.#systemData.stats.vi.value;
+  }
+
+  get ag(): number {
+    return this.#systemData.stats.ag.value;
+  }
+
+  get lu(): number {
+    return this.#systemData.stats.lu.value;
+  }
+
   get #systemData() {
     return this as this & SmtActor["system"];
   }
