@@ -91,6 +91,10 @@ export async function rollCheck({
     throw new TypeError("Malformed dice roll data");
   }
 
+  if (skill?.system.skillType === "other") {
+    await skill.update({ "system.expended": true });
+  }
+
   const cost = skill?.system.cost ?? 0;
   const costType = skill?.system.costType;
 
@@ -179,7 +183,9 @@ export async function rollCheck({
     }
 
     // TODO: Fix to account for Might skill
-    const critBoost = skill?.system.hasCritBoost ?? false;
+    const critBoost =
+      (skill?.system.critBoost ?? false) ||
+      (skill?.system.damageType === "phys" && actor?.system.might);
     const successCheckResult = await successCheck({
       tn,
       critBoost,
@@ -206,7 +212,8 @@ export async function rollCheck({
   if (success && skill?.system.hasPowerRoll) {
     // Find the total power, if the skill has an attack, and push HTML + roll
     const power = skill.system.power;
-    const powerBoost = skill.system.hasPowerBoost;
+    const powerBoost =
+      actor?.system.powerBoost[skill.system.damageType] ?? false;
 
     const powerRollResult = await powerRoll(power, powerBoost);
     totalPower = powerRollResult.totalPower;
@@ -217,6 +224,16 @@ export async function rollCheck({
 
     if (focused && skill.system.damageType === "phys") {
       totalPower *= 2;
+    }
+
+    if (
+      actor &&
+      Object.keys(actor.system.elementBoosts).includes(skill.system.affinity)
+    ) {
+      const affinity = skill.system
+        .affinity as keyof typeof actor.system.elementBoosts;
+      const boost = actor.system.elementBoosts[affinity];
+      totalPower *= Math.floor((boost ? 1.5 : 1) * totalPower);
     }
 
     const totalPowerMsg = game.i18n.format("SMT.dice.totalPower", {

@@ -9,54 +9,82 @@
       <li class="item flexrow flex-group-center flex-between">
         <label for="focused-field" class="item-name">{{localize "SMT.characterMods.focused"}}</label>
         <div class="item-prop">
-          <input id="focused-field" type="checkbox" data-dtype="Boolean" {{checked system.focused}} />
+          <input id="focused-field" name="system.focused" type="checkbox" data-dtype="Boolean" {{checked system.focused}} />
         </div>
 
         <label for="cursed-field" class="item-name">{{localize "SMT.characterMods.cursed"}}</label>
         <div class="item-prop">
-          <input id="cursed-field" type="checkbox" data-dtype="Boolean" {{checked system.cursed}} />
+          <input id="cursed-field" name="system.cursed" type="checkbox" data-dtype="Boolean" {{checked system.cursed}} />
         </div>
       </li>
 
       <li class="item flexrow flex-group-center flex-between">
         <label for="power-boost-strikes-field"
-          class="item-name">{{localize "SMT.characterMods.powerBoost.strikes"}}</label>
+          class="item-name">{{localize "SMT.characterMods.powerBoost.phys"}}</label>
         <div class="item-prop">
-          <input id="power-boost-strikes-field" type="checkbox" data-dtype="Boolean"
-            {{checked system.powerBoost.strikes}} />
+          <input id="power-boost-strikes-field" name="system.powerBoost.phys" type="checkbox" data-dtype="Boolean"
+            {{checked system.powerBoost.phys}} />
         </div>
 
         <label for="power-boost-spells-field"
-          class="item-name">{{localize "SMT.characterMods.powerBoost.spells"}}</label>
+          class="item-name">{{localize "SMT.characterMods.powerBoost.mag"}}</label>
         <div class="item-prop">
-          <input id="power-boost-spells-field" type="checkbox" data-dtype="Boolean"
-            {{checked system.powerBoost.spells}} />
+          <input id="power-boost-spells-field" name="system.powerBoost.mag" type="checkbox" data-dtype="Boolean"
+            {{checked system.powerBoost.mag}} />
         </div>
       </li>
 
       <li class="item flexrow flex-group-center flex-between">
         <label for="might-field" class="item-name">{{localize "SMT.characterMods.might"}}</label>
         <div class="item-prop">
-          <input id="might-field" type="checkbox" data-dtype="Boolean" {{checked system.might}} />
+          <input id="might-field" name="system.might" type="checkbox" data-dtype="Boolean" {{checked system.might}} />
         </div>
 
         <label for="expert-dodge-field" class="item-name">{{localize "SMT.characterMods.expertDodge"}}</label>
         <div class="item-prop">
-          <input id="expert-dodge-field" type="checkbox" data-dtype="Boolean" {{checked system.expertDodge}} />
+          <input id="expert-dodge-field" name="system.expertDodge" type="checkbox" data-dtype="Boolean"
+            {{checked system.expertDodge}} />
         </div>
       </li>
 
       <li class="item flexrow flex-group-center flex-between">
         <label for="sure-shot-field" class="item-name">{{localize "SMT.characterMods.sureShot"}}</label>
         <div class="item-prop">
-          <input id="sure-shot-field" type="checkbox" data-dtype="Boolean" {{checked system.sureShot}} />
+          <input id="sure-shot-field" name="system.sureShot" type="checkbox" data-dtype="Boolean" {{checked system.sureShot}} />
         </div>
 
         <label for="item-pro-field" class="item-name">{{localize "SMT.characterMods.itemPro"}}</label>
         <div class="item-prop">
-          <input id="item-pro-field" type="checkbox" data-dtype="Boolean" {{checked system.itemPro}} />
-        </div>
-      </li>
+          <input id="item-pro-field" name="system.itemPro" type="checkbox" data-dtype="Boolean" {{checked system.itemPro}} />
+          </div>
+          </li>
+          <li class="item flexrow flex-group-center flex-between">
+            <label for="fire-boost-field" class="item-name">{{localize "SMT.elementBoosts.fire"}}</label>
+            <div class="item-prop">
+              <input id="fire-boost-field" name="system.elementBoosts.fire" type="checkbox" data-dtype="Boolean"
+                {{checked system.elementBoosts.fire}} />
+            </div>
+          
+            <label for="cold-boost-field" class="item-name">{{localize "SMT.elementBoosts.cold"}}</label>
+            <div class="item-prop">
+              <input id="cold-boost-field" name="system.elementBoosts.cold" type="checkbox" data-dtype="Boolean"
+                {{checked system.elementBoosts.cold}} />
+            </div>
+          </li>
+          
+          <li class="item flexrow flex-group-center flex-between">
+            <label for="elec-boost-field" class="item-name">{{localize "SMT.elementBoosts.elec"}}</label>
+            <div class="item-prop">
+              <input id="elec-boost-field" name="system.elementBoosts.elec" type="checkbox" data-dtype="Boolean"
+                {{checked system.elementBoosts.elec}} />
+            </div>
+          
+            <label for="force-boost-field" class="item-name">{{localize "SMT.elementBoosts.force"}}</label>
+            <div class="item-prop">
+              <input id="force-boost-field" name="system.elementBoosts.force" type="checkbox" data-dtype="Boolean"
+                {{checked system.elementBoosts.force}} />
+            </div>
+          </li>
     </ol>
   </div>
 </section>

@@ -31,11 +31,14 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
 
     const data = this.#systemData;
 
+    const sureShotMod = data.isGun && actor.system.sureShot ? 10 : 0;
+
     return data.accuracyStat === "auto"
       ? 100
       : actor.system.stats[data.accuracyStat].tn +
           data.tnMod +
-          actor.system.buffs.accuracy;
+          actor.system.buffs.accuracy +
+          sureShotMod;
   }
 
   get power(): number {
@@ -51,21 +54,6 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.parent?.parent as SmtActor;
     return actor?.system.autoFailThreshold;
   }
-
-  // get hasPowerBoost(): boolean {
-  //   const actor = this.parent?.parent as SmtActor;
-  //   const data = this.#systemData;
-
-  //   const skillType = data.skillType;
-
-  //   const isPhysicalAttack = skillType === "phys" || skillType === "gun";
-  //   const isMagicAttack = !isPhysicalAttack;
-
-  //   return (
-  //     (isPhysicalAttack && actor.system.modifiers.powerfulStrikes) ||
-  //     (isMagicAttack && actor.system.modifiers.powerfulSpells)
-  //   );
-  // }
 
   get costType(): SkillCostType {
     const data = this.#systemData;

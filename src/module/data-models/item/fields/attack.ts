@@ -35,7 +35,6 @@ export function attackDataFields() {
       rate: new fields.NumberField({ integer: true, initial: 0 }),
     }),
     // Exclusively required for Deadly Fury. Doesn't stack with Might
-    hasCritBoost: new fields.BooleanField({ initial: false }),
-    hasPowerBoost: new fields.BooleanField({ initial: false }),
+    critBoost: new fields.BooleanField({ initial: false }),
   } as const;
 }

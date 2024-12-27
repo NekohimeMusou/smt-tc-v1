@@ -66,6 +66,7 @@ const damageTypes = {
   phys: "SMT.powerTypes.phys",
   mag: "SMT.powerTypes.mag",
 };
+
 const costTypes = {
   hp: "HP",
   mp: "MP",

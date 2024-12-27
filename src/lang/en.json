@@ -158,8 +158,8 @@
       "critBoost": "Crit Boost",
       "effect": "Effect",
       "hasPowerRoll": "Includes Power Roll",
-      "hasPowerBoost": "Power Boost (2d10 power)",
-      "hasCritBoost": "Crit Boost (e.g. Might)",
+      "powerBoost": "Power Boost (2d10 power)",
+      "hasCritBoost": "Crit Boost (i.e. Deadly Fury)",
       "isGun": "Is This a Gun?",
       "ammo": "Ammo",
       "maxAmmo": "Max Ammo",
@@ -173,6 +173,12 @@
       "talk": "Talk",
       "passive": "Passive",
       "other": "Other"
+    },
+    "elementBoosts": {
+      "fire": "Fire Boost",
+      "cold": "Ice Boost",
+      "elec": "Elec Boost",
+      "force": "Force Boost"
     },
     "target": {
       "one": "One target",
@@ -208,8 +214,8 @@
       "expertDodge": "Expert Dodge",
       "sureShot": "Sure Shot",
       "powerBoost": {
-        "strikes": "Powerful Strikes",
-        "spells": "Powerful Spells"
+        "phys": "Powerful Strikes",
+        "mag": "Powerful Spells"
       },
       "might": "Might (passive skill)",
       "focused": "Focused",

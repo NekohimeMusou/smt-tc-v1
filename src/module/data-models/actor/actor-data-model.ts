@@ -108,27 +108,22 @@ const affinities = new fields.SchemaField({
 });
 
 const modifiers = {
-  // NEED
   expertDodge: new fields.BooleanField(),
-  // NEED
   sureShot: new fields.BooleanField(),
-  // NEED
   powerBoost: new fields.SchemaField({
-    strikes: new fields.BooleanField(),
-    spells: new fields.BooleanField(),
+    phys: new fields.BooleanField(),
+    mag: new fields.BooleanField(),
   }),
   might: new fields.BooleanField(),
-  // NEED
-  elementMultipliers: new fields.SchemaField({
-    fire: new fields.NumberField({ positive: true, initial: 1 }),
-    cold: new fields.NumberField({ positive: true, initial: 1 }),
-    elec: new fields.NumberField({ positive: true, initial: 1 }),
-    force: new fields.NumberField({ positive: true, initial: 1 }),
+  elementBoosts: new fields.SchemaField({
+    fire: new fields.BooleanField(),
+    cold: new fields.BooleanField(),
+    elec: new fields.BooleanField(),
+    force: new fields.BooleanField(),
   }),
-  // NEED preferably on main tab, then as status
   focused: new fields.BooleanField({ initial: false }),
   cursed: new fields.BooleanField(),
-  // NEED
+  // IMPLEMENT
   itemPro: new fields.BooleanField({ initial: false }),
   tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
   multi: new fields.NumberField({
