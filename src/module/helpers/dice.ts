@@ -127,6 +127,10 @@ export async function rollCheck({
     }
   }
 
+  if (actor) {
+    await actor.update({ "system.tnBonuses": 0 });
+  }
+
   const successCardHtml: string[] = [];
   const successCardRolls: Roll[] = [];
   let successLevel: SuccessLevel = "fail";
