@@ -138,7 +138,7 @@ export async function rollCheck({
       );
     }
   } else {
-    const multi = actor?.system.modifiers.multi ?? 1;
+    const multi = actor?.system.multi ?? 1;
     // Show the modifier dialog, if applicable
     const dialogTitle = game.i18n.format("SMT.dice.skillCheckTitle", {
       checkName,

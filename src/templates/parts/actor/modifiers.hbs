@@ -1,0 +1,62 @@
+{{!-- Try 2 sets of checkboxes in a row --}}
+<section class="skills">
+  <div class="items-list flexcol flexlarge">
+    <ol class="items-list">
+      <li class="item flexrow flex-group-center items-header">
+        {{localize "SMT.actorSheet.misc"}}
+      </li>
+
+      <li class="item flexrow flex-group-center flex-between">
+        <label for="focused-field" class="item-name">{{localize "SMT.characterMods.focused"}}</label>
+        <div class="item-prop">
+          <input id="focused-field" type="checkbox" data-dtype="Boolean" {{checked system.focused}} />
+        </div>
+
+        <label for="cursed-field" class="item-name">{{localize "SMT.characterMods.cursed"}}</label>
+        <div class="item-prop">
+          <input id="cursed-field" type="checkbox" data-dtype="Boolean" {{checked system.cursed}} />
+        </div>
+      </li>
+
+      <li class="item flexrow flex-group-center flex-between">
+        <label for="power-boost-strikes-field"
+          class="item-name">{{localize "SMT.characterMods.powerBoost.strikes"}}</label>
+        <div class="item-prop">
+          <input id="power-boost-strikes-field" type="checkbox" data-dtype="Boolean"
+            {{checked system.powerBoost.strikes}} />
+        </div>
+
+        <label for="power-boost-spells-field"
+          class="item-name">{{localize "SMT.characterMods.powerBoost.spells"}}</label>
+        <div class="item-prop">
+          <input id="power-boost-spells-field" type="checkbox" data-dtype="Boolean"
+            {{checked system.powerBoost.spells}} />
+        </div>
+      </li>
+
+      <li class="item flexrow flex-group-center flex-between">
+        <label for="might-field" class="item-name">{{localize "SMT.characterMods.might"}}</label>
+        <div class="item-prop">
+          <input id="might-field" type="checkbox" data-dtype="Boolean" {{checked system.might}} />
+        </div>
+
+        <label for="expert-dodge-field" class="item-name">{{localize "SMT.characterMods.expertDodge"}}</label>
+        <div class="item-prop">
+          <input id="expert-dodge-field" type="checkbox" data-dtype="Boolean" {{checked system.expertDodge}} />
+        </div>
+      </li>
+
+      <li class="item flexrow flex-group-center flex-between">
+        <label for="sure-shot-field" class="item-name">{{localize "SMT.characterMods.sureShot"}}</label>
+        <div class="item-prop">
+          <input id="sure-shot-field" type="checkbox" data-dtype="Boolean" {{checked system.sureShot}} />
+        </div>
+
+        <label for="item-pro-field" class="item-name">{{localize "SMT.characterMods.itemPro"}}</label>
+        <div class="item-prop">
+          <input id="item-pro-field" type="checkbox" data-dtype="Boolean" {{checked system.itemPro}} />
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>

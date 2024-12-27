@@ -76,7 +76,9 @@
       "healing": "Healing",
       "unique": "Unique",
       "support": "Support",
-      "ailment": "Ailment"
+      "ailment": "Ailment",
+      "talk": "Talk",
+      "passive": "—"
     },
     "affinityLevels": {
       "reflect": "Reflect",
@@ -199,7 +201,20 @@
       "tnMod": "TN (20%)",
       "buffs": "Buffs",
       "modifiers": "Mods",
-      "multi": "Multi"
+      "multi": "Multi",
+      "misc": "Misc"
+    },
+    "characterMods": {
+      "expertDodge": "Expert Dodge",
+      "sureShot": "Sure Shot",
+      "powerBoost": {
+        "strikes": "Powerful Strikes",
+        "spells": "Powerful Spells"
+      },
+      "might": "Might (passive skill)",
+      "focused": "Focused",
+      "cursed": "Cursed",
+      "itemPro": "Item Pro"
     },
     "skillPane": {
       "skill": "Skill",

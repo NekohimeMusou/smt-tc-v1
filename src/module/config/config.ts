@@ -17,6 +17,7 @@ declare global {
 const templatePaths = [
   "systems/smt-tc/templates/parts/actor/header.hbs",
   "systems/smt-tc/templates/parts/actor/tab-main.hbs",
+  "systems/smt-tc/templates/parts/actor/tab-options.hbs",
   "systems/smt-tc/templates/parts/actor/resources.hbs",
   "systems/smt-tc/templates/parts/actor/stats.hbs",
   "systems/smt-tc/templates/parts/actor/derived-stats.hbs",
@@ -28,8 +29,9 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/item/options.hbs",
   "systems/smt-tc/templates/parts/item/skill/tab-options.hbs",
   "systems/smt-tc/templates/parts/actor/affinities.hbs",
-  "systems/smt-tc/templates/parts/actor/modifier.hbs",
+  "systems/smt-tc/templates/parts/actor/dice-modifiers.hbs",
   "systems/smt-tc/templates/parts/actor/buffs.hbs",
+  "systems/smt-tc/templates/parts/actor/modifiers.hbs",
 ] as const;
 
 const itemTypes = {
@@ -84,6 +86,8 @@ const affinities = {
   healing: "SMT.affinities.healing",
   support: "SMT.affinities.support",
   unique: "SMT.affinities.unique",
+  talk: "SMT.affinities.talk",
+  none: "SMT.affinities.none",
 } as const;
 
 const affinityLevels = {

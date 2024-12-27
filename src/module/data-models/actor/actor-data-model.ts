@@ -36,30 +36,6 @@ const resources = {
   fp: new fields.SchemaField(generateResourceSchema()),
 };
 
-const modifiers = new fields.SchemaField({
-  dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
-  gun: new fields.NumberField({ integer: true, initial: 0 }),
-  elementMultipliers: new fields.SchemaField({
-    fire: new fields.NumberField({ positive: true, initial: 1 }),
-    cold: new fields.NumberField({ positive: true, initial: 1 }),
-    elec: new fields.NumberField({ positive: true, initial: 1 }),
-    force: new fields.NumberField({ positive: true, initial: 1 }),
-  }),
-  powerfulStrikes: new fields.BooleanField({ initial: false }),
-  powerfulSpells: new fields.BooleanField({ initial: false }),
-  itemPro: new fields.BooleanField({ initial: false }),
-  focused: new fields.BooleanField({ initial: false }),
-  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
-  multi: new fields.NumberField({
-    integer: true,
-    initial: 1,
-    positive: true,
-    max: 3,
-  }),
-  // Counterattack skills: Counter, Retaliate, Avenge
-  // Might, Drain Attack, Attack All
-});
-
 const affinities = new fields.SchemaField({
   phys: new fields.StringField({
     choices: SMT.affinityLevels,
@@ -106,22 +82,62 @@ const affinities = new fields.SchemaField({
     initial: "none",
   }),
   almighty: new fields.StringField({
-    choices: SMT.affinityLevels,
+    choices: { none: "SMT.affinities.none" },
     initial: "none",
   }),
   healing: new fields.StringField({
-    choices: SMT.affinityLevels,
+    choices: { none: "SMT.affinities.none" },
     initial: "none",
   }),
   support: new fields.StringField({
-    choices: SMT.affinityLevels,
+    choices: { none: "SMT.affinities.none" },
     initial: "none",
   }),
   unique: new fields.StringField({
-    choices: SMT.affinityLevels,
+    choices: { none: "SMT.affinities.none" },
+    initial: "none",
+  }),
+  talk: new fields.StringField({
+    choices: { none: "SMT.affinities.none" },
+    initial: "none",
+  }),
+  none: new fields.StringField({
+    choices: { none: "SMT.affinities.none" },
     initial: "none",
   }),
 });
+
+const modifiers = {
+  // NEED
+  expertDodge: new fields.BooleanField(),
+  // NEED
+  sureShot: new fields.BooleanField(),
+  // NEED
+  powerBoost: new fields.SchemaField({
+    strikes: new fields.BooleanField(),
+    spells: new fields.BooleanField(),
+  }),
+  might: new fields.BooleanField(),
+  // NEED
+  elementMultipliers: new fields.SchemaField({
+    fire: new fields.NumberField({ positive: true, initial: 1 }),
+    cold: new fields.NumberField({ positive: true, initial: 1 }),
+    elec: new fields.NumberField({ positive: true, initial: 1 }),
+    force: new fields.NumberField({ positive: true, initial: 1 }),
+  }),
+  // NEED preferably on main tab, then as status
+  focused: new fields.BooleanField({ initial: false }),
+  cursed: new fields.BooleanField(),
+  // NEED
+  itemPro: new fields.BooleanField({ initial: false }),
+  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
+  multi: new fields.NumberField({
+    integer: true,
+    initial: 1,
+    positive: true,
+    max: 3,
+  }),
+} as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
@@ -152,7 +168,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       tn,
       power,
       resist,
-      modifiers,
+      ...modifiers,
       ...resources,
     } as const;
   }
@@ -161,7 +177,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const stats = data.stats;
-    const tnMod = data.modifiers.tnBonuses * 20;
+    const tnMod = data.tnBonuses * 20;
 
     // Calculate stat totals and TNs
     for (const [key, stat] of Object.entries(stats)) {
@@ -180,7 +196,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
         case "ag": // Dodge TN
           stat.specialTN =
-            stat.value + 10 + data.modifiers.dodgeBonus + data.buffs.accuracy;
+            stat.value + 10 + (data.expertDodge ? 5 : 0) + data.buffs.accuracy;
           data.tn.dodge = stat.specialTN;
           break;
         case "lu": // Negotiation TN
@@ -211,6 +227,9 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       Math.floor((stats.vi.value + data.level) / 2) + data.buffs.resist;
     data.resist.mag =
       Math.floor((stats.ma.value + data.level) / 2) + data.buffs.resist;
+
+    // @ts-expect-error This field isn't readonly
+    data.autoFailThreshold = data.cursed ? 86 : 96;
   }
 
   get #systemData() {

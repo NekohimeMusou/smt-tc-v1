@@ -103,7 +103,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const increment = direction === "+" ? 1 : -1;
 
-    let newBonus = this.actor.system.modifiers[field] + increment;
+    let newBonus = this.actor.system[field] + increment;
 
     if (min != undefined) {
       const minimum = parseInt(min) || 0;
@@ -146,7 +146,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       token: this.actor.token,
       showDialog,
       autoFailThreshold: this.actor.system.autoFailThreshold,
-      focused: this.actor.system.modifiers.focused,
+      focused: this.actor.system.focused,
     });
   }
 
@@ -159,7 +159,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
     const autoFailThreshold = this.actor.system.autoFailThreshold;
-    const focused = this.actor.system.modifiers.focused;
+    const focused = this.actor.system.focused;
 
     await rollCheck({
       actor: this.actor,
