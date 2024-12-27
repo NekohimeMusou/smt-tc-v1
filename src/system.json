@@ -37,7 +37,7 @@
     }
   },
 
-  "initiative": "1d10x+@system.ag",
+  "initiative": "1d10x + @ag",
   "grid": {
     "distance": 2,
     "units": "m"

@@ -16,7 +16,8 @@
     "tabs": {
       "main": "Main",
       "notes": "Notes",
-      "options": "Options"
+      "options": "Options",
+      "effect": "Effect"
     },
     "error": {
       "insufficientResource": "Not enough {resource}!"
@@ -78,6 +79,7 @@
       "support": "Support",
       "ailment": "Ailment",
       "talk": "Talk",
+      "none": "—",
       "passive": "—"
     },
     "affinityLevels": {

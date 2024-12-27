@@ -119,7 +119,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       }
     }
 
-    const data = Object.fromEntries([[`system.modifiers.${field}`, newBonus]]);
+    const data = Object.fromEntries([[`system.${field}`, newBonus]]);
 
     await this.actor.update(data);
   }

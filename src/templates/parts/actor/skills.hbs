@@ -40,15 +40,18 @@
           <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." system.skillType)}}</div>
         {{!-- Target --}}
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
-        <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>
+        <div class="item-prop item-target">
+          {{#unless (or (eq system.skillType "other") (eq system.skillType "passive"))}}{{localize (concat "SMT.target." system.target)}}{{else}}—{{/unless}}
+        </div>
         {{!-- Cost or Ammo Count --}}
         <div class="item-prop item-cost">
           {{#if (gt system.cost 0)}}{{concat system.cost " " (localize (concat "SMT.resources." system.costType))}}{{else}}—{{/if}}
         </div>
         {{!-- TN --}}
-        <div class="item-prop item-tn">{{#if (eq system.accuracyStat "auto")}}Auto{{else}}{{system.tn}}%{{/if}}</div>
+        <div class="item-prop item-tn">
+          {{#if (and (eq system.accuracyStat "auto") (ne system.skillType "talk"))}}Auto{{else}}{{system.tn}}%{{/if}}</div>
         {{!-- Total Power --}}
-        <div class="item-prop item-power">{{system.power}}</div>
+        <div class="item-prop item-power">{{#if system.hasPowerRoll}}{{system.power}}{{else}}—{{/if}}</div>
         {{!-- Element --}}
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
         <div class="item-prop item-expended"><input class="item-update" type="checkbox" data-field-name="system.expended"

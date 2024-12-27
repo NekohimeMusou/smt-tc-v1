@@ -83,6 +83,7 @@ const affinities = {
   mind: "SMT.affinities.mind",
   nerve: "SMT.affinities.nerve",
   ruin: "SMT.affinities.ruin",
+  almighty: "SMT.affinities.almighty",
   ailment: "SMT.affinities.ailment",
   healing: "SMT.affinities.healing",
   support: "SMT.affinities.support",
