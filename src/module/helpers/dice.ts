@@ -404,7 +404,7 @@ async function processTarget({
   const ignoreResist = (criticalHit && !dodged) || healing;
 
   // e.g. REFLECT!
-  if (targetAffinity !== "none") {
+  if (targetAffinity !== "none" && !dodged) {
     const affinityResult = game.i18n.localize(
       `SMT.affinityResult.${targetAffinity}`,
     );
