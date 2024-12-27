@@ -233,7 +233,7 @@ export async function rollCheck({
       const affinity = skill.system
         .affinity as keyof typeof actor.system.elementBoosts;
       const boost = actor.system.elementBoosts[affinity];
-      totalPower *= Math.floor((boost ? 1.5 : 1) * totalPower);
+      totalPower = Math.floor((boost ? 1.5 : 1) * totalPower);
     }
 
     const totalPowerMsg = game.i18n.format("SMT.dice.totalPower", {
@@ -384,24 +384,24 @@ async function processTarget({
   if (criticalHit) {
     if (dodgeSuccess === "crit") {
       power = 0;
-    } else if (dodgeSuccess === "fumble") {
-      power *= 4;
-    } else if (dodgeSuccess === "fail" || dodgeSuccess === "autofail") {
-      power *= 2;
-    } else if (!healing) {
+    } else if (dodgeSuccess === "success" && !healing) {
       // PUSH HTML CONTENT
       // "Critical hit downgraded!"
       htmlParts.push(
         `<div>${game.i18n.localize("SMT.dice.critDowngrade")}</div>`,
       );
+      power = Math.floor(power / 2);
     }
+  }
+
+  if (dodgeSuccess === "fumble") {
+    power *= 2;
   }
 
   const dodged =
     dodgeSuccess === "crit" || (dodgeSuccess === "success" && !criticalHit);
 
-  const ignoreResist =
-    (criticalHit && !dodged && dodgeSuccess !== "success") || healing;
+  const ignoreResist = (criticalHit && !dodged) || healing;
 
   // e.g. REFLECT!
   if (targetAffinity !== "none") {
