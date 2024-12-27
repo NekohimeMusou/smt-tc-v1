@@ -136,6 +136,10 @@ const modifiers = {
     hp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
   }),
+  resistBonus: new fields.SchemaField({
+    phys: new fields.NumberField({ integer: true, initial: 0 }),
+    mag: new fields.NumberField({ integer: true, initial: 0 }),
+  }),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
@@ -223,9 +227,13 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     data.power.gun = stats.ag.value + data.buffs.physPower;
 
     data.resist.phys =
-      Math.floor((stats.vi.value + data.level) / 2) + data.buffs.resist;
+      Math.floor((stats.vi.value + data.level) / 2) +
+      data.buffs.resist +
+      data.resistBonus.phys;
     data.resist.mag =
-      Math.floor((stats.ma.value + data.level) / 2) + data.buffs.resist;
+      Math.floor((stats.ma.value + data.level) / 2) +
+      data.buffs.resist +
+      data.resistBonus.mag;
 
     // @ts-expect-error This field isn't readonly
     data.autoFailThreshold = data.cursed ? 86 : 96;
