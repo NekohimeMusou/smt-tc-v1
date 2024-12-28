@@ -225,7 +225,8 @@
       "might": "Might (passive skill)",
       "focused": "Focused",
       "cursed": "Cursed",
-      "itemPro": "Item Pro"
+      "itemPro": "Item Pro",
+      "defending": "Defending"
     },
     "skillPane": {
       "skill": "Skill",
