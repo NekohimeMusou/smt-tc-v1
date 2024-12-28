@@ -183,6 +183,11 @@ const smtStatuses = [
         value: "86",
         mode: OVERRIDE,
       },
+      {
+        key: "system.curse",
+        value: "true",
+        mode: OVERRIDE,
+      },
     ],
   },
   {
