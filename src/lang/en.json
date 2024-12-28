@@ -112,6 +112,17 @@
       "accuracy": "Acc",
       "resist": "Resist"
     },
+    "buffSpells": {
+      "tarukaja": "Tarukaja",
+      "rakukaja": "Rakukaja",
+      "sukukaja": "Sukukaja",
+      "makakaja": "Makakaja"
+    },
+    "debuffSpells": {
+      "tarunda": "Tarunda",
+      "rakunda": "Rakunda",
+      "sukunda": "Sukunda"
+    },
     "inheritanceTraits": {
       "mouth": "Mouth",
       "eye": "Eye",

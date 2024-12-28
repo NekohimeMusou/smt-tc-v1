@@ -1,4 +1,5 @@
 import { SMT } from "./config/config.js";
+import { configureStatusEffects } from "./config/statuses.js";
 import { ACTORMODELS } from "./data-models/actor/actor-data-model.js";
 import { ITEMMODELS } from "./data-models/item/item-data-model.js";
 import { SmtActorSheet } from "./documents/actor/actor-sheet.js";
@@ -35,6 +36,7 @@ Hooks.once("init", async () => {
   registerSheetApplications();
   registerSystemSettings();
   registerHooks();
+  configureStatusEffects();
 
   await preloadHandlebarsTemplates();
 });
