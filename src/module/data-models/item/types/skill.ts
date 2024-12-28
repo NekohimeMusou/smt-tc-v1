@@ -50,7 +50,8 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
 
-    const basePower = actor.system.power[data.damageType];
+    const basePower =
+      actor.system.power[data.skillType === "gun" ? "gun" : data.damageType];
 
     return data.potency + basePower;
   }
