@@ -257,13 +257,14 @@
       "totalPower": "Total Power: {power}",
       "affinityMessage": "{name}: {targetAffinity}",
       "powerMsg": {
-        "damage": "{target} takes {damage} {affinity} damage! ({damageType} Resist: {resist})",
-        "healing": "{target} recovers {damage} HP!"
+        "damage": "{damage} {affinity} damage!",
+        "healing": "Recovers {damage} HP!"
       },
+      "resistMsg": "{damageType} Resist: {resist}",
       "critDowngrade": "Critical hit downgraded!",
       "ailment": {
-        "hit": "{target} is inflicted with {ailmentName}! (Rate: {rate}%)",
-        "miss": "{target} avoided {ailmentName}! (Rate: {rate}%)"
+        "hit": "{ailmentName} inflicted! ({rate}%)",
+        "miss": "{ailmentName} avoided! ({rate}%)"
       },
       "dodge": {
         "crit": "{targetName} critically dodged! TN: {tn}%",
@@ -274,28 +275,6 @@
       },
       "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
       "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
-    },
-    "rollEffect": {
-      "hit": {
-        "crit": "Double damage and ailment rate (after resists)",
-        "fumble": "Hit yourself and/or allies"
-      },
-      "dodge": {
-        "crit": "Negate a critical hit",
-        "fumble": "Double damage and negate resistances"
-      },
-      "negotiation": {
-        "crit": "Effect depends on negotiation stage",
-        "fumble": "Target is enraged and combat ensues."
-      },
-      "save": {
-        "crit": "No extra effect",
-        "fumble": "Ailment remains; HP and MP are halved"
-      },
-      "other": {
-        "crit": "Good things happen (GM's discretion)",
-        "fumble": "Bad things happen (GM's discretion)"
-      }
     },
     "diceResult": {
       "success": "Success!",

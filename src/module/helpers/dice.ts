@@ -137,13 +137,18 @@ export async function rollCheck({
 
   if (auto) {
     htmlParts.push(
-      `<div>${game.i18n.format("SMT.dice.autoCheckLabel", { checkName })}</div>`,
+      `<h3>${game.i18n.format("SMT.dice.autoCheckLabel", { checkName })}</h3>`,
     );
 
     if (cost > 0 && costType) {
       htmlParts.push(
-        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType.toLocaleUpperCase() })}</div>`,
+        `<h4>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType.toLocaleUpperCase() })}</h4>`,
       );
+    }
+
+    // Add skill effect
+    if (skill?.system.effect) {
+      htmlParts.push(`<div>${skill.system.effect}</div>`);
     }
   } else {
     const multi = actor?.system.multi ?? 1;
@@ -171,13 +176,11 @@ export async function rollCheck({
     });
 
     // Push the check title (e.g. "Strength Check: TN XX%")
-    htmlParts.push(`<div>${modifiedCheckTitle}</div>`);
+    htmlParts.push(`<h3>${modifiedCheckTitle}</h3>`);
 
     if (cost > 0 && costType) {
-      const costTypeLabel = game.i18n.localize(`SMT.resources.${costType}`);
-
       htmlParts.push(
-        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costTypeLabel })}</div>`,
+        `<h4>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType.toLocaleUpperCase() })}</h4>`,
       );
     }
 
@@ -186,7 +189,6 @@ export async function rollCheck({
       htmlParts.push(`<div>${skill.system.effect}</div>`);
     }
 
-    // TODO: Fix to account for Might skill
     const critBoost =
       (skill?.system.critBoost ?? false) ||
       (skill?.system.damageType === "phys" && actor?.system.might);
@@ -204,7 +206,7 @@ export async function rollCheck({
     );
     rolls.push(successCheckResult.roll);
     htmlParts.push(
-      `<div>${rollResultLabel}</div>`,
+      `<h3>${rollResultLabel}</h3>`,
       await successCheckResult.roll.render(),
     );
   }
@@ -245,7 +247,7 @@ export async function rollCheck({
     });
 
     htmlParts.push(
-      `<div>${totalPowerMsg}</div>`,
+      `<h3>${totalPowerMsg}</h3>`,
       await powerRollResult.roll.render(),
     );
     rolls.push(powerRollResult.roll);
@@ -340,12 +342,12 @@ async function processTarget({
 
   let power = totalPower;
 
-  const htmlParts: string[] = [];
-  const rolls: Roll[] = [];
-
   // Make a dodge roll, unless it's a healing or support skill
   const targetName = target.name;
   const targetData = target.actor.system;
+
+  const htmlParts: string[] = [`<h3>${targetName}</h3>`];
+  const rolls: Roll[] = [];
 
   let dodgeSuccess: SuccessLevel = "fail";
   const dodgeTN = targetData.tn.dodge;
@@ -374,7 +376,8 @@ async function processTarget({
     // PUSH HTML CONTENT
     // e.g. Target dodged! TN: XX%
     htmlParts.push(
-      `<div>${game.i18n.format(`SMT.dice.dodge.${dodgeSuccess}`, { targetName, tn: `${dodgeTN}` })}</div>`,
+      `<div>${game.i18n.format("SMT.dice.skillCheckTitle", { checkName: "Dodge", tn: `${dodgeTN}` })}</div>`,
+      `<h3>${game.i18n.localize(`SMT.diceResult.${dodgeSuccess}`)}</h3>`,
       await dodgeRoll.render(),
     );
   }
@@ -441,12 +444,15 @@ async function processTarget({
       target: finalTarget,
       damage: `${power}`,
       affinity: affinityString,
+    });
+
+    const resistMsg = game.i18n.format("SMT.dice.resistMsg", {
       damageType: game.i18n.localize(`SMT.damageTypes.${damageType}`),
       resist: `${targetResist}`,
     });
 
     // PUSH HTML CONTENT
-    htmlParts.push(`<div>${powerMsg}</div`);
+    htmlParts.push(`<h3>${powerMsg}</h3>`, `<div>${resistMsg}</div>`);
   }
 
   // Make an ailment roll if there is one
@@ -457,51 +463,55 @@ async function processTarget({
       nullifyingAffinities.includes(ailmentAffinity) ||
       nullifyingAffinities.includes(targetAffinity);
 
-    if (nullify) {
-      // PUSH HTML CONTENT
-      // "Ailment nullified!"
-      const ailmentLabel = game.i18n.localize(`SMT.ailments.${ailment.name}`);
-      const ailmentCheckTitle = game.i18n.format("SMT.dice.ailmentCheckTitle", {
-        ailmentLabel,
-        rate: `${ailment.rate}`,
-      });
-
-      htmlParts.push(`<div>${ailmentCheckTitle}</div>`);
-      htmlParts.push(
+    if (!dodged) {
+      if (nullify) {
+        // PUSH HTML CONTENT
         // "Ailment nullified!"
-        `<div>${game.i18n.localize("SMT.dice.ailmentNullified")}</div>`,
-      );
-    } else {
-      let ailmentRate = ailment.rate;
+        const ailmentLabel = game.i18n.localize(`SMT.ailments.${ailment.name}`);
+        const ailmentCheckTitle = game.i18n.format(
+          "SMT.dice.ailmentCheckTitle",
+          {
+            ailmentLabel,
+            rate: `${ailment.rate}`,
+          },
+        );
 
-      if (ailmentAffinity === "resist") {
-        ailmentRate = Math.floor(ailmentRate / 2);
-      } else if (ailmentAffinity === "weak") {
-        ailmentRate *= 2;
+        htmlParts.push(`<div>${ailmentCheckTitle}</div>`);
+        htmlParts.push(
+          // "Ailment nullified!"
+          `<div>${game.i18n.localize("SMT.dice.ailmentNullified")}</div>`,
+        );
+      } else {
+        let ailmentRate = ailment.rate;
+
+        if (ailmentAffinity === "resist") {
+          ailmentRate = Math.floor(ailmentRate / 2);
+        } else if (ailmentAffinity === "weak") {
+          ailmentRate *= 2;
+        }
+
+        if (targetAffinity === "resist") {
+          ailmentRate = Math.floor(ailmentRate / 2);
+        } else if (targetAffinity === "weak") {
+          ailmentRate *= 2;
+        }
+
+        const { ailmentInflicted, roll } = await ailmentCheck(ailmentRate);
+        rolls.push(roll);
+
+        const ailmentName = game.i18n.localize(`SMT.ailments.${ailment.name}`);
+
+        const ailmentTag = ailmentInflicted ? "hit" : "miss";
+
+        const ailmentMsg = game.i18n.format(`SMT.dice.ailment.${ailmentTag}`, {
+          ailmentName,
+          rate: `${ailmentRate}`,
+        });
+
+        // PUSH HTML CONTENT
+        // e.g. "TargetName avoided Freeze!" "TargetName is inflicted with Freeze!"
+        htmlParts.push(`<h3>${ailmentMsg}</h3>`, await roll.render());
       }
-
-      if (targetAffinity === "resist") {
-        ailmentRate = Math.floor(ailmentRate / 2);
-      } else if (targetAffinity === "weak") {
-        ailmentRate *= 2;
-      }
-
-      const { ailmentInflicted, roll } = await ailmentCheck(ailmentRate);
-      rolls.push(roll);
-
-      const ailmentName = game.i18n.localize(`SMT.ailments.${ailment.name}`);
-
-      const ailmentTag = ailmentInflicted ? "hit" : "miss";
-
-      const ailmentMsg = game.i18n.format(`SMT.dice.ailment.${ailmentTag}`, {
-        ailmentName,
-        target: targetName,
-        rate: `${ailmentRate}`,
-      });
-
-      // PUSH HTML CONTENT
-      // e.g. "TargetName avoided Freeze!" "TargetName is inflicted with Freeze!"
-      htmlParts.push(`<div>${ailmentMsg}</div>`, await roll.render());
     }
   }
 
