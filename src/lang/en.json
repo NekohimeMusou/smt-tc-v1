@@ -285,7 +285,8 @@
         "fumble": "{targetName} fumbled a dodge! TN: {tn}%"
       },
       "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
-      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
+      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%",
+      "cursed": "CURSED! Something bad happens!"
     },
     "diceResult": {
       "success": "Success!",

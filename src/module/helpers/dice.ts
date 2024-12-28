@@ -288,6 +288,14 @@ export async function rollCheck({
     }
   }
 
+  if (actor?.system.cursed) {
+    const curseRoll = await new Roll("1d100").roll();
+    rolls.push(curseRoll);
+    if (curseRoll.total <= 30) {
+      htmlParts.push(`<h3>${game.i18n.localize("SMT.dice.cursed")}</h3>`);
+    }
+  }
+
   // Spit out a chat card here to break up the output a bit
   const successChatData = {
     user: game.user.id,
