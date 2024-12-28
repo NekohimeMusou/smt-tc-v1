@@ -61,6 +61,7 @@ interface AilmentCheckData {
 
 // This rolls the check(s) and displays the chat card(s) at the end
 // (maybe the success one separately)
+// This needs to be refactored to use a handlebars template REAL bad
 export async function rollCheck({
   skill,
   actor,
@@ -73,11 +74,15 @@ export async function rollCheck({
   focused = false,
 }: CheckOptions = {}) {
   // Get necessary data for an accuracy roll
-  let checkName: string;
+  let checkName = "";
   let baseTN = 1;
   let auto = false;
 
-  if (actor && tnType && accuracyStat) {
+  if (!actor) {
+    throw new TypeError("No actor in roll data!");
+  }
+
+  if (tnType && accuracyStat) {
     const statLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
     baseTN = actor.system.stats[accuracyStat][tnType];
     checkName = game.i18n.format("SMT.dice.statCheckLabel", {
@@ -88,11 +93,24 @@ export async function rollCheck({
     baseTN = skill.system.tn;
     checkName = skill.name;
   } else {
-    throw new TypeError("Malformed dice roll data");
+    throw new TypeError("Malformed TN check data!");
   }
 
   if (skill?.system.skillType === "other") {
     await skill.update({ "system.expended": true });
+  }
+
+  const skillType = skill?.system.skillType;
+
+  if (actor.system.mute && (skillType === "mag" || skillType === "spell")) {
+    ui.notifications.notify("SMT.dice.mute");
+    return;
+  }
+
+  // Let them make saving throws if they can't take actions
+  if (actor.system.noActions && !(tnType === "specialTN" && accuracyStat === "vi")) {
+    ui.notifications.notify("SMT.dice.noActions");
+    return;
   }
 
   const cost = skill?.system.cost ?? 0;
@@ -100,41 +118,39 @@ export async function rollCheck({
 
   if (cost > 0 && costType) {
     // Return if insufficient HP/MP
-    if (actor) {
-      if (actor.system[costType].value < cost) {
-        ui.notifications.warn(
-          game.i18n.format("SMT.error.insufficientResources", {
-            resource: game.i18n.localize(`SMT.resources.${costType}`),
-          }),
-        );
 
-        return;
-      }
+    if (actor.system[costType].value < cost) {
+      ui.notifications.warn(
+        game.i18n.format("SMT.error.insufficientResources", {
+          resource: game.i18n.localize(`SMT.resources.${costType}`),
+        }),
+      );
 
-      // There's gotta be a better way to do this
-      switch (costType) {
-        case "hp":
-          await actor.update({
-            "system.hp.value": actor.system.hp.value - cost,
-          });
-          break;
-        case "mp":
-          await actor.update({
-            "system.mp.value": actor.system.mp.value - cost,
-          });
-          break;
-      }
+      return;
+    }
+
+    // There's gotta be a better way to do this
+    switch (costType) {
+      case "hp":
+        await actor.update({
+          "system.hp.value": actor.system.hp.value - cost,
+        });
+        break;
+      case "mp":
+        await actor.update({
+          "system.mp.value": actor.system.mp.value - cost,
+        });
+        break;
     }
   }
 
-  if (actor) {
-    await actor.update({ "system.tnBonuses": 0 });
-  }
+  await actor.update({ "system.tnBonuses": 0 });
 
   const htmlParts: string[] = [];
   const rolls: Roll[] = [];
   let successLevel: SuccessLevel = "fail";
 
+  // Repeating myself more and more here, need to refactor this
   if (auto) {
     htmlParts.push(
       `<h3>${game.i18n.format("SMT.dice.autoCheckLabel", { checkName })}</h3>`,
@@ -146,12 +162,20 @@ export async function rollCheck({
       );
     }
 
+    // Add message if poisoned
+    if (actor.system.poison) {
+      const poisonRoll = await new Roll("1d10").roll();
+      rolls.push(poisonRoll);
+
+      htmlParts.push(`<div>${game.i18n.format("SMT.dice.poison", { damage: `${poisonRoll.total}` })}</div>`);
+    }
+
     // Add skill effect
     if (skill?.system.effect) {
       htmlParts.push(`<div>${skill.system.effect}</div>`);
     }
   } else {
-    const multi = actor?.system.multi ?? 1;
+    const multi = actor.system.multi ?? 1;
     // Show the modifier dialog, if applicable
     const dialogTitle = game.i18n.format("SMT.dice.skillCheckTitle", {
       checkName,
@@ -184,6 +208,8 @@ export async function rollCheck({
       );
     }
 
+    // Push a message if you're poisoned
+
     // Add skill effect
     if (skill?.system.effect) {
       htmlParts.push(`<div>${skill.system.effect}</div>`);
@@ -211,20 +237,20 @@ export async function rollCheck({
     );
   }
 
-  const criticalHit = successLevel === "crit";
-  const success = criticalHit || successLevel === "success" || auto;
+  const rolledCriticalHit = successLevel === "crit";
+  const success = rolledCriticalHit || successLevel === "success" || auto;
   let totalPower = 0;
 
   if (success && skill?.system.hasPowerRoll) {
     // Find the total power, if the skill has an attack, and push HTML + roll
     const power = skill.system.power;
     const powerBoost =
-      actor?.system.powerBoost[skill.system.damageType] ?? false;
+      actor.system.powerBoost[skill.system.damageType] ?? false;
 
     const powerRollResult = await powerRoll(power, powerBoost);
     totalPower = powerRollResult.totalPower;
 
-    if (criticalHit) {
+    if (rolledCriticalHit) {
       totalPower *= 2;
     }
 
@@ -288,12 +314,17 @@ export async function rollCheck({
     }
   }
 
-  if (actor?.system.cursed) {
+  if (actor.system.curse) {
     const curseRoll = await new Roll("1d100").roll();
     rolls.push(curseRoll);
     if (curseRoll.total <= 30) {
       htmlParts.push(`<h3>${game.i18n.localize("SMT.dice.cursed")}</h3>`);
     }
+  }
+
+  // Half damage if attacker is poisoned
+  if (actor.system.poison) {
+    totalPower = Math.floor(totalPower / 2);
   }
 
   // Spit out a chat card here to break up the output a bit
@@ -313,15 +344,30 @@ export async function rollCheck({
   // Process each target and apply damage and ailment (if any)
   if (success && targets.size > 0 && skill) {
     for (const target of targets) {
+      const targetData = target.actor.system;
+
+      const skipDodgeRoll =
+        ["healing", "support", "unique"].includes(skill.system.affinity) ||
+        targetData.noActions;
+
+      const affinity = skill.system.affinity;
+
+      const criticalHit =
+        rolledCriticalHit ||
+        (affinity === "phys" && targetData.physAttacksCrit);
+
+      // Double the total power if this was turned into a critical by an ailment
+      if (criticalHit && !rolledCriticalHit) {
+        totalPower *= 2;
+      }
+
       await processTarget({
         target,
         totalPower,
         criticalHit,
         ailment: skill.system.ailment,
-        affinity: skill.system.affinity,
-        skipDodgeRoll: ["healing", "support", "unique"].includes(
-          skill.system.affinity,
-        ),
+        affinity,
+        skipDodgeRoll,
         damageType: skill.system.damageType,
         healing: skill.system.affinity === "healing",
         attackerName: actor?.name ?? "Someone",
@@ -360,7 +406,11 @@ async function processTarget({
   let dodgeSuccess: SuccessLevel = "fail";
   const dodgeTN = targetData.tn.dodge;
 
-  const targetAffinity = targetData.affinities[affinity];
+  // If the target is frozen, ignore physical defense affinities
+  const targetAffinity =
+    affinity === "phys" && targetData.affinities.phys !== "weak"
+      ? "none"
+      : targetData.affinities[affinity];
 
   if (
     !skipDodgeRoll &&
@@ -445,6 +495,16 @@ async function processTarget({
       ? attackerName
       : targetName;
   const affinityString = game.i18n.localize(`SMT.affinities.${affinity}`);
+
+  // This is implied to happen after resists
+  if (targetData.takeDoubleDamage) {
+    power *= 2;
+  }
+
+  // If stoned and incoming damage isn't phys, force, or almighty, halve it
+  if (!["phys", "force", "almighty"].includes(affinity) && targetData.stone) {
+    power = Math.floor(power / 2);
+  }
 
   if (power > 0 && !dodged) {
     // e.g. "TargetName takes 20 Phys damage! (Phys resist: 12)"

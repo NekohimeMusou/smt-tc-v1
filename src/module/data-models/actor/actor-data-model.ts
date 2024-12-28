@@ -107,6 +107,18 @@ const affinities = new fields.SchemaField({
   }),
 });
 
+const ailmentMods = {
+  curse: new fields.BooleanField(), // Implemented
+  // panic: new fields.BooleanField(),
+  ignorePhysAffinity: new fields.BooleanField(), // Implemented
+  physAttacksCrit: new fields.BooleanField(), // Implemented
+  noActions: new fields.BooleanField(), // Implemented
+  mute: new fields.BooleanField(), // Implemented
+  poison: new fields.BooleanField(), // Implemented
+  takeDoubleDamage: new fields.BooleanField(), // Implemented
+  stone: new fields.BooleanField(), // Implemented for incoming damage mod only
+};
+
 const modifiers = {
   expertDodge: new fields.BooleanField(),
   sureShot: new fields.BooleanField(),
@@ -122,7 +134,6 @@ const modifiers = {
     force: new fields.BooleanField(),
   }),
   focused: new fields.BooleanField({ initial: false }),
-  cursed: new fields.BooleanField(),
   // IMPLEMENT
   itemPro: new fields.BooleanField({ initial: false }),
   tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
@@ -172,6 +183,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       tn,
       power,
       resist,
+      ...ailmentMods,
       ...modifiers,
       ...resources,
     } as const;
@@ -239,9 +251,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       Math.floor((stats.ma.value + data.level) / 2) +
       data.buffs.resist +
       data.resistBonus.mag;
-
-    // @ts-expect-error This field isn't readonly
-    data.autoFailThreshold = data.cursed ? 86 : 96;
   }
 
   get st(): number {

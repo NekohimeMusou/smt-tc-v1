@@ -286,7 +286,10 @@
       },
       "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
       "dodgeFail": "{targetName} failed to dodge! TN: {tn}%",
-      "cursed": "CURSED! Something bad happens!"
+      "cursed": "CURSED! Something bad happens!",
+      "poison": "Poison: {damage} damage!",
+      "mute": "Can't use magic while muted!",
+      "noActions": "Can't take actions right now!"
     },
     "diceResult": {
       "success": "Success!",
