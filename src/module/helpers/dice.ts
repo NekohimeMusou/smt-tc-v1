@@ -103,13 +103,17 @@ export async function rollCheck({
   const skillType = skill?.system.skillType;
 
   if (actor.system.mute && (skillType === "mag" || skillType === "spell")) {
-    ui.notifications.notify("SMT.dice.mute");
+    ui.notifications.notify(game.i18n.localize("SMT.dice.mute"));
     return;
   }
 
   // Let them make saving throws if they can't take actions
-  if (actor.system.noActions && !(tnType === "specialTN" && accuracyStat === "vi")) {
-    ui.notifications.notify("SMT.dice.noActions");
+  if (
+    (actor.system.noActions &&
+      !(tnType === "specialTN" && accuracyStat === "vi")) ||
+    actor.statuses.has("dead")
+  ) {
+    ui.notifications.notify(game.i18n.localize("SMT.dice.noActions"));
     return;
   }
 
