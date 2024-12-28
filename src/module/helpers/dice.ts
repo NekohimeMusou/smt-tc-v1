@@ -131,18 +131,18 @@ export async function rollCheck({
     await actor.update({ "system.tnBonuses": 0 });
   }
 
-  const successCardHtml: string[] = [];
-  const successCardRolls: Roll[] = [];
+  const htmlParts: string[] = [];
+  const rolls: Roll[] = [];
   let successLevel: SuccessLevel = "fail";
 
   if (auto) {
-    successCardHtml.push(
+    htmlParts.push(
       `<div>${game.i18n.format("SMT.dice.autoCheckLabel", { checkName })}</div>`,
     );
 
     if (cost > 0 && costType) {
-      successCardHtml.push(
-        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType })}</div>`,
+      htmlParts.push(
+        `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costType.toLocaleUpperCase() })}</div>`,
       );
     }
   } else {
@@ -171,19 +171,19 @@ export async function rollCheck({
     });
 
     // Push the check title (e.g. "Strength Check: TN XX%")
-    successCardHtml.push(`<div>${modifiedCheckTitle}</div>`);
+    htmlParts.push(`<div>${modifiedCheckTitle}</div>`);
 
     if (cost > 0 && costType) {
       const costTypeLabel = game.i18n.localize(`SMT.resources.${costType}`);
 
-      successCardHtml.push(
+      htmlParts.push(
         `<div>${game.i18n.format("SMT.dice.skillCost", { cost: `${cost}`, resource: costTypeLabel })}</div>`,
       );
     }
 
     // Add skill effect
     if (skill?.system.effect) {
-      successCardHtml.push(`<div>${skill.system.effect}</div>`);
+      htmlParts.push(`<div>${skill.system.effect}</div>`);
     }
 
     // TODO: Fix to account for Might skill
@@ -202,8 +202,8 @@ export async function rollCheck({
     const rollResultLabel = game.i18n.localize(
       `SMT.diceResult.${successLevel}`,
     );
-    successCardRolls.push(successCheckResult.roll);
-    successCardHtml.push(
+    rolls.push(successCheckResult.roll);
+    htmlParts.push(
       `<div>${rollResultLabel}</div>`,
       await successCheckResult.roll.render(),
     );
@@ -244,11 +244,11 @@ export async function rollCheck({
       power: `${totalPower}`,
     });
 
-    successCardHtml.push(
+    htmlParts.push(
       `<div>${totalPowerMsg}</div>`,
       await powerRollResult.roll.render(),
     );
-    successCardRolls.push(powerRollResult.roll);
+    rolls.push(powerRollResult.roll);
   }
 
   // If there's no target roll one ailment chance and add it to the card
@@ -269,19 +269,19 @@ export async function rollCheck({
         ailmentRate: `${ailmentRate}`,
       });
 
-      successCardHtml.push(`<div>${checkTitle}</div>`);
+      htmlParts.push(`<div>${checkTitle}</div>`);
 
       const { ailmentInflicted, roll: ailmentRoll } = await ailmentCheck(
         skill.system.ailment.rate,
       );
 
       if (ailmentInflicted) {
-        successCardHtml.push(
+        htmlParts.push(
           `<div>${game.i18n.format("SMT.dice.ailmentRollHit", { target: "Someone", ailmentNameLabel })}</div>`,
           await ailmentRoll.render(),
         );
 
-        successCardRolls.push(ailmentRoll);
+        rolls.push(ailmentRoll);
       }
     }
   }
@@ -289,13 +289,13 @@ export async function rollCheck({
   // Spit out a chat card here to break up the output a bit
   const successChatData = {
     user: game.user.id,
-    content: successCardHtml.join("\n"),
+    content: htmlParts.join("\n"),
     speaker: {
       scene: game.scenes.current,
       actor,
       token,
     },
-    rolls: successCardRolls,
+    rolls,
   };
 
   await ChatMessage.create(successChatData);
