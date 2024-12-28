@@ -4,7 +4,7 @@ export function configureStatusEffects() {
     .concat(smtStatuses);
 }
 
-const { OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
+const { ADD, OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
 
 const smtStatuses = [
   {
@@ -224,5 +224,22 @@ const smtStatuses = [
     id: "sukunda",
     name: "SMT.debuffSpells.sukunda",
     icon: "icons/svg/trap.svg",
+  },
+  {
+    id: "defending",
+    name: "SMT.characterMods.defending",
+    icon: "icons/svg/combat.svg",
+    changes: [
+      {
+        key: "system.tn.dodge",
+        value: "20",
+        mode: ADD,
+      },
+      {
+        key: "system.stats.ag.specialTN",
+        value: "20",
+        mode: ADD,
+      },
+    ],
   },
 ];

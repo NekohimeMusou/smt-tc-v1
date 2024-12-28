@@ -151,7 +151,6 @@ const modifiers = {
     phys: new fields.NumberField({ integer: true, initial: 0 }),
     mag: new fields.NumberField({ integer: true, initial: 0 }),
   }),
-  defending: new fields.BooleanField(),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
@@ -212,11 +211,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
         case "ag": // Dodge TN
           stat.specialTN =
-            stat.value +
-            10 +
-            (data.expertDodge ? 5 : 0) +
-            (data.defending ? 20 : 0) +
-            data.buffs.accuracy;
+            stat.value + 10 + (data.expertDodge ? 5 : 0) + data.buffs.accuracy;
           data.tn.dodge = stat.specialTN;
           break;
         case "lu": // Negotiation TN
