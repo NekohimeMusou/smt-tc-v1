@@ -177,6 +177,9 @@
       "maxAmmo": "Max Ammo",
       "itemType": "Item Type"
     },
+    "skills": {
+      "pinhole": "Pinhole"
+    },
     "skillTypes": {
       "phys": "Phys",
       "mag": "Mag",

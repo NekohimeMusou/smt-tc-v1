@@ -51,6 +51,7 @@ interface TargetData {
   hasDamage?: boolean;
   affinity?: Affinity;
   healing?: boolean;
+  pinhole?: boolean;
   attackerName?: string;
 }
 
@@ -171,7 +172,9 @@ export async function rollCheck({
       const poisonRoll = await new Roll("1d10").roll();
       rolls.push(poisonRoll);
 
-      htmlParts.push(`<div>${game.i18n.format("SMT.dice.poison", { damage: `${poisonRoll.total}` })}</div>`);
+      htmlParts.push(
+        `<div>${game.i18n.format("SMT.dice.poison", { damage: `${poisonRoll.total}` })}</div>`,
+      );
     }
 
     // Add skill effect
@@ -374,6 +377,7 @@ export async function rollCheck({
         skipDodgeRoll,
         damageType: skill.system.damageType,
         healing: skill.system.affinity === "healing",
+        pinhole: skill.system.pinhole,
         attackerName: actor?.name ?? "Someone",
       });
     }
@@ -392,6 +396,7 @@ async function processTarget({
   skipDodgeRoll = false,
   damageType = "phys",
   healing = false,
+  pinhole = false,
   attackerName = "Someone",
 }: TargetData = {}) {
   if (!target) {
@@ -408,7 +413,9 @@ async function processTarget({
   const rolls: Roll[] = [];
 
   let dodgeSuccess: SuccessLevel = "fail";
-  const dodgeTN = targetData.tn.dodge;
+  const dodgeTN = pinhole
+    ? Math.floor(targetData.tn.dodge / 2)
+    : targetData.tn.dodge;
 
   // If the target is frozen, ignore physical defense affinities
   const targetAffinity =
@@ -491,13 +498,10 @@ async function processTarget({
 
   const targetResist = ignoreResist ? 0 : targetData.resist[damageType];
 
-  power -= targetResist;
+  power -= pinhole ? Math.floor(targetResist / 2) : targetResist;
 
   const powerTag = healing || targetAffinity === "drain" ? "healing" : "damage";
-  const finalTarget =
-    targetAffinity === "reflect" || dodgeSuccess === "fumble"
-      ? attackerName
-      : targetName;
+  const finalTarget = targetAffinity === "reflect" ? attackerName : targetName;
   const affinityString = game.i18n.localize(`SMT.affinities.${affinity}`);
 
   // This is implied to happen after resists

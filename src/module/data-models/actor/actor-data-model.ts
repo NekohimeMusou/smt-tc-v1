@@ -162,7 +162,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       charClass: new fields.StringField({
         choices: SMT.charClasses,
         blank: false,
-        initial: "human",
+        initial: "demon",
       }),
       xp: new fields.NumberField({ integer: true, initial: 0 }),
       level: new fields.NumberField({ integer: true, initial: 1 }),
