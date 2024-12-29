@@ -419,7 +419,9 @@ async function processTarget({
 
   // If the target is frozen, ignore physical defense affinities
   const targetAffinity =
-    affinity === "phys" && targetData.affinities.phys !== "weak"
+    affinity === "phys" &&
+    targetData.affinities.phys !== "weak" &&
+    targetData.ignorePhysAffinity
       ? "none"
       : targetData.affinities[affinity];
 
