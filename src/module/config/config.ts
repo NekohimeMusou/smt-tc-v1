@@ -6,6 +6,7 @@ declare global {
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
+  type PowerBoostType = keyof typeof powerBoostTypes;
   type SkillCostType = keyof typeof costTypes;
   type Target = keyof typeof targets;
   type AccuracyStat = keyof typeof accuracyStats;
@@ -65,6 +66,12 @@ const accuracyStats = {
 const damageTypes = {
   phys: "SMT.powerTypes.phys",
   mag: "SMT.powerTypes.mag",
+};
+
+const powerBoostTypes = {
+  phys: "SMT.powerTypes.phys",
+  mag: "SMT.powerTypes.mag",
+  item: "SMT.powerTypes.item",
 };
 
 const costTypes = {
@@ -136,6 +143,7 @@ const skillTypes = {
   spell: "SMT.skillTypes.spell",
   passive: "SMT.skillTypes.passive",
   talk: "SMT.skillTypes.talk",
+  item: "SMT.skillTypes.item",
   // For "passive" skills with conditional rolls attached, like Lucky Find and Good Instincts
   other: "SMT.skillTypes.other",
 } as const;
@@ -162,6 +170,7 @@ export const SMT = {
   stats,
   accuracyStats,
   damageTypes,
+  powerBoostTypes,
   affinities,
   affinityLevels,
   ailments,

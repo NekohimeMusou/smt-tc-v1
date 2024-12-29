@@ -25,6 +25,20 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return skillType === "phys" || skillType === "gun" ? "phys" : "mag";
   }
 
+  get powerBoostType(): PowerBoostType {
+    const data = this.#systemData;
+
+    if (data.skillType === "gun" || data.skillType === "phys") {
+      return "phys";
+    }
+
+    if (data.skillType === "mag" || data.skillType === "spell") {
+      return "mag";
+    }
+
+    return "item";
+  }
+
   get tn(): number {
     const actor = this.parent?.parent as SmtActor;
     if (!actor) return 1;

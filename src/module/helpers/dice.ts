@@ -252,7 +252,7 @@ export async function rollCheck({
     // Find the total power, if the skill has an attack, and push HTML + roll
     const power = skill.system.power;
     const powerBoost =
-      actor.system.powerBoost[skill.system.damageType] ?? false;
+      actor.system.powerBoost[skill.system.powerBoostType] ?? false;
 
     const powerRollResult = await powerRoll(power, powerBoost);
     totalPower = powerRollResult.totalPower;

@@ -139,7 +139,8 @@
     "powerTypes": {
       "phys": "Phys",
       "mag": "Magic",
-      "gun": "Gun"
+      "gun": "Gun",
+      "item": "Item"
     },
     "damageTypes": {
       "phys": "Phys",
@@ -188,6 +189,7 @@
       "spell": "Spell",
       "talk": "Talk",
       "passive": "Passive",
+      "item": "Item",
       "other": "Other"
     },
     "elementBoosts": {

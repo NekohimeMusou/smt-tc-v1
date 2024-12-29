@@ -125,6 +125,7 @@ const modifiers = {
   powerBoost: new fields.SchemaField({
     phys: new fields.BooleanField(),
     mag: new fields.BooleanField(),
+    item: new fields.BooleanField(),
   }),
   might: new fields.BooleanField(),
   elementBoosts: new fields.SchemaField({
