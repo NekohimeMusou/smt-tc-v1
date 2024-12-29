@@ -153,7 +153,8 @@
     "actorFields": {
       "level": "Level",
       "charClass": "Class",
-      "xp": "XP"
+      "xp": "XP",
+      "macca": "Macca"
     },
     "itemFields": {
       "inheritanceTraits": "Inheritance Traits",

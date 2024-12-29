@@ -170,6 +170,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       hpMultiplier: new fields.NumberField({ integer: true }),
       mpMultiplier: new fields.NumberField({ integer: true }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
+      macca: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
       // -kaja and -kunda spells
       buffs: new fields.SchemaField({
         physPower: new fields.NumberField({ integer: true }),
