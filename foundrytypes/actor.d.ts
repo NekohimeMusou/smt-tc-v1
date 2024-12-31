@@ -23,7 +23,6 @@ declare class Actor<const T extends SchemaDict = any, ItemType extends Item<any,
 	get visible(): boolean;
 	get isToken(): boolean;
 	get permission(): number;
-	get uuid(): string;
 	get img(): string;
 	_dependentTokens:WeakMap<Scene, WeakSet<TokenDocument<typeof Actor<T, ItemType, AEType>>>> ;
 	/** Retrieve an iterator over all effects that can apply to the actor.
