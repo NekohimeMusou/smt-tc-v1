@@ -148,13 +148,13 @@ const smtStatuses = [
     id: "panic",
     name: "SMT.ailments.panic",
     icon: "icons/svg/terror.svg",
-    // changes: [
-    //   {
-    //     key: "system.panic",
-    //     value: "true",
-    //     mode: OVERRIDE,
-    //   }
-    // ]
+    changes: [
+      {
+        key: "system.panic",
+        value: "true",
+        mode: OVERRIDE,
+      }
+    ]
   },
   {
     id: "shock",
@@ -242,4 +242,16 @@ const smtStatuses = [
       },
     ],
   },
+  {
+    id: "focused",
+    name: "SMT.characterMods.focused",
+    icon: "icons/svg/aura.svg",
+    changes: [
+      {
+        key: "system.focused",
+        value: "true",
+        mode: OVERRIDE,
+      },
+    ]
+  }
 ];

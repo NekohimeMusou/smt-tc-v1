@@ -109,7 +109,7 @@ const affinities = new fields.SchemaField({
 
 const ailmentMods = {
   curse: new fields.BooleanField(), // Implemented
-  // panic: new fields.BooleanField(),
+  panic: new fields.BooleanField(),
   ignorePhysAffinity: new fields.BooleanField(), // Implemented
   physAttacksCrit: new fields.BooleanField(), // Implemented
   noActions: new fields.BooleanField(), // Implemented

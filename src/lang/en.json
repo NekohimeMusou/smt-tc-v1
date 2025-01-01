@@ -291,11 +291,20 @@
         "fumble": "{targetName} fumbled a dodge! TN: {tn}%"
       },
       "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
-      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%",
+      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
+    },
+    "ailmentMsg": {
       "cursed": "CURSED! Something bad happens!",
       "poison": "Poison: {damage} damage!",
       "mute": "Can't use magic while muted!",
-      "noActions": "Can't take actions right now!"
+      "noActions": "Can't take actions right now!",
+      "panicSuccess": "{name} is panicking, but holds it together!",
+      "panicFailure": "{name} is panicking! {panicEffect}",
+      "panic1": "Throw away 10% of your current macca. If you don't have any money, pay the cost of your lowest-cost skill, but you don't activate it.",
+      "panic2": "Space out and take no action.",
+      "panic3": "Make a Negotiation check against a random demon. If you fail, the demon attacks you once; if you crit, they give you an item.",
+      "panic4": "You are inflicted with Sleep.",
+      "panic5": "{charName} danced crazy!"
     },
     "diceResult": {
       "success": "Success!",
