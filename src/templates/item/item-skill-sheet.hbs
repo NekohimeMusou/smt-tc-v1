@@ -5,6 +5,7 @@
     <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     <a class="item resource-label" data-tab="effect">{{localize "SMT.tabs.effect"}}</a>
     <a class="item resource-label" data-tab="options">{{localize "SMT.tabs.options"}}</a>
+    <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
     <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
   </nav>
 
@@ -19,6 +20,10 @@
 
     <div class="tab options" data-group="primary" data-tab="options">
       {{> "systems/smt-tc/templates/parts/item/skill/tab-options.hbs"}}
+    </div>
+
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
     </div>
 
     <div class="tab notes" data-group="primary" data-tab="notes">

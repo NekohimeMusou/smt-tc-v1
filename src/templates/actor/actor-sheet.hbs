@@ -8,6 +8,7 @@
     <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     <a class="item resource-label" data-tab="options">{{localize "SMT.tabs.options"}}</a>
     <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
+    <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -20,6 +21,11 @@
     {{!-- Options Tab --}}
     <div class="tab options" data-group="primary" data-tab="options">
       {{> "systems/smt-tc/templates/parts/actor/tab-options.hbs"}}
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
     </div>
 
     {{!-- Notes Tab --}}

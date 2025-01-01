@@ -33,6 +33,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/dice-modifiers.hbs",
   "systems/smt-tc/templates/parts/actor/buffs.hbs",
   "systems/smt-tc/templates/parts/actor/modifiers.hbs",
+  "systems/smt-tc/templates/parts/shared/tab-effects.hbs",
 ] as const;
 
 const itemTypes = {

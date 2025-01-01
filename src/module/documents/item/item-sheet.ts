@@ -1,4 +1,5 @@
 import { SMT } from "../../config/config.js";
+import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
 import { SmtItem } from "./item.js";
 
 export class SmtItemSheet extends ItemSheet<SmtItem> {
@@ -28,11 +29,25 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
 
     const system = this.item.system;
 
+    const effects = prepareActiveEffectCategories(this.item.effects);
+
     await foundry.utils.mergeObject(context, {
       system,
+      effects,
       SMT,
     });
 
     return context;
+  }
+
+  override activateListeners(html: JQuery<HTMLElement>) {
+    super.activateListeners(html);
+
+    // Everything below here is only needed if the sheet is editable
+    if (!this.isEditable) return;
+
+    // Roll handlers, click handlers, etc. would go here.
+    // Active Effect management
+    html.find(".effect-control").on("click", (ev) => onManageActiveEffect(ev, this.item));
   }
 }

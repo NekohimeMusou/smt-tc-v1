@@ -1,6 +1,10 @@
 import { SmtActor } from "../documents/actor/actor.js";
 import { SmtItem } from "../documents/item/item.js";
 
+export class SmtActiveEffect extends ActiveEffect<SmtActor, SmtItem> {
+
+}
+
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.
  * @param {MouseEvent} event      The left-click event on the effect control
@@ -13,16 +17,18 @@ export async function onManageActiveEffect(
   event.preventDefault();
   const a = $(event.currentTarget);
   const li = a.closest("li");
-  const effect = owner.effects.get(li.data("effectId") as string);
-  // const effect = (li.data("effectId"))
-  //   ? owner.effects.get(li.data("effectId"))
-  //   : null;
-  const actor = owner instanceof SmtActor ? owner : (owner.parent as SmtActor);
+  // const effect = owner.effects.get(li.data("effectId") as string);
+  const effect = li.data("effectId")
+    ? owner.effects.get(li.data("effectId") as string)
+    : null;
+
+  const actor = owner.type === "character" ? owner : owner.parent as SmtActor;
+
   switch (a.data("action")) {
     case "create":
       return await owner.createEmbeddedDocuments("ActiveEffect", [
         {
-          name: game.i18n.localize("MWDESTINY.effects.newEffect"),
+          name: game.i18n.localize("SMT.effects.newEffect"),
           icon: "icons/svg/aura.svg",
           origin: owner.uuid,
           duration: {
@@ -32,14 +38,14 @@ export async function onManageActiveEffect(
         },
       ]);
     case "edit":
-      return await effect.sheet.render(true);
+      return await effect?.sheet.render(true);
     case "delete":
-      await owner.deleteEmbeddedDocuments("ActiveEffect", [effect._id]);
+      await owner.deleteEmbeddedDocuments("ActiveEffect", [effect?.id]);
       if (actor) await actor.sheet.render(false);
       return;
     case "toggle":
       await owner.updateEmbeddedDocuments("ActiveEffect", [
-        { _id: effect._id, disabled: !effect.disabled },
+        { _id: effect?.id, disabled: !effect?.disabled },
       ]);
       if (actor) await actor.sheet.render(false);
       return;
@@ -52,23 +58,23 @@ export async function onManageActiveEffect(
  * @return {object}                   Data for rendering
  */
 export function prepareActiveEffectCategories(
-  effects: ActiveEffect<SmtActor, SmtItem>[],
-) {
+  effects: Collection<SmtActiveEffect>,
+): object {
   // Define effect header categories
   const categories: AECategories = {
     temporary: {
       type: "temporary",
-      label: game.i18n.localize("MWDESTINY.effects.temporary"),
+      label: game.i18n.localize("SMT.effects.temporary"),
       effects: [],
     },
     passive: {
       type: "passive",
-      label: game.i18n.localize("MWDESTINY.effects.passive"),
+      label: game.i18n.localize("SMT.effects.passive"),
       effects: [],
     },
     inactive: {
       type: "inactive",
-      label: game.i18n.localize("MWDESTINY.effects.inactive"),
+      label: game.i18n.localize("SMT.effects.inactive"),
       effects: [],
     },
   };

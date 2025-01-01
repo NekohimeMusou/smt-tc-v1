@@ -1,4 +1,5 @@
 import { SMT } from "../../config/config.js";
+import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
 import { rollCheck } from "../../helpers/dice.js";
 import { SmtActor } from "./actor.js";
 
@@ -41,14 +42,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       (item) => item.system.itemType === "weapon",
     );
 
-    // TODO: Figure out active effects in TS
-    // const effects = prepareActiveEffectCategories(this.item.effects);
+    const effects = prepareActiveEffectCategories(this.actor.effects);
 
     await foundry.utils.mergeObject(context, {
       system,
       rollData,
       skills,
       weapons,
+      effects,
       SMT,
     });
 
@@ -88,7 +89,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     html.find(".adjust-modifier").on("click", this.#onModifierChange.bind(this));
 
     // Active Effect management
-    // html.find(".effect-control").on("click", onManageActiveEffect(ev, this.actor));
+    html.find(".effect-control").on("click", (ev) => onManageActiveEffect(ev, this.actor));
   }
 
   async #onModifierChange(event: JQuery.ClickEvent) {
