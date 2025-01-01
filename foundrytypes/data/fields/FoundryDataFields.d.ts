@@ -73,7 +73,7 @@ declare class StringFieldClass<const T extends string= string> extends FoundryDM
 }
 
 class FilePathField extends StringFieldClass {
-	contructor (options?: FilePathFieldOptions);
+	constructor (options?: FilePathFieldOptions);
 
 }
 
