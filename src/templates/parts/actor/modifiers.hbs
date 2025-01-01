@@ -5,99 +5,35 @@
         {{localize "SMT.actorSheet.misc"}}
       </li>
 
+      {{#if isGM}}
       <li class="item flexrow flex-group-center flex-between">
-        <label for="power-boost-strikes-field"
-          class="item-name">{{localize "SMT.characterMods.powerBoost.phys"}}</label>
+        <label for="hp-boost-field" class="item-name">{{localize "SMT.resourceBoost.hp"}}</label>
         <div class="item-prop">
-          <input id="power-boost-strikes-field" name="system.powerBoost.phys" type="checkbox" data-dtype="Boolean"
-            {{checked system.powerBoost.phys}} />
+          <input type="number" id="hp-boost-field" name="system.resourceBoost.hp" value="{{system.resourceBoost.hp}}"
+            data-dtype="Number" />
         </div>
 
-        <label for="power-boost-spells-field"
-          class="item-name">{{localize "SMT.characterMods.powerBoost.mag"}}</label>
+        <label for="mp-boost-field" class="item-name">{{localize "SMT.resourceBoost.mp"}}</label>
         <div class="item-prop">
-          <input id="power-boost-spells-field" name="system.powerBoost.mag" type="checkbox" data-dtype="Boolean"
-            {{checked system.powerBoost.mag}} />
+          <input type="number" id="mp-boost-field" name="system.resourceBoost.mp" value="{{system.resourceBoost.mp}}"
+            data-dtype="Number" />
         </div>
       </li>
+      {{/if}}
 
       <li class="item flexrow flex-group-center flex-between">
-        <label for="might-field" class="item-name">{{localize "SMT.characterMods.might"}}</label>
+        <label for="phys-resist-bonus-field" class="item-name">{{localize "SMT.actorSheet.physResist"}}</label>
         <div class="item-prop">
-          <input id="might-field" name="system.might" type="checkbox" data-dtype="Boolean" {{checked system.might}} />
+          <input type="number" id="phys-resist-bonus-field" name="system.resistBonus.phys"
+            value="{{system.resistBonus.phys}}" data-dtype="Number" />
         </div>
 
-        <label for="expert-dodge-field" class="item-name">{{localize "SMT.characterMods.expertDodge"}}</label>
+        <label for="mag-resist-bonus-field" class="item-name">{{localize "SMT.actorSheet.magResist"}}</label>
         <div class="item-prop">
-          <input id="expert-dodge-field" name="system.expertDodge" type="checkbox" data-dtype="Boolean"
-            {{checked system.expertDodge}} />
+          <input type="number" id="mag-resist-bonus-field" name="system.resistBonus.mag"
+            value="{{system.resistBonus.mag}}" data-dtype="Number" />
         </div>
       </li>
-
-      <li class="item flexrow flex-group-center flex-between">
-        <label for="sure-shot-field" class="item-name">{{localize "SMT.characterMods.sureShot"}}</label>
-        <div class="item-prop">
-          <input id="sure-shot-field" name="system.sureShot" type="checkbox" data-dtype="Boolean" {{checked system.sureShot}} />
-        </div>
-
-        <label for="item-pro-field" class="item-name">{{localize "SMT.characterMods.itemPro"}}</label>
-        <div class="item-prop">
-          <input id="item-pro-field" name="system.itemPro" type="checkbox" data-dtype="Boolean" {{checked system.itemPro}} />
-          </div>
-          </li>
-          <li class="item flexrow flex-group-center flex-between">
-            <label for="fire-boost-field" class="item-name">{{localize "SMT.elementBoosts.fire"}}</label>
-            <div class="item-prop">
-              <input id="fire-boost-field" name="system.elementBoosts.fire" type="checkbox" data-dtype="Boolean"
-                {{checked system.elementBoosts.fire}} />
-            </div>
-          
-            <label for="cold-boost-field" class="item-name">{{localize "SMT.elementBoosts.cold"}}</label>
-            <div class="item-prop">
-              <input id="cold-boost-field" name="system.elementBoosts.cold" type="checkbox" data-dtype="Boolean"
-                {{checked system.elementBoosts.cold}} />
-            </div>
-          </li>
-          
-          <li class="item flexrow flex-group-center flex-between">
-            <label for="elec-boost-field" class="item-name">{{localize "SMT.elementBoosts.elec"}}</label>
-            <div class="item-prop">
-              <input id="elec-boost-field" name="system.elementBoosts.elec" type="checkbox" data-dtype="Boolean"
-                {{checked system.elementBoosts.elec}} />
-            </div>
-          
-            <label for="force-boost-field" class="item-name">{{localize "SMT.elementBoosts.force"}}</label>
-            <div class="item-prop">
-              <input id="force-boost-field" name="system.elementBoosts.force" type="checkbox" data-dtype="Boolean"
-                {{checked system.elementBoosts.force}} />
-            </div>
-            </li>
-            <li class="item flexrow flex-group-center flex-between">
-              <label for="hp-boost-field" class="item-name">{{localize "SMT.resourceBoost.hp"}}</label>
-              <div class="item-prop">
-                <input type="number" id="hp-boost-field" name="system.resourceBoost.hp" value="{{system.resourceBoost.hp}}"
-                  data-dtype="Number" />
-              </div>
-            
-              <label for="mp-boost-field" class="item-name">{{localize "SMT.resourceBoost.mp"}}</label>
-              <div class="item-prop">
-                <input type="number" id="mp-boost-field" name="system.resourceBoost.mp" value="{{system.resourceBoost.mp}}"
-                  data-dtype="Number" />
-              </div>
-            </li>
-<li class="item flexrow flex-group-center flex-between">
-  <label for="phys-resist-bonus-field" class="item-name">{{localize "SMT.actorSheet.physResist"}}</label>
-  <div class="item-prop">
-    <input type="number" id="phys-resist-bonus-field" name="system.resistBonus.phys" value="{{system.resistBonus.phys}}"
-      data-dtype="Number" />
-  </div>
-
-  <label for="mag-resist-bonus-field" class="item-name">{{localize "SMT.actorSheet.magResist"}}</label>
-  <div class="item-prop">
-    <input type="number" id="mag-resist-bonus-field" name="system.resistBonus.mag" value="{{system.resistBonus.mag}}"
-      data-dtype="Number" />
-  </div>
-</li>
     </ol>
   </div>
 </section>

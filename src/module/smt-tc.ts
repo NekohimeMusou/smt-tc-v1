@@ -24,6 +24,8 @@ declare global {
 Hooks.once("init", async () => {
   console.log("SMT | Initializing SMT game system");
 
+  CONFIG.ActiveEffect.legacyTransferral = false;
+
   CONFIG.SMT = SMT;
 
   game.smt = {

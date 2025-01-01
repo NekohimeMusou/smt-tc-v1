@@ -51,6 +51,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       weapons,
       effects,
       SMT,
+      isGM: game.user.isGM,
     });
 
     return context;
@@ -156,11 +157,9 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const target = $(event.currentTarget);
 
     const { tnType, accuracyStat } = target.data() as StatRollFormData;
+
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-
-    const autoFailThreshold = this.actor.system.autoFailThreshold;
-    const focused = this.actor.system.focused;
 
     await rollCheck({
       actor: this.actor,
@@ -168,8 +167,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       accuracyStat,
       tnType,
       showDialog,
-      autoFailThreshold,
-      focused,
+      autoFailThreshold: this.actor.system.autoFailThreshold,
+      focused: this.actor.system.focused,
     });
   }
 
@@ -248,27 +247,5 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const updates = Object.fromEntries([[fieldName, newValue]]);
 
     await item.update(updates);
-  }
-
-  async #onItemUpdate1(event: JQuery.ClickEvent) {
-    event.preventDefault();
-
-    const target = $(event.currentTarget);
-    const li = target.parents(".item");
-    const itemId = li.data("itemId") as string;
-    const item = this.actor.items.get(itemId);
-
-    if (!item) return;
-
-    // TODO: Make this more generic
-    const path = target.attr("name");
-    const dtype = target.data("dtype") as string;
-
-    if (path === "system.ammo.value" && dtype === "Number") {
-      const newVal = target.attr("value");
-      await this.actor.updateEmbeddedDocuments("Item", { _id: itemId, system: { ammo: { value: newVal } } });
-    } else if (path === "system.expended" && dtype === "Boolean") {
-      await this.actor.updateEmbeddedDocuments("Item", {_id: itemId, system: {  }})
-    }
   }
 }

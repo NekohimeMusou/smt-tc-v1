@@ -35,6 +35,7 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
       system,
       effects,
       SMT,
+      isGM: game.user.isGM,
     });
 
     return context;

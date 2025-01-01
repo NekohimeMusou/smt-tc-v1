@@ -46,7 +46,11 @@
         <div class="item-prop item-name">{{localize (concat "SMT.specialTN." @key)}}</div>
         {{!-- Special TN --}}
         <div class="item-prop roll-highlight roll-stat" data-tn-type="specialTN" data-accuracy-stat="{{@key}}">
-          {{specialTN}}%
+          {{#if (eq @key "st")}}{{../system.tn.st}}%{{/if}}
+          {{#if (eq @key "ma")}}{{../system.tn.ma}}%{{/if}}
+          {{#if (eq @key "vi")}}{{../system.tn.save}}%{{/if}}
+          {{#if (eq @key "ag")}}{{../system.tn.dodge}}%{{/if}}
+          {{#if (eq @key "lu")}}{{../system.tn.negotiation}}%{{/if}}
         </div>
       </li>
       {{/each}}

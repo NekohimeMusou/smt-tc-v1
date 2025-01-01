@@ -22,6 +22,11 @@ function generateStatSchema() {
 }
 
 const tn = new fields.SchemaField({
+  st: new fields.NumberField({ integer: true }),
+  ma: new fields.NumberField({ integer: true }),
+  vi: new fields.NumberField({ integer: true }),
+  ag: new fields.NumberField({ integer: true }),
+  lu: new fields.NumberField({ integer: true }),
   save: new fields.NumberField({ integer: true }),
   dodge: new fields.NumberField({ integer: true }),
   negotiation: new fields.NumberField({ integer: true }),
@@ -133,11 +138,10 @@ const ailmentMods = {
   poison: new fields.BooleanField(), // Implemented
   takeDoubleDamage: new fields.BooleanField(), // Implemented
   stone: new fields.BooleanField(), // Implemented for incoming damage mod only
-};
+} as const;
 
 const passiveSkillMods = {
-  expertDodge: new fields.BooleanField(),
-  sureShot: new fields.BooleanField(),
+  gunAttackBonus: new fields.NumberField({ integer: true, initial: 0 }),
   powerBoost: new fields.SchemaField({
     phys: new fields.BooleanField(),
     mag: new fields.BooleanField(),
@@ -154,6 +158,7 @@ const passiveSkillMods = {
     hp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
   }),
+  dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
 } as const;
 
 const modifiers = {
@@ -170,6 +175,7 @@ const modifiers = {
     phys: new fields.NumberField({ integer: true, initial: 0 }),
     mag: new fields.NumberField({ integer: true, initial: 0 }),
   }),
+  // TODO: Make these into AEs somehow
   // -kaja and -kunda spells
   buffs: new fields.SchemaField({
     physPower: new fields.NumberField({ integer: true }),
@@ -213,33 +219,10 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const stats = data.stats;
-    const tnMod = data.tnBoosts * 20;
 
-    // Calculate stat totals and TNs
-    for (const [key, stat] of Object.entries(stats)) {
+    for (const stat of Object.values(stats)) {
       const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
       stat.value = stat.base + stat.lv + magatamaBonus;
-      stat.tn = stat.value * 5 + data.level + tnMod;
-      // Calculate the "special" TN associated with each stat
-      switch (key) {
-        case "st": // Phys attack TN
-        case "ma": // Mag attack TN
-          stat.specialTN = stat.tn;
-          break;
-        case "vi": // Save TN
-          stat.specialTN = stat.tn - tnMod;
-          data.tn.save = stat.specialTN;
-          break;
-        case "ag": // Dodge TN
-          stat.specialTN =
-            stat.value + 10 + (data.expertDodge ? 5 : 0) + data.buffs.accuracy;
-          data.tn.dodge = stat.specialTN;
-          break;
-        case "lu": // Negotiation TN
-          stat.specialTN = stat.value * 2 + 20;
-          data.tn.negotiation = stat.specialTN;
-          break;
-      }
     }
 
     // Get HP and MP multipliers
@@ -249,16 +232,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     // @ts-expect-error This field isn't readonly
     data.mpMultiplier = (isHuman ? 2 : 3) + (data.resourceBoost.mp ?? 0);
 
-    // Calculate HP/MP/FP max
-    data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
-    data.mp.max = (stats.ma.value + data.level) * data.mpMultiplier;
-    data.fp.max = Math.floor(stats.lu.value / 5 + 5);
-
-    // Calculate power and resistance
-    data.power.phys = stats.st.value + data.level + data.buffs.physPower;
-    data.power.mag = stats.ma.value + data.level + data.buffs.magPower;
-    data.power.gun = stats.ag.value + data.buffs.physPower;
-
     data.resist.phys =
       Math.floor((stats.vi.value + data.level) / 2) +
       data.buffs.resist +
@@ -267,6 +240,44 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       Math.floor((stats.ma.value + data.level) / 2) +
       data.buffs.resist +
       data.resistBonus.mag;
+
+      // Calculate power and resistance
+    data.power.phys = stats.st.value + data.level + data.buffs.physPower;
+    data.power.mag = stats.ma.value + data.level + data.buffs.magPower;
+    data.power.gun = stats.ag.value + data.buffs.physPower;
+  }
+
+  override prepareDerivedData() {
+    const data = this.#systemData;
+
+    const stats = data.stats;
+    const tnBoostMod = data.tnBoosts * 20;
+
+    for (const statData of Object.entries(stats)) {
+      const key = statData[0] as keyof typeof data.tn;
+      const stat = statData[1];
+
+      data.tn[key] = (stat.value * 5) + data.level;
+      switch (key) {
+        case "vi":
+          data.tn.save = (stat.value * 5) + data.level;
+          break;
+        case "ag":
+          data.tn.dodge = stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
+          break;
+        case "lu":
+          data.tn.negotiation = stat.value * 2 + 20;
+          break;
+      }
+    }
+
+    Object.values(stats).forEach((stat) => stat.tn += tnBoostMod);
+    Object.values(stats).forEach((stat) => stat.tn = Math.floor(stat.tn / data.multi));
+
+    // Calculate HP/MP/FP max
+    data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
+    data.mp.max = (stats.ma.value + data.level) * data.mpMultiplier;
+    data.fp.max = Math.floor(stats.lu.value / 5 + 5);
   }
 
   get st(): number {
