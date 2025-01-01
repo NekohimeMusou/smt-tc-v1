@@ -97,7 +97,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const { direction, field, min, max } = $(event.currentTarget).data() as {
       direction: "+" | "-";
-      field: "multi" | "tnBonuses";
+      field: "multi" | "tnBoosts";
       min: string | undefined;
       max: string | undefined;
     };

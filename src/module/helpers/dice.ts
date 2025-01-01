@@ -157,7 +157,7 @@ export async function rollCheck({
     }
   }
 
-  await actor.update({ "system.tnBonuses": 0 });
+  await actor.update({ "system.tnBoosts": 0 });
 
   let successLevel: SuccessLevel = "fail";
 

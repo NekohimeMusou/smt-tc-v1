@@ -1,9 +1,25 @@
 import { SMT } from "../../config/config.js";
 import { SmtActor } from "../../documents/actor/actor.js";
-import { generateResourceSchema } from "./fields/resource-fields.js";
-import { generateStatSchema } from "./fields/stat-fields.js";
 
 const fields = foundry.data.fields;
+
+function generateResourceSchema() {
+  return {
+    max: new fields.NumberField({ integer: true }),
+    value: new fields.NumberField({ integer: true }),
+  };
+}
+
+function generateStatSchema() {
+  return {
+    base: new fields.NumberField({ integer: true, initial: 1 }),
+    magatama: new fields.NumberField({ integer: true }),
+    lv: new fields.NumberField({ integer: true }),
+    value: new fields.NumberField({ integer: true }),
+    tn: new fields.NumberField({ integer: true }),
+    specialTN: new fields.NumberField({ integer: true }),
+  };
+}
 
 const tn = new fields.SchemaField({
   save: new fields.NumberField({ integer: true }),
@@ -119,7 +135,7 @@ const ailmentMods = {
   stone: new fields.BooleanField(), // Implemented for incoming damage mod only
 };
 
-const modifiers = {
+const passiveSkillMods = {
   expertDodge: new fields.BooleanField(),
   sureShot: new fields.BooleanField(),
   powerBoost: new fields.SchemaField({
@@ -134,23 +150,32 @@ const modifiers = {
     elec: new fields.BooleanField(),
     force: new fields.BooleanField(),
   }),
+  resourceBoost: new fields.SchemaField({
+    hp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+    mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+  }),
+} as const;
+
+const modifiers = {
   focused: new fields.BooleanField({ initial: false }),
   // IMPLEMENT
-  itemPro: new fields.BooleanField({ initial: false }),
-  tnBonuses: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
+  tnBoosts: new fields.NumberField({ integer: true, initial: 0 }), // +/- 20 TN bonuses from the sheet
   multi: new fields.NumberField({
     integer: true,
     initial: 1,
     positive: true,
     max: 3,
   }),
-  resourceBoost: new fields.SchemaField({
-    hp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-    mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-  }),
   resistBonus: new fields.SchemaField({
     phys: new fields.NumberField({ integer: true, initial: 0 }),
     mag: new fields.NumberField({ integer: true, initial: 0 }),
+  }),
+  // -kaja and -kunda spells
+  buffs: new fields.SchemaField({
+    physPower: new fields.NumberField({ integer: true }),
+    magPower: new fields.NumberField({ integer: true }),
+    accuracy: new fields.NumberField({ integer: true }),
+    resist: new fields.NumberField({ integer: true }),
   }),
 } as const;
 
@@ -172,18 +197,12 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       mpMultiplier: new fields.NumberField({ integer: true }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
       macca: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-      // -kaja and -kunda spells
-      buffs: new fields.SchemaField({
-        physPower: new fields.NumberField({ integer: true }),
-        magPower: new fields.NumberField({ integer: true }),
-        accuracy: new fields.NumberField({ integer: true }),
-        resist: new fields.NumberField({ integer: true }),
-      }),
       affinities,
       stats,
       tn,
       power,
       resist,
+      ...passiveSkillMods,
       ...ailmentMods,
       ...modifiers,
       ...resources,
@@ -194,7 +213,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const stats = data.stats;
-    const tnMod = data.tnBonuses * 20;
+    const tnMod = data.tnBoosts * 20;
 
     // Calculate stat totals and TNs
     for (const [key, stat] of Object.entries(stats)) {
