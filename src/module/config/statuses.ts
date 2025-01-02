@@ -153,8 +153,8 @@ const smtStatuses = [
         key: "system.panic",
         value: "true",
         mode: OVERRIDE,
-      }
-    ]
+      },
+    ],
   },
   {
     id: "shock",
@@ -236,7 +236,7 @@ const smtStatuses = [
         mode: ADD,
       },
       {
-        key: "system.stats.ag.specialTN",
+        key: "system.stats.ag.derivedTN",
         value: "20",
         mode: ADD,
       },
@@ -252,6 +252,6 @@ const smtStatuses = [
         value: "true",
         mode: OVERRIDE,
       },
-    ]
-  }
+    ],
+  },
 ];

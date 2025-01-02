@@ -114,7 +114,7 @@ export async function rollCheck({
   // Let them make saving throws if they can't take actions
   if (
     (actor.system.noActions &&
-      !(tnType === "specialTN" && accuracyStat === "vi")) ||
+      !(tnType === "derivedTN" && accuracyStat === "vi")) ||
     actor.statuses.has("dead")
   ) {
     ui.notifications.notify(game.i18n.localize("SMT.ailmentMsg.noActions"));

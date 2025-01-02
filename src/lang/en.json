@@ -48,14 +48,14 @@
       "ag": "Ag",
       "lu": "Lu"
     },
-    "specialTN": {
+    "derivedTN": {
       "st": "Phys Atk",
       "ma": "Spell Atk",
       "vi": "Save",
       "ag": "Dodge",
       "lu": "Negotiation"
     },
-    "specialTNFormula": {
+    "derivedTNFormula": {
       "st": "St TN",
       "ma": "Ma TN",
       "vi": "Vi TN",
@@ -217,7 +217,7 @@
       "levelShort": "LV",
       "statTotal": "Total",
       "tn": "TN",
-      "specialTN": "Spc",
+      "derivedTN": "Spc",
       "formula": "Formula",
       "derivedStats": "Derived Stats",
       "stat": "Stat",

@@ -17,7 +17,7 @@
         {{!-- Stat TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
         {{!-- Special TN label --}}
-        <div>{{localize "SMT.actorSheet.specialTN"}}</div>
+        <div>{{localize "SMT.actorSheet.derivedTN"}}</div>
         {{!-- Special TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
       </li>
@@ -43,9 +43,9 @@
         {{!-- Stat TN --}}
         <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{tn}}%</div>
         {{!-- Special TN label --}}
-        <div class="item-prop item-name">{{localize (concat "SMT.specialTN." @key)}}</div>
+        <div class="item-prop item-name">{{localize (concat "SMT.derivedTN." @key)}}</div>
         {{!-- Special TN --}}
-        <div class="item-prop roll-highlight roll-stat" data-tn-type="specialTN" data-accuracy-stat="{{@key}}">
+        <div class="item-prop roll-highlight roll-stat" data-tn-type="derivedTN" data-accuracy-stat="{{@key}}">
           {{#if (eq @key "st")}}{{../system.tn.st}}%{{/if}}
           {{#if (eq @key "ma")}}{{../system.tn.ma}}%{{/if}}
           {{#if (eq @key "vi")}}{{../system.tn.save}}%{{/if}}

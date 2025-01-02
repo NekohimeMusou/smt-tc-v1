@@ -17,7 +17,7 @@ function generateStatSchema() {
     lv: new fields.NumberField({ integer: true }),
     value: new fields.NumberField({ integer: true }),
     tn: new fields.NumberField({ integer: true }),
-    specialTN: new fields.NumberField({ integer: true }),
+    derivedTN: new fields.NumberField({ integer: true }),
   };
 }
 
@@ -241,7 +241,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       data.buffs.resist +
       data.resistBonus.mag;
 
-      // Calculate power and resistance
+    // Calculate power and resistance
     data.power.phys = stats.st.value + data.level + data.buffs.physPower;
     data.power.mag = stats.ma.value + data.level + data.buffs.magPower;
     data.power.gun = stats.ag.value + data.buffs.physPower;
@@ -257,28 +257,32 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       const key = statData[0] as keyof typeof data.tn;
       const stat = statData[1];
 
-      data.tn[key] = (stat.value * 5) + data.level;
+      data.tn[key] = stat.value * 5 + data.level;
       stat.tn = data.tn[key];
       switch (key) {
         case "vi":
-          data.tn.save = (stat.value * 5) + data.level;
-          stat.specialTN = (stat.value * 5) + data.level;
+          data.tn.save = stat.value * 5 + data.level;
+          stat.derivedTN = stat.value * 5 + data.level;
           break;
         case "ag":
-          data.tn.dodge = stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
-          stat.specialTN = stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
+          data.tn.dodge =
+            stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
+          stat.derivedTN =
+            stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
           break;
         case "lu":
           data.tn.negotiation = stat.value * 2 + 20;
-          stat.specialTN = stat.value * 2 + 20;
+          stat.derivedTN = stat.value * 2 + 20;
           break;
         default:
-          stat.specialTN = (stat.value * 5) + data.level;
+          stat.derivedTN = stat.value * 5 + data.level;
       }
     }
 
-    Object.values(stats).forEach((stat) => stat.tn += tnBoostMod);
-    Object.values(stats).forEach((stat) => stat.tn = Math.floor(stat.tn / data.multi));
+    Object.values(stats).forEach((stat) => (stat.tn += tnBoostMod));
+    Object.values(stats).forEach(
+      (stat) => (stat.tn = Math.floor(stat.tn / data.multi)),
+    );
 
     // Calculate HP/MP/FP max
     data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;

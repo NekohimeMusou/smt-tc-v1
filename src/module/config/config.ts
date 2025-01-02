@@ -67,13 +67,13 @@ const accuracyStats = {
 const damageTypes = {
   phys: "SMT.powerTypes.phys",
   mag: "SMT.powerTypes.mag",
-};
+} as const;
 
 const powerBoostTypes = {
   phys: "SMT.powerTypes.phys",
   mag: "SMT.powerTypes.mag",
   item: "SMT.powerTypes.item",
-};
+} as const;
 
 const costTypes = {
   hp: "HP",
@@ -149,14 +149,14 @@ const skillTypes = {
   other: "SMT.skillTypes.other",
 } as const;
 
-const successRollCategories = ["tn", "specialTN"] as const;
+const successRollCategories = ["tn", "derivedTN"] as const;
 
 const targets = {
   one: "SMT.target.one",
   all: "SMT.target.all",
   allCombatants: "SMT.target.allCombatants",
   self: "SMT.target.self",
-};
+} as const;
 
 const diceRollResults = {
   success: "SMT.diceResult.success",
@@ -164,7 +164,7 @@ const diceRollResults = {
   autofail: "SMT.diceResult.autofail",
   crit: "SMT.diceResult.crit",
   fumble: "SMT.diceResult.fumble",
-};
+} as const;
 
 export const SMT = {
   charClasses,
