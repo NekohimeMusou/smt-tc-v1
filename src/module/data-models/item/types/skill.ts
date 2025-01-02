@@ -51,7 +51,7 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
 
     return data.accuracyStat === "auto"
       ? 100
-      : actor.system.stats[data.accuracyStat].tn +
+      : actor.system.tn[data.accuracyStat] +
           data.tnMod +
           actor.system.buffs.accuracy +
           // TODO: See if this is necessary

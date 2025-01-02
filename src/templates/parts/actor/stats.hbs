@@ -41,7 +41,7 @@
         {{!-- Total Stat --}}
         <div class="item-prop">{{value}}</div>
         {{!-- Stat TN --}}
-        <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{tn}}%</div>
+        <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{lookup ../system.tn @key}}%</div>
         {{!-- Special TN label --}}
         <div class="item-prop item-name">{{localize (concat "SMT.derivedTN." @key)}}</div>
         {{!-- Special TN --}}

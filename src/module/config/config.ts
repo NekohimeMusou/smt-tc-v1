@@ -13,6 +13,7 @@ declare global {
   type DiceRollResult = keyof typeof diceRollResults;
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
+  type DerivedTN = (typeof derivedTNs)[number];
 }
 
 const templatePaths = [
@@ -166,6 +167,22 @@ const diceRollResults = {
   fumble: "SMT.diceResult.fumble",
 } as const;
 
+const derivedTNs = [
+  "physAtk",
+  "magAtk",
+  "save",
+  "dodge",
+  "negotiation",
+] as const;
+
+const derivedTNStats = {
+  st: "physAtk",
+  ma: "magAtk",
+  vi: "save",
+  ag: "dodge",
+  lu: "negotiation",
+} as const;
+
 export const SMT = {
   charClasses,
   stats,
@@ -183,5 +200,7 @@ export const SMT = {
   itemTypes,
   templatePaths,
   diceRollResults,
+  derivedTNs,
+  derivedTNStats,
   defaultAutofailThreshold: 96,
 } as const;

@@ -60,6 +60,17 @@ interface AilmentCheckData {
   roll: Roll;
 }
 
+function getBaseTN(
+  actor: SmtActor,
+  stat: CharacterStat,
+  tnType: "tn" | "derivedTN",
+) {
+  const tnName =
+    tnType === "derivedTN" ? CONFIG.SMT.derivedTNStats[stat] : stat;
+
+  return actor.system.tn[tnName];
+}
+
 // This rolls the check(s) and displays the chat card(s) at the end
 // (maybe the success one separately)
 // This needs to be refactored to use a handlebars template REAL bad
@@ -85,7 +96,7 @@ export async function rollCheck({
 
   if (tnType && accuracyStat) {
     const statLabel = game.i18n.localize(`SMT.${tnType}.${accuracyStat}`);
-    baseTN = actor.system.stats[accuracyStat][tnType];
+    baseTN = getBaseTN(actor, accuracyStat, tnType);
     checkName = game.i18n.format("SMT.dice.statCheckLabel", {
       stat: statLabel,
     });
@@ -134,7 +145,7 @@ export async function rollCheck({
 
     if (actor.system[costType].value < cost) {
       ui.notifications.warn(
-        game.i18n.format("SMT.error.insufficientResources", {
+        game.i18n.format("SMT.error.insufficientResource", {
           resource: game.i18n.localize(`SMT.resources.${costType}`),
         }),
       );

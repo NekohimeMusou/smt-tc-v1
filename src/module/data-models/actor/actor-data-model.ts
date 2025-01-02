@@ -16,8 +16,6 @@ function generateStatSchema() {
     magatama: new fields.NumberField({ integer: true }),
     lv: new fields.NumberField({ integer: true }),
     value: new fields.NumberField({ integer: true }),
-    tn: new fields.NumberField({ integer: true }),
-    derivedTN: new fields.NumberField({ integer: true }),
   };
 }
 
@@ -27,6 +25,8 @@ const tn = new fields.SchemaField({
   vi: new fields.NumberField({ integer: true }),
   ag: new fields.NumberField({ integer: true }),
   lu: new fields.NumberField({ integer: true }),
+  physAtk: new fields.NumberField({ integer: true }),
+  magAtk: new fields.NumberField({ integer: true }),
   save: new fields.NumberField({ integer: true }),
   dodge: new fields.NumberField({ integer: true }),
   negotiation: new fields.NumberField({ integer: true }),
@@ -253,36 +253,29 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const stats = data.stats;
     const tnBoostMod = data.tnBoosts * 20;
 
-    for (const statData of Object.entries(stats)) {
-      const key = statData[0] as keyof typeof data.tn;
-      const stat = statData[1];
+    Object.entries(stats).forEach(([key, stat]) => {
+      const statName = key as keyof typeof stats;
+      const derivedStatName = CONFIG.SMT.derivedTNStats[statName];
 
-      data.tn[key] = stat.value * 5 + data.level;
-      stat.tn = data.tn[key];
-      switch (key) {
+      let derivedTNValue = stat.value * 5 + data.level + tnBoostMod;
+
+      data.tn[statName] = Math.floor(derivedTNValue / data.multi);
+
+      switch (statName) {
         case "vi":
-          data.tn.save = stat.value * 5 + data.level;
-          stat.derivedTN = stat.value * 5 + data.level;
+          derivedTNValue -= tnBoostMod;
           break;
         case "ag":
-          data.tn.dodge =
-            stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
-          stat.derivedTN =
+          derivedTNValue =
             stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
           break;
         case "lu":
-          data.tn.negotiation = stat.value * 2 + 20;
-          stat.derivedTN = stat.value * 2 + 20;
+          derivedTNValue = data.tn.negotiation = stat.value * 2 + 20;
           break;
-        default:
-          stat.derivedTN = stat.value * 5 + data.level;
       }
-    }
 
-    Object.values(stats).forEach((stat) => (stat.tn += tnBoostMod));
-    Object.values(stats).forEach(
-      (stat) => (stat.tn = Math.floor(stat.tn / data.multi)),
-    );
+      data.tn[derivedStatName] = derivedTNValue;
+    });
 
     // Calculate HP/MP/FP max
     data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
