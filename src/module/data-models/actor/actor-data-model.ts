@@ -258,16 +258,22 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       const stat = statData[1];
 
       data.tn[key] = (stat.value * 5) + data.level;
+      stat.tn = data.tn[key];
       switch (key) {
         case "vi":
           data.tn.save = (stat.value * 5) + data.level;
+          stat.specialTN = (stat.value * 5) + data.level;
           break;
         case "ag":
           data.tn.dodge = stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
+          stat.specialTN = stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
           break;
         case "lu":
           data.tn.negotiation = stat.value * 2 + 20;
+          stat.specialTN = stat.value * 2 + 20;
           break;
+        default:
+          stat.specialTN = (stat.value * 5) + data.level;
       }
     }
 
