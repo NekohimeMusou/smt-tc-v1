@@ -14,6 +14,7 @@ declare global {
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
   type DerivedTN = (typeof derivedTNs)[number];
+  type EquipSlot = keyof typeof equipSlots;
 }
 
 const templatePaths = [
@@ -40,6 +41,7 @@ const templatePaths = [
 const itemTypes = {
   skill: "SMT.itemTypes.skill",
   weapon: "SMT.itemTypes.weapon",
+  item: "SMT.itemTypes.item",
 } as const;
 
 const charClasses = {
@@ -183,6 +185,13 @@ const derivedTNStats = {
   lu: "negotiation",
 } as const;
 
+const equipSlots = {
+  head: "SMT.equipSlots.head",
+  torso: "SMT.equipSlots.torso",
+  legs: "SMT.equipSlots.legs",
+  none: "SMT.equipSlots.none",
+} as const;
+
 export const SMT = {
   charClasses,
   stats,
@@ -202,5 +211,6 @@ export const SMT = {
   diceRollResults,
   derivedTNs,
   derivedTNStats,
+  equipSlots,
   defaultAutofailThreshold: 96,
 } as const;

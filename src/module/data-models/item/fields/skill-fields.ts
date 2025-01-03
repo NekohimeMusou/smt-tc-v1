@@ -1,4 +1,4 @@
-export function skillFields() {
+export function skillDataFields() {
   const fields = foundry.data.fields;
 
   return {

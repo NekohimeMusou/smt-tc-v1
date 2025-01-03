@@ -1,8 +1,9 @@
 import { SmtActor } from "../../../documents/actor/actor.js";
 import { SmtItem } from "../../../documents/item/item.js";
-import { attackDataFields } from "../fields/attack.js";
-import { sharedItemFields } from "../fields/shared-fields.js";
-import { skillFields } from "../fields/skill-fields.js";
+import { attackDataFields } from "../fields/attack-fields.js";
+import { itemDataFields } from "../fields/item-fields.js";
+import { sharedItemDataFields } from "../fields/shared-fields.js";
+import { skillDataFields } from "../fields/skill-fields.js";
 
 export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   get type() {
@@ -12,8 +13,9 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   static override defineSchema() {
     return {
       ...attackDataFields(),
-      ...skillFields(),
-      ...sharedItemFields(),
+      ...skillDataFields(),
+      ...itemDataFields(),
+      ...sharedItemDataFields(),
     } as const;
   }
 
@@ -63,14 +65,17 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const basePower =
-      actor?.system.power[data.skillType === "gun" ? "gun" : data.damageType] ?? 0;
+      actor?.system.power[data.skillType === "gun" ? "gun" : data.damageType] ??
+      0;
 
     return data.potency + basePower;
   }
 
   get autoFailThreshold(): number {
     const actor = this.parent?.parent as SmtActor | undefined;
-    return actor?.system.autoFailThreshold ?? CONFIG.SMT.defaultAutofailThreshold;
+    return (
+      actor?.system.autoFailThreshold ?? CONFIG.SMT.defaultAutofailThreshold
+    );
   }
 
   get costType(): SkillCostType {

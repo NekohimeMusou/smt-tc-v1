@@ -140,7 +140,14 @@
     },
     "itemTypes": {
       "skill": "Skill",
-      "weapon": "Weapon"
+      "weapon": "Weapon",
+      "item": "Item"
+    },
+    "equipSlots": {
+      "head": "Head",
+      "torso": "Torso",
+      "legs": "Legs",
+      "none": "—"
     },
     "powerTypes": {
       "phys": "Phys",

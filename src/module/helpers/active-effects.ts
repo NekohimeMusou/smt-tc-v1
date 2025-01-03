@@ -2,7 +2,16 @@ import { SmtActor } from "../documents/actor/actor.js";
 import { SmtItem } from "../documents/item/item.js";
 
 export class SmtActiveEffect extends ActiveEffect<SmtActor, SmtItem> {
+  override isSuppressed() {
+    const parent = this.parent;
 
+    if (parent.type === "character") {
+      return false;
+    }
+
+    // Suppressed if it's on a piece of equipment and it isn't equipped
+    return parent.system.equipSlot !== "none" && !parent.system.equipped;
+  }
 }
 
 /**

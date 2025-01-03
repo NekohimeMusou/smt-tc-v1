@@ -23,7 +23,7 @@ export function attackDataFields() {
       choices: CONFIG.SMT.affinities,
       initial: "phys",
     }),
-    hasPowerRoll: new fields.BooleanField({ initial: true }),
+    hasPowerRoll: new fields.BooleanField(),
     potency: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     tnMod: new fields.NumberField({ integer: true, initial: 0 }),
     ailment: new fields.SchemaField({
