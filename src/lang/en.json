@@ -23,7 +23,8 @@
       "notes": "Notes",
       "options": "Options",
       "effects": "Effects",
-      "effect": "Effect"
+      "effect": "Effect",
+      "inventory": "Inventory"
     },
     "error": {
       "insufficientResource": "Not enough {resource}!"
@@ -141,7 +142,8 @@
     "itemTypes": {
       "skill": "Skill",
       "weapon": "Weapon",
-      "item": "Item"
+      "item": "Item",
+      "equipment": "Equipment"
     },
     "equipSlots": {
       "head": "Head",
@@ -233,13 +235,16 @@
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
       "skills": "Skills",
+      "equipment": "Equipment",
+      "items": "Items",
       "weapons": "Weapons",
       "affinities": "Affinities",
       "tnMod": "TN (20%)",
       "buffs": "Buffs/Debuffs",
       "modifiers": "Mods",
       "multi": "Multi",
-      "misc": "Misc"
+      "misc": "Misc",
+      "qty": "Qty"
     },
     "resourceBoost": {
       "hp": "Life Multiplier Boost",

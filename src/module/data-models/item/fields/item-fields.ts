@@ -7,6 +7,10 @@ export function itemDataFields() {
       choices: CONFIG.SMT.equipSlots,
       initial: "none",
     }),
+    resistBonus: new fields.SchemaField({
+      phys: new fields.NumberField({ integer: true }),
+      mag: new fields.NumberField({ integer: true }),
+    }),
     equipped: new fields.BooleanField(),
   };
 }

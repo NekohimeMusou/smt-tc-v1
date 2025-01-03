@@ -21,6 +21,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/header.hbs",
   "systems/smt-tc/templates/parts/actor/tab-main.hbs",
   "systems/smt-tc/templates/parts/actor/tab-options.hbs",
+  "systems/smt-tc/templates/parts/actor/tab-inventory.hbs",
   "systems/smt-tc/templates/parts/actor/resources.hbs",
   "systems/smt-tc/templates/parts/actor/stats.hbs",
   "systems/smt-tc/templates/parts/actor/derived-stats.hbs",
@@ -35,6 +36,8 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/dice-modifiers.hbs",
   "systems/smt-tc/templates/parts/actor/buffs.hbs",
   "systems/smt-tc/templates/parts/actor/modifiers.hbs",
+  "systems/smt-tc/templates/parts/actor/equipment.hbs",
+  "systems/smt-tc/templates/parts/actor/items.hbs",
   "systems/smt-tc/templates/parts/shared/tab-effects.hbs",
 ] as const;
 
@@ -42,6 +45,7 @@ const itemTypes = {
   skill: "SMT.itemTypes.skill",
   weapon: "SMT.itemTypes.weapon",
   item: "SMT.itemTypes.item",
+  equipment: "SMT.itemTypes.equipment",
 } as const;
 
 const charClasses = {

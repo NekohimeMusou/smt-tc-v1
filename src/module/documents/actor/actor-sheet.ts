@@ -42,6 +42,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       (item) => item.system.itemType === "weapon",
     );
 
+    const equipment = this.actor.items.filter(
+      (item) => item.system.itemType === "equipment",
+    );
+
+    const items = this.actor.items.filter(
+      (item) => item.system.itemType === "item",
+    );
+
     const effects = prepareActiveEffectCategories(this.actor.effects);
 
     await foundry.utils.mergeObject(context, {
@@ -49,6 +57,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       rollData,
       skills,
       weapons,
+      equipment,
+      items,
       effects,
       SMT,
       isGM: game.user.isGM,

@@ -1,0 +1,49 @@
+<section class="equipment">
+  <div class="items-list flexcol flexlarge">
+    <ol class="items-list">
+      <li class="item flexrow flex-group-center items-header">
+        {{!-- Item --}}
+        <div class="item-name flex2">{{localize "SMT.actorSheet.equipment"}}</div>
+        {{!-- Qty --}}
+        <div class="item-qty">{{localize "SMT.actorSheet.qty"}}</div>
+        {{!-- Phys Resist --}}
+        <div class="item-phys-resist">{{localize "SMT.actorSheet.physResist"}}</div>
+        {{!-- Mag Resist --}}
+        <div class="item-mag-resist">{{localize "SMT.actorSheet.magResist"}}</div>
+        {{!-- Equipped --}}
+        {{!-- Affinities? --}}
+        <div class="item-controls">
+          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="skill">
+            <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
+        </div>
+      </li>
+
+      {{#each equipment}}
+      <li class="item flexrow flex-group-center flex-between" data-item-id="{{id}}">
+        <a class="item-name flex2 {{!-- roll-skill roll-highlight --}}">
+          <div class="item-image">
+            <img src="{{img}}" title="{{name}}" width="24" height="24" />
+          </div>
+          <div class="item-name">{{name}}</div>
+        </a>
+        <div class="item-prop item-qty">
+          <input class="item-update" type="number" data-field-name="system.qty"
+            value="{{system.qty}}" data-dtype="Number" placeholder="0" />
+        </div>
+        <div class="item-prop item-phys-resist">{{system.resistBonus.phys}}</div>
+        <div class="item-prop item-mag-resist">{{system.resistBonus.mag}}</div>
+        <div class="item-prop item-equipped">
+          <input class="item-update" type="checkbox" data-field-name="system.equipped"
+            data-checked="{{system.equipped}}" data-dtype="Boolean" {{checked system.equipped}} />
+        </div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="{{localize "SMT.sheet.editItem"}}"><i
+              class="fas fa-edit"></i></a>
+          <a class="item-control item-delete"
+            title="{{localize "SMT.sheet.deleteItem"}}"><i class="fas fa-trash"></i></a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+</section>
