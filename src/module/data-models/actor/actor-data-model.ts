@@ -159,6 +159,7 @@ const passiveSkillMods = {
     mp: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
   }),
   dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
+  pierce: new fields.BooleanField(),
 } as const;
 
 const modifiers = {

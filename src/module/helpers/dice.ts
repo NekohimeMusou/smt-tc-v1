@@ -141,6 +141,7 @@ export async function rollCheck({
   const costType = skill?.system.costType;
 
   if (cost > 0 && costType) {
+    // TODO: Make this output a card, for when enemies randomly do useless things
     // Return if insufficient HP/MP
 
     if (actor.system[costType].value < cost) {

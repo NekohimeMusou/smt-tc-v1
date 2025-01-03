@@ -19,6 +19,16 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     } as const;
   }
 
+  get pierce(): boolean {
+    const data = this.#systemData;
+    const actor = this.parent?.parent as SmtActor | undefined;
+
+    return (
+      data.innatePierce ||
+      (data.affinity === "phys" && (actor?.system.pierce ?? false))
+    );
+  }
+
   get damageType(): DamageType {
     const data = this.#systemData;
 

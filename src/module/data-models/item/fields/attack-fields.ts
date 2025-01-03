@@ -36,5 +36,6 @@ export function attackDataFields() {
     // Exclusively required for Deadly Fury. Doesn't stack with Might
     critBoost: new fields.BooleanField(),
     pinhole: new fields.BooleanField(),
+    innatePierce: new fields.BooleanField(),
   } as const;
 }
