@@ -53,9 +53,8 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
       ? 100
       : actor.system.tn[data.accuracyStat] +
           data.tnMod +
-          actor.system.buffs.accuracy +
-          // TODO: See if this is necessary
-          // actor.system.tnBoosts * 20 +
+          actor.system.buffs.accuracy -
+          actor.system.debuffs.accuracy +
           (data.skillType === "gun" ? actor.system.gunAttackBonus : 0);
   }
 

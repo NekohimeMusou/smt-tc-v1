@@ -113,10 +113,10 @@
       "none": "None"
     },
     "buffs": {
-      "physPower": "Phys Pow",
-      "magPower": "Mag Pow",
+      "physPower": "Phys",
+      "magPower": "Mag",
       "accuracy": "Acc",
-      "resist": "Resist"
+      "resist": "Res"
     },
     "buffSpells": {
       "tarukaja": "Tarukaja",
@@ -229,7 +229,7 @@
       "weapons": "Weapons",
       "affinities": "Affinities",
       "tnMod": "TN (20%)",
-      "buffs": "Buffs",
+      "buffs": "Buffs/Debuffs",
       "modifiers": "Mods",
       "multi": "Multi",
       "misc": "Misc"

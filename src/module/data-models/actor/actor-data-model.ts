@@ -183,6 +183,12 @@ const modifiers = {
     accuracy: new fields.NumberField({ integer: true }),
     resist: new fields.NumberField({ integer: true }),
   }),
+  debuffs: new fields.SchemaField({
+    physPower: new fields.NumberField({ integer: true }),
+    magPower: new fields.NumberField({ integer: true }),
+    accuracy: new fields.NumberField({ integer: true }),
+    resist: new fields.NumberField({ integer: true }),
+  }),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
@@ -234,17 +240,25 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     data.resist.phys =
       Math.floor((stats.vi.value + data.level) / 2) +
-      data.buffs.resist +
+      data.buffs.resist -
+      data.debuffs.resist +
       data.resistBonus.phys;
     data.resist.mag =
       Math.floor((stats.ma.value + data.level) / 2) +
-      data.buffs.resist +
+      data.buffs.resist -
+      data.debuffs.resist +
       data.resistBonus.mag;
 
     // Calculate power and resistance
-    data.power.phys = stats.st.value + data.level + data.buffs.physPower;
-    data.power.mag = stats.ma.value + data.level + data.buffs.magPower;
-    data.power.gun = stats.ag.value + data.buffs.physPower;
+    data.power.phys =
+      stats.st.value +
+      data.level +
+      data.buffs.physPower -
+      data.debuffs.physPower;
+    data.power.mag =
+      stats.ma.value + data.level + data.buffs.magPower - data.debuffs.magPower;
+    data.power.gun =
+      stats.ag.value + data.buffs.physPower - data.debuffs.physPower;
   }
 
   override prepareDerivedData() {
@@ -267,7 +281,11 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
         case "ag":
           derivedTNValue =
-            stat.value + 10 + data.dodgeBonus + data.buffs.accuracy;
+            stat.value +
+            10 +
+            data.dodgeBonus +
+            data.buffs.accuracy -
+            data.debuffs.accuracy;
           break;
         case "lu":
           derivedTNValue = data.tn.negotiation = stat.value * 2 + 20;
