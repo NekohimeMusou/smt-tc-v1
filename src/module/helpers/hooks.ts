@@ -8,7 +8,7 @@ export async function createBasicStrike(document: SmtActor, options: DatabaseCre
       name: "Basic Strike",
       type: "skill",
       img: "icons/skills/melee/unarmed-punch-fist.webp",
-      system: { basicStrike: true, itemType: "skill" },
+      system: { basicStrike: true, itemType: "skill", hasPowerRoll: true },
     },
   ]);
 }
