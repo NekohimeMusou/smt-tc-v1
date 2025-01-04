@@ -1,1 +1,5 @@
+{{#unless (eq system.itemType "equipment")}}
 {{> "systems/smt-tc/templates/parts/item/attack.hbs"}}
+{{else}}
+{{> "systems/smt-tc/templates/parts/item/equipment.hbs"}}
+{{/unless}}

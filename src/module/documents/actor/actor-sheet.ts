@@ -252,8 +252,22 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     } else {
       newValue = element.val() as string | number;
     }
-    
-    // const newValue = element.val() as string | number | boolean;
+
+    if (fieldName === "system.equipped" && newValue) {
+      const equipSlot = item.system.equipSlot;
+
+      const previousEquipment = this.actor.items.find(
+        (it) =>
+          it.system.itemType === "equipment" &&
+          it.system.equipSlot === equipSlot &&
+          it.system.equipped,
+      );
+
+      if (previousEquipment) {
+        await previousEquipment.update({ "system.equipped": false });
+      }
+    }
+
     const updates = Object.fromEntries([[fieldName, newValue]]);
 
     await item.update(updates);

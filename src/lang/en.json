@@ -236,6 +236,7 @@
       "magResist": "Mag Resist",
       "skills": "Skills",
       "equipment": "Equipment",
+      "equipped": "Equipped",
       "items": "Items",
       "weapons": "Weapons",
       "affinities": "Affinities",
@@ -244,7 +245,8 @@
       "modifiers": "Mods",
       "multi": "Multi",
       "misc": "Misc",
-      "qty": "Qty"
+      "qty": "Qty",
+      "slot": "Slot"
     },
     "resourceBoost": {
       "hp": "Life Multiplier Boost",

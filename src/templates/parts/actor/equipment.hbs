@@ -6,14 +6,17 @@
         <div class="item-name flex2">{{localize "SMT.actorSheet.equipment"}}</div>
         {{!-- Qty --}}
         <div class="item-qty">{{localize "SMT.actorSheet.qty"}}</div>
+        {{!-- Slot --}}
+        <div class="item-slot">{{localize "SMT.actorSheet.slot"}}</div>
         {{!-- Phys Resist --}}
         <div class="item-phys-resist">{{localize "SMT.actorSheet.physResist"}}</div>
         {{!-- Mag Resist --}}
         <div class="item-mag-resist">{{localize "SMT.actorSheet.magResist"}}</div>
         {{!-- Equipped --}}
+        <div class="item-equipped">{{localize "SMT.actorSheet.equipped"}}</div>
         {{!-- Affinities? --}}
         <div class="item-controls">
-          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="skill">
+          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="equipment">
             <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
         </div>
       </li>
@@ -30,6 +33,7 @@
           <input class="item-update" type="number" data-field-name="system.qty"
             value="{{system.qty}}" data-dtype="Number" placeholder="0" />
         </div>
+        <div class="item-prop item-slot">{{localize (concat "SMT.equipSlots." system.equipSlot)}}</div>
         <div class="item-prop item-phys-resist">{{system.resistBonus.phys}}</div>
         <div class="item-prop item-mag-resist">{{system.resistBonus.mag}}</div>
         <div class="item-prop item-equipped">

@@ -1,41 +1,83 @@
 <section class="options-pane flexcol">
   <div class="flexrow">
-    {{!-- Inheritance Traits --}}
     <div class="flexcol">
-      <label for="inheritance-trait-field"
-        class="resource-label">{{localize "SMT.itemFields.inheritanceTraits"}}</label>
-      <input type="text" id="inheritance-trait-field" name="system.inheritanceTraits"
-        value="{{system.inheritanceTraits}}" data-dtype="String" />
-    </div>
-    {{!-- TN Modifier --}}
-    <div class="flexcol">
-      <label for="tn-modifier-field" class="resource-label">{{localize "SMT.itemFields.tnMod"}}</label>
-      <input type="number" id="tn-modifier-field" name="system.tnMod" value="{{system.tnMod}}" placeholder="0"
-        data-dtype="Number" />
-    </div>
-    {{!-- Should we roll power for this? --}}
-    <div class="flexcol">
-      <label for="power-roll-field" class="resource-label">{{localize "SMT.itemFields.hasPowerRoll"}}</label>
-      <input type="checkbox" id="power-roll-field" name="system.hasPowerRoll" {{checked system.hasPowerRoll}} />
-    </div>
-  </div>
-
-  <div class="flexrow">
-    {{!-- Crit Boost? --}}
-    <div class="flexcol">
-      <label for="crit-boost-field" class="resource-label">{{localize "SMT.itemFields.hasCritBoost"}}</label>
-      <input type="checkbox" id="crit-boost-field" name="system.hasCritBoost" {{checked system.hasCritBoost}} />
-    </div>
-<div class="flexcol">
-  <label for="pinhole-field" class="resource-label">{{localize "SMT.skills.pinhole"}}</label>
-  <input type="checkbox" id="pinhole-field" name="system.pinhole" {{checked system.pinhole}} />
-</div>
-
-    <div class="flexcol">
-      <label for="item-type-field" class="resource-label">{{localize "SMT.itemFields.itemType"}}</label>
+      <label for="item-type-field" class="resource-label">{{localize
+          "SMT.itemFields.itemType"
+        }}</label>
       <select id="item-type-field" name="system.itemType">
         {{selectOptions SMT.itemTypes selected=system.itemType localize=true}}
       </select>
     </div>
+    {{! Inheritance Traits }}
+    {{#if (eq system.itemType "skill")}}
+    <div class="flexcol">
+      <label for="inheritance-trait-field" class="resource-label">{{localize
+          "SMT.itemFields.inheritanceTraits"
+        }}</label>
+      <input
+        type="text"
+        id="inheritance-trait-field"
+        name="system.inheritanceTraits"
+        value="{{system.inheritanceTraits}}"
+        data-dtype="String"
+      />
+    </div>
+    {{! TN Modifier }}
+    <div class="flexcol">
+      <label for="tn-modifier-field" class="resource-label">{{localize
+          "SMT.itemFields.tnMod"
+        }}</label>
+      <input
+        type="number"
+        id="tn-modifier-field"
+        name="system.tnMod"
+        value="{{system.tnMod}}"
+        placeholder="0"
+        data-dtype="Number"
+      />
+    </div>
+    {{/if}}
+    {{#unless (or (eq system.itemType "weapon") (eq system.itemType "equipment"))}}
+    {{! Should we roll power for this? }}
+    <div class="flexcol">
+      <label for="power-roll-field" class="resource-label">{{localize
+          "SMT.itemFields.hasPowerRoll"
+        }}</label>
+      <input
+        type="checkbox"
+        id="power-roll-field"
+        name="system.hasPowerRoll"
+        {{checked system.hasPowerRoll}}
+      />
+    </div>
+    {{/unless}}
   </div>
+
+  {{#if (eq system.itemType "skill")}}
+  <div class="flexrow">
+    {{! Crit Boost? }}
+    <div class="flexcol">
+      <label for="crit-boost-field" class="resource-label">{{localize
+          "SMT.itemFields.hasCritBoost"
+        }}</label>
+      <input
+        type="checkbox"
+        id="crit-boost-field"
+        name="system.hasCritBoost"
+        {{checked system.hasCritBoost}}
+      />
+    </div>
+    <div class="flexcol">
+      <label for="pinhole-field" class="resource-label">{{localize
+          "SMT.skills.pinhole"
+        }}</label>
+      <input
+        type="checkbox"
+        id="pinhole-field"
+        name="system.pinhole"
+        {{checked system.pinhole}}
+      />
+    </div>
+  </div>
+  {{/if}}
 </section>

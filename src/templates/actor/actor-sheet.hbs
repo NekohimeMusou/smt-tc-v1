@@ -7,7 +7,6 @@
     {{!-- Default tab is defined in pc-sheet.mjs or equivalent --}}
     <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     <a class="item resource-label" data-tab="inventory">{{localize "SMT.tabs.inventory"}}</a>
-    <a class="item resource-label" data-tab="options">{{localize "SMT.tabs.options"}}</a>
     <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
     <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
   </nav>
@@ -22,11 +21,6 @@
     {{!-- Inventory Tab --}}
     <div class="tab inventory" data-group="primary" data-tab="inventory">
       {{> "systems/smt-tc/templates/parts/actor/tab-inventory.hbs"}}
-    </div>
-
-    {{!-- Options Tab --}}
-    <div class="tab options" data-group="primary" data-tab="options">
-      {{> "systems/smt-tc/templates/parts/actor/tab-options.hbs"}}
     </div>
 
     {{!-- Effects Tab --}}

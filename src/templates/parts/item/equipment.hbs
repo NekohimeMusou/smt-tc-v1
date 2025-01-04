@@ -1,0 +1,43 @@
+<section class="equipment">
+  <div class="items-list flexcol flexlarge">
+    <ol class="items-list">
+      <li class="item flexrow flex-group-center items-header">
+        {{localize "SMT.actorSheet.equipment"}}
+      </li>
+
+      <li class="item flexrow flex-group-center flex-between">
+        <label for="phys-resist-field" class="item-name">{{localize
+            "SMT.actorSheet.physResist"
+          }}</label>
+        <div class="item-prop">
+          <input
+            type="number"
+            id="phys-resist-field"
+            name="system.resistBonus.phys"
+            value="{{system.resistBonus.phys}}"
+            data-dtype="Number"
+          />
+        </div>
+        <label for="mag-resist-field" class="item-name">{{localize
+            "SMT.actorSheet.magResist"
+          }}</label>
+        <div class="item-prop">
+          <input
+            type="number"
+            id="mag-resist-field"
+            name="system.resistBonus.mag"
+            value="{{system.resistBonus.mag}}"
+            data-dtype="Number"
+          />
+        </div>
+
+        <label for="slot-field" class="item-name">{{localize
+            "SMT.actorSheet.slot"
+          }}</label>
+        <select id="slot-field" name="system.equipSlot">
+          {{selectOptions SMT.equipSlots selected=system.equipSlot localize=true}}
+        </select>
+      </li>
+    </ol>
+  </div>
+</section>

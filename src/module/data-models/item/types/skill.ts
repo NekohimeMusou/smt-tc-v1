@@ -19,6 +19,19 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     } as const;
   }
 
+  override prepareBaseData() {
+    const data = this.#systemData;
+    if (data.itemType === "weapon") {
+      // @ts-expect-error This field isn't readonly
+      data.hasPowerRoll = true;
+    }
+
+    if (data.itemType === "equipment") {
+      // @ts-expect-error This field isn't readonly
+      data.hasPowerRoll = false;
+    }
+  }
+
   get pierce(): boolean {
     const data = this.#systemData;
     const actor = this.parent?.parent as SmtActor | undefined;
