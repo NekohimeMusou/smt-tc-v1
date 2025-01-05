@@ -174,6 +174,11 @@ export async function rollCheck({
     await actor.update({ "system.tnBoosts": 0 });
   }
 
+  // Unfocus
+  await actor.effects
+    .find((e) => e.name === game.i18n.localize("SMT.characterMods.focused"))
+    ?.delete();
+
   let successLevel: SuccessLevel = "fail";
 
   // Repeating myself more and more here, need to refactor this

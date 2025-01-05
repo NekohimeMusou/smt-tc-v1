@@ -204,7 +204,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
         initial: "demon",
       }),
       xp: new fields.NumberField({ integer: true, min: 0 }),
-      level: new fields.NumberField({ integer: true, min: 0, initial: 1 }),
       notes: new fields.HTMLField(),
       hpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
@@ -226,6 +225,8 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const stats = data.stats;
+
+    const lv = this.lv;
 
     for (const stat of Object.values(stats)) {
       const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
@@ -256,7 +257,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
             .reduce((prev, curr) => prev + curr, 0);
 
     data.resist.phys = Math.max(
-      Math.floor((stats.vi.value + data.level) / 2) +
+      Math.floor((stats.vi.value + lv) / 2) +
         data.buffs.resist -
         data.debuffs.resist +
         data.resistBonus.phys +
@@ -264,7 +265,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       0,
     );
     data.resist.mag = Math.max(
-      Math.floor((stats.ma.value + data.level) / 2) +
+      Math.floor((stats.ma.value + lv) / 2) +
         data.buffs.resist -
         data.debuffs.resist +
         data.resistBonus.mag +
@@ -274,14 +275,11 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     // Calculate power and resistance
     data.power.phys = Math.max(
-      stats.st.value +
-        data.level +
-        data.buffs.physPower -
-        data.debuffs.physPower,
+      stats.st.value + lv + data.buffs.physPower - data.debuffs.physPower,
       0,
     );
     data.power.mag = Math.max(
-      stats.ma.value + data.level + data.buffs.magPower - data.debuffs.magPower,
+      stats.ma.value + lv + data.buffs.magPower - data.debuffs.magPower,
       0,
     );
     data.power.gun = Math.max(
@@ -295,12 +293,13 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     const stats = data.stats;
     const tnBoostMod = data.tnBoosts * 20;
+    const lv = this.lv;
 
     Object.entries(stats).forEach(([key, stat]) => {
       const statName = key as keyof typeof stats;
       const derivedStatName = CONFIG.SMT.derivedTNStats[statName];
 
-      let derivedTNValue = stat.value * 5 + data.level + tnBoostMod;
+      let derivedTNValue = stat.value * 5 + lv + tnBoostMod;
 
       data.tn[statName] = Math.max(Math.floor(derivedTNValue / data.multi), 1);
 
@@ -325,14 +324,8 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     });
 
     // Calculate HP/MP/FP max
-    data.hp.max = Math.max(
-      (stats.vi.value + data.level) * data.hpMultiplier,
-      1,
-    );
-    data.mp.max = Math.max(
-      (stats.ma.value + data.level) * data.mpMultiplier,
-      1,
-    );
+    data.hp.max = Math.max((stats.vi.value + lv) * data.hpMultiplier, 1);
+    data.mp.max = Math.max((stats.ma.value + lv) * data.mpMultiplier, 1);
     data.fp.max = Math.max(Math.floor(stats.lu.value / 5 + 5), 1);
   }
 
@@ -354,6 +347,20 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
   get lu(): number {
     return this.#systemData.stats.lu.value;
+  }
+
+  get lv(): number {
+    const data = this.#systemData;
+    const xp = data.xp;
+
+    switch (data.charClass) {
+      case "fiend":
+        return Math.max(Math.floor(Math.pow(xp, 1 / 3)), 1);
+      case "demon":
+        return Math.max(Math.floor(Math.pow(Math.round(xp / 1.3), 1 / 3)), 1);
+      case "human":
+        return Math.max(Math.floor(Math.pow(Math.ceil(xp / 0.8), 1 / 3)), 1);
+    }
   }
 
   get #systemData() {
