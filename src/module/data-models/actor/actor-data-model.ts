@@ -203,13 +203,13 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
         blank: false,
         initial: "demon",
       }),
-      xp: new fields.NumberField({ integer: true, initial: 0 }),
-      level: new fields.NumberField({ integer: true, initial: 1 }),
+      xp: new fields.NumberField({ integer: true, min: 0 }),
+      level: new fields.NumberField({ integer: true, min: 0, initial: 1 }),
       notes: new fields.HTMLField(),
-      hpMultiplier: new fields.NumberField({ integer: true }),
-      mpMultiplier: new fields.NumberField({ integer: true }),
+      hpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
+      mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
-      macca: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+      macca: new fields.NumberField({ integer: true, min: 0 }),
       affinities,
       stats,
       tn,
@@ -229,7 +229,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     for (const stat of Object.values(stats)) {
       const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
-      stat.value = stat.base + stat.lv + magatamaBonus;
+      stat.value = Math.max(stat.base + stat.lv + magatamaBonus, 1);
     }
 
     // Get HP and MP multipliers
@@ -302,7 +302,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
       let derivedTNValue = stat.value * 5 + data.level + tnBoostMod;
 
-      data.tn[statName] = Math.floor(derivedTNValue / data.multi);
+      data.tn[statName] = Math.max(Math.floor(derivedTNValue / data.multi), 1);
 
       switch (statName) {
         case "vi":
@@ -321,13 +321,19 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
           break;
       }
 
-      data.tn[derivedStatName] = derivedTNValue;
+      data.tn[derivedStatName] = Math.max(derivedTNValue, 1);
     });
 
     // Calculate HP/MP/FP max
-    data.hp.max = (stats.vi.value + data.level) * data.hpMultiplier;
-    data.mp.max = (stats.ma.value + data.level) * data.mpMultiplier;
-    data.fp.max = Math.floor(stats.lu.value / 5 + 5);
+    data.hp.max = Math.max(
+      (stats.vi.value + data.level) * data.hpMultiplier,
+      1,
+    );
+    data.mp.max = Math.max(
+      (stats.ma.value + data.level) * data.mpMultiplier,
+      1,
+    );
+    data.fp.max = Math.max(Math.floor(stats.lu.value / 5 + 5), 1);
   }
 
   get st(): number {
