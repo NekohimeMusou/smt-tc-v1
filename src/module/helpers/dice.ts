@@ -169,7 +169,10 @@ export async function rollCheck({
     }
   }
 
-  await actor.update({ "system.tnBoosts": 0 });
+  // Don't drop TN boosts if it's an auto skill
+  if (!auto) {
+    await actor.update({ "system.tnBoosts": 0 });
+  }
 
   let successLevel: SuccessLevel = "fail";
 
@@ -268,9 +271,10 @@ export async function rollCheck({
 
   const rolledCriticalHit = successLevel === "crit";
   const success = rolledCriticalHit || successLevel === "success" || auto;
+  const fumble = successLevel === "fumble";
   let totalPower = 0;
 
-  if (success && skill?.system.hasPowerRoll) {
+  if ((success || fumble) && skill?.system.hasPowerRoll) {
     // Find the total power, if the skill has an attack, and push HTML + roll
     const power = skill.system.power;
     const powerBoost =
