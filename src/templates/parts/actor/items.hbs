@@ -27,7 +27,8 @@
           <div class="item-name">{{name}}</div>
         </a>
 
-        <div class="item-prop item-qty">{{system.qty}}</div>
+        <input type="number" class="item-update" value="{{system.qty}}" data-dtype="Number" data-field-name="system.qty"
+          placeholder="0" />
         <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>
         <div class="item-prop item-power">{{#if system.hasPowerRoll}}{{system.power}}{{else}}—{{/if}}</div>
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
