@@ -21,18 +21,6 @@ declare interface FoundryDataFields {
 	// TypeDataField: TypeDataField;
 }
 
-// ???
-declare class EmbeddedCollectionField extends ArrayField {
-  constructor(
-    element: typeof foundry.abstract.Document,
-    options: DataFieldOptions,
-    context: DataFieldContext,
-  );
-  static override _validateElementType(
-    element: typeof foundry.abstract.Document,
-  );
-  static override hierarchical = true;
-}
 
 declare class FoundryDMField<T> {
 	constructor (options?: DataFieldOptions<T>);
@@ -73,7 +61,7 @@ declare class StringFieldClass<const T extends string= string> extends FoundryDM
 }
 
 class FilePathField extends StringFieldClass {
-	constructor (options?: FilePathFieldOptions);
+	contructor (options?: FilePathFieldOptions);
 
 }
 

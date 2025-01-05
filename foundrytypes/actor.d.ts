@@ -23,6 +23,7 @@ declare class Actor<const T extends SchemaDict = any, ItemType extends Item<any,
 	get visible(): boolean;
 	get isToken(): boolean;
 	get permission(): number;
+	get uuid(): string;
 	get img(): string;
 	_dependentTokens:WeakMap<Scene, WeakSet<TokenDocument<typeof Actor<T, ItemType, AEType>>>> ;
 	/** Retrieve an iterator over all effects that can apply to the actor.
@@ -48,9 +49,6 @@ type SchemaConvert<F> = F extends FoundryDMField<infer T>
 
 
 //Components to help with converting
-type MakeSchemaData<T extends typeof foundry.abstract.DataModel> = T & SystemDataObjectFromDM<T>;
-
-type DefineActor<T extends typeof CONFIG.Actor.dataModels> = typeof Actor & {new () : DefineActorInstance<T>};
 
 type TransformToRealData<T extends SchemaDict> = {
   [K in keyof T]: SystemDataObjectFromDM<T[K]> & InstanceType<T[K]>;
