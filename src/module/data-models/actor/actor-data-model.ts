@@ -228,11 +228,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     const stats = data.stats;
 
-    if (!data.basicDemon) {
-      // @ts-expect-error This field isn't readonly
-      data.lv = this.calculateLevel();
-    }
-
     const lv = data.lv;
 
     for (const stat of Object.values(stats)) {
@@ -354,20 +349,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
   get lu(): number {
     return this.#systemData.stats.lu.value;
-  }
-
-  calculateLevel() {
-    const data = this.#systemData;
-    const xp = data.xp;
-
-    switch (data.charClass) {
-      case "fiend":
-        return Math.max(Math.floor(Math.pow(xp, 1 / 3)), 1);
-      case "demon":
-        return Math.max(Math.floor(Math.pow(Math.round(xp / 1.3), 1 / 3)), 1);
-      case "human":
-        return Math.max(Math.floor(Math.pow(Math.ceil(xp / 0.8), 1 / 3)), 1);
-    }
   }
 
   get #systemData() {
