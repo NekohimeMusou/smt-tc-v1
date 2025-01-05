@@ -9,12 +9,14 @@
     </div>
 
     {{!-- Accuracy Stat --}}
+    {{#unless (eq item.itemType "item")}}
     <div class="flexcol">
       <label for="accuracy-stat-field" class="resource-label">{{localize "SMT.itemFields.accuracyStat"}}</label>
       <select id="accuracy-stat-field" name="system.accuracyStat">
         {{selectOptions SMT.accuracyStats selected=system.accuracyStat localize=true}}
       </select>
     </div>
+    {{/unless}}
   </div>
 
   <div class="flexrow">
@@ -31,10 +33,17 @@
             data-dtype="Number" />
         </div>
         {{else}}
+        {{#unless (eq system.itemType "item")}}
         <div class="flexcol">
-          <label for="skill-cost-field" class="resource-label">{{localize "SMT.itemFields.cost"}}</label>
+          <label for="cost-field" class="resource-label">{{localize "SMT.itemFields.cost"}}</label>
           <input type="number" id="cost-field" name="system.cost" value="{{system.cost}}" placeholder="0" data-dtype="Number" />
         </div>
+        {{else}}
+        <div class="flexcol">
+          <label for="qty-field" class="resource-label">{{localize "SMT.actorSheet.qty"}}</label>
+          <input type="number" id="qty-field" name="system.qty" value="{{system.qty}}" placeholder="1" data-dtype="Number" />
+        </div>
+        {{/unless}}
         {{/if}}
 
     {{!-- Potency --}}
