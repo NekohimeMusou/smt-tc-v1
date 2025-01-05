@@ -37,6 +37,15 @@
     }
   },
 
+  "packs": [
+    {
+      "name": "smt-tc-macros",
+      "label": "SMT TC Macros",
+      "system": "smt-tc",
+      "type": "Macro"
+    }
+  ],
+
   "initiative": "1d10x + @ag",
   "grid": {
     "distance": 2,

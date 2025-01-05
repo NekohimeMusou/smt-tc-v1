@@ -1,3 +1,5 @@
+import { showBuffDialog } from "../helpers/macro.js";
+
 declare global {
   type CharacterClass = keyof typeof charClasses;
   type CharacterStat = keyof typeof stats;
@@ -216,4 +218,5 @@ export const SMT = {
   derivedTNStats,
   equipSlots,
   defaultAutofailThreshold: 96,
+  showBuffDialog,
 } as const;

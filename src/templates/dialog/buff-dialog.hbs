@@ -1,0 +1,88 @@
+<form class="buffs">
+  <div class="items-list flexcol">
+    <ol class="items-list">
+      <li class="item flexrow items-header">
+        <div>{{localize "SMT.actorSheet.buffs"}}</div>
+      </li>
+
+      <li class="item flexrow">
+        <label for="phys-power-buff-field" class="item-prop">{{localize
+            "SMT.buffs.physPower"
+          }}</label>
+        <input
+          type="number"
+          class="item-prop"
+          id="phys-power-buff-field"
+          name="physPowerBuff"
+          placeholder="+"
+          data-dtype="Number"
+        />
+        <input
+          type="number"
+          class="item-prop"
+          name="physPowerDebuff"
+          placeholder="-"
+          data-dtype="Number"
+        />
+        <label for="accuracy-buff-field" class="item-prop">{{localize
+            "SMT.buffs.accuracy"
+          }}</label>
+        <input
+          type="number"
+          class="item-prop"
+          id="accuracy-buff-field"
+          name="accuracyBuff"
+          placeholder="+"
+          data-dtype="Number"
+        />
+        <input
+          type="number"
+          class="item-prop"
+          name="accuracyDebuff"
+          placeholder="-"
+          data-dtype="Number"
+        />
+      </li>
+
+      <li class="item flexrow">
+        <label for="mag-power-buff-field" class="item-prop">{{localize
+            "SMT.buffs.magPower"
+          }}</label>
+        <input
+          type="number"
+          class="item-prop"
+          id="mag-power-buff-field"
+          name="magPowerBuff"
+          placeholder="+"
+          data-dtype="Number"
+        />
+        <input
+          type="number"
+          class="item-prop"
+          name="magPowerDebuff"
+          placeholder="-"
+          data-dtype="Number"
+        />
+
+        <label for="resist-buff-field" class="item-prop">{{localize
+            "SMT.buffs.resist"
+          }}</label>
+        <input
+          type="number"
+          class="item-prop"
+          id="resist-buff-field"
+          name="resistBuff"
+          placeholder="+"
+          data-dtype="Number"
+        />
+        <input
+          type="number"
+          class="item-prop"
+          name="resistDebuff"
+          placeholder="-"
+          data-dtype="Number"
+        />
+      </li>
+    </ol>
+  </div>
+</form>
