@@ -33,14 +33,14 @@ const tn = new fields.SchemaField({
 });
 
 const power = new fields.SchemaField({
-  phys: new fields.NumberField({ integer: true }),
-  mag: new fields.NumberField({ integer: true }),
-  gun: new fields.NumberField({ integer: true }),
+  phys: new fields.NumberField({ integer: true, min: 0 }),
+  mag: new fields.NumberField({ integer: true, min: 0 }),
+  gun: new fields.NumberField({ integer: true, min: 0 }),
 });
 
 const resist = new fields.SchemaField({
-  phys: new fields.NumberField({ integer: true }),
-  mag: new fields.NumberField({ integer: true }),
+  phys: new fields.NumberField({ integer: true, min: 0 }),
+  mag: new fields.NumberField({ integer: true, min: 0 }),
 });
 
 const stats = new fields.SchemaField({
@@ -179,16 +179,16 @@ const modifiers = {
   // TODO: Make these into AEs somehow
   // -kaja and -kunda spells
   buffs: new fields.SchemaField({
-    physPower: new fields.NumberField({ integer: true }),
-    magPower: new fields.NumberField({ integer: true }),
-    accuracy: new fields.NumberField({ integer: true }),
-    resist: new fields.NumberField({ integer: true }),
+    physPower: new fields.NumberField({ integer: true, min: 0 }),
+    magPower: new fields.NumberField({ integer: true, min: 0 }),
+    accuracy: new fields.NumberField({ integer: true, min: 0 }),
+    resist: new fields.NumberField({ integer: true, min: 0 }),
   }),
   debuffs: new fields.SchemaField({
-    physPower: new fields.NumberField({ integer: true }),
-    magPower: new fields.NumberField({ integer: true }),
-    accuracy: new fields.NumberField({ integer: true }),
-    resist: new fields.NumberField({ integer: true }),
+    physPower: new fields.NumberField({ integer: true, min: 0 }),
+    magPower: new fields.NumberField({ integer: true, min: 0 }),
+    accuracy: new fields.NumberField({ integer: true, min: 0 }),
+    resist: new fields.NumberField({ integer: true, min: 0 }),
   }),
 } as const;
 
@@ -255,29 +255,39 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
             .map((item) => item.system.resistBonus.mag)
             .reduce((prev, curr) => prev + curr, 0);
 
-    data.resist.phys =
+    data.resist.phys = Math.max(
       Math.floor((stats.vi.value + data.level) / 2) +
-      data.buffs.resist -
-      data.debuffs.resist +
-      data.resistBonus.phys +
-      equipPhysResist;
-    data.resist.mag =
+        data.buffs.resist -
+        data.debuffs.resist +
+        data.resistBonus.phys +
+        equipPhysResist,
+      0,
+    );
+    data.resist.mag = Math.max(
       Math.floor((stats.ma.value + data.level) / 2) +
-      data.buffs.resist -
-      data.debuffs.resist +
-      data.resistBonus.mag +
-      equipMagResist;
+        data.buffs.resist -
+        data.debuffs.resist +
+        data.resistBonus.mag +
+        equipMagResist,
+      0,
+    );
 
     // Calculate power and resistance
-    data.power.phys =
+    data.power.phys = Math.max(
       stats.st.value +
-      data.level +
-      data.buffs.physPower -
-      data.debuffs.physPower;
-    data.power.mag =
-      stats.ma.value + data.level + data.buffs.magPower - data.debuffs.magPower;
-    data.power.gun =
-      stats.ag.value + data.buffs.physPower - data.debuffs.physPower;
+        data.level +
+        data.buffs.physPower -
+        data.debuffs.physPower,
+      0,
+    );
+    data.power.mag = Math.max(
+      stats.ma.value + data.level + data.buffs.magPower - data.debuffs.magPower,
+      0,
+    );
+    data.power.gun = Math.max(
+      stats.ag.value + data.buffs.physPower - data.debuffs.physPower,
+      0,
+    );
   }
 
   override prepareDerivedData() {
