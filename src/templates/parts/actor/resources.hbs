@@ -19,4 +19,10 @@
     <span>/</span>
     <input type="text" name="system.fp.max" value="{{system.fp.max}}" data-dtype="Number" disabled />
   </div>
+  {{#if isGM}}
+  <div class="resource flexrow flex-group-center">
+    <div class="resource-label">{{localize "SMT.actorSheet.basicDemon"}}</div>
+    <input type="checkbox" name="system.basicDemon" data-dtype="Boolean" {{checked system.basicDemon}}/>
+  </div>
+  {{/if}}
 </section>

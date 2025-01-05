@@ -203,7 +203,9 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
         blank: false,
         initial: "demon",
       }),
+      basicDemon: new fields.BooleanField(),
       xp: new fields.NumberField({ integer: true, min: 0 }),
+      lv: new fields.NumberField({ integer: true, initial: 1 }),
       notes: new fields.HTMLField(),
       hpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
@@ -226,7 +228,12 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     const stats = data.stats;
 
-    const lv = this.lv;
+    if (!data.basicDemon) {
+      // @ts-expect-error This field isn't readonly
+      data.lv = this.calculateLevel();
+    }
+
+    const lv = data.lv;
 
     for (const stat of Object.values(stats)) {
       const magatamaBonus = data.charClass === "fiend" ? stat.magatama : 0;
@@ -293,7 +300,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     const stats = data.stats;
     const tnBoostMod = data.tnBoosts * 20;
-    const lv = this.lv;
+    const lv = data.lv;
 
     Object.entries(stats).forEach(([key, stat]) => {
       const statName = key as keyof typeof stats;
@@ -349,7 +356,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     return this.#systemData.stats.lu.value;
   }
 
-  get lv(): number {
+  calculateLevel() {
     const data = this.#systemData;
     const xp = data.xp;
 
