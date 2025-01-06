@@ -529,9 +529,13 @@ async function processTarget({
     power = Math.floor(power / 2);
   }
 
-  const targetResist = ignoreResist ? 0 : targetData.resist[damageType];
+  const targetResist = ignoreResist
+    ? 0
+    : pinhole
+      ? Math.floor(targetData.resist[damageType] / 2)
+      : targetData.resist[damageType];
 
-  power -= pinhole ? Math.floor(targetResist / 2) : targetResist;
+  power -= targetResist;
 
   const powerTag = healing || targetAffinity === "drain" ? "healing" : "damage";
   const finalTarget = targetAffinity === "reflect" ? attackerName : targetName;
@@ -547,7 +551,9 @@ async function processTarget({
     power = Math.floor(power / 2);
   }
 
-  if (power > 0 && !dodged) {
+  power = Math.max(power, 0);
+
+  if (totalPower > 0 && !dodged) {
     // e.g. "TargetName takes 20 Phys damage! (Phys resist: 12)"
     const powerMsg = game.i18n.format(`SMT.dice.powerMsg.${powerTag}`, {
       target: finalTarget,
