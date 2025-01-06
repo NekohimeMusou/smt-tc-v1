@@ -130,11 +130,6 @@ export async function rollCheck({
   ) {
     ui.notifications.notify(game.i18n.localize("SMT.ailmentMsg.noActions"));
     return;
-  } else if (actor.system.panic) {
-    const { html, rolls: panicRolls } = await panicRoll(actor.name);
-
-    htmlParts.push(html);
-    rolls.push(...panicRolls);
   }
 
   const cost = skill?.system.cost ?? 0;
@@ -702,46 +697,4 @@ async function poisonRoll() {
     html: `<div>${game.i18n.format("SMT.ailmentMsg.poison", { damage: `${roll.total}` })}</div>`,
     roll,
   }
-}
-
-async function panicRoll(charName: string) {
-  const chanceRoll = await new Roll("1d100").roll();
-  const rolls = [chanceRoll];
-
-  if (chanceRoll.total <= 50) {
-    const effectRoll = await new Roll("1d10").roll();
-    rolls.push(effectRoll);
-
-    let panicEffectId = 1;
-
-    // Replace with rollable table?
-    switch (effectRoll.total) {
-      case 1:
-      case 2:
-        break;
-      case 3:
-      case 4:
-        panicEffectId = 2;
-        break;
-      case 5:
-      case 6:
-        panicEffectId = 3;
-        break;
-      case 7:
-      case 8:
-        panicEffectId = 4;
-        break;
-      case 9:
-      case 10:
-        panicEffectId = 5;
-        break;
-    }
-
-    const panicEffect = game.i18n.format(`SMT.ailmentMsg.panic${panicEffectId}`, {name: charName});
-    const panicEffectMsg = game.i18n.format("SMT.ailmentMsg.panicFailure", {name: charName, panicEffect});
-
-    return {html: `<h3>${panicEffectMsg}</h3>`, rolls};
-  }
-
-  return {html: `<h3>${game.i18n.localize("SMT.ailmentMsg.panicSuccess")}</h3>`, rolls};
 }
