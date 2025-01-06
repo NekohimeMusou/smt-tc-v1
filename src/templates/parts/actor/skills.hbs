@@ -4,22 +4,21 @@
       <li class="item flexrow flex-group-center items-header">
         {{!-- Skill --}}
         <div class="item-name flex2">{{localize "SMT.skillPane.skill"}}</div>
-        {{!-- Type --}}
-        {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-        <div class="item-skill-type">{{localize "SMT.skillPane.skillType"}}</div>
-        {{!-- Target --}}
-        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
-        <div class="item-target">{{localize "SMT.skillPane.target"}}</div>
         {{!-- Cost or Ammo Count --}}
         <div class="item-cost">{{localize "SMT.skillPane.cost"}}</div>
         {{!-- TN --}}
         <div class="item-tn">{{localize "SMT.skillPane.tn"}}</div>
         {{!-- Total Power --}}
         <div class="item-power">{{localize "SMT.skillPane.power"}}</div>
+        {{!-- Target --}}
+        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
+        <div class="item-target">{{localize "SMT.skillPane.target"}}</div>
         {{!-- Element --}}
         <div class="item-element">{{localize "SMT.skillPane.element"}}</div>
         <div class="item-element">{{localize "SMT.skillPane.expended"}}</div>
-        {{!-- Short notes? --}}
+        {{!-- Type --}}
+        {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
+        <div class="item-skill-type">{{localize "SMT.skillPane.skillType"}}</div>
         <div class="item-controls">
           <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="skill">
             <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
@@ -35,15 +34,7 @@
             </div>
             <div class="item-name">{{name}}</div>
           </a>
-          {{!-- Type --}}
-          {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-          <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." system.skillType)}}</div>
-        {{!-- Target --}}
-        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
-        <div class="item-prop item-target">
-          {{#unless (or (eq system.skillType "other") (eq system.skillType "passive"))}}{{localize (concat "SMT.target." system.target)}}{{else}}—{{/unless}}
-        </div>
-        {{!-- Cost or Ammo Count --}}
+          {{!-- Cost or Ammo Count --}}
         <div class="item-prop item-cost">
           {{#if (gt system.cost 0)}}{{concat system.cost " " (localize (concat "SMT.resources." system.costType))}}{{else}}—{{/if}}
         </div>
@@ -52,13 +43,20 @@
           {{#if (and (eq system.accuracyStat "auto") (ne system.skillType "talk"))}}Auto{{else}}{{system.tn}}%{{/if}}</div>
         {{!-- Total Power --}}
         <div class="item-prop item-power">{{#if system.hasPowerRoll}}{{system.power}}{{else}}—{{/if}}</div>
+        {{!-- Target --}}
+        {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
+        <div class="item-prop item-target">
+          {{#unless (or (eq system.skillType "other") (eq system.skillType "passive"))}}{{localize (concat "SMT.target." system.target)}}{{else}}—{{/unless}}
+        </div>
         {{!-- Element --}}
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." system.affinity)}}</div>
         <div class="item-prop item-expended"><input class="item-update" type="checkbox" data-field-name="system.expended"
             data-checked="{{system.expended}}" data-dtype="Boolean" {{checked system.expended}}
             {{#unless (eq system.skillType "other")}}disabled{{/unless}} />
         </div>
-        {{!-- Short notes? --}}
+        {{!-- Type --}}
+          {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
+        <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." system.skillType)}}</div>
         <div class="item-controls">
           <a class="item-control{{#unless system.basicStrike}} item-edit{{/unless}}" title="{{localize "SMT.sheet.editItem"}}"><i
               class="fas{{#unless system.basicStrike}} fa-edit{{/unless}}"></i></a>
