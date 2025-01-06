@@ -3,9 +3,7 @@ import { SmtItem } from "../documents/item/item.js";
 import { SmtToken, SmtTokenDocument } from "../documents/token.js";
 import { renderSuccessCheckDialog } from "./dialog.js";
 
-declare global {
   type SuccessLevel = "fumble" | "fail" | "success" | "crit" | "autofail";
-}
 
 interface CheckOptions {
   skill?: SmtItem;

@@ -2,9 +2,8 @@ import { SmtStatusId } from "../../config/statuses.js";
 import { ACTORMODELS } from "../../data-models/actor/actor-data-model.js";
 import { SmtItem } from "../item/item.js";
 
-declare global {
-  type StatusData = StatusEffectObject & { statuses?: Set<string> };
-}
+
+type StatusData = StatusEffectObject & { statuses?: Set<string> };
 
 type StatusChangeMode = "on" | "off" | "toggle";
 

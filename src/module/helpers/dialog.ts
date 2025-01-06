@@ -1,14 +1,12 @@
-declare global {
-  interface SuccessCheckDialogData {
-    checkName?: string;
-    // Extra message to show
-    hint?: string;
-  }
+interface SuccessCheckDialogData {
+  checkName?: string;
+  // Extra message to show
+  hint?: string;
+}
 
-  interface ModifierDialogResult {
-    mod?: number;
-    cancelled?: boolean;
-  }
+interface ModifierDialogResult {
+  mod?: number;
+  cancelled?: boolean;
 }
 
 interface DialogHTMLElement extends HTMLElement {
