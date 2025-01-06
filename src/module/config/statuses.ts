@@ -1,12 +1,23 @@
 export function configureStatusEffects() {
-  CONFIG.statusEffects = CONFIG.statusEffects
-    .filter((status) => status.id === "dead")
-    .concat(smtStatuses);
+  // @ts-expect-error This works fine
+  CONFIG.statusEffects = smtStatuses;
 }
 
 const { ADD, OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
 
-const smtStatuses = [
+export const smtStatuses = [
+  {
+    id: "dead",
+    name: "SMT.ailments.dead",
+    icon: "icons/svg/skull.svg",
+    changes: [
+      {
+        key: "system.noActions",
+        value: "true",
+        mode: OVERRIDE,
+      },
+    ],
+  },
   {
     id: "stone",
     name: "SMT.ailments.stone",
@@ -254,4 +265,6 @@ const smtStatuses = [
       },
     ],
   },
-];
+] as const;
+
+export type SmtStatusId = (typeof smtStatuses)[number]["id"];

@@ -98,6 +98,7 @@
       "none": "None"
     },
     "ailments": {
+      "dead": "Dead",
       "stone": "Stone",
       "flied": "Fly",
       "stun": "Stun",

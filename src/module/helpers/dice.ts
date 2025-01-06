@@ -171,9 +171,7 @@ export async function rollCheck({
   }
 
   // Unfocus
-  await actor.effects
-    .find((e) => e.name === game.i18n.localize("SMT.characterMods.focused"))
-    ?.delete();
+  await actor.changeStatus("focused", "off");
 
   let successLevel: SuccessLevel = "fail";
 
