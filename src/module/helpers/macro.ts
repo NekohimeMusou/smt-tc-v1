@@ -1,4 +1,4 @@
-import { SmtActor } from "../documents/actor/actor.js";
+import { SmtToken } from "../documents/token.js";
 import { renderBuffDialog } from "./dialog.js";
 
 export async function showBuffDialog() {
@@ -19,7 +19,7 @@ export async function showBuffDialog() {
   }
 
   for (const tk of canvas.tokens.controlled) {
-    const token = tk as Token<SmtActor>;
+    const token = tk as SmtToken;
 
     if (!token.isOwner) return;
 

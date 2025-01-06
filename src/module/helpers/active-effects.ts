@@ -31,7 +31,7 @@ export async function onManageActiveEffect(
     ? owner.effects.get(li.data("effectId") as string)
     : null;
 
-  const actor = owner.type === "character" ? owner : owner.parent as SmtActor;
+  const actor = owner.type === "character" ? owner : owner.parent!;
 
   switch (a.data("action")) {
     case "create":
@@ -100,7 +100,7 @@ export function prepareActiveEffectCategories(
 interface AECategory {
   type: "temporary" | "passive" | "inactive";
   label: string;
-  effects: ActiveEffect<SmtActor, SmtItem>[];
+  effects: SmtActiveEffect[];
 }
 
 interface AECategories {

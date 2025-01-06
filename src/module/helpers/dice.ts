@@ -1,5 +1,6 @@
 import { SmtActor } from "../documents/actor/actor.js";
 import { SmtItem } from "../documents/item/item.js";
+import { SmtToken, SmtTokenDocument } from "../documents/token.js";
 import { renderSuccessCheckDialog } from "./dialog.js";
 
 declare global {
@@ -9,7 +10,7 @@ declare global {
 interface CheckOptions {
   skill?: SmtItem;
   actor?: SmtActor;
-  token?: TokenDocument<SmtActor>;
+  token?: SmtTokenDocument;
   accuracyStat?: CharacterStat;
   showDialog?: boolean;
   tnType?: SuccessRollCategory;
@@ -41,8 +42,8 @@ interface SuccessCheckResult {
 
 interface TargetData {
   actor?: SmtActor;
-  token?: Token<SmtActor>;
-  target?: Token<SmtActor>;
+  token?: SmtToken;
+  target?: SmtToken;
   totalPower?: number;
   criticalHit?: boolean;
   ailment?: AilmentData;
@@ -314,7 +315,7 @@ export async function rollCheck({
 
   // If there's no target roll one ailment chance and add it to the card
   // Otherwise wait to do it with each target
-  const targets = game.user.targets as Set<Token<SmtActor>>;
+  const targets = game.user.targets as Set<SmtToken>;
 
   if (targets.size < 1 && skill) {
     const { name: ailmentName, rate: ailmentRate } = skill.system.ailment;
