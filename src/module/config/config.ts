@@ -134,7 +134,6 @@ const ailments = {
   instantKill: "SMT.ailments.instantKill",
 } as const;
 
-// TODO: Use these instead of a string field
 const inheritanceTraits = {
   mouth: "SMT.inheritanceTraits.mouth",
   eye: "SMT.inheritanceTraits.eye",

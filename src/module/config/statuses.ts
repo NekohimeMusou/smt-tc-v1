@@ -1,9 +1,11 @@
 export function configureStatusEffects() {
-  // @ts-expect-error This works fine
+  // @ts-expect-error I have no idea why this is even flagged as an error
   CONFIG.statusEffects = smtStatuses;
 }
 
 const { ADD, OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
+
+export type SmtStatusId = (typeof smtStatuses)[number]["id"];
 
 export const smtStatuses = [
   {
@@ -30,7 +32,6 @@ export const smtStatuses = [
       },
     ],
   },
-  // TODO: Make sure this changes save/dodge/negotiation TNs accordingly
   {
     id: "flied",
     name: "SMT.ailments.flied",
@@ -242,12 +243,7 @@ export const smtStatuses = [
     icon: "icons/svg/combat.svg",
     changes: [
       {
-        key: "system.tn.dodge",
-        value: "20",
-        mode: ADD,
-      },
-      {
-        key: "system.stats.ag.derivedTN",
+        key: "system.dodgeBonus",
         value: "20",
         mode: ADD,
       },
@@ -266,5 +262,3 @@ export const smtStatuses = [
     ],
   },
 ] as const;
-
-export type SmtStatusId = (typeof smtStatuses)[number]["id"];
