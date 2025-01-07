@@ -1,13 +1,17 @@
 import { SmtStatusId } from "../../config/statuses.js";
 import { ACTORMODELS } from "../../data-models/actor/actor-data-model.js";
+import { SmtActiveEffect } from "../../helpers/active-effects.js";
 import { SmtItem } from "../item/item.js";
-
 
 type StatusData = StatusEffectObject & { statuses?: Set<string> };
 
 type StatusChangeMode = "on" | "off" | "toggle";
 
-export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem> {
+export class SmtActor extends Actor<
+  typeof ACTORMODELS,
+  SmtItem,
+  SmtActiveEffect
+> {
   async changeStatus(id: SmtStatusId, mode: StatusChangeMode) {
     const originalEffect = this.effects.find((e) => e.statuses.has(id));
 
