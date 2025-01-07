@@ -12,5 +12,6 @@ export function itemDataFields() {
       mag: new fields.NumberField({ integer: true, initial: 0 }),
     }),
     equipped: new fields.BooleanField(),
+    price: new fields.NumberField({ integer: true, initial: 0 }),
   };
 }

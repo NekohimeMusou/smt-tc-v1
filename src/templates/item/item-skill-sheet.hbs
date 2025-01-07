@@ -2,20 +2,19 @@
   {{> "systems/smt-tc/templates/parts/item/header.hbs"}}
 
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     <a class="item resource-label" data-tab="effect">{{localize "SMT.tabs.effect"}}</a>
+    <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     <a class="item resource-label" data-tab="options">{{localize "SMT.tabs.options"}}</a>
     <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
-    <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
   </nav>
 
   <section class="sheet-body">
-    <div class="tab main" data-group="primary" data-tab="main">
-      {{> "systems/smt-tc/templates/parts/item/skill/tab-main.hbs"}}
-    </div>
-
     <div class="tab effect" data-group="primary" data-tab="effect">
       {{editor system.effect target="system.effect" editable=editable button=true}}
+    </div>
+
+    <div class="tab main" data-group="primary" data-tab="main">
+      {{> "systems/smt-tc/templates/parts/item/skill/tab-main.hbs"}}
     </div>
 
     <div class="tab options" data-group="primary" data-tab="options">
@@ -24,10 +23,6 @@
 
     <div class="tab effects" data-group="primary" data-tab="effects">
       {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
-    </div>
-
-    <div class="tab notes" data-group="primary" data-tab="notes">
-      {{editor system.notes target="system.notes" editable=editable}}
     </div>
   </section>
 </form>

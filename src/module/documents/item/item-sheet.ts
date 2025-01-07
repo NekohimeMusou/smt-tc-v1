@@ -12,7 +12,7 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
         {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
-          initial: "main",
+          initial: "effect",
         },
       ],
     });
