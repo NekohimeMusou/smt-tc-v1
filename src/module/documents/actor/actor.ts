@@ -26,9 +26,8 @@ export class SmtActor extends Actor<
       const newEffect = foundry.utils.deepClone(effectData) as StatusData;
 
       newEffect.statuses = new Set<SmtStatusId>([id]);
-      newEffect.name = game.i18n.localize(newEffect.name);
 
-      await this.createEmbeddedDocuments("ActiveEffect", [[newEffect]]);
+      await this.createEmbeddedDocuments("ActiveEffect", [newEffect]);
     }
   }
 }

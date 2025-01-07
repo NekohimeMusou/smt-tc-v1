@@ -196,6 +196,31 @@ const equipSlots = {
   none: "SMT.equipSlots.none",
 } as const;
 
+const statusIds = {
+  dead: "SMT.ailments.dead",
+  stone: "SMT.ailments.stone",
+  flied: "SMT.ailments.flied",
+  stun: "SMT.ailments.stun",
+  charm: "SMT.ailments.charm",
+  poison: "SMT.ailments.poison",
+  mute: "SMT.ailments.mute",
+  restrain: "SMT.ailments.restrain",
+  freeze: "SMT.ailments.freeze",
+  sleep: "SMT.ailments.sleep",
+  panic: "SMT.ailments.panic",
+  shock: "SMT.ailments.shock",
+  curse: "SMT.ailments.curse",
+  tarukaja: "SMT.buffSpells.tarukaja",
+  rakukaja: "SMT.buffSpells.rakukaja",
+  sukukaja: "SMT.buffSpells.sukukaja",
+  makakaja: "SMT.buffSpells.makakaja",
+  tarunda: "SMT.debuffSpells.tarunda",
+  rakunda: "SMT.debuffSpells.rakunda",
+  sukunda: "SMT.debuffSpells.sukunda",
+  defending: "SMT.characterMods.defending",
+  focused: "SMT.characterMods.focused",
+};
+
 export const SMT = {
   charClasses,
   stats,
@@ -216,6 +241,7 @@ export const SMT = {
   derivedTNs,
   derivedTNStats,
   equipSlots,
+  statusIds,
   defaultAutofailThreshold: 96,
   showBuffDialog,
 } as const;

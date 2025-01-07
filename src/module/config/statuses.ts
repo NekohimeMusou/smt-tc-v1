@@ -7,7 +7,7 @@ const { ADD, OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
 
 export type SmtStatusId = (typeof smtStatuses)[number]["id"];
 
-export const smtStatuses = [
+const smtStatuses = [
   {
     id: "dead",
     name: "SMT.ailments.dead",
@@ -262,3 +262,7 @@ export const smtStatuses = [
     ],
   },
 ] as const;
+
+export const statusLocTable = Object.fromEntries(
+  smtStatuses.map(({ id, name }) => [id, name]),
+);

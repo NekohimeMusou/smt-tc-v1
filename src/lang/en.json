@@ -263,6 +263,7 @@
       },
       "might": "Might (passive skill)",
       "focused": "Focused",
+      "focus": "Focus",
       "cursed": "Cursed",
       "itemPro": "Item Pro",
       "defending": "Defending"

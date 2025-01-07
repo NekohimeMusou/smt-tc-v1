@@ -197,6 +197,11 @@ export async function rollCheck({
     if (skill?.system.effect) {
       htmlParts.push(`<div>${skill.system.effect}</div>`);
     }
+
+    // Focus, if this is the Focus skill; it's auto-only so this hack should work
+    if (skill?.system.focusEffect) {
+      await actor.changeStatus("focused", "on");
+    }
   } else {
     const multi = actor.system.multi ?? 1;
     // Show the modifier dialog, if applicable

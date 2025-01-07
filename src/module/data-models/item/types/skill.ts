@@ -22,17 +22,17 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   override prepareBaseData() {
     const data = this.#systemData;
     if (data.itemType === "weapon") {
-      // @ts-expect-error This field isn't readonly and its type probably shouldn't be "any"
+      // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = true;
     }
 
     if (data.itemType === "equipment") {
-      // @ts-expect-error This field isn't readonly and its type probably shouldn't be "any"
+      // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = false;
     }
 
     if (data.itemType === "item") {
-      // @ts-expect-error This field isn't readonly and its type probably shouldn't be "any"
+      // @ts-expect-error This field isn't readonly and its type should be AccuracyStat
       data.accuracyStat = "auto";
     }
   }
