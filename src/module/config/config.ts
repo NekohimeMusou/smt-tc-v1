@@ -47,6 +47,7 @@ const itemTypes = {
   weapon: "SMT.itemTypes.weapon",
   item: "SMT.itemTypes.item",
   equipment: "SMT.itemTypes.equipment",
+  action: "SMT.itemTypes.action",
 } as const;
 
 const charClasses = {

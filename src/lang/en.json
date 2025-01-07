@@ -144,7 +144,8 @@
       "skill": "Skill",
       "weapon": "Weapon",
       "item": "Item",
-      "equipment": "Equipment"
+      "equipment": "Equipment",
+      "action": "Action"
     },
     "equipSlots": {
       "head": "Head",

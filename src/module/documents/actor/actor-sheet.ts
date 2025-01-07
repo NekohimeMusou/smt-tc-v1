@@ -1,11 +1,17 @@
 import { SMT } from "../../config/config.js";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
 import { rollCheck } from "../../helpers/dice.js";
+import { SmtItem } from "../item/item.js";
 import { SmtActor } from "./actor.js";
 
 interface StatRollFormData {
   tnType: SuccessRollCategory;
   accuracyStat: CharacterStat;
+}
+
+interface SkillDataObject {
+  indexLabel: string;
+  skill: SmtItem;
 }
 
 export class SmtActorSheet extends ActorSheet<SmtActor> {
@@ -30,13 +36,30 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     const system = this.actor.system;
     const rollData = this.actor.getRollData();
-    const skills = this.actor.items.filter((item) => item.system.basicStrike);
 
-    skills.push(
-      ...this.actor.items.filter(
-        (item) => item.system.itemType === "skill" && !item.system.basicStrike,
-      ),
+    const skills: SkillDataObject[] = [];
+
+    const basicStrike = this.actor.items.find(
+      (item) => item.system.basicStrike,
     );
+
+    if (basicStrike) {
+      skills.push({ skill: basicStrike, indexLabel: "—" });
+    }
+
+    const actions = this.actor.items
+      .filter((item) => item.system.itemType === "action")
+      .map((item) => ({ skill: item, indexLabel: "—" }));
+
+    skills.push(...actions);
+
+    const actualSkills = this.actor.items
+      .filter(
+        (item) => item.system.itemType === "skill" && !item.system.basicStrike,
+      )
+      .map((item, index) => ({ skill: item, indexLabel: `${index + 1}` }));
+
+    skills.push(...actualSkills);
 
     const weapons = this.actor.items.filter(
       (item) => item.system.itemType === "weapon",
@@ -97,10 +120,14 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
     html.find(".item-update").on("change", this.#onItemUpdate.bind(this));
 
-    html.find(".adjust-modifier").on("click", this.#onModifierChange.bind(this));
+    html
+      .find(".adjust-modifier")
+      .on("click", this.#onModifierChange.bind(this));
 
     // Active Effect management
-    html.find(".effect-control").on("click", (ev) => onManageActiveEffect(ev, this.actor));
+    html
+      .find(".effect-control")
+      .on("click", (ev) => onManageActiveEffect(ev, this.actor));
   }
 
   async #onModifierChange(event: JQuery.ClickEvent) {
