@@ -350,7 +350,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   }
 
   get #systemData() {
-    return this as this & SmtActor["system"];
+    return this as SmtActor["system"];
   }
 }
 

@@ -1,9 +1,16 @@
-export function skillDataFields() {
-  const fields = foundry.data.fields;
+import { ActionData } from "./action.js";
 
-  return {
-    basicStrike: new fields.BooleanField({ initial: false }),
-    expended: new fields.BooleanField({ initial: false }),
+export class SkillData extends ActionData {
+  override get type() {
+    return "skill" as const;
+  }
+
+  static override defineSchema() {
+    const fields = foundry.data.fields;
+
+    return {
+      ...super.defineSchema(),
+      expended: new fields.BooleanField({ initial: false }),
     // Inheritance traits (Wing, Breath, etc)
     inheritanceTraits: new fields.StringField(),
     // Phys attack, magic attack, or spell
@@ -15,5 +22,6 @@ export function skillDataFields() {
       choices: CONFIG.SMT.statusIds,
     }),
     focusEffect: new fields.BooleanField(),
-  } as const;
+    }
+  }
 }

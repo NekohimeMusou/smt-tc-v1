@@ -177,7 +177,7 @@
     },
     "itemFields": {
       "inheritanceTraits": "Inheritance Traits",
-      "skillType": "Skill Type",
+      "actionType": "Skill Type",
       "target": "Target",
       "cost": "Cost",
       "price": "Price",
@@ -200,7 +200,7 @@
     "skills": {
       "pinhole": "Pinhole"
     },
-    "skillTypes": {
+    "actionTypes": {
       "phys": "Phys",
       "mag": "Mag",
       "gun": "Gun",
@@ -272,7 +272,7 @@
     },
     "skillPane": {
       "skill": "Skill",
-      "skillType": "Type",
+      "actionType": "Type",
       "target": "Target",
       "cost": "Cost",
       "tn": "TN",

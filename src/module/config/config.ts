@@ -7,7 +7,7 @@ declare global {
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
-  type SkillType = keyof typeof skillTypes;
+  type SkillType = keyof typeof actionTypes;
   type PowerBoostType = keyof typeof powerBoostTypes;
   type SkillCostType = keyof typeof costTypes;
   type Target = keyof typeof targets;
@@ -144,16 +144,16 @@ const inheritanceTraits = {
   none: "SMT.inheritanceTraits.none",
 } as const;
 
-const skillTypes = {
-  phys: "SMT.skillTypes.phys",
-  mag: "SMT.skillTypes.mag",
-  gun: "SMT.skillTypes.gun",
-  spell: "SMT.skillTypes.spell",
-  passive: "SMT.skillTypes.passive",
-  talk: "SMT.skillTypes.talk",
-  item: "SMT.skillTypes.item",
+const actionTypes = {
+  phys: "SMT.actionTypes.phys",
+  mag: "SMT.actionTypes.mag",
+  gun: "SMT.actionTypes.gun",
+  spell: "SMT.actionTypes.spell",
+  passive: "SMT.actionTypes.passive",
+  talk: "SMT.actionTypes.talk",
+  item: "SMT.actionTypes.item",
   // For "passive" skills with conditional rolls attached, like Lucky Find and Good Instincts
-  other: "SMT.skillTypes.other",
+  other: "SMT.actionTypes.other",
 } as const;
 
 const successRollCategories = ["tn", "derivedTN"] as const;
@@ -231,7 +231,7 @@ export const SMT = {
   affinityLevels,
   ailments,
   inheritanceTraits,
-  skillTypes,
+  actionTypes,
   costTypes,
   successRollCategories,
   targets,

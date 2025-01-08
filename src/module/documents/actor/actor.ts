@@ -1,7 +1,7 @@
 import { SmtStatusId } from "../../config/statuses.js";
 import { ACTORMODELS } from "../../data-models/actor/actor-data-model.js";
 import { SmtActiveEffect } from "../../helpers/active-effects.js";
-import { SmtItem } from "../item/item.js";
+import { SmtAction, SmtItem } from "../item/item.js";
 
 type StatusData = StatusEffectObject & { statuses?: Set<string> };
 
@@ -29,5 +29,11 @@ export class SmtActor extends Actor<
 
       await this.createEmbeddedDocuments("ActiveEffect", [newEffect]);
     }
+  }
+
+  getActions(actor: SmtActor) {
+    const actions = actor.items.filter((item) => item.type === "action");
+
+    return actions as SmtAction[];
   }
 }

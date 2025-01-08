@@ -107,13 +107,13 @@ export async function rollCheck({
     throw new TypeError("Malformed TN check data!");
   }
 
-  if (skill?.system.skillType === "other") {
+  if (skill?.system.actionType === "other") {
     await skill.update({ "system.expended": true });
   }
 
-  const skillType = skill?.system.skillType;
+  const actionType = skill?.system.actionType;
 
-  if (actor.system.mute && (skillType === "mag" || skillType === "spell")) {
+  if (actor.system.mute && (actionType === "mag" || actionType === "spell")) {
     ui.notifications.notify(game.i18n.localize("SMT.ailmentMsg.mute"));
     return;
   }

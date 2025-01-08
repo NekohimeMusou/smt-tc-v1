@@ -33,7 +33,8 @@
       "character": { "htmlFields": ["notes"] }
     },
     "Item": {
-      "skill": { "htmlFields": ["effect"] }
+      "skill": { "htmlFields": ["effect"] },
+      "action": { "htmlFields": ["effect"]}
     }
   },
 

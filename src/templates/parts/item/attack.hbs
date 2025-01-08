@@ -2,9 +2,9 @@
   <div class="flexrow">
     {{!-- Skill Type (determines phys/mag damage type) --}}
     <div class="flexcol">
-      <label for="skill-type-field" class="resource-label">{{localize "SMT.itemFields.skillType"}}</label>
-      <select id="skill-type-field" name="system.skillType">
-        {{selectOptions SMT.skillTypes selected=system.skillType localize=true}}
+      <label for="skill-type-field" class="resource-label">{{localize "SMT.itemFields.actionType"}}</label>
+      <select id="skill-type-field" name="system.actionType">
+        {{selectOptions SMT.actionTypes selected=system.actionType localize=true}}
       </select>
     </div>
 
@@ -21,7 +21,7 @@
 
   <div class="flexrow">
     {{!-- Cost (HP/MP determined by power type) --}}
-    {{#if (and (eq system.skillType "gun") (eq system.itemType "weapon"))}}
+    {{#if (and (eq system.actionType "gun") (eq system.itemType "weapon"))}}
       <div class="flexcol">
         <label for="current-ammo-field" class="resource-label">{{localize "SMT.itemFields.ammo"}}</label>
         <input type="number" id="ammo-field" name="system.ammo.value" value="{{system.ammo.value}}" placeholder="0"

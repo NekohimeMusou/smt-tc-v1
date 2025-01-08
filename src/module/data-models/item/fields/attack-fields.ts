@@ -5,7 +5,9 @@ export function attackDataFields() {
   // Handle fixed HP reduction (HP to 1, reduced to 20%, etc)
   // Handle random ailment chance (God's Curse, a Samael-only skill)
   return {
+    // Move to skill type
     cost: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+    // Move to weapon type
     ammo: new fields.SchemaField({
       min: new fields.NumberField({ integer: true, initial: 0 }),
       max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
@@ -37,5 +39,5 @@ export function attackDataFields() {
     critBoost: new fields.BooleanField(),
     pinhole: new fields.BooleanField(),
     innatePierce: new fields.BooleanField(),
-  } as const;
+  };
 }

@@ -1,5 +1,7 @@
-import { SmtSkillDataModel } from "./types/skill.js";
+import { ActionData } from "./models/action.js";
+import { SkillData } from "./models/skill.js";
 
 export const ITEMMODELS = {
-  skill: SmtSkillDataModel,
+  skill: SkillData,
+  action: ActionData,
 } as const;

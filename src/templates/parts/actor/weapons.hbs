@@ -6,7 +6,7 @@
         <div class="item-name flex2">{{localize "SMT.skillPane.weapon"}}</div>
         {{!-- Type --}}
         {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-        <div class="item-skill-type">{{localize "SMT.skillPane.skillType"}}</div>
+        <div class="item-skill-type">{{localize "SMT.skillPane.actionType"}}</div>
         {{!-- Target --}}
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
         <div class="item-target">{{localize "SMT.skillPane.target"}}</div>
@@ -35,7 +35,7 @@
         </a>
         {{!-- Type --}}
         {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-        <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." system.skillType)}}</div>
+        <div class="item-prop item-skill-type">{{localize (concat "SMT.actionTypes." system.actionType)}}</div>
         {{!-- Target --}}
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
         <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>

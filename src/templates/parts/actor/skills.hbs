@@ -18,7 +18,7 @@
         <div class="item-element">{{localize "SMT.skillPane.expended"}}</div>
         {{!-- Type --}}
         {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-        <div class="item-skill-type">{{localize "SMT.skillPane.skillType"}}</div>
+        <div class="item-skill-type">{{localize "SMT.skillPane.actionType"}}</div>
         <div class="item-controls">
           <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="skill">
             <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
@@ -40,23 +40,23 @@
         </div>
         {{!-- TN --}}
         <div class="item-prop item-tn">
-          {{#if (and (eq skill.system.accuracyStat "auto") (ne skill.system.skillType "talk"))}}Auto{{else}}{{skill.system.tn}}%{{/if}}</div>
+          {{#if (and (eq skill.system.accuracyStat "auto") (ne skill.system.actionType "talk"))}}Auto{{else}}{{skill.system.tn}}%{{/if}}</div>
         {{!-- Total Power --}}
         <div class="item-prop item-power">{{#if skill.system.hasPowerRoll}}{{skill.system.power}}{{else}}—{{/if}}</div>
         {{!-- Target --}}
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
         <div class="item-prop item-target">
-          {{#unless (or (eq skill.system.skillType "other") (eq skill.system.skillType "passive"))}}{{localize (concat "SMT.target." skill.system.target)}}{{else}}—{{/unless}}
+          {{#unless (or (eq skill.system.actionType "other") (eq skill.system.actionType "passive"))}}{{localize (concat "SMT.target." skill.system.target)}}{{else}}—{{/unless}}
         </div>
         {{!-- Element --}}
         <div class="item-prop item-element">{{localize (concat "SMT.affinities." skill.system.affinity)}}</div>
         <div class="item-prop item-expended"><input class="item-update" type="checkbox" data-field-name="system.expended"
             data-checked="{{skill.system.expended}}" data-dtype="Boolean" {{checked skill.system.expended}}
-            {{#unless (eq skill.system.skillType "other")}}disabled{{/unless}} />
+            {{#unless (eq skill.system.actionType "other")}}disabled{{/unless}} />
         </div>
         {{!-- Type --}}
           {{!-- Physical Attack | Magical Attack | Spell | Passive | Talk --}}
-        <div class="item-prop item-skill-type">{{localize (concat "SMT.skillTypes." skill.system.skillType)}}</div>
+        <div class="item-prop item-skill-type">{{localize (concat "SMT.actionTypes." skill.system.actionType)}}</div>
         <div class="item-controls">
           <a class="item-control{{#unless skill.system.basicStrike}} item-edit{{/unless}}" title="{{localize "SMT.sheet.editItem"}}"><i
               class="fas{{#unless skill.system.basicStrike}} fa-edit{{/unless}}"></i></a>
