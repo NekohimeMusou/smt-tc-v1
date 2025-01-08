@@ -84,4 +84,10 @@
     </div>
   </div>
   {{/if}}
+  {{#if (eq system.itemType "item")}}
+  <div class="flexcol">
+    <label for="price-field" class="resource-label">{{localize "SMT.sheet.price"}}</label>
+    <input type="number" id="price-field" name="system.price" value="{{system.price}}" placeholder="0" data-dtype="Number" />
+  </div>
+  {{/if}}
 </section>

@@ -16,7 +16,8 @@
       "newItem": "New {name}",
       "addItem": "Add Item",
       "editItem": "Edit Item",
-      "deleteItem": "Delete Item"
+      "deleteItem": "Delete Item",
+      "price": "Price"
     },
     "tabs": {
       "main": "Main",
