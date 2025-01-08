@@ -4,16 +4,16 @@ import { attackDataFields } from "../fields/attack-fields.js";
 import { consumableDataFields } from "../fields/consumable-fields.js";
 import { sharedItemDataFields } from "../fields/shared-fields.js";
 import { skillDataFields } from "../fields/skill-fields.js";
+import { BaseItemData } from "./base.js";
 
-export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
+export class SmtSkillDataModel extends BaseItemData {
   get type() {
     return "skill" as const;
   }
 
   static override defineSchema() {
-    const fields = foundry.data.fields;
     return {
-      hasPowerRoll: new fields.BooleanField(),
+      ...super.defineSchema(),
       ...attackDataFields(),
       ...skillDataFields(),
       ...consumableDataFields(),
