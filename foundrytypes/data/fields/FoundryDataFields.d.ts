@@ -32,6 +32,10 @@ class NumberField extends FoundryDMField<number> {
 	constructor(options?: NumberDataFieldOptions);
 }
 
+class EmbeddedDataField<T extends typeof DataModelClass> extends FoundryDMField<T> {
+	constructor(dataModelClass: T, options?: DataFieldOptions, context?: DataFieldContext);
+}
+
 class AlphaFieldClass extends NumberField {
 }
 
@@ -110,6 +114,11 @@ declare interface StringFieldOptions<const T extends string> extends DataFieldOp
 	blank ?: boolean;
 	trim ?: boolean;
 	choices?: readonly T[] | Record < T, string> | (()=> T[]);
+}
+
+interface DataFieldContext {
+	name: string;
+	parent: FoundryDMField;
 }
 
 type NoInfer<A>= [A][A extends any ? 0 : never]
