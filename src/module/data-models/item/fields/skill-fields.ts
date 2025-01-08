@@ -15,7 +15,5 @@ export function skillDataFields() {
       choices: CONFIG.SMT.statusIds,
     }),
     focusEffect: new fields.BooleanField(),
-    // To be shown in chat card with rolls
-    effect: new fields.HTMLField(),
   } as const;
 }

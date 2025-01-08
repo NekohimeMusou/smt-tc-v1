@@ -1,4 +1,4 @@
-export function itemDataFields() {
+export function consumableDataFields() {
   const fields = foundry.data.fields;
 
   return {
@@ -13,5 +13,5 @@ export function itemDataFields() {
     }),
     equipped: new fields.BooleanField(),
     price: new fields.NumberField({ integer: true, initial: 0 }),
-  };
+  } as const;
 }

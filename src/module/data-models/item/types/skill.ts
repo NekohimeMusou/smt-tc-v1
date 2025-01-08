@@ -1,7 +1,7 @@
 import { SmtActor } from "../../../documents/actor/actor.js";
 import { SmtItem } from "../../../documents/item/item.js";
 import { attackDataFields } from "../fields/attack-fields.js";
-import { itemDataFields } from "../fields/item-fields.js";
+import { consumableDataFields } from "../fields/consumable-fields.js";
 import { sharedItemDataFields } from "../fields/shared-fields.js";
 import { skillDataFields } from "../fields/skill-fields.js";
 
@@ -11,30 +11,32 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   }
 
   static override defineSchema() {
+    const fields = foundry.data.fields;
     return {
+      hasPowerRoll: new fields.BooleanField(),
       ...attackDataFields(),
       ...skillDataFields(),
-      ...itemDataFields(),
+      ...consumableDataFields(),
       ...sharedItemDataFields(),
-    } as const;
+    };
   }
 
   override prepareBaseData() {
     const data = this.#systemData;
     if (data.itemType === "weapon") {
-      // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = true;
     }
 
     if (data.itemType === "equipment") {
-      // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = false;
     }
 
     if (data.itemType === "item") {
-      // @ts-expect-error This field isn't readonly and its type should be AccuracyStat
       data.accuracyStat = "auto";
     }
+
+    data.damageType =
+      data.skillType === "phys" || data.skillType === "gun" ? "phys" : "mag";
   }
 
   get pierce(): boolean {
@@ -45,14 +47,6 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
       data.innatePierce ||
       (data.affinity === "phys" && (actor?.system.pierce ?? false))
     );
-  }
-
-  get damageType(): DamageType {
-    const data = this.#systemData;
-
-    const skillType = data.skillType;
-
-    return skillType === "phys" || skillType === "gun" ? "phys" : "mag";
   }
 
   get powerBoostType(): PowerBoostType {
@@ -116,6 +110,6 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
 
   // Typescript-related hack
   get #systemData() {
-    return this as this & SmtItem["system"];
+    return this as SmtItem["system"];
   }
 }

@@ -6,6 +6,7 @@ export function sharedItemDataFields() {
       choices: CONFIG.SMT.itemTypes,
       initial: "skill",
     }),
-    notes: new fields.HTMLField(),
+    // To be shown in chat card with rolls
+    effect: new fields.HTMLField(),
   } as const;
 }

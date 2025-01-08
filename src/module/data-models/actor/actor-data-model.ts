@@ -220,7 +220,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       ...ailmentMods,
       ...modifiers,
       ...resources,
-    } as const;
+    };
   }
 
   override prepareBaseData() {
@@ -237,9 +237,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     // Get HP and MP multipliers
     const isHuman = data.charClass === "human";
-    // @ts-expect-error This field isn't readonly
     data.hpMultiplier = (isHuman ? 4 : 6) + (data.resourceBoost.hp ?? 0);
-    // @ts-expect-error This field isn't readonly
     data.mpMultiplier = (isHuman ? 2 : 3) + (data.resourceBoost.mp ?? 0);
 
     // Add phys/mag resist from equipment

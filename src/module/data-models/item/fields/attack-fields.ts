@@ -19,11 +19,11 @@ export function attackDataFields() {
       choices: CONFIG.SMT.targets,
       initial: "one",
     }),
+    damageType: new fields.StringField({ choices: CONFIG.SMT.damageTypes }),
     affinity: new fields.StringField({
       choices: CONFIG.SMT.affinities,
       initial: "phys",
     }),
-    hasPowerRoll: new fields.BooleanField(),
     potency: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
     tnMod: new fields.NumberField({ integer: true, initial: 0 }),
     ailment: new fields.SchemaField({
