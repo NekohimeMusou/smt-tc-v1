@@ -1,5 +1,4 @@
 export function configureStatusEffects() {
-  // @ts-expect-error I have no idea why this is even flagged as an error
   CONFIG.statusEffects = smtStatuses;
 }
 
