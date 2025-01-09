@@ -1,0 +1,51 @@
+{{! Example Output }}
+{{! Zio }}
+{{! Cost: 3 MP }}
+{{! Success! (57 vs. TN 81%) }}
+{{! Total Power: 30 (1d10x + 27) }}
+
+<div class="flexcol">
+  {{! Check Label }}
+  {{! e.g. "Rakukaja: Auto" or "Strength Check: TN 80%" }}
+  <h3>{{name}}</h3>
+  {{! Cost }}
+  {{! e.g. "Cost: 12 HP" }}
+  {{#if cost}}
+    <div>{{localize
+        "SMT.diceV3.cost"
+        cost=cost
+        resourceType=(localize (concat "SMT.resources." resourceType))
+      }}</div>
+  {{/if}}
+  {{! Effect }}
+  {{! From skill sheet }}
+  {{#if effect}}
+    <div>{{effect}}</div>
+  {{/if}}
+  {{! Dice Result }}
+  {{! e.g. "Success!" "Critical success!" "Fumble!" }}
+  <h3>
+    {{localize
+      (ifThen auto "SMT.diceV3.auto" "SMT.diceV3.checkResult")
+      checkResult=(localize checkResult)
+      checkTotal=checkTotal
+      tn=tn
+    }}
+  </h3>
+  {{! Power (if applicable) }}
+  {{#if hasPowerRoll}}
+    <h3>{{localize
+        "SMT.diceV3.powerResult"
+        power=power
+        powerRollString=powerRollString
+      }}</h3>
+  {{/if}}
+  {{#unless targets}}
+    {{localize "SMT.diceV3.noTarget"}}
+  {{else}}
+    <h3>{{localize "SMT.diceV3.targets"}}</h3>
+    {{#each targets}}
+      <div>{{target.name}}</div>
+    {{/each}}
+  {{/unless}}
+</div>

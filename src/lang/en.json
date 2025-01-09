@@ -167,7 +167,8 @@
     "resources": {
       "hp": "HP",
       "mp": "MP",
-      "fp": "FP"
+      "fp": "FP",
+      "bullets": "Bullets"
     },
     "actorFields": {
       "level": "Level",
@@ -284,6 +285,44 @@
       "ammo": "Ammo",
       "expended": "Used?"
     },
+    "tnNames": {
+      "st": "Strength",
+      "ma": "Magic",
+      "vi": "Vitality",
+      "ag": "Agility",
+      "lu": "Luck",
+      "physAtk": "Phys Atk",
+      "magAtk": "Mag Atk",
+      "save": "Save",
+      "dodge": "Dodge",
+      "negotiation": "Negotiation"
+    },
+    "dice-v2": {
+      "checkName": "{tnName} Check",
+      "tnLabel": "TN {tn}%",
+      "costLabel": "Cost: {cost} {resourceType}",
+      "auto": "Auto",
+      "checkResult": "{checkResult} ({checkTotal} vs. TN {tn}%)",
+      "powerResult": "Total Power: {power} ({rollString})",
+      "targets": "Targets",
+      "noTarget": "No target"
+    },
+    "diceV3": {
+      "checkName": "{tnName} Check",
+      "cost": "Cost: {cost} {resourceType}",
+      "auto": "Auto",
+      "checkResult": "{checkSuccess} ({checkTotal} vs. TN {tn}%)",
+      "powerResult": "Total Power: {power} ({powerRollString})",
+      "noTarget": "No target",
+      "targets": "Targets"
+    },
+    "diceResult": {
+      "success": "Success!",
+      "fail": "Failed!",
+      "autofail": "Autofail! ({threshold}-99)",
+      "crit": "Critical success!",
+      "fumble": "Fumble!"
+    },
     "dice": {
       "skillCheckTitle": "{checkName}: TN {tn}%",
       "skillCost": "Cost: {cost} {resource}",
@@ -330,13 +369,6 @@
       "panic3": "Make a Negotiation check against a random demon. If you fail, the demon attacks you once; if you crit, they give you an item.",
       "panic4": "You are inflicted with Sleep.",
       "panic5": "{charName} danced crazy!"
-    },
-    "diceResult": {
-      "success": "Success!",
-      "fail": "Failed!",
-      "autofail": "Autofail! ({threshold}-99)",
-      "crit": "Critical success!",
-      "fumble": "Fumble!"
     },
     "affinityResult": {
       "reflect": "REFLECT!",

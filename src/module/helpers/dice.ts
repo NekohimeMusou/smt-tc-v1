@@ -100,7 +100,7 @@ export async function rollCheck({
       stat: statLabel,
     });
   } else if (skill) {
-    auto = skill.system.accuracyStat === "auto";
+    auto = skill.system.auto;
     baseTN = skill.system.tn;
     checkName = skill.name;
   } else {
@@ -212,7 +212,7 @@ export async function rollCheck({
 
     const { mod, cancelled } = showDialog
       ? await renderSuccessCheckDialog({
-          checkName: dialogTitle,
+          name: dialogTitle,
           hint: game.i18n.localize("SMT.dice.modifierHint"),
         })
       : { mod: 0 };

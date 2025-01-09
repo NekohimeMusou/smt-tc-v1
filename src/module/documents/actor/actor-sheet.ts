@@ -1,13 +1,8 @@
 import { SMT } from "../../config/config.js";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
-import { rollCheck } from "../../helpers/dice.js";
+import { simplerCheck } from "../../helpers/dice-v2.js";
 import { SmtItem } from "../item/item.js";
 import { SmtActor } from "./actor.js";
-
-interface StatRollFormData {
-  tnType: SuccessRollCategory;
-  accuracyStat: CharacterStat;
-}
 
 interface SkillDataObject {
   indexLabel: string;
@@ -110,7 +105,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     html.find(".roll-stat").on("click", this.#onStatRoll.bind(this));
 
     // Skill roll
-    html.find(".roll-skill").on("click", this.#onSkillRoll.bind(this));
+    html.find(".roll-skill").on("click", this.#onStatRoll.bind(this));
 
     // Add Inventory Item
     html.find(".item-create").on("click", this.#onItemCreate.bind(this));
@@ -163,49 +158,23 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     await this.actor.update(data);
   }
 
-  async #onSkillRoll(event: JQuery.ClickEvent) {
-    event.preventDefault();
-
-    const itemId = $(event.currentTarget)
-      .closest(".item")
-      .data("itemId") as string;
-
-    const skill = this.actor.items.get(itemId);
-
-    if (!skill) {
-      return ui.notifications.error("Malformed data in #onSkillRoll");
-    }
-
-    const showDialog =
-      event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
-
-    await rollCheck({
-      skill,
-      actor: this.actor,
-      token: this.actor.token,
-      showDialog,
-      autoFailThreshold: this.actor.system.autoFailThreshold,
-      focused: this.actor.system.focused,
-    });
-  }
-
   async #onStatRoll(event: JQuery.ClickEvent) {
     event.preventDefault();
     const target = $(event.currentTarget);
 
-    const { tnType, accuracyStat } = target.data() as StatRollFormData;
+    const tnName = target.data("tnName") as TargetNumber | undefined;
+    const itemId = target.closest(".item").data("itemId") as string | undefined;
+    const skill = this.actor.items.get(itemId!);
 
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    await rollCheck({
+    await simplerCheck({
       actor: this.actor,
       token: this.actor.token,
-      accuracyStat,
-      tnType,
+      tnName,
+      skill,
       showDialog,
-      autoFailThreshold: this.actor.system.autoFailThreshold,
-      focused: this.actor.system.focused,
     });
   }
 

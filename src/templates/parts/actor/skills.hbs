@@ -40,7 +40,7 @@
         </div>
         {{!-- TN --}}
         <div class="item-prop item-tn">
-          {{#if (and (eq skill.system.accuracyStat "auto") (ne skill.system.skillType "talk"))}}Auto{{else}}{{skill.system.tn}}%{{/if}}</div>
+          {{#if (and skill.system.auto (ne skill.system.skillType "talk"))}}Auto{{else}}{{skill.system.tn}}%{{/if}}</div>
         {{!-- Total Power --}}
         <div class="item-prop item-power">{{#if skill.system.hasPowerRoll}}{{skill.system.power}}{{else}}—{{/if}}</div>
         {{!-- Target --}}
