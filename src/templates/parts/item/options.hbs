@@ -84,7 +84,7 @@
     </div>
   </div>
   {{/if}}
-  {{#if (eq system.itemType "item")}}
+  {{#if (or (eq system.itemType "item") (eq system.itemType "equipment") (eq system.itemType "weapon"))}}
   <div class="flexcol">
     <label for="price-field" class="resource-label">{{localize "SMT.sheet.price"}}</label>
     <input type="number" id="price-field" name="system.price" value="{{system.price}}" placeholder="0" data-dtype="Number" />
