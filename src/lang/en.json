@@ -308,7 +308,8 @@
       "targets": "Targets",
       "costNotPaid": "Unable to pay cost.",
       "modifier": "Modifier",
-      "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack."
+      "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
+      "recovery": "recovers {damage} {resource}!"
     },
     "diceResult": {
       "success": "Success!",
@@ -318,7 +319,15 @@
     },
     "dodgeResult": {
       "dodge": "Dodged!",
-      "fumble": "Dodge Fumbled!"
+      "fumble": "Dodge fumbled! {damage} {affinity} damage!",
+      "fail": "Dodge failed!",
+      "critDowngrade": "Crit downgraded! {damage} {affinity} damage!",
+      "damage": "{damage} {affinity} damage!"
+    },
+    "ailmentResult": {
+      "avoid": "{ailmentName} avoided: {rate}%",
+      "inflict": "{ailmentName} inflicted: {rate}%",
+      "nullify": "{ailmentName} nullified!"
     },
     "ailmentMsg": {
       "cursed": "CURSED! Something bad happens!",

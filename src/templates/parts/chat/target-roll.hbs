@@ -1,9 +1,34 @@
-{{!-- e.g. --}}
-{{!-- High Pixie: 8 damage --}}
-{{!-- RESIST! --}}
-{{!-- Shock Avoided: 5% --}}
-{{!-- Demon B: NULL! --}}
+{{! e.g. }}
+{{! High Pixie: 8 damage }}
+{{! RESIST! }}
+{{! Shock Avoided: 5% }}
+{{! Demon B: NULL! }}
 
 <div class="flexcol">
+  <h3>
+    {{targetName}}:
+    {{#if (eq affinityResult "null")}}
+      {{localize "SMT.affinityResult.null"}}
+    {{else}}
+      {{localize
+        (concat "SMT.dodgeResult." dodgeResult)
+        damage=damage
+        skillAffinity=skillAffinity
+      }}
+    {{/if}}
+  </h3>
 
+  {{#unless (eq affinityResult "null")}}
+    <div>
+      {{localize (concat "SMT.affinityResult." affinityResult)}}
+    </div>
+  {{/unless}}
+
+  {{#unless (eq ailmentName "none")}}
+    <h3>{{localize
+        (concat "SMT.ailmentResult." ailmentName)
+        ailmentName=(localize (concat "SMT.ailments." ailmentName))
+        rate=rate
+      }}</h3>
+  {{/unless}}
 </div>

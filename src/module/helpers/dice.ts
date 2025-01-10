@@ -4,6 +4,8 @@ import { SmtToken, SmtTokenDocument } from "../documents/token.js";
 import { renderSuccessCheckDialog } from "./dialog.js";
 
 type SuccessLevel = "fumble" | "fail" | "success" | "crit";
+type AilmentResult = "nullify" | "avoid" | "inflict";
+type DodgeResult = "dodge" | "fumble" | "fail" | "critDowngrade" | "damage";
 
 interface SuccessCheckOptions {
   tn?: number;
@@ -220,9 +222,16 @@ function generatePowerString({
 }
 
 interface TargetData {
-  rolls?: Roll[];
+  rolls: Roll[];
+  targetName: string;
+  dodgeResult: DodgeResult;
+  affinityResult: AffinityLevel | "pierce";
+  damage: number;
+  skillAffinity: Affinity;
 }
 
+// TODO: Add different message for HP/MP recovery (dodgeResult?)
+// TODO: Don't show any damage output if it's ailment-only
 async function processTarget(
   token: SmtToken,
   skill: SmtItem,
@@ -247,13 +256,17 @@ async function processTarget(
     ? "none"
     : target.system.affinities[skillAffinity];
 
+  const healing = ["healing", "support", "unique"].includes(
+    skill.system.affinity,
+  );
+
   const pierce =
     skill.system.pierce &&
     !["weak", "none", "reflect"].includes(targetAffinity);
 
   const skipDodge =
-    // Don't dodge healing spells
-    ["healing", "support", "unique"].includes(skill.system.affinity) ||
+    // Don't dodge healing/support spells
+    healing ||
     // Don't dodge if you can't take actions
     target.system.noActions ||
     // Don't dodge if you repel the attack
@@ -268,14 +281,15 @@ async function processTarget(
     ? Math.floor(target.system.tn.dodge / 2)
     : target.system.tn.dodge;
 
-  const { checkSuccess: dodgeSuccess, checkRoll: dodgeRoll } = skipDodge
+  const { checkSuccess: dodgeResult, checkRoll: dodgeRoll } = skipDodge
     ? {}
     : await successCheck({
         tn: dodgeTN,
         autoFailThreshold: target.system.autoFailThreshold,
-    });
-  
-  const dodged = dodgeSuccess === "crit" || (dodgeSuccess === "success" && !critical);
+      });
+
+  const dodged =
+    dodgeResult === "crit" || (dodgeResult === "success" && !critical);
 
   if (dodgeRoll) {
     rolls.push(dodgeRoll);
@@ -283,16 +297,75 @@ async function processTarget(
 
   let power = totalPower;
 
+  // Check if it's a Force or phys attack and the target is stone
+  const ailmentName =
+    skill.system.ailment.name === "instantKillStone" && target.system.stone
+      ? "instantKill"
+      : skill.system.ailment.name;
+  let ailmentRate = skill.system.ailment.rate;
+
   // If the attack was a crit and the dodge was a normal success,
   // The crit is downgraded to a normal hit
-  const critDowngrade = critical && dodgeSuccess === "crit";
+  const critDowngrade = critical && dodgeResult === "crit";
 
   if (critDowngrade) {
     power = Math.floor(power / 2);
   }
 
   // If the dodge was fumbled, the power is doubled
-  if (dodgeSuccess === "fumble")
-  // Affinity
-  // Ailment
+  if (dodgeResult === "fumble") {
+    power *= 2;
+    ailmentRate *= 2;
+  }
+
+  // If the target is resistant, the power is halved
+  if (targetAffinity === "resist") {
+    power = Math.floor(power / 2);
+    ailmentRate = Math.floor(ailmentRate / 2);
+  }
+
+  // If the target is weak, the power is doubled
+  if (targetAffinity === "weak") {
+    power *= 2;
+    ailmentRate *= 2;
+  }
+
+  // Subtract the appropriate resistance
+  const resist = target.system.resist[skill.system.damageType];
+
+  const damage = Math.max(power - resist, 0);
+
+  const baseAilmentAffinity = target.system.affinities.ailment;
+  const ailmentAffinity = ["reflect", "drain"].includes(baseAilmentAffinity)
+    ? "null"
+    : baseAilmentAffinity;
+
+  const nullifyAilment =
+    ailmentAffinity === "null" ||
+    ["null", "drain", "reflect"].includes(targetAffinity);
+
+  if (ailmentAffinity === "resist") {
+    ailmentRate = Math.floor(ailmentRate / 2);
+  }
+
+  if (ailmentAffinity === "weak") {
+    ailmentRate *= 2;
+  }
+
+  // Ailment rate can't be below 5% or above 95%
+  ailmentRate = Math.clamp(ailmentRate, 5, 95);
+
+  let ailmentResult: AilmentResult = "nullify";
+
+  if (ailmentName !== "none" || !nullifyAilment) {
+    const { checkSuccess: ailmentSuccess, checkRoll: ailmentRoll } =
+      await successCheck({ tn: ailmentRate, autoFailThreshold: 95 });
+
+    ailmentResult =
+      ailmentSuccess === "crit" || ailmentSuccess === "success"
+        ? "inflict"
+        : "avoid";
+
+    rolls.push(ailmentRoll!);
+  }
 }
