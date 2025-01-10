@@ -311,10 +311,11 @@
       "checkName": "{tnName} Check",
       "cost": "Cost: {cost} {resourceType}",
       "auto": "Auto",
-      "checkResult": "{checkSuccess} ({checkTotal} vs. TN {tn}%)",
-      "powerResult": "Total Power: {power} ({powerRollString})",
+      "checkResult": "{checkTotal} vs. TN {tn}%",
+      "powerResult": "Total Power: {power}",
       "noTarget": "No target",
-      "targets": "Targets"
+      "targets": "Targets",
+      "costNotPaid": "Unable to pay cost."
     },
     "diceResult": {
       "success": "Success!",

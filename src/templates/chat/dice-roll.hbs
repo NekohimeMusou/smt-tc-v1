@@ -1,10 +1,4 @@
-{{! Example Output }}
-{{! Zio }}
-{{! Cost: 3 MP }}
-{{! Success! (57 vs. TN 81%) }}
-{{! Total Power: 30 (1d10x + 27) }}
-
-<div class="flexcol">
+<div class="smt-roll-card flexcol">
   {{! Check Label }}
   {{! e.g. "Rakukaja: Auto" or "Strength Check: TN 80%" }}
   <h3>{{name}}</h3>
@@ -17,35 +11,40 @@
         resourceType=(localize (concat "SMT.resources." resourceType))
       }}</div>
   {{/if}}
+  {{#if costPaid}}
   {{! Effect }}
   {{! From skill sheet }}
   {{#if effect}}
-    <div>{{effect}}</div>
+    {{{effect}}}
   {{/if}}
   {{! Dice Result }}
   {{! e.g. "Success!" "Critical success!" "Fumble!" }}
-  <h3>
-    {{localize
-      (ifThen auto "SMT.diceV3.auto" "SMT.diceV3.checkResult")
-      checkResult=(localize checkResult)
-      checkTotal=checkTotal
-      tn=tn
-    }}
+  <h3 class="tooltip"><span>{{localize
+        (ifThen auto "SMT.diceV3.auto" (concat "SMT.diceResult." checkSuccess))
+      }}
+      {{#unless auto}}
+        <span class="tooltip-text">{{localize
+            "SMT.diceV3.checkResult"
+            checkTotal=checkTotal
+            tn=tn
+          }}</span>
+      {{/unless}}
+    </span>
   </h3>
   {{! Power (if applicable) }}
-  {{#if hasPowerRoll}}
-    <h3>{{localize
-        "SMT.diceV3.powerResult"
-        power=power
-        powerRollString=powerRollString
-      }}</h3>
+  {{#if includePower}}
+    <h3 class="tooltip">{{localize "SMT.diceV3.powerResult" power=power}}
+      <span class="tooltip-text">{{powerRollString}}</span></h3>
   {{/if}}
   {{#unless targets}}
     {{localize "SMT.diceV3.noTarget"}}
   {{else}}
     <h3>{{localize "SMT.diceV3.targets"}}</h3>
-    {{#each targets}}
+    {{#each targets as |target|}}
       <div>{{target.name}}</div>
     {{/each}}
   {{/unless}}
+  {{else}}
+  <div>{{localize "SMT.diceV3.costNotPaid"}}</div>
+  {{/if}}
 </div>

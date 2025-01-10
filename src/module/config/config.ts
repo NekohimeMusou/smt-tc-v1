@@ -84,8 +84,8 @@ const powerBoostTypes = {
 } as const;
 
 const costTypes = {
-  hp: "HP",
-  mp: "MP",
+  hp: "SMT.resources.HP",
+  mp: "SMT.resources.MP",
 } as const;
 
 const affinities = {

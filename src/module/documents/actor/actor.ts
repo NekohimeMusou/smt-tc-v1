@@ -7,11 +7,7 @@ type StatusData = StatusEffectObject & { statuses?: Set<string> };
 
 type StatusChangeMode = "on" | "off" | "toggle";
 
-export class SmtActor extends Actor<
-  typeof ACTORMODELS,
-  SmtItem,
-  SmtActiveEffect
-> {
+export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect> {
   async changeStatus(id: SmtStatusId, mode: StatusChangeMode) {
     const originalEffect = this.effects.find((e) => e.statuses.has(id));
 
@@ -29,5 +25,18 @@ export class SmtActor extends Actor<
 
       await this.createEmbeddedDocuments("ActiveEffect", [newEffect]);
     }
+  }
+
+  async paySkillCost(cost: number, costType: CostType) {
+    if (this.system[costType].value < cost) {
+      return false;
+    }
+
+    const newVal = this.system[costType].value - cost;
+    await this.update(
+      Object.fromEntries([[`system.${costType}.value`, newVal]]),
+    );
+
+    return true;
   }
 }

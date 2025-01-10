@@ -1,6 +1,6 @@
 import { SMT } from "../../config/config.js";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
-import { simplerCheck } from "../../helpers/dice-v2.js";
+import { hitCheck } from "../../helpers/dice.js";
 import { SmtItem } from "../item/item.js";
 import { SmtActor } from "./actor.js";
 
@@ -169,7 +169,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const showDialog =
       event.shiftKey != game.settings.get("smt-tc", "invertShiftBehavior");
 
-    await simplerCheck({
+    await hitCheck({
       actor: this.actor,
       token: this.actor.token,
       tnName,
