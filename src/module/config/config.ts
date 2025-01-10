@@ -40,6 +40,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/equipment.hbs",
   "systems/smt-tc/templates/parts/actor/items.hbs",
   "systems/smt-tc/templates/parts/shared/tab-effects.hbs",
+  "systems/smt-tc/templates/parts/chat/target-roll.hbs",
 ] as const;
 
 const itemTypes = {
@@ -132,6 +133,7 @@ const ailments = {
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
   instantKill: "SMT.ailments.instantKill",
+  instantKillStone: "SMT.ailments.instantKillStone",
 } as const;
 
 const inheritanceTraits = {
@@ -168,7 +170,6 @@ const targets = {
 const diceRollResults = {
   success: "SMT.diceResult.success",
   fail: "SMT.diceResult.fail",
-  autofail: "SMT.diceResult.autofail",
   crit: "SMT.diceResult.crit",
   fumble: "SMT.diceResult.fumble",
 } as const;

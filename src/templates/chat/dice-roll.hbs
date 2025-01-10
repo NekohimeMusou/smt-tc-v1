@@ -6,7 +6,7 @@
   {{! e.g. "Cost: 12 HP" }}
   {{#if cost}}
     <div>{{localize
-        "SMT.diceV3.cost"
+        "SMT.dice.cost"
         cost=cost
         resourceType=(localize (concat "SMT.resources." resourceType))
       }}</div>
@@ -20,11 +20,11 @@
   {{! Dice Result }}
   {{! e.g. "Success!" "Critical success!" "Fumble!" }}
   <h3 class="tooltip"><span>{{localize
-        (ifThen auto "SMT.diceV3.auto" (concat "SMT.diceResult." checkSuccess))
+        (ifThen auto "SMT.dice.auto" (concat "SMT.diceResult." checkSuccess))
       }}
       {{#unless auto}}
         <span class="tooltip-text">{{localize
-            "SMT.diceV3.checkResult"
+            "SMT.dice.checkResult"
             checkTotal=checkTotal
             tn=tn
           }}</span>
@@ -33,18 +33,18 @@
   </h3>
   {{! Power (if applicable) }}
   {{#if includePower}}
-    <h3 class="tooltip">{{localize "SMT.diceV3.powerResult" power=power}}
+    <h3 class="tooltip">{{localize "SMT.dice.powerResult" power=power}}
       <span class="tooltip-text">{{powerRollString}}</span></h3>
   {{/if}}
   {{#unless targets}}
-    {{localize "SMT.diceV3.noTarget"}}
+    {{localize "SMT.dice.noTarget"}}
   {{else}}
-    <h3>{{localize "SMT.diceV3.targets"}}</h3>
+    <h3>{{localize "SMT.dice.targets"}}</h3>
     {{#each targets as |target|}}
       <div>{{target.name}}</div>
     {{/each}}
   {{/unless}}
   {{else}}
-  <div>{{localize "SMT.diceV3.costNotPaid"}}</div>
+  <div>{{localize "SMT.dice.costNotPaid"}}</div>
   {{/if}}
 </div>

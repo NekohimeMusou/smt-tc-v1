@@ -1,9 +1,9 @@
 import { SmtActor } from "../documents/actor/actor.js";
 import { SmtItem } from "../documents/item/item.js";
-import { SmtTokenDocument } from "../documents/token.js";
+import { SmtToken, SmtTokenDocument } from "../documents/token.js";
 import { renderSuccessCheckDialog } from "./dialog.js";
 
-type SuccessLevel = "fumble" | "fail" | "success" | "crit" | "autofail";
+type SuccessLevel = "fumble" | "fail" | "success" | "crit";
 
 interface SuccessCheckOptions {
   tn?: number;
@@ -16,6 +16,12 @@ interface SuccessCheckResult {
   checkRoll?: Roll;
 }
 
+interface PowerRollOptions {
+  basePower?: number;
+  critical?: boolean;
+  powerBoost?: boolean;
+}
+
 interface HitCheckData {
   tnName?: TargetNumber;
   showDialog?: boolean;
@@ -24,6 +30,8 @@ interface HitCheckData {
   token?: SmtTokenDocument;
 }
 
+// TO ADD
+//
 export async function hitCheck({
   tnName,
   actor,
@@ -37,9 +45,11 @@ export async function hitCheck({
 
   const auto = skill?.system.auto;
 
+  // Either the name of the skill, or e.g. "Strength Check"
+  // or "Negotiation Check"
   const name =
     skill?.name ??
-    game.i18n.format("SMT.diceV3.checkName", {
+    game.i18n.format("SMT.dice.checkName", {
       tnName: `${game.i18n.localize(`SMT.tnNames.${tnName}`)}`,
     });
 
@@ -57,7 +67,17 @@ export async function hitCheck({
 
   const resourceType = skill?.system.costType ?? "mp";
 
+  // Try to pay the skill cost, if any
   const costPaid = await actor.paySkillCost(cost, resourceType);
+
+  // Drop TN boosts if it's not an auto skill
+  if (!auto && costPaid) {
+    await actor.update({ "system.tnBoosts": 0 });
+  }
+
+  // Unfocus
+  const focused = actor.statuses.has("focused");
+  await actor.changeStatus("focused", "off");
 
   const effect = skill?.system.effect;
 
@@ -88,13 +108,19 @@ export async function hitCheck({
   const checkTotal = checkRoll?.total ?? 0;
 
   // You hurt yourself if you fumble
-  const includePower = skill?.system.hasPowerRoll && (success || fumble);
+  const includePower = (skill?.system.hasPowerRoll && (success || fumble))!;
 
   let power = 0;
   let powerRollString = "";
 
   if (includePower && costPaid) {
-    const basePower = skill.system.power;
+    // 1.5x base power with affinity boost (Elec Boost, Fire Boost etc)
+    const affinity = skill.system
+      .affinity as keyof typeof actor.system.elementBoosts;
+    const boost = actor.system.elementBoosts[affinity];
+    const basePower = boost
+      ? Math.floor(skill.system.power * 1.5)
+      : skill.system.power;
 
     powerRollString = generatePowerString({
       basePower,
@@ -107,9 +133,23 @@ export async function hitCheck({
     rolls.push(powerRoll);
 
     power = powerRoll.total;
+
+    // Double the power if focused
+    if (focused && skill.system.damageType === "phys") {
+      power *= 2;
+    }
+
+    // Halve the power if poisoned
+    if (actor.system.poison) {
+      power = Math.floor(power / 2);
+    }
   }
 
-  const targets = Array.from(game.user.targets);
+  const targets = skill
+    ? (Array.from(game.user.targets) as SmtToken[]).map((token) =>
+        processTarget(token, skill, critical, includePower),
+      )
+    : [];
 
   const context = {
     name,
@@ -161,21 +201,13 @@ async function successCheck({
 
   if (total >= 100) {
     checkSuccess = "fumble";
-  } else if (total >= autoFailThreshold && total <= tn) {
-    checkSuccess = "autofail";
   } else if (total <= critThreshold) {
     checkSuccess = "crit";
-  } else if (total <= tn) {
+  } else if (total <= tn && total <= autoFailThreshold) {
     checkSuccess = "success";
   }
 
   return { checkSuccess, checkRoll };
-}
-
-interface PowerRollOptions {
-  basePower?: number;
-  critical?: boolean;
-  powerBoost?: boolean;
 }
 
 function generatePowerString({
@@ -185,4 +217,82 @@ function generatePowerString({
 }: PowerRollOptions): string {
   const basePowerString = `${powerBoost ? "2" : "1"}d10x${basePower ? ` + ${basePower}` : ""}`;
   return critical ? `(${basePowerString}) * 2` : basePowerString;
+}
+
+interface TargetData {
+  rolls?: Roll[];
+}
+
+async function processTarget(
+  token: SmtToken,
+  skill: SmtItem,
+  totalPower: number,
+  critical: boolean,
+  includePower: boolean,
+): Promise<TargetData> {
+  const rolls: Roll[] = [];
+
+  const target = token.actor;
+
+  const skillAffinity = skill.system.affinity;
+  const physAffinity = target.system.affinities.phys;
+
+  // Do we ignore the target's phys affinity? e.g. Freeze
+  const ignoreAffinity =
+    target.system.ignorePhysAffinity &&
+    skillAffinity === "phys" &&
+    physAffinity !== "weak";
+
+  const targetAffinity = ignoreAffinity
+    ? "none"
+    : target.system.affinities[skillAffinity];
+
+  const pierce =
+    skill.system.pierce &&
+    !["weak", "none", "reflect"].includes(targetAffinity);
+
+  const skipDodge =
+    // Don't dodge healing spells
+    ["healing", "support", "unique"].includes(skill.system.affinity) ||
+    // Don't dodge if you can't take actions
+    target.system.noActions ||
+    // Don't dodge if you repel the attack
+    targetAffinity === "reflect" ||
+    // Don't dodge if you drain or null either, unless it pierces
+    (["drain", "null"].includes(targetAffinity) && !pierce);
+
+  const pinhole = skill.system.pinhole;
+
+  // Halve the dodge TN if the skill is Pinhole
+  const dodgeTN = pinhole
+    ? Math.floor(target.system.tn.dodge / 2)
+    : target.system.tn.dodge;
+
+  const { checkSuccess: dodgeSuccess, checkRoll: dodgeRoll } = skipDodge
+    ? {}
+    : await successCheck({
+        tn: dodgeTN,
+        autoFailThreshold: target.system.autoFailThreshold,
+    });
+  
+  const dodged = dodgeSuccess === "crit" || (dodgeSuccess === "success" && !critical);
+
+  if (dodgeRoll) {
+    rolls.push(dodgeRoll);
+  }
+
+  let power = totalPower;
+
+  // If the attack was a crit and the dodge was a normal success,
+  // The crit is downgraded to a normal hit
+  const critDowngrade = critical && dodgeSuccess === "crit";
+
+  if (critDowngrade) {
+    power = Math.floor(power / 2);
+  }
+
+  // If the dodge was fumbled, the power is doubled
+  if (dodgeSuccess === "fumble")
+  // Affinity
+  // Ailment
 }

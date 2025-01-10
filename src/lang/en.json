@@ -113,6 +113,7 @@
       "shock": "Shock",
       "curse": "Curse",
       "instantKill": "Instant Death",
+      "instantKillStone": "Instant Death if afflicted with Stone",
       "none": "None"
     },
     "buffs": {
@@ -297,17 +298,7 @@
       "dodge": "Dodge",
       "negotiation": "Negotiation"
     },
-    "dice-v2": {
-      "checkName": "{tnName} Check",
-      "tnLabel": "TN {tn}%",
-      "costLabel": "Cost: {cost} {resourceType}",
-      "auto": "Auto",
-      "checkResult": "{checkResult} ({checkTotal} vs. TN {tn}%)",
-      "powerResult": "Total Power: {power} ({rollString})",
-      "targets": "Targets",
-      "noTarget": "No target"
-    },
-    "diceV3": {
+    "dice": {
       "checkName": "{tnName} Check",
       "cost": "Cost: {cost} {resourceType}",
       "auto": "Auto",
@@ -315,48 +306,19 @@
       "powerResult": "Total Power: {power}",
       "noTarget": "No target",
       "targets": "Targets",
-      "costNotPaid": "Unable to pay cost."
+      "costNotPaid": "Unable to pay cost.",
+      "modifier": "Modifier",
+      "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack."
     },
     "diceResult": {
       "success": "Success!",
       "fail": "Failed!",
-      "autofail": "Autofail! ({threshold}-99)",
       "crit": "Critical success!",
       "fumble": "Fumble!"
     },
-    "dice": {
-      "skillCheckTitle": "{checkName}: TN {tn}%",
-      "skillCost": "Cost: {cost} {resource}",
-      "statCheckLabel": "{stat} Check",
-      "autoCheckLabel": "{checkName}: Auto",
-      "ailmentCheckTitle": "{ailmentLabel} rate: {ailmentRate}%",
-      "ailmentNullified": "Ailment nullified!",
-      "ailmentMissed": "{target} avoided {ailmentName}!",
-      "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power}",
-      "modifier": "Modifier",
-      "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
-      "totalPower": "Total Power: {power}",
-      "affinityMessage": "{name}: {targetAffinity}",
-      "powerMsg": {
-        "damage": "{damage} {affinity} damage!",
-        "healing": "Recovers {damage} HP!"
-      },
-      "resistMsg": "{damageType} Resist: {resist}",
-      "critDowngrade": "Critical hit downgraded!",
-      "ailment": {
-        "hit": "{ailmentName} inflicted! ({rate}%)",
-        "miss": "{ailmentName} avoided! ({rate}%)"
-      },
-      "dodge": {
-        "crit": "{targetName} critically dodged! TN: {tn}%",
-        "success": "{targetName} dodged! TN: {tn}%",
-        "fail": "{targetName} failed to dodge! TN: {tn}%",
-        "autofail": "{targetName} failed to dodge! TN: {tn}%",
-        "fumble": "{targetName} fumbled a dodge! TN: {tn}%"
-      },
-      "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
-      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
+    "dodgeResult": {
+      "dodge": "Dodged!",
+      "fumble": "Dodge Fumbled!"
     },
     "ailmentMsg": {
       "cursed": "CURSED! Something bad happens!",
@@ -376,7 +338,8 @@
       "drain": "DRAIN!",
       "null": "NULL!",
       "resist": "RESIST!",
-      "weak": "WEAK!"
+      "weak": "WEAK!",
+      "pierce": "PIERCE!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",
