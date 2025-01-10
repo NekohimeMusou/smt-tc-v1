@@ -4,7 +4,7 @@ declare interface FoundryDataFields {
 	ArrayField: typeof ArrayFieldClass;
 	BooleanField: typeof BooleanFieldClass;
 	ColorField: typeof ColorFieldClass;
-	// EmbeddedDataField: any;
+	EmbeddedDataField: typeof EmbeddedDataField;
 	// EmbeddedCollectionField: any;
 	// EmbeddedCollectionDeltaField: any;
 	//EmbeddedDocumentField: any
@@ -33,7 +33,7 @@ class NumberField extends FoundryDMField<number> {
 }
 
 class EmbeddedDataField<T extends typeof DataModelClass> extends FoundryDMField<T> {
-	constructor(dataModelClass: T, options?: DataFieldOptions, context?: DataFieldContext);
+	constructor(dataModelClass: T);
 }
 
 class AlphaFieldClass extends NumberField {
@@ -64,8 +64,8 @@ declare class StringFieldClass<const T extends string= string> extends FoundryDM
 
 }
 
-class FilePathField extends StringFieldClass {
-	contructor (options?: FilePathFieldOptions);
+class FilePathField<T extends string = string> extends StringFieldClass<T> {
+	constructor (options?: FilePathFieldOptions);
 
 }
 
@@ -86,7 +86,7 @@ class SchemaField<T> extends FoundryDMField<T> {
 }
 
 interface FilePathFieldOptions extends StringFieldOptions<string> {
-	categories?: string[];
+	categories: (keyof typeof CONST.FILE_CATEGORIES)[];
 	base64?: boolean;
 	wildcard?: boolean;
 }
@@ -114,11 +114,6 @@ declare interface StringFieldOptions<const T extends string> extends DataFieldOp
 	blank ?: boolean;
 	trim ?: boolean;
 	choices?: readonly T[] | Record < T, string> | (()=> T[]);
-}
-
-interface DataFieldContext {
-	name: string;
-	parent: FoundryDMField;
 }
 
 type NoInfer<A>= [A][A extends any ? 0 : never]

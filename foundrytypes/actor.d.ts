@@ -41,12 +41,18 @@ declare class Actor<const T extends SchemaDict = any, ItemType extends Item<any,
 
 type SystemDataObjectFromDM<T extends typeof foundry.abstract.DataModel> =
 SystemDataObject<ReturnType<T['defineSchema']>>;
+
 type SystemDataObject<T extends SchemaReturnObject> = {[name in keyof T]: SchemaConvert<T[name]>};
 
-type SchemaConvert<F> = F extends FoundryDMField<infer T>
-	? T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
-	:F;
+// type SchemaConvert<F> = F extends FoundryDMField<infer T>
+// 	? T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
+// 	:F;
 
+type SchemaConvert<F> = F extends FoundryDMField<infer T>
+	// ? T extends typeof DataModelClass ? SystemDataObjectFromDM<T>
+	? T extends typeof DataModelClass ? SystemDataObjectFromDM<T>
+	: T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
+	:F;
 
 //Components to help with converting
 
