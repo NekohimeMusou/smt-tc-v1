@@ -1,7 +1,7 @@
 <div class="smt-roll-card flexcol">
   {{! Check Label }}
   {{! e.g. "Rakukaja: Auto" or "Strength Check: TN 80%" }}
-  <h3>{{name}}</h3>
+  <h2>{{name}}</h2>
   {{! Cost }}
   {{! e.g. "Cost: 12 HP" }}
   {{#if cost}}
@@ -13,7 +13,6 @@
   {{/if}}
   {{#if costPaid}}
   {{! Effect }}
-  {{! From skill sheet }}
   {{#if effect}}
     {{{effect}}}
   {{/if}}
@@ -36,14 +35,12 @@
     <h3 class="tooltip">{{localize "SMT.dice.powerResult" power=power}}
       <span class="tooltip-text">{{powerRollString}}</span></h3>
   {{/if}}
-  {{#unless targets}}
-    {{localize "SMT.dice.noTarget"}}
-  {{else}}
-    <h3>{{localize "SMT.dice.targets"}}</h3>
-    {{#each targets as |target|}}
-      <div>{{target.name}}</div>
+  {{#if (and targets (or (eq checkSuccess "success") (eq checkSuccess "crit")))}}
+  <h2>{{localize "SMT.dice.targets"}}</h2>
+    {{#each targets}}
+      {{> "systems/smt-tc/templates/parts/chat/target-roll.hbs" this}}
     {{/each}}
-  {{/unless}}
+  {{/if}}
   {{else}}
   <div>{{localize "SMT.dice.costNotPaid"}}</div>
   {{/if}}

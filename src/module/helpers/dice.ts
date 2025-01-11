@@ -72,11 +72,6 @@ export async function hitCheck({
   // Try to pay the skill cost, if any
   const costPaid = await actor.paySkillCost(cost, resourceType);
 
-  // Drop TN boosts if it's not an auto skill
-  if (!auto && costPaid) {
-    await actor.update({ "system.tnBoosts": 0 });
-  }
-
   // Unfocus
   const focused = actor.statuses.has("focused");
   await actor.changeStatus("focused", "off");
@@ -84,6 +79,11 @@ export async function hitCheck({
   const effect = skill?.system.effect;
 
   const tn = (skill?.system.tn ?? actor.system.tn?.[tnName!] ?? 1) + (mod ?? 0);
+
+  // Drop TN boosts if it's not an auto skill
+  if (!auto && costPaid) {
+    await actor.update({ "system.tnBoosts": 0 });
+  }
 
   const autoFailThreshold =
     skill?.system.autoFailThreshold ?? actor.system.autoFailThreshold;
@@ -147,11 +147,26 @@ export async function hitCheck({
     }
   }
 
-  const targets = skill
-    ? (Array.from(game.user.targets) as SmtToken[]).map((token) =>
-        processTarget(token, skill, critical, includePower),
-      )
-    : [];
+  const targets =
+    skill && success
+      ? await Promise.all(
+          (Array.from(game.user.targets) as SmtToken[]).map(
+            async (token) =>
+              await processTarget(
+                token,
+                skill,
+                power,
+                critical,
+                includePower,
+                skill.system.ailment.name !== "none",
+                skill.system.ailment.name,
+                skill.system.ailment.rate,
+              ),
+          ),
+        )
+      : [];
+
+  targets.forEach((target) => rolls.push(...target.targetRolls));
 
   const context = {
     name,
@@ -221,15 +236,6 @@ function generatePowerString({
   return critical ? `(${basePowerString}) * 2` : basePowerString;
 }
 
-interface TargetData {
-  rolls: Roll[];
-  targetName: string;
-  dodgeResult: DodgeResult;
-  affinityResult: AffinityLevel | "pierce";
-  damage: number;
-  skillAffinity: Affinity;
-}
-
 // TODO: Add different message for HP/MP recovery (dodgeResult?)
 // TODO: Don't show any damage output if it's ailment-only
 async function processTarget(
@@ -238,8 +244,11 @@ async function processTarget(
   totalPower: number,
   critical: boolean,
   includePower: boolean,
+  includeAilment: boolean,
+  ailmentName: Ailment = "none",
+  ailmentRate = 5,
 ): Promise<TargetData> {
-  const rolls: Roll[] = [];
+  const targetRolls: Roll[] = [];
 
   const target = token.actor;
 
@@ -281,73 +290,76 @@ async function processTarget(
     ? Math.floor(target.system.tn.dodge / 2)
     : target.system.tn.dodge;
 
-  const { checkSuccess: dodgeResult, checkRoll: dodgeRoll } = skipDodge
+  const { checkSuccess: dodgeRollResult, checkRoll: dodgeRoll } = skipDodge
     ? {}
     : await successCheck({
         tn: dodgeTN,
         autoFailThreshold: target.system.autoFailThreshold,
       });
 
-  const dodged =
-    dodgeResult === "crit" || (dodgeResult === "success" && !critical);
+  const dodgeResult = successToDodge(dodgeRollResult ?? "fail", critical);
+  let dodgeRollTotal = 0;
 
   if (dodgeRoll) {
-    rolls.push(dodgeRoll);
+    targetRolls.push(dodgeRoll);
+    dodgeRollTotal = dodgeRoll.total;
   }
 
   let power = totalPower;
 
-  // Check if it's a Force or phys attack and the target is stone
-  const ailmentName =
-    skill.system.ailment.name === "instantKillStone" && target.system.stone
-      ? "instantKill"
-      : skill.system.ailment.name;
-  let ailmentRate = skill.system.ailment.rate;
-
   // If the attack was a crit and the dodge was a normal success,
   // The crit is downgraded to a normal hit
-  const critDowngrade = critical && dodgeResult === "crit";
+  const critDowngrade = critical && dodgeRollResult === "success";
 
-  if (critDowngrade) {
-    power = Math.floor(power / 2);
+  if (includePower) {
+    // Halve the power if a crit was downgraded
+    if (critDowngrade) {
+      power = Math.floor(power / 2);
+    }
+
+    // Double the power if the dodge was fumbled
+    if (dodgeRollResult === "fumble") {
+      power *= 2;
+      ailmentRate *= 2;
+    }
+
+    // Halve the power if the target has resistance
+    if (targetAffinity === "resist") {
+      power = Math.floor(power / 2);
+      ailmentRate = Math.floor(ailmentRate / 2);
+    }
+
+    // Double the power if the target has a weakness
+    if (targetAffinity === "weak") {
+      power *= 2;
+      ailmentRate *= 2;
+    }
   }
 
-  // If the dodge was fumbled, the power is doubled
-  if (dodgeResult === "fumble") {
-    power *= 2;
-    ailmentRate *= 2;
-  }
-
-  // If the target is resistant, the power is halved
-  if (targetAffinity === "resist") {
-    power = Math.floor(power / 2);
-    ailmentRate = Math.floor(ailmentRate / 2);
-  }
-
-  // If the target is weak, the power is doubled
-  if (targetAffinity === "weak") {
-    power *= 2;
-    ailmentRate *= 2;
-  }
-
-  // Subtract the appropriate resistance
-  const resist = target.system.resist[skill.system.damageType];
+  const resist =
+    critical && !critDowngrade
+      ? 0
+      : target.system.resist[skill.system.damageType];
 
   const damage = Math.max(power - resist, 0);
 
+  // Get the target's AILMENT affinity
   const baseAilmentAffinity = target.system.affinities.ailment;
   const ailmentAffinity = ["reflect", "drain"].includes(baseAilmentAffinity)
     ? "null"
     : baseAilmentAffinity;
 
+  // Nullify the ailment if the target is immune to ailments OR the attack affinity
   const nullifyAilment =
     ailmentAffinity === "null" ||
     ["null", "drain", "reflect"].includes(targetAffinity);
 
+  // Elemental resistance halves damage BEFORE applying resists
   if (ailmentAffinity === "resist") {
     ailmentRate = Math.floor(ailmentRate / 2);
   }
 
+  // Elemental weakness doubles damage BEFORE resists
   if (ailmentAffinity === "weak") {
     ailmentRate *= 2;
   }
@@ -357,7 +369,9 @@ async function processTarget(
 
   let ailmentResult: AilmentResult = "nullify";
 
-  if (ailmentName !== "none" || !nullifyAilment) {
+  let ailmentRollTotal = 0;
+
+  if (includeAilment && ailmentName !== "none" && !nullifyAilment) {
     const { checkSuccess: ailmentSuccess, checkRoll: ailmentRoll } =
       await successCheck({ tn: ailmentRate, autoFailThreshold: 95 });
 
@@ -366,6 +380,66 @@ async function processTarget(
         ? "inflict"
         : "avoid";
 
-    rolls.push(ailmentRoll!);
+    targetRolls.push(ailmentRoll!);
+    ailmentRollTotal = ailmentRoll?.total ?? 0;
   }
+
+  return {
+    targetName: target.name,
+    dodgeTN,
+    dodgeResult,
+    dodgeRollTotal,
+    affinityResult: pierce ? "pierce" : targetAffinity,
+    damage,
+    skillAffinity,
+    ailmentName,
+    ailmentRate,
+    ailmentResult,
+    ailmentRollTotal,
+    healing,
+    includePower,
+    includeAilment,
+    targetRolls,
+  };
+}
+
+interface TargetData {
+  targetRolls: Roll[];
+  targetName: string;
+  dodgeTN: number;
+  dodgeResult: DodgeResult;
+  dodgeRollTotal: number;
+  affinityResult: AffinityLevel | "pierce";
+  damage: number;
+  skillAffinity: Affinity;
+  ailmentName: Ailment;
+  ailmentRate: number;
+  ailmentResult: AilmentResult;
+  ailmentRollTotal: number;
+  healing: boolean;
+  includePower: boolean;
+  includeAilment: boolean;
+}
+
+function successToDodge(
+  successLevel: SuccessLevel,
+  critical: boolean,
+): DodgeResult {
+  if (successLevel === "crit") {
+    return "dodge";
+  }
+
+  if (successLevel === "success") {
+    if (critical) {
+      return "critDowngrade";
+    }
+
+    return "dodge";
+  }
+
+  if (successLevel === "fumble") {
+    return "fumble";
+  }
+
+  return "damage";
 }

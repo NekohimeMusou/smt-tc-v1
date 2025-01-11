@@ -303,13 +303,13 @@
       "cost": "Cost: {cost} {resourceType}",
       "auto": "Auto",
       "checkResult": "{checkTotal} vs. TN {tn}%",
+      "dodgeResult": "Dodge check: {checkResult}",
       "powerResult": "Total Power: {power}",
-      "noTarget": "No target",
       "targets": "Targets",
       "costNotPaid": "Unable to pay cost.",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
-      "recovery": "recovers {damage} {resource}!"
+      "healing": "recovers {damage} HP!"
     },
     "diceResult": {
       "success": "Success!",
@@ -319,10 +319,10 @@
     },
     "dodgeResult": {
       "dodge": "Dodged!",
-      "fumble": "Dodge fumbled! {damage} {affinity} damage!",
+      "fumble": "Dodge fumbled! {damage} {skillAffinity} damage!",
       "fail": "Dodge failed!",
-      "critDowngrade": "Crit downgraded! {damage} {affinity} damage!",
-      "damage": "{damage} {affinity} damage!"
+      "critDowngrade": "Crit downgraded! {damage} {skillAffinity} damage!",
+      "damage": "{damage} {skillAffinity} damage!"
     },
     "ailmentResult": {
       "avoid": "{ailmentName} avoided: {rate}%",
