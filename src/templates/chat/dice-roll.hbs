@@ -35,7 +35,7 @@
     <h3 class="tooltip">{{localize "SMT.dice.powerResult" power=power}}
       <span class="tooltip-text">{{powerRollString}}</span></h3>
   {{/if}}
-  {{#if (and targets (or (eq checkSuccess "success") (eq checkSuccess "crit")))}}
+  {{#if (and targets (or healing (eq checkSuccess "success") (eq checkSuccess "crit")))}}
   <h2>{{localize "SMT.dice.targets"}}</h2>
     {{#each targets}}
       {{> "systems/smt-tc/templates/parts/chat/target-roll.hbs" this}}

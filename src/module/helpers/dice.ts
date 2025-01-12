@@ -128,7 +128,8 @@ export async function hitCheck({
   const checkTotal = checkRoll?.total ?? 0;
 
   // You hurt yourself if you fumble
-  const includePower = (skill?.system.hasPowerRoll && (success || fumble))!;
+  const includePower = (skill?.system.hasPowerRoll &&
+    (success || fumble || auto))!;
 
   let power = 0;
   let powerRollString = "";
@@ -165,6 +166,10 @@ export async function hitCheck({
     }
   }
 
+  const healing = ["healing", "support", "unique"].includes(
+    skill?.system.affinity ?? "",
+  );
+
   const targets =
     skill && success
       ? await Promise.all(
@@ -176,7 +181,8 @@ export async function hitCheck({
                 power,
                 critical,
                 includePower,
-                skill.system.ailment.name !== "none",
+                healing,
+                skill?.system.ailment.name !== "none",
                 skill.system.ailment.name,
                 skill.system.ailment.rate,
               ),
@@ -193,6 +199,7 @@ export async function hitCheck({
     costPaid,
     effect,
     auto,
+    healing,
     checkSuccess,
     checkTotal,
     includePower,
@@ -262,9 +269,10 @@ async function processTarget(
   totalPower: number,
   critical: boolean,
   includePower: boolean,
+  healing: boolean,
   includeAilment: boolean,
-  ailmentName: Ailment = "none",
-  baseAilmentRate = 5,
+  ailmentName: Ailment,
+  baseAilmentRate: number,
 ): Promise<TargetData> {
   const targetRolls: Roll[] = [];
 
@@ -282,10 +290,6 @@ async function processTarget(
   const targetAffinity = ignoreAffinity
     ? "none"
     : target.system.affinities[skillAffinity];
-
-  const healing = ["healing", "support", "unique"].includes(
-    skill.system.affinity,
-  );
 
   const pierce =
     skill.system.pierce &&
@@ -356,7 +360,7 @@ async function processTarget(
   }
 
   const resist =
-    critical && !critDowngrade
+    (critical && !critDowngrade) || healing
       ? 0
       : target.system.resist[skill.system.damageType];
 
