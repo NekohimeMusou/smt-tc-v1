@@ -1,5 +1,5 @@
 import { SmtToken } from "../documents/token.js";
-import { renderBuffDialog } from "./dialog.js";
+import { renderAwardDialog, renderBuffDialog } from "./dialog.js";
 
 export async function showBuffDialog() {
   const {
@@ -63,5 +63,27 @@ export async function showBuffDialog() {
     };
 
     await token.actor.update(updateData);
+  }
+}
+
+export async function showAwardDialog() {
+  if (!game.user.isGM) return;
+
+  const { xp, macca, cancelled } = await renderAwardDialog();
+
+  if (cancelled) return;
+
+  for (const tk of canvas.tokens.controlled) {
+    const token = tk as SmtToken;
+
+    if (!token.isOwner) return;
+
+    const newXP = token.actor.system.xp + xp!;
+    const newMacca = token.actor.system.macca + macca!;
+
+    await token.actor.update({
+      "system.xp": newXP,
+      "system.macca": newMacca,
+    });
   }
 }

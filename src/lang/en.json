@@ -355,7 +355,8 @@
       "baseMagLabel": "Base Mag",
       "hasCritBoost": "Crit boost?",
       "confirmDeleteDialogTitle": "Delete Item",
-      "confirmDeletePrompt": "Really delete {name}?"
+      "confirmDeletePrompt": "Really delete {name}?",
+      "combatAwardTitle": "Award XP and Macca"
     },
     "settings": {
       "invertShiftBehavior": {

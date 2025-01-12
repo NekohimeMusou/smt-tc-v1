@@ -1,4 +1,4 @@
-import { showBuffDialog } from "../helpers/macro.js";
+import { showAwardDialog, showBuffDialog } from "../helpers/macro.js";
 
 declare global {
   type CharacterClass = keyof typeof charClasses;
@@ -259,4 +259,5 @@ export const SMT = {
   tnNames,
   defaultAutofailThreshold: 96,
   showBuffDialog,
+  showAwardDialog,
 } as const;

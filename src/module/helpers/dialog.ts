@@ -13,6 +13,11 @@ interface DialogHTMLElement extends HTMLElement {
   mod?: { value?: string };
 }
 
+interface AwardHTMLElement extends HTMLElement {
+  xp?: { value?: string };
+  macca?: { value?: string };
+}
+
 interface BuffHTMLElement extends HTMLElement {
   physPowerBuff?: { value?: string };
   physPowerDebuff?: { value?: string };
@@ -132,6 +137,52 @@ export async function renderBuffDialog(): Promise<BuffDialogResult> {
                   parseInt(
                     ($(html)[0].querySelector("form") as BuffHTMLElement)
                       ?.resistDebuff?.value ?? "0",
+                  ) || 0,
+              }),
+          },
+          cancel: {
+            label: "Cancel",
+            callback: () => resolve({ cancelled: true }),
+          },
+        },
+        default: "ok",
+        close: () => resolve({ cancelled: true }),
+      },
+      {},
+    ).render(true),
+  );
+}
+
+interface AwardDialogResult {
+  xp?: number;
+  macca?: number;
+  cancelled?: boolean;
+}
+
+export async function renderAwardDialog(): Promise<AwardDialogResult> {
+  const template = "systems/smt-tc/templates/dialog/combat-award-dialog.hbs";
+
+  const content = await renderTemplate(template, {});
+
+  return new Promise((resolve) =>
+    new Dialog(
+      {
+        title: game.i18n.localize("SMT.dialog.combatAwardTitle"),
+        content,
+        buttons: {
+          ok: {
+            label: "OK",
+            callback: (html) =>
+              resolve({
+                xp:
+                  parseInt(
+                    ($(html)[0].querySelector("form") as AwardHTMLElement)?.xp
+                      ?.value ?? "0",
+                  ) || 0,
+                macca:
+                  parseInt(
+                    ($(html)[0].querySelector("form") as AwardHTMLElement)
+                      ?.macca?.value ?? "0",
                   ) || 0,
               }),
           },
