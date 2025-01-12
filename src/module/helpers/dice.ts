@@ -32,6 +32,24 @@ interface HitCheckData {
   token?: SmtTokenDocument;
 }
 
+interface TargetData {
+  targetRolls: Roll[];
+  targetName: string;
+  dodgeTN: number;
+  dodgeResult: DodgeResult;
+  dodgeRollTotal: number;
+  affinityResult: AffinityLevel | "pierce";
+  damage: number;
+  skillAffinity: Affinity;
+  ailmentName: Ailment;
+  ailmentRate: number;
+  ailmentResult: AilmentResult;
+  ailmentRollTotal: number;
+  healing: boolean;
+  includePower: boolean;
+  includeAilment: boolean;
+}
+
 // TO ADD
 //
 export async function hitCheck({
@@ -45,7 +63,7 @@ export async function hitCheck({
     return ui.notifications.error("Missing Actor in hitCheck");
   }
 
-  const auto = skill?.system.auto;
+  const auto = skill?.system.auto ?? false;
 
   // Either the name of the skill, or e.g. "Strength Check"
   // or "Negotiation Check"
@@ -97,7 +115,7 @@ export async function hitCheck({
         })
       : {};
 
-  const success = checkSuccess === "crit" || checkSuccess === "success";
+  const success = checkSuccess === "crit" || checkSuccess === "success" || auto;
   const critical = checkSuccess === "crit";
   const fumble = checkSuccess === "fumble";
 
@@ -402,24 +420,6 @@ async function processTarget(
     includeAilment,
     targetRolls,
   };
-}
-
-interface TargetData {
-  targetRolls: Roll[];
-  targetName: string;
-  dodgeTN: number;
-  dodgeResult: DodgeResult;
-  dodgeRollTotal: number;
-  affinityResult: AffinityLevel | "pierce";
-  damage: number;
-  skillAffinity: Affinity;
-  ailmentName: Ailment;
-  ailmentRate: number;
-  ailmentResult: AilmentResult;
-  ailmentRollTotal: number;
-  healing: boolean;
-  includePower: boolean;
-  includeAilment: boolean;
 }
 
 function successToDodge(
