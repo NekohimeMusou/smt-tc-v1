@@ -1,0 +1,56 @@
+{{! e.g. }}
+{{! High Pixie: 8 damage }}
+{{! RESIST! }}
+{{! Shock Avoided: 5% }}
+{{! Demon B: NULL! }}
+
+<div class="flexcol">
+  <h3>
+    {{targetName}}:
+
+    {{#if includePower}}
+      {{#if healing}}
+        {{localize "SMT.dice.healing" damage=damage}}
+      {{else}}
+        {{#if (eq affinityResult "null")}}
+          {{localize "SMT.affinityResult.null"}}
+        {{else}}
+          <span class="tooltip">
+            {{localize
+              (concat "SMT.dodgeResult." dodgeResult)
+              damage=damage
+              skillAffinity=skillAffinity
+            }}<span class="tooltip-text">{{localize
+                "SMT.dice.dodgeResult"
+                checkResult=(localize
+                  "SMT.dice.checkResult" checkTotal=dodgeRollTotal tn=dodgeTN
+                )
+              }}</span></span>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  </h3>
+
+  {{#unless
+    (or
+      (not includePower) (eq affinityResult "null") (eq affinityResult "none") (eq dodgeResult "dodge")
+    )
+  }}
+    <span>
+      {{localize (concat "SMT.affinityResult." affinityResult)}}
+    </span>
+  {{/unless}}
+
+  {{#if (and includeAilment (ne ailmentName "none") (ne dodgeResult "dodge"))}}
+    <div class="tooltip">{{localize
+        (concat "SMT.ailmentResult." ailmentResult)
+        ailmentName=(localize (concat "SMT.ailments." ailmentName))
+        rate=ailmentRate
+      }}
+      <span class="tooltip-text">{{localize
+          "SMT.dice.checkResult"
+          checkTotal=ailmentRollTotal
+          tn=ailmentRate
+        }}</span></div>
+  {{/if}}
+</div>

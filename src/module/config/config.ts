@@ -9,13 +9,14 @@ declare global {
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
   type PowerBoostType = keyof typeof powerBoostTypes;
-  type SkillCostType = keyof typeof costTypes;
+  type CostType = keyof typeof costTypes;
   type Target = keyof typeof targets;
   type AccuracyStat = keyof typeof accuracyStats;
   type DiceRollResult = keyof typeof diceRollResults;
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
   type DerivedTN = (typeof derivedTNs)[number];
+  type TargetNumber = keyof typeof tnNames;
   type EquipSlot = keyof typeof equipSlots;
 }
 
@@ -39,6 +40,7 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/equipment.hbs",
   "systems/smt-tc/templates/parts/actor/items.hbs",
   "systems/smt-tc/templates/parts/shared/tab-effects.hbs",
+  "systems/smt-tc/templates/parts/chat/target-roll.hbs",
 ] as const;
 
 const itemTypes = {
@@ -69,7 +71,6 @@ const accuracyStats = {
   vi: "SMT.stats.vi",
   ag: "SMT.stats.ag",
   lu: "SMT.stats.lu",
-  auto: "SMT.stats.auto",
 } as const;
 
 const damageTypes = {
@@ -84,8 +85,8 @@ const powerBoostTypes = {
 } as const;
 
 const costTypes = {
-  hp: "HP",
-  mp: "MP",
+  hp: "SMT.resources.HP",
+  mp: "SMT.resources.MP",
 } as const;
 
 const affinities = {
@@ -132,6 +133,7 @@ const ailments = {
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
   instantKill: "SMT.ailments.instantKill",
+  instantKillStone: "SMT.ailments.instantKillStone",
 } as const;
 
 const inheritanceTraits = {
@@ -168,7 +170,6 @@ const targets = {
 const diceRollResults = {
   success: "SMT.diceResult.success",
   fail: "SMT.diceResult.fail",
-  autofail: "SMT.diceResult.autofail",
   crit: "SMT.diceResult.crit",
   fumble: "SMT.diceResult.fumble",
 } as const;
@@ -187,6 +188,19 @@ const derivedTNStats = {
   vi: "save",
   ag: "dodge",
   lu: "negotiation",
+} as const;
+
+const tnNames = {
+  st: "SMT.tnNames.st",
+  ma: "SMT.tnNames.ma",
+  vi: "SMT.tnNames.vi",
+  ag: "SMT.tnNames.ag",
+  lu: "SMT.tnNames.lu",
+  physAtk: "SMT.tnNames.physAtk",
+  magAtk: "SMT.tnNames.magAtk",
+  save: "SMT.tnNames.save",
+  dodge: "SMT.tnNames.dodge",
+  negotiation: "SMT.tnNames.negotiation",
 } as const;
 
 const equipSlots = {
@@ -219,7 +233,7 @@ const statusIds = {
   sukunda: "SMT.debuffSpells.sukunda",
   defending: "SMT.characterMods.defending",
   focused: "SMT.characterMods.focused",
-};
+} as const;
 
 export const SMT = {
   charClasses,
@@ -242,6 +256,7 @@ export const SMT = {
   derivedTNStats,
   equipSlots,
   statusIds,
+  tnNames,
   defaultAutofailThreshold: 96,
   showBuffDialog,
 } as const;

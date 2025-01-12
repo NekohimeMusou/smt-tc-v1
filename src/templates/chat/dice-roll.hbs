@@ -1,0 +1,47 @@
+<div class="smt-roll-card flexcol">
+  {{! Check Label }}
+  {{! e.g. "Rakukaja: Auto" or "Strength Check: TN 80%" }}
+  <h2>{{name}}</h2>
+  {{! Cost }}
+  {{! e.g. "Cost: 12 HP" }}
+  {{#if cost}}
+    <div>{{localize
+        "SMT.dice.cost"
+        cost=cost
+        resourceType=(localize (concat "SMT.resources." resourceType))
+      }}</div>
+  {{/if}}
+  {{#if costPaid}}
+  {{! Effect }}
+  {{#if effect}}
+    {{{effect}}}
+  {{/if}}
+  {{! Dice Result }}
+  {{! e.g. "Success!" "Critical success!" "Fumble!" }}
+  <h3 class="tooltip"><span>{{localize
+        (ifThen auto "SMT.dice.auto" (concat "SMT.diceResult." checkSuccess))
+      }}
+      {{#unless auto}}
+        <span class="tooltip-text">{{localize
+            "SMT.dice.checkResult"
+            checkTotal=checkTotal
+            tn=tn
+          }}</span>
+      {{/unless}}
+    </span>
+  </h3>
+  {{! Power (if applicable) }}
+  {{#if includePower}}
+    <h3 class="tooltip">{{localize "SMT.dice.powerResult" power=power}}
+      <span class="tooltip-text">{{powerRollString}}</span></h3>
+  {{/if}}
+  {{#if (and targets (or (eq checkSuccess "success") (eq checkSuccess "crit")))}}
+  <h2>{{localize "SMT.dice.targets"}}</h2>
+    {{#each targets}}
+      {{> "systems/smt-tc/templates/parts/chat/target-roll.hbs" this}}
+    {{/each}}
+  {{/if}}
+  {{else}}
+  <div>{{localize "SMT.dice.costNotPaid"}}</div>
+  {{/if}}
+</div>

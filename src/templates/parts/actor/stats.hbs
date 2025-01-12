@@ -41,11 +41,18 @@
         {{!-- Total Stat --}}
         <div class="item-prop">{{value}}</div>
         {{!-- Stat TN --}}
-        <div class="item-prop roll-highlight roll-stat" data-tn-type="tn" data-accuracy-stat="{{@key}}">{{lookup ../system.tn @key}}%</div>
+        <div class="item-prop roll-highlight roll-stat" data-tn-name="{{@key}}">{{lookup ../system.tn @key}}%</div>
         {{!-- Special TN label --}}
         <div class="item-prop item-name">{{localize (concat "SMT.derivedTN." @key)}}</div>
         {{!-- Special TN --}}
-        <div class="item-prop roll-highlight roll-stat" data-tn-type="derivedTN" data-accuracy-stat="{{@key}}">
+        <div class="item-prop roll-highlight roll-stat"
+          {{#if (eq @key "st")}}data-tn-name="physAtk"{{/if}}
+          {{#if (eq @key "ma")}}data-tn-name="magAtk"{{/if}}
+          {{#if (eq @key "vi")}}data-tn-name="save"{{/if}}
+          {{#if (eq @key "ag")}}data-tn-name="dodge"{{/if}}
+          {{#if (eq @key "lu")}}data-tn-name="negotiation"{{/if}}
+
+        >
           {{#if (eq @key "st")}}{{../system.tn.st}}%{{/if}}
           {{#if (eq @key "ma")}}{{../system.tn.ma}}%{{/if}}
           {{#if (eq @key "vi")}}{{../system.tn.save}}%{{/if}}

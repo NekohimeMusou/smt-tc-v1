@@ -19,7 +19,7 @@
   ],
 
   "esmodules": ["module/smt-tc.js"],
-  "styles": ["styles/smt-tc.css"],
+  "styles": ["styles/smt-tc.css", "styles/smt-tc-supplemental.css"],
   "languages": [
     {
       "lang": "en",

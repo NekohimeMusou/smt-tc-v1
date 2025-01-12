@@ -13,8 +13,8 @@ export function attackDataFields() {
     }),
     accuracyStat: new fields.StringField({
       choices: CONFIG.SMT.accuracyStats,
-      initial: "st",
     }),
+    auto: new fields.BooleanField(),
     target: new fields.StringField({
       choices: CONFIG.SMT.targets,
       initial: "one",
@@ -34,7 +34,7 @@ export function attackDataFields() {
       rate: new fields.NumberField({ integer: true, initial: 0 }),
     }),
     // Exclusively required for Deadly Fury. Doesn't stack with Might
-    critBoost: new fields.BooleanField(),
+    innateCritBoost: new fields.BooleanField(),
     pinhole: new fields.BooleanField(),
     innatePierce: new fields.BooleanField(),
   } as const;

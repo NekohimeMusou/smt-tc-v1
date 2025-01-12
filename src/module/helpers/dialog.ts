@@ -1,5 +1,5 @@
 interface SuccessCheckDialogData {
-  checkName?: string;
+  name?: string;
   // Extra message to show
   hint?: string;
 }
@@ -37,14 +37,14 @@ interface BuffDialogResult {
 }
 
 export async function renderSuccessCheckDialog({
-  checkName = "",
+  name = "",
   hint = "",
 }: SuccessCheckDialogData = {}): Promise<ModifierDialogResult> {
   const template =
     "systems/smt-tc/templates/dialog/success-modifier-dialog.hbs";
 
   const content = await renderTemplate(template, {
-    checkName,
+    name,
     hint,
   });
 

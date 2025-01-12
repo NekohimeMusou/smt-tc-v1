@@ -113,6 +113,7 @@
       "shock": "Shock",
       "curse": "Curse",
       "instantKill": "Instant Death",
+      "instantKillStone": "Instant Death if afflicted with Stone",
       "none": "None"
     },
     "buffs": {
@@ -167,7 +168,8 @@
     "resources": {
       "hp": "HP",
       "mp": "MP",
-      "fp": "FP"
+      "fp": "FP",
+      "bullets": "Bullets"
     },
     "actorFields": {
       "level": "Level",
@@ -284,39 +286,48 @@
       "ammo": "Ammo",
       "expended": "Used?"
     },
+    "tnNames": {
+      "st": "Strength",
+      "ma": "Magic",
+      "vi": "Vitality",
+      "ag": "Agility",
+      "lu": "Luck",
+      "physAtk": "Phys Atk",
+      "magAtk": "Mag Atk",
+      "save": "Save",
+      "dodge": "Dodge",
+      "negotiation": "Negotiation"
+    },
     "dice": {
-      "skillCheckTitle": "{checkName}: TN {tn}%",
-      "skillCost": "Cost: {cost} {resource}",
-      "statCheckLabel": "{stat} Check",
-      "autoCheckLabel": "{checkName}: Auto",
-      "ailmentCheckTitle": "{ailmentLabel} rate: {ailmentRate}%",
-      "ailmentNullified": "Ailment nullified!",
-      "ailmentMissed": "{target} avoided {ailmentName}!",
-      "powerDialogMsg": "Power: {name}",
-      "powerChatCardMsg": "Power: {power}",
+      "checkName": "{tnName} Check",
+      "cost": "Cost: {cost} {resourceType}",
+      "auto": "Auto",
+      "checkResult": "{checkTotal} vs. TN {tn}%",
+      "dodgeResult": "Dodge check: {checkResult}",
+      "powerResult": "Total Power: {power}",
+      "targets": "Targets",
+      "costNotPaid": "Unable to pay cost.",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
-      "totalPower": "Total Power: {power}",
-      "affinityMessage": "{name}: {targetAffinity}",
-      "powerMsg": {
-        "damage": "{damage} {affinity} damage!",
-        "healing": "Recovers {damage} HP!"
-      },
-      "resistMsg": "{damageType} Resist: {resist}",
-      "critDowngrade": "Critical hit downgraded!",
-      "ailment": {
-        "hit": "{ailmentName} inflicted! ({rate}%)",
-        "miss": "{ailmentName} avoided! ({rate}%)"
-      },
-      "dodge": {
-        "crit": "{targetName} critically dodged! TN: {tn}%",
-        "success": "{targetName} dodged! TN: {tn}%",
-        "fail": "{targetName} failed to dodge! TN: {tn}%",
-        "autofail": "{targetName} failed to dodge! TN: {tn}%",
-        "fumble": "{targetName} fumbled a dodge! TN: {tn}%"
-      },
-      "dodgeSuccess": "{targetName} dodged! TN: {tn}%",
-      "dodgeFail": "{targetName} failed to dodge! TN: {tn}%"
+      "healing": "recovers {damage} HP!"
+    },
+    "diceResult": {
+      "success": "Success!",
+      "fail": "Failed!",
+      "crit": "Critical success!",
+      "fumble": "Fumble!"
+    },
+    "dodgeResult": {
+      "dodge": "Dodged!",
+      "fumble": "Dodge fumbled! {damage} {skillAffinity} damage!",
+      "fail": "Dodge failed!",
+      "critDowngrade": "Crit downgraded! {damage} {skillAffinity} damage!",
+      "damage": "{damage} {skillAffinity} damage!"
+    },
+    "ailmentResult": {
+      "avoid": "{ailmentName} avoided: {rate}%",
+      "inflict": "{ailmentName} inflicted: {rate}%",
+      "nullify": "{ailmentName} nullified!"
     },
     "ailmentMsg": {
       "cursed": "CURSED! Something bad happens!",
@@ -331,19 +342,13 @@
       "panic4": "You are inflicted with Sleep.",
       "panic5": "{charName} danced crazy!"
     },
-    "diceResult": {
-      "success": "Success!",
-      "fail": "Failed!",
-      "autofail": "Autofail! ({threshold}-99)",
-      "crit": "Critical success!",
-      "fumble": "Fumble!"
-    },
     "affinityResult": {
       "reflect": "REFLECT!",
       "drain": "DRAIN!",
       "null": "NULL!",
       "resist": "RESIST!",
-      "weak": "WEAK!"
+      "weak": "WEAK!",
+      "pierce": "PIERCE!"
     },
     "dialog": {
       "basePhysLabel": "Base Phys",

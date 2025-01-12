@@ -10,6 +10,20 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return "skill" as const;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static override migrateData(source: Record<string, any>) {
+    const data = source as SmtSkillDataModel & SmtItem["system"];
+    // @ts-expect-error "auto" is gone as an accuracy stat
+    if (data?.accuracyStat === "auto") {
+      // @ts-expect-error This field isn't readonly
+      data.auto = true;
+      // @ts-expect-error This field isn't readonly
+      data.accuracyStat = "st";
+    }
+
+    return source;
+  }
+
   static override defineSchema() {
     return {
       ...attackDataFields(),
@@ -30,10 +44,9 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
       // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = false;
     }
-
     if (data.itemType === "item") {
-      // @ts-expect-error This field isn't readonly and its type should be AccuracyStat
-      data.accuracyStat = "auto";
+      // @ts-expect-error This field isn't readonly
+      data.auto = true;
     }
   }
 
@@ -69,8 +82,15 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
     return "item";
   }
 
+  get powerBoost(): boolean {
+    const data = this.#systemData;
+    const actor = this.parent?.parent as SmtActor;
+
+    return actor.system.powerBoost[data.powerBoostType];
+  }
+
   get tn(): number {
-    const actor = this.parent?.parent as SmtActor | undefined;
+    const actor = this.parent?.parent as SmtActor;
     if (!actor) return 1;
 
     const data = this.#systemData;
@@ -79,17 +99,17 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
       return actor.system.tn.negotiation + 20;
     }
 
-    return data.accuracyStat === "auto"
-      ? 100
-      : actor.system.tn[data.accuracyStat] +
-          data.tnMod +
-          actor.system.buffs.accuracy -
-          actor.system.debuffs.accuracy +
-          (data.skillType === "gun" ? actor.system.gunAttackBonus : 0);
+    return (
+      actor.system.tn[data.accuracyStat] +
+      data.tnMod +
+      actor.system.buffs.accuracy -
+      actor.system.debuffs.accuracy +
+      (data.skillType === "gun" ? actor.system.gunAttackBonus : 0)
+    );
   }
 
   get power(): number {
-    const actor = this.parent?.parent as SmtActor | undefined;
+    const actor = this.parent?.parent as SmtActor;
     const data = this.#systemData;
 
     const basePower =
@@ -100,18 +120,27 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
   }
 
   get autoFailThreshold(): number {
-    const actor = this.parent?.parent as SmtActor | undefined;
+    const actor = this.parent?.parent as SmtActor;
     return (
       actor?.system.autoFailThreshold ?? CONFIG.SMT.defaultAutofailThreshold
     );
   }
 
-  get costType(): SkillCostType {
+  get costType(): CostType {
     const data = this.#systemData;
 
     const skillType = data.skillType;
 
     return skillType === "phys" ? "hp" : "mp";
+  }
+
+  get critBoost(): boolean {
+    const data = this.#systemData;
+    const actor = this.parent?.parent as SmtActor;
+
+    return (
+      data.innateCritBoost || (data.damageType === "phys" && actor.system.might)
+    );
   }
 
   // Typescript-related hack
