@@ -246,7 +246,7 @@ async function processTarget(
   includePower: boolean,
   includeAilment: boolean,
   ailmentName: Ailment = "none",
-  ailmentRate = 5,
+  baseAilmentRate = 5,
 ): Promise<TargetData> {
   const targetRolls: Roll[] = [];
 
@@ -306,6 +306,7 @@ async function processTarget(
   }
 
   let power = totalPower;
+  let ailmentRate = baseAilmentRate;
 
   // If the attack was a crit and the dodge was a normal success,
   // The crit is downgraded to a normal hit
@@ -385,7 +386,7 @@ async function processTarget(
   }
 
   return {
-    targetName: target.name,
+    targetName: token.name,
     dodgeTN,
     dodgeResult,
     dodgeRollTotal,
