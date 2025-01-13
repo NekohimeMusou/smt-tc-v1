@@ -61,7 +61,7 @@ function registerSheetApplications() {
   });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("smt-tc", SmtItemSheet, {
-    types: ["skill"],
+    types: ["unstackable", "stackable"],
     makeDefault: true,
   });
 }

@@ -21,7 +21,7 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
   override get template() {
     const basePath = "systems/smt-tc/templates/item";
 
-    return `${basePath}/item-${this.item.type}-sheet.hbs`;
+    return `${basePath}/item-skill-sheet.hbs`;
   }
 
   override async getData() {

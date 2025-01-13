@@ -8,7 +8,7 @@ export async function createBasicStrike(
   await document.createEmbeddedDocuments("Item", [
     {
       name: "Basic Strike",
-      type: "skill",
+      type: "unstackable",
       img: "icons/skills/melee/unarmed-punch-fist.webp",
       system: { basicStrike: true, itemType: "skill", hasPowerRoll: true },
     },

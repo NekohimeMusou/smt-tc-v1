@@ -5,14 +5,15 @@ import { itemDataFields } from "../fields/item-fields.js";
 import { sharedItemDataFields } from "../fields/shared-fields.js";
 import { skillDataFields } from "../fields/skill-fields.js";
 
-export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
-  get type() {
-    return "skill" as const;
+export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
+  abstract get type(): "stackable" | "unstackable";
+  get stackable(): boolean {
+    return this.type === "stackable";
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static override migrateData(source: Record<string, any>) {
-    const data = source as SmtSkillDataModel & SmtItem["system"];
+    const data = source as SmtBaseItemData & SmtItem["system"];
     // @ts-expect-error "auto" is gone as an accuracy stat
     if (data?.accuracyStat === "auto") {
       // @ts-expect-error This field isn't readonly

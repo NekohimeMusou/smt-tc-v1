@@ -33,7 +33,8 @@
       "character": { "htmlFields": ["notes"] }
     },
     "Item": {
-      "skill": { "htmlFields": ["notes", "effect"] }
+      "unstackable": { "htmlFields": ["notes", "effect"] },
+      "stackable": { "htmlFields": ["notes", "effect"] }
     }
   },
 
