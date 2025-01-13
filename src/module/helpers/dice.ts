@@ -113,7 +113,7 @@ export async function hitCheck({
           autoFailThreshold,
           critBoost: skill?.system.critBoost,
         })
-      : {};
+      : { checkSuccess: "success" }; // So auto skills are considered "successful"
 
   const success = checkSuccess === "crit" || checkSuccess === "success" || auto;
   const critical = checkSuccess === "crit";
