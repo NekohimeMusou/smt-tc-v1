@@ -129,15 +129,15 @@ const affinities = new fields.SchemaField({
 });
 
 const ailmentMods = {
-  curse: new fields.BooleanField(), // Implemented
+  curse: new fields.BooleanField(),
   panic: new fields.BooleanField(),
-  ignorePhysAffinity: new fields.BooleanField(), // Implemented
-  physAttacksCrit: new fields.BooleanField(), // Implemented
-  noActions: new fields.BooleanField(), // Implemented
-  mute: new fields.BooleanField(), // Implemented
-  poison: new fields.BooleanField(), // Implemented
-  takeDoubleDamage: new fields.BooleanField(), // Implemented
-  stone: new fields.BooleanField(), // Implemented for incoming damage mod only
+  ignorePhysAffinity: new fields.BooleanField(),
+  physAttacksCrit: new fields.BooleanField(),
+  // noActions: new fields.BooleanField(), // Getter added
+  mute: new fields.BooleanField(),
+  poison: new fields.BooleanField(),
+  takeDoubleDamage: new fields.BooleanField(),
+  stone: new fields.BooleanField(),
 } as const;
 
 const passiveSkillMods = {
@@ -209,7 +209,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       notes: new fields.HTMLField(),
       hpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
-      autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
+      // autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }), // Getter added
       macca: new fields.NumberField({ integer: true, min: 0 }),
       affinities,
       stats,
@@ -329,6 +329,43 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     data.hp.max = Math.max((stats.vi.value + lv) * data.hpMultiplier, 1);
     data.mp.max = Math.max((stats.ma.value + lv) * data.mpMultiplier, 1);
     data.fp.max = Math.max(Math.floor(stats.lu.value / 5 + 5), 1);
+  }
+
+  get noActions(): boolean {
+    const actor = this.parent as SmtActor;
+
+    // I'd like to be able to use Set.prototype.isDisjointFrom
+    const statuses = Array.from(actor.statuses);
+    const noActionStatuses = [
+      "dead",
+      "stone",
+      "restrain",
+      "freeze",
+      "sleep",
+      "shock",
+    ];
+
+    for (const status of statuses) {
+      if (noActionStatuses.includes(status)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  get autoFailThreshold(): number {
+    const actor = this.parent as SmtActor;
+
+    if (actor.statuses.has("stun")) {
+      return 25;
+    }
+
+    if (actor.statuses.has("curse")) {
+      return 86;
+    }
+
+    return 96;
   }
 
   get st(): number {
