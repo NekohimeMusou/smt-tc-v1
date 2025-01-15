@@ -319,6 +319,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   }
 
   // Status related
+  // Implemented (Dodge only)
   get noActions(): boolean {
     const actor = this.parent as SmtActor;
 
@@ -342,23 +343,27 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     return false;
   }
 
+  // Implemented
   get takesDoubleDamage(): boolean {
     const actor = this.parent as SmtActor;
     return actor.statuses.has("flied");
   }
 
+  // Implemented (except phys IK)
   get stone(): boolean {
     const actor = this.parent as SmtActor;
 
     return actor.statuses.has("stone");
   }
 
+  // Implemented (half damage only)
   get poisoned(): boolean {
     const actor = this.parent as SmtActor;
 
     return actor.statuses.has("poisoned");
   }
 
+  // Implemented (autofail threshold only)
   get cursed(): boolean {
     const actor = this.parent as SmtActor;
 
@@ -377,12 +382,14 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     return actor.statuses.has("mute");
   }
 
+  // Implemented
   get ignorePhysAffinity(): boolean {
     const actor = this.parent as SmtActor;
 
     return actor.statuses.has("freeze");
   }
 
+  // Implemented
   get physAttacksCrit(): boolean {
     const actor = this.parent as SmtActor;
     const statuses = actor.statuses;

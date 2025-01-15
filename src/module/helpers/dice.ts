@@ -261,8 +261,6 @@ function generatePowerString({
   return critical ? `(${basePowerString}) * 2` : basePowerString;
 }
 
-// TODO: Add different message for HP/MP recovery (dodgeResult?)
-// TODO: Don't show any damage output if it's ailment-only
 async function processTarget(
   token: SmtToken,
   skill: SmtItem,
@@ -280,6 +278,8 @@ async function processTarget(
 
   const skillAffinity = skill.system.affinity;
   const physAffinity = target.system.affinities.phys;
+  const criticalHit =
+    critical || (target.system.physAttacksCrit && skillAffinity === "phys");
 
   // Do we ignore the target's phys affinity? e.g. Freeze
   const ignoreAffinity =
@@ -319,7 +319,7 @@ async function processTarget(
         autoFailThreshold: target.system.autoFailThreshold,
       });
 
-  const dodgeResult = successToDodge(dodgeRollResult ?? "fail", critical);
+  const dodgeResult = successToDodge(dodgeRollResult ?? "fail", criticalHit);
   let dodgeRollTotal = 0;
 
   if (dodgeRoll) {
@@ -332,7 +332,7 @@ async function processTarget(
 
   // If the attack was a crit and the dodge was a normal success,
   // The crit is downgraded to a normal hit
-  const critDowngrade = critical && dodgeRollResult === "success";
+  const critDowngrade = criticalHit && dodgeRollResult === "success";
 
   if (includePower) {
     // Halve the power if a crit was downgraded
@@ -357,10 +357,15 @@ async function processTarget(
       power *= 2;
       ailmentRate *= 2;
     }
+
+    // Double damage if the target has the Fly status
+    if (target.system.takesDoubleDamage) {
+      power *= 2;
+    }
   }
 
   const resist =
-    (critical && !critDowngrade) || healing
+    (criticalHit && !critDowngrade) || healing
       ? 0
       : target.system.resist[skill.system.damageType];
 
