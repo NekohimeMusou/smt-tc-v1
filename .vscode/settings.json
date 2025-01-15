@@ -32,12 +32,14 @@
     "rulebook",
     "Samael",
     "selfroll",
+    "stackable",
     "sukukaja",
     "sukunda",
     "tarukaja",
     "tarunda",
     "Tensei",
     "tseslint",
+    "unstackable",
     "wingfoot"
   ],
   "[typescript]": {

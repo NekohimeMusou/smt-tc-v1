@@ -198,7 +198,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     // Prepare the item object.
     const itemData = {
       name: itemName,
-      type: "skill",
+      type: "unstackable",
       system,
     };
     // Remove the type from the dataset since it's in the itemData.type prop.
