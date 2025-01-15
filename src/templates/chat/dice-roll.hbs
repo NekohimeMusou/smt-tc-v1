@@ -11,11 +11,11 @@
         resourceType=(localize (concat "SMT.resources." resourceType))
       }}</div>
   {{/if}}
-  {{#if costPaid}}
   {{! Effect }}
   {{#if effect}}
     {{{effect}}}
   {{/if}}
+  {{#if costPaid}}
   {{! Dice Result }}
   {{! e.g. "Success!" "Critical success!" "Fumble!" }}
   <h3 class="tooltip"><span>{{localize
