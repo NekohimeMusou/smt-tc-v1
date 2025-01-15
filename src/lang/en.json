@@ -113,7 +113,6 @@
       "shock": "Shock",
       "cursed": "Cursed",
       "instantKill": "Instant Death",
-      "instantKillStone": "Instant Death if afflicted with Stone",
       "none": "None"
     },
     "buffs": {
@@ -309,7 +308,9 @@
       "costNotPaid": "Unable to pay cost.",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
-      "healing": "recovers {damage} HP!"
+      "healing": "recovers {damage} HP!",
+      "shattered": "Shattered! Instant death inflicted!",
+      "shatterChance": "Shatter Chance"
     },
     "diceResult": {
       "success": "Success!",

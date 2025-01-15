@@ -41,6 +41,9 @@ interface TargetData {
   affinityResult: AffinityLevel | "pierce";
   damage: number;
   skillAffinity: Affinity;
+  shattered: boolean;
+  shatterChance: number;
+  shatterRollTotal: number;
   ailmentName: Ailment;
   ailmentRate: number;
   ailmentResult: AilmentResult;
@@ -127,7 +130,7 @@ export async function hitCheck({
 
   const checkTotal = checkRoll?.total ?? 0;
 
-  // You hurt yourself if you fumble
+  // You hurt yourself if you fumble, so include a power roll with that as well
   const includePower = (skill?.system.hasPowerRoll &&
     (success || fumble || auto))!;
 
@@ -166,6 +169,7 @@ export async function hitCheck({
     }
   }
 
+  // Is this a targeted healing/support spell?
   const healing = ["healing", "support", "unique"].includes(
     skill?.system.affinity ?? "",
   );
@@ -269,7 +273,7 @@ async function processTarget(
   includePower: boolean,
   healing: boolean,
   includeAilment: boolean,
-  ailmentName: Ailment,
+  baseAilmentName: Ailment,
   baseAilmentRate: number,
 ): Promise<TargetData> {
   const targetRolls: Roll[] = [];
@@ -392,6 +396,22 @@ async function processTarget(
     ailmentRate *= 2;
   }
 
+  let shattered = false;
+  let shatterRollTotal = 0;
+
+  const shatterChance = skill.system.shatterChance;
+
+  // You can't take actions if you're stoned so we don't need to bother checking for a dodge
+  if (target.system.stone && skill.system.shatterChance > 0) {
+    const shatterRoll = await new Roll("1d100").roll();
+
+    targetRolls.push(shatterRoll);
+
+    shatterRollTotal = shatterRoll.total;
+
+    shattered = shatterRollTotal <= shatterChance;
+  }
+
   // Ailment rate can't be below 5% or above 95%
   ailmentRate = Math.clamp(ailmentRate, 5, 95);
 
@@ -399,7 +419,7 @@ async function processTarget(
 
   let ailmentRollTotal = 0;
 
-  if (includeAilment && ailmentName !== "none" && !nullifyAilment) {
+  if (includeAilment && baseAilmentName !== "none" && !nullifyAilment) {
     const { checkSuccess: ailmentSuccess, checkRoll: ailmentRoll } =
       await successCheck({ tn: ailmentRate, autoFailThreshold: 95 });
 
@@ -420,7 +440,10 @@ async function processTarget(
     affinityResult: pierce ? "pierce" : targetAffinity,
     damage,
     skillAffinity,
-    ailmentName,
+    shattered,
+    shatterChance,
+    shatterRollTotal,
+    ailmentName: baseAilmentName,
     ailmentRate,
     ailmentResult,
     ailmentRollTotal,

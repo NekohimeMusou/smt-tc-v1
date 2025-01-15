@@ -132,8 +132,7 @@ const ailments = {
   panic: "SMT.ailments.panic",
   shock: "SMT.ailments.shock",
   cursed: "SMT.ailments.cursed",
-  instantKill: "SMT.ailments.instantKill",
-  instantKillStone: "SMT.ailments.instantKillStone",
+  dead: "SMT.ailments.instantKill",
 } as const;
 
 const inheritanceTraits = {

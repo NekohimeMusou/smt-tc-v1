@@ -37,5 +37,6 @@ export function attackDataFields() {
     innateCritBoost: new fields.BooleanField(),
     pinhole: new fields.BooleanField(),
     innatePierce: new fields.BooleanField(),
+    shatterChance: new fields.NumberField({ integer: true }),
   } as const;
 }

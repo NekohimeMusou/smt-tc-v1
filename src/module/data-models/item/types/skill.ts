@@ -48,6 +48,11 @@ export class SmtSkillDataModel extends foundry.abstract.TypeDataModel {
       // @ts-expect-error This field isn't readonly
       data.auto = true;
     }
+
+    if (data.affinity === "phys") {
+      // @ts-expect-error This field isn't readonly
+      data.shatterChance = 30;
+    }
   }
 
   get pierce(): boolean {

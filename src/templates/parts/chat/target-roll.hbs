@@ -31,6 +31,15 @@
     {{/if}}
   </h3>
 
+  {{#if shattered}}
+  <div class="tooltip">
+    {{localize "SMT.dice.shattered"}}
+    <span class="tooltip-text">
+      {{localize "SMT.dice.checkResult" checkTotal=shatterRollTotal tn=shatterChance}}
+    </span>
+  </div>
+  {{/if}}
+
   {{#unless
     (or
       (not includePower) (eq affinityResult "null") (eq affinityResult "none") (eq dodgeResult "dodge")
@@ -41,7 +50,7 @@
     </span>
   {{/unless}}
 
-  {{#if (and includeAilment (ne ailmentName "none") (ne dodgeResult "dodge"))}}
+  {{#if (and includeAilment (not shattered) (ne ailmentName "none") (ne dodgeResult "dodge"))}}
     <div class="tooltip">{{localize
         (concat "SMT.ailmentResult." ailmentResult)
         ailmentName=(localize (concat "SMT.ailments." ailmentName))
