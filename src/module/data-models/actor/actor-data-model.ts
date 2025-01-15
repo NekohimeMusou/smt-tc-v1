@@ -128,18 +128,6 @@ const affinities = new fields.SchemaField({
   }),
 });
 
-const ailmentMods = {
-  curse: new fields.BooleanField(),
-  panic: new fields.BooleanField(),
-  ignorePhysAffinity: new fields.BooleanField(),
-  physAttacksCrit: new fields.BooleanField(),
-  // noActions: new fields.BooleanField(), // Getter added
-  mute: new fields.BooleanField(),
-  poison: new fields.BooleanField(),
-  takeDoubleDamage: new fields.BooleanField(),
-  stone: new fields.BooleanField(),
-} as const;
-
 const passiveSkillMods = {
   gunAttackBonus: new fields.NumberField({ integer: true, initial: 0 }),
   powerBoost: new fields.SchemaField({
@@ -217,7 +205,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       power,
       resist,
       ...passiveSkillMods,
-      ...ailmentMods,
       ...modifiers,
       ...resources,
     } as const;
@@ -331,11 +318,12 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     data.fp.max = Math.max(Math.floor(stats.lu.value / 5 + 5), 1);
   }
 
+  // Status related
   get noActions(): boolean {
     const actor = this.parent as SmtActor;
 
     // I'd like to be able to use Set.prototype.isDisjointFrom
-    const statuses = Array.from(actor.statuses);
+    const statuses = actor.statuses;
     const noActionStatuses = [
       "dead",
       "stone",
@@ -345,8 +333,64 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       "shock",
     ];
 
-    for (const status of statuses) {
-      if (noActionStatuses.includes(status)) {
+    for (const status of noActionStatuses) {
+      if (statuses.has(status)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  get takesDoubleDamage(): boolean {
+    const actor = this.parent as SmtActor;
+    return actor.statuses.has("flied");
+  }
+
+  get stone(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("stone");
+  }
+
+  get poisoned(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("poisoned");
+  }
+
+  get cursed(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("cursed");
+  }
+
+  get panic(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("panic");
+  }
+
+  get mute(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("mute");
+  }
+
+  get ignorePhysAffinity(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("freeze");
+  }
+
+  get physAttacksCrit(): boolean {
+    const actor = this.parent as SmtActor;
+    const statuses = actor.statuses;
+
+    const physCritStatuses = ["restrain", "freeze", "shock"];
+
+    for (const status of physCritStatuses) {
+      if (statuses.has(status)) {
         return true;
       }
     }
@@ -361,11 +405,17 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       return 25;
     }
 
-    if (actor.statuses.has("curse")) {
+    if (this.#systemData.cursed) {
       return 86;
     }
 
     return 96;
+  }
+
+  get focused(): boolean {
+    const actor = this.parent as SmtActor;
+
+    return actor.statuses.has("focused");
   }
 
   get st(): number {

@@ -161,7 +161,7 @@ export async function hitCheck({
     }
 
     // Halve the power if poisoned
-    if (actor.system.poison) {
+    if (actor.system.poisoned) {
       power = Math.floor(power / 2);
     }
   }

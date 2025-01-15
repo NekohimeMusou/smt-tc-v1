@@ -11,36 +11,17 @@ const smtStatuses = [
     id: "dead",
     name: "SMT.ailments.dead",
     icon: "icons/svg/skull.svg",
-    changes: [
-      {
-        key: "system.noActions",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "stone",
     name: "SMT.ailments.stone",
     icon: "icons/svg/statue.svg",
-    changes: [
-      {
-        key: "system.stone",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "flied",
     name: "SMT.ailments.flied",
     icon: "icons/svg/card-joker.svg",
     changes: [
-      {
-        key: "system.takeDoubleDamage",
-        value: "true",
-        mode: OVERRIDE,
-      },
       {
         key: "system.stats.st.value",
         value: "1",
@@ -67,13 +48,6 @@ const smtStatuses = [
     id: "stun",
     name: "SMT.ailments.stun",
     icon: "icons/svg/daze.svg",
-    changes: [
-      {
-        key: "system.autoFailThreshold",
-        value: "25",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "charm",
@@ -81,125 +55,44 @@ const smtStatuses = [
     icon: "icons/svg/stoned.svg",
   },
   {
-    id: "poison",
-    name: "SMT.ailments.poison",
+    id: "poisoned",
+    name: "SMT.ailments.poisoned",
     icon: "icons/svg/poison.svg",
-    changes: [
-      {
-        key: "system.poison",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "mute",
     name: "SMT.ailments.mute",
     icon: "icons/svg/silenced.svg",
-    changes: [
-      {
-        key: "system.mute",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "restrain",
     name: "SMT.ailments.restrain",
     icon: "icons/svg/net.svg",
-    changes: [
-      {
-        key: "system.noActions",
-        value: "true",
-        mode: OVERRIDE,
-      },
-      {
-        key: "system.physAttacksCrit",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "freeze",
     name: "SMT.ailments.freeze",
     icon: "icons/svg/frozen.svg",
-    changes: [
-      {
-        key: "system.noActions",
-        value: "true",
-        mode: OVERRIDE,
-      },
-      {
-        key: "system.physAttacksCrit",
-        value: "true",
-        mode: OVERRIDE,
-      },
-      {
-        key: "system.ignorePhysAffinity",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "sleep",
     name: "SMT.ailments.sleep",
     icon: "icons/svg/sleep.svg",
-    changes: [
-      {
-        key: "system.noActions",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "panic",
     name: "SMT.ailments.panic",
     icon: "icons/svg/terror.svg",
-    changes: [
-      {
-        key: "system.panic",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "shock",
     name: "SMT.ailments.shock",
     icon: "icons/svg/lightning.svg",
-    changes: [
-      {
-        key: "system.noActions",
-        value: "true",
-        mode: OVERRIDE,
-      },
-      {
-        key: "system.physAttacksCrit",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
-    id: "curse",
-    name: "SMT.ailments.curse",
+    id: "cursed",
+    name: "SMT.ailments.cursed",
     icon: "icons/svg/eye.svg",
-    changes: [
-      {
-        key: "system.autoFailThreshold",
-        value: "86",
-        mode: OVERRIDE,
-      },
-      {
-        key: "system.curse",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
   {
     id: "tarukaja",
@@ -252,13 +145,6 @@ const smtStatuses = [
     id: "focused",
     name: "SMT.characterMods.focused",
     icon: "icons/svg/aura.svg",
-    changes: [
-      {
-        key: "system.focused",
-        value: "true",
-        mode: OVERRIDE,
-      },
-    ],
   },
 ] as const;
 
