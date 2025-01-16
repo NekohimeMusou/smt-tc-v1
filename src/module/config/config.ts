@@ -6,6 +6,7 @@ declare global {
   type SuccessRollCategory = (typeof successRollCategories)[number];
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
+  type PriorityAilment = keyof typeof priorityAilments;
   type InheritanceTrait = keyof typeof inheritanceTraits;
   type SkillType = keyof typeof skillTypes;
   type PowerBoostType = keyof typeof powerBoostTypes;
@@ -135,6 +136,21 @@ const ailments = {
   dead: "SMT.ailments.instantKill",
 } as const;
 
+const priorityAilments = {
+  stone: "SMT.ailments.stone",
+  flied: "SMT.ailments.flied",
+  stun: "SMT.ailments.stun",
+  charm: "SMT.ailments.charm",
+  poisoned: "SMT.ailments.poisoned",
+  mute: "SMT.ailments.mute",
+  restrain: "SMT.ailments.restrain",
+  freeze: "SMT.ailments.freeze",
+  sleep: "SMT.ailments.sleep",
+  panic: "SMT.ailments.panic",
+  shock: "SMT.ailments.shock",
+  dead: "SMT.ailments.instantKill",
+} as const;
+
 const inheritanceTraits = {
   mouth: "SMT.inheritanceTraits.mouth",
   eye: "SMT.inheritanceTraits.eye",
@@ -243,6 +259,7 @@ export const SMT = {
   affinities,
   affinityLevels,
   ailments,
+  priorityAilments,
   inheritanceTraits,
   skillTypes,
   costTypes,

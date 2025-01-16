@@ -366,6 +366,11 @@ async function processTarget(
     if (target.system.takesDoubleDamage) {
       power *= 2;
     }
+
+    // Double the power if this became a crit due to a status
+    if (criticalHit && !critical) {
+      power *= 2;
+    }
   }
 
   const resist =
