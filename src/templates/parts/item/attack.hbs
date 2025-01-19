@@ -8,16 +8,6 @@
       </select>
     </div>
 
-    {{!-- Accuracy Stat --}}
-    {{#unless (eq item.itemType "item")}}
-    <div class="flexcol">
-      <label for="accuracy-stat-field" class="resource-label">{{localize "SMT.itemFields.accuracyStat"}}</label>
-      <select id="accuracy-stat-field" name="system.accuracyStat">
-        {{selectOptions SMT.accuracyStats selected=system.accuracyStat localize=true}}
-      </select>
-    </div>
-    {{/unless}}
-
     {{!-- Cost (HP/MP determined by power type) --}}
     {{#if (and (eq system.skillType "gun") (eq system.itemType "weapon"))}}
     <div class="flexcol">
@@ -96,14 +86,6 @@
               }}</label>
       <input type="text" id="inheritance-trait-field" name="system.inheritanceTraits" value="{{system.inheritanceTraits}}"
         data-dtype="String" />
-    </div>
-    {{! TN Modifier }}
-    <div class="flexcol">
-      <label for="tn-modifier-field" class="resource-label">{{localize
-                "SMT.itemFields.tnMod"
-              }}</label>
-      <input type="number" id="tn-modifier-field" name="system.tnMod" value="{{system.tnMod}}" placeholder="0"
-        data-dtype="Number" />
     </div>
     {{/if}}
     {{#unless (or (eq system.itemType "weapon") (eq system.itemType "equipment"))}}

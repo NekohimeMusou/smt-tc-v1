@@ -18,8 +18,12 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
     if (data?.accuracyStat === "auto") {
       // @ts-expect-error This field isn't readonly
       data.auto = true;
+    }
+
+    // This is an automatic getter now
+    if (data.accuracyStat) {
       // @ts-expect-error This field isn't readonly
-      data.accuracyStat = "st";
+      delete data.accuracyStat;
     }
 
     return source;
@@ -48,6 +52,24 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
     if (data.itemType === "item") {
       // @ts-expect-error This field isn't readonly
       data.auto = true;
+    }
+  }
+
+  get accuracyStat(): TargetNumber {
+    const skillType = this.#systemData.skillType;
+
+    switch (skillType) {
+      case "phys":
+        return "st";
+      case "spell":
+      case "mag":
+        return "ma";
+      case "gun":
+        return "ag";
+      case "talk":
+        return "negotiation";
+      default:
+        return "lu";
     }
   }
 
@@ -92,17 +114,16 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
 
   get tn(): number {
     const actor = this.parent?.parent as SmtActor;
+    // This should never happen
     if (!actor) return 1;
 
     const data = this.#systemData;
 
-    if (data.skillType === "talk") {
-      return actor.system.tn.negotiation + 20;
-    }
+    const talkSkill = data.skillType === "talk";
 
     return (
       actor.system.tn[data.accuracyStat] +
-      data.tnMod +
+      (talkSkill ? 20 : 0) +
       actor.system.buffs.accuracy -
       actor.system.debuffs.accuracy +
       (data.skillType === "gun" ? actor.system.gunAttackBonus : 0)

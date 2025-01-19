@@ -11,9 +11,6 @@ export function attackDataFields() {
       max: new fields.NumberField({ integer: true, initial: 0, min: 0 }),
       value: new fields.NumberField({ integer: true, initial: 0 }),
     }),
-    accuracyStat: new fields.StringField({
-      choices: CONFIG.SMT.accuracyStats,
-    }),
     auto: new fields.BooleanField(),
     target: new fields.StringField({
       choices: CONFIG.SMT.targets,
@@ -25,7 +22,6 @@ export function attackDataFields() {
     }),
     hasPowerRoll: new fields.BooleanField(),
     potency: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
-    tnMod: new fields.NumberField({ integer: true, initial: 0 }),
     ailment: new fields.SchemaField({
       name: new fields.StringField({
         choices: CONFIG.SMT.ailments,

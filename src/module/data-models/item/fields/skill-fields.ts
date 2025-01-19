@@ -11,9 +11,6 @@ export function skillDataFields() {
       choices: CONFIG.SMT.skillTypes,
       initial: "phys",
     }),
-    selfAppliedStatus: new fields.StringField({
-      choices: CONFIG.SMT.statusIds,
-    }),
     focusEffect: new fields.BooleanField(),
     // To be shown in chat card with rolls
     effect: new fields.HTMLField(),
