@@ -203,7 +203,6 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
         blank: false,
         initial: "demon",
       }),
-      basicDemon: new fields.BooleanField(),
       xp: new fields.NumberField({ integer: true, min: 0 }),
       lv: new fields.NumberField({ integer: true, initial: 1 }),
       notes: new fields.HTMLField(),

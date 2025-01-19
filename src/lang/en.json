@@ -27,9 +27,6 @@
       "effect": "Effect",
       "inventory": "Inventory"
     },
-    "error": {
-      "insufficientResource": "Not enough {resource}!"
-    },
     "charClasses": {
       "human": "Human",
       "demon": "Demon",
@@ -56,19 +53,6 @@
       "vi": "Save",
       "ag": "Dodge",
       "lu": "Negotiation"
-    },
-    "derivedTNFormula": {
-      "st": "St TN",
-      "ma": "Ma TN",
-      "vi": "Vi TN",
-      "ag": "Ag + 10",
-      "lu": "(Lu x 2) + 20"
-    },
-    "derivedStatFormula": {
-      "basePhysPower": "St + LV",
-      "baseMagPower": "Ma + LV",
-      "physResist": "(Vi + LV) / 2",
-      "magResist": "(Ma + LV) / 2"
     },
     "affinities": {
       "phys": "Phys",
@@ -182,19 +166,14 @@
       "skillType": "Skill Type",
       "target": "Target",
       "cost": "Cost",
-      "price": "Price",
       "accuracyStat": "Accuracy Stat",
       "affinity": "Affinity",
-      "powerCategory": "Category",
       "ailment": "Ailment",
       "ailmentRate": "Ailment Rate",
       "potency": "Potency",
       "tnMod": "TN Mod",
       "critBoost": "Crit Boost",
-      "effect": "Effect",
       "hasPowerRoll": "Includes Power Roll",
-      "powerBoost": "Power Boost (2d10 power)",
-      "hasCritBoost": "Crit Boost",
       "ammo": "Ammo",
       "maxAmmo": "Max Ammo",
       "itemType": "Item Type"
@@ -232,44 +211,25 @@
       "statTotal": "Total",
       "tn": "TN",
       "derivedTN": "Spc",
-      "formula": "Formula",
       "derivedStats": "Derived Stats",
-      "stat": "Stat",
       "basePhysPower": "Phys Power",
       "baseMagPower": "Mag Power",
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
-      "skills": "Skills",
       "equipment": "Equipment",
       "equipped": "Equipped",
       "items": "Items",
-      "weapons": "Weapons",
       "affinities": "Affinities",
       "tnMod": "TN (20%)",
       "buffs": "Buffs/Debuffs",
       "modifiers": "Mods",
       "multi": "Multi",
-      "misc": "Misc",
       "qty": "Qty",
-      "slot": "Slot",
-      "basicDemon": "Basic Demon"
-    },
-    "resourceBoost": {
-      "hp": "Life Multiplier Boost",
-      "mp": "Mana Multiplier Boost"
+      "slot": "Slot"
     },
     "characterMods": {
-      "expertDodge": "Expert Dodge",
-      "sureShot": "Sure Shot",
-      "powerBoost": {
-        "phys": "Powerful Strikes",
-        "mag": "Powerful Spells"
-      },
-      "might": "Might (passive skill)",
       "focused": "Focused",
       "focus": "Focus",
-      "cursed": "Cursed",
-      "itemPro": "Item Pro",
       "defending": "Defending"
     },
     "skillPane": {
@@ -278,8 +238,6 @@
       "target": "Target",
       "cost": "Cost",
       "tn": "TN",
-      "potency": "Potency",
-      "basePower": "Base Pow",
       "power": "Power",
       "element": "Element",
       "weapon": "Weapon",
@@ -301,14 +259,14 @@
     "dice": {
       "checkName": "{tnName} Check",
       "cost": "Cost: {cost} {resourceType}",
-      "auto": "Auto",
-      "checkResult": "{checkTotal} vs. TN {tn}%",
-      "dodgeResult": "Dodge check: {checkResult}",
-      "powerResult": "Total Power: {power}",
-      "targets": "Targets",
-      "costNotPaid": "Unable to pay cost.",
       "modifier": "Modifier",
       "modifierHint": "Modifiers apply to the TN, not the die roll. Enter the modifier BEFORE multi-attack.",
+      "auto": "Auto",
+      "powerResult": "Total Power: {power}",
+      "checkResult": "{checkTotal} vs. TN {tn}%",
+      "dodgeResult": "Dodge check: {checkResult}",
+      "targets": "Targets",
+      "costNotPaid": "Unable to pay cost.",
       "healing": "recovers {damage} HP!"
     },
     "diceResult": {
@@ -328,19 +286,6 @@
       "avoid": "{ailmentName} avoided: {rate}%",
       "inflict": "{ailmentName} inflicted: {rate}%",
       "nullify": "{ailmentName} nullified!"
-    },
-    "ailmentMsg": {
-      "cursed": "CURSED! Something bad happens!",
-      "poison": "Poison: {damage} damage!",
-      "mute": "Can't use magic while muted!",
-      "noActions": "Can't take actions right now!",
-      "panicSuccess": "{name} is panicking, but holds it together!",
-      "panicFailure": "{name} is panicking! {panicEffect}",
-      "panic1": "Throw away 10% of your current macca. If you don't have any money, pay the cost of your lowest-cost skill, but you don't activate it.",
-      "panic2": "Space out and take no action.",
-      "panic3": "Make a Negotiation check against a random demon. If you fail, the demon attacks you once; if you crit, they give you an item.",
-      "panic4": "You are inflicted with Sleep.",
-      "panic5": "{charName} danced crazy!"
     },
     "affinityResult": {
       "reflect": "REFLECT!",
