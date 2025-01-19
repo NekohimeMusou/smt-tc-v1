@@ -194,7 +194,7 @@
       "effect": "Effect",
       "hasPowerRoll": "Includes Power Roll",
       "powerBoost": "Power Boost (2d10 power)",
-      "hasCritBoost": "Crit Boost (i.e. Deadly Fury)",
+      "hasCritBoost": "Crit Boost",
       "ammo": "Ammo",
       "maxAmmo": "Max Ammo",
       "itemType": "Item Type"
