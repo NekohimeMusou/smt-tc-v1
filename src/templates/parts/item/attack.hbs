@@ -118,6 +118,10 @@
       <label for="focus-field" class="resource-label">{{localize "SMT.characterMods.focus"}}</label>
       <input type="checkbox" id="focus-field" name="system.focusEffect" {{checked system.focusEffect}} />
     </div>
+    <div class="flexcol">
+      <label for="auto-field" class="resource-label">{{localize "SMT.dice.auto"}}</label>
+      <input type="checkbox" id="auto-field" name="system.auto" {{checked system.auto}} />
+    </div>
   </div>
   {{/if}}
   {{#if (or (eq system.itemType "item") (eq system.itemType "equipment") (eq system.itemType "weapon"))}}
