@@ -1,5 +1,5 @@
 import { SmtActor } from "../../documents/actor/actor.js";
-import affinitySchema from "../shared/affinities.js";
+import affinityData from "../shared/affinities.js";
 import statData from "../shared/stats.js";
 
 const fields = foundry.data.fields;
@@ -123,7 +123,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
       macca: new fields.NumberField({ integer: true, min: 0 }),
-      affinities: new fields.SchemaField(affinitySchema()),
+      affinities: new fields.SchemaField(affinityData()),
       stats: new fields.SchemaField(statData()),
       tn,
       power,

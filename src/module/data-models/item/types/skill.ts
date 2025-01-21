@@ -2,7 +2,7 @@ import { SmtActor } from "../../../documents/actor/actor.js";
 import { SmtItem } from "../../../documents/item/item.js";
 import { attackDataFields } from "../fields/attack-fields.js";
 import { itemDataFields } from "../fields/item-fields.js";
-import { sharedItemDataFields } from "../fields/shared-fields.js";
+import { sharedItemData } from "../fields/shared-fields.js";
 import { skillDataFields } from "../fields/skill-fields.js";
 
 export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
@@ -34,7 +34,7 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
       ...attackDataFields(),
       ...skillDataFields(),
       ...itemDataFields(),
-      ...sharedItemDataFields(),
+      ...sharedItemData(),
       exclude: new foundry.data.fields.BooleanField(),
     } as const;
   }

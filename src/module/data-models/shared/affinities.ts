@@ -1,4 +1,4 @@
-export default function affinitySchema() {
+export default function affinityData() {
   const fields = foundry.data.fields;
 
   return {

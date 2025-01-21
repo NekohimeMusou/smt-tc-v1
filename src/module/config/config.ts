@@ -8,6 +8,7 @@ declare global {
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
   type TargetNumber = keyof typeof tnNames;
+  type ItemType = keyof typeof itemTypes;
 }
 
 const templatePaths = [

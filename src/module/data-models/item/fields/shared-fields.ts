@@ -1,4 +1,4 @@
-export function sharedItemDataFields() {
+export function sharedItemData() {
   const fields = foundry.data.fields;
 
   return {
