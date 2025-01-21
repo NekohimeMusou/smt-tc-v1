@@ -45,7 +45,7 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
       data.hasPowerRoll = true;
     }
 
-    if (data.itemType === "equipment") {
+    if (data.itemType === "armor") {
       // @ts-expect-error This field isn't readonly and its type should be boolean
       data.hasPowerRoll = false;
     }

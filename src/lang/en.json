@@ -127,13 +127,15 @@
       "none": "None"
     },
     "itemTypes": {
-      "skill": "Skill",
-      "weapon": "Weapon",
       "item": "Item",
-      "equipment": "Equipment",
-      "action": "Action"
+      "weapon": "Weapon",
+      "gun": "Gun",
+      "armor": "Armor",
+      "magatama": "Magatama",
+      "card": "Card",
+      "skill": "Skill"
     },
-    "equipSlots": {
+    "armorSlots": {
       "head": "Head",
       "torso": "Torso",
       "legs": "Legs",
@@ -215,7 +217,7 @@
       "baseMagPower": "Mag Power",
       "physResist": "Phys Resist",
       "magResist": "Mag Resist",
-      "equipment": "Equipment",
+      "armor": "Armor",
       "equipped": "Equipped",
       "items": "Items",
       "affinities": "Affinities",

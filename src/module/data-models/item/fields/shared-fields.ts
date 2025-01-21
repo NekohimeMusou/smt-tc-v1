@@ -6,6 +6,5 @@ export function sharedItemDataFields() {
       choices: CONFIG.SMT.itemTypes,
       initial: "skill",
     }),
-    notes: new fields.HTMLField(),
   } as const;
 }

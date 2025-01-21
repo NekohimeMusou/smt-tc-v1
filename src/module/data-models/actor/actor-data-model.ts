@@ -241,19 +241,19 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
     // @ts-expect-error This field isn't readonly
     data.mpMultiplier = (isHuman ? 2 : 3) + (data.resourceBoost.mp ?? 0);
 
-    // Add phys/mag resist from equipment
+    // Add phys/mag resist from armor
     const actor = this.parent as SmtActor;
-    const equipment = actor.items.filter((item) => item.system.equipped);
+    const armor = actor.items.filter((item) => item.system.equipped);
     const equipPhysResist =
       data.charClass !== "human"
         ? 0
-        : equipment
+        : armor
             .map((item) => item.system.resistBonus.phys)
             .reduce((prev, curr) => prev + curr, 0);
     const equipMagResist =
       data.charClass !== "human"
         ? 0
-        : equipment
+        : armor
             .map((item) => item.system.resistBonus.mag)
             .reduce((prev, curr) => prev + curr, 0);
 

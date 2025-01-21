@@ -2,7 +2,7 @@
   "id": "smt-tc",
   "title": "SMT RPG: Tokyo Conception (Unofficial)",
   "description": "Unofficial VTT system for playing Shin Megami Tensei: Tokyo Conception. This system contains no game content; the core rulebook is required to play.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "compatibility": {
     "minimum": 12,
     "verified": 12
@@ -33,8 +33,13 @@
       "character": { "htmlFields": ["notes"] }
     },
     "Item": {
-      "unstackable": { "htmlFields": ["notes", "effect"] },
-      "stackable": { "htmlFields": ["notes", "effect"] }
+      "item": { "htmlFields": ["effect"] },
+      "weapon": { "htmlFields": ["effect"] },
+      "gun": { "htmlFields": ["effect"] },
+      "armor": { "htmlFields": ["effect"] },
+      "magatama": { "htmlFields": ["effect"] },
+      "card": { "htmlFields": ["effect"] },
+      "skill": { "htmlFields": ["effect"] }
     }
   },
 

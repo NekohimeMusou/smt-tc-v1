@@ -2,7 +2,7 @@
   <div class="items-list flexcol flexlarge">
     <ol class="items-list">
       <li class="item flexrow flex-group-center items-header">
-        {{localize "SMT.actorSheet.equipment"}}
+        {{localize "SMT.actorSheet.armor"}}
       </li>
 
       <li class="item flexrow flex-group-center flex-between">
@@ -35,7 +35,7 @@
             "SMT.actorSheet.slot"
           }}</label>
         <select id="slot-field" name="system.equipSlot">
-          {{selectOptions SMT.equipSlots selected=system.equipSlot localize=true}}
+          {{selectOptions SMT.armorSlots selected=system.equipSlot localize=true}}
         </select>
       </li>
     </ol>

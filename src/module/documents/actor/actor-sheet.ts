@@ -60,8 +60,8 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       (item) => item.system.itemType === "weapon",
     );
 
-    const equipment = this.actor.items.filter(
-      (item) => item.system.itemType === "equipment",
+    const armor = this.actor.items.filter(
+      (item) => item.system.itemType === "armor",
     );
 
     const items = this.actor.items.filter(
@@ -75,7 +75,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       rollData,
       skills,
       weapons,
-      equipment,
+      armor,
       items,
       effects,
       SMT,
@@ -254,7 +254,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
 
       const previousEquipment = this.actor.items.find(
         (it) =>
-          it.system.itemType === "equipment" &&
+          it.system.itemType === "armor" &&
           it.system.equipSlot === equipSlot &&
           it.system.equipped,
       );

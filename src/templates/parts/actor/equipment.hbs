@@ -3,7 +3,7 @@
     <ol class="items-list">
       <li class="item flexrow flex-group-center items-header">
         {{!-- Item --}}
-        <div class="item-name flex2">{{localize "SMT.actorSheet.equipment"}}</div>
+        <div class="item-name flex2">{{localize "SMT.actorSheet.armor"}}</div>
         {{!-- Qty --}}
         <div class="item-qty">{{localize "SMT.actorSheet.qty"}}</div>
         {{!-- Slot --}}
@@ -16,12 +16,12 @@
         <div class="item-equipped">{{localize "SMT.actorSheet.equipped"}}</div>
         {{!-- Affinities? --}}
         <div class="item-controls">
-          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="equipment">
+          <a class="item-control item-create" title="{{localize "SMT.sheet.newItem"}}" data-item-type="armor">
             <i class="fas fa-plus"></i> {{localize "SMT.sheet.addItem"}}</a>
         </div>
       </li>
 
-      {{#each equipment}}
+      {{#each armor}}
       <li class="item flexrow flex-group-center flex-between" data-item-id="{{id}}">
         <a class="item-name flex2 {{!-- roll-skill roll-highlight --}}">
           <div class="item-image">
@@ -33,7 +33,7 @@
           <input class="item-update" type="number" data-field-name="system.qty"
             value="{{system.qty}}" data-dtype="Number" placeholder="0" />
         </div>
-        <div class="item-prop item-slot">{{localize (concat "SMT.equipSlots." system.equipSlot)}}</div>
+        <div class="item-prop item-slot">{{localize (concat "SMT.armorSlots." system.equipSlot)}}</div>
         <div class="item-prop item-phys-resist">{{system.resistBonus.phys}}</div>
         <div class="item-prop item-mag-resist">{{system.resistBonus.mag}}</div>
         <div class="item-prop item-equipped">

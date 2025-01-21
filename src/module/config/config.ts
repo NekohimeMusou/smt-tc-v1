@@ -33,11 +33,20 @@ const templatePaths = [
 ] as const;
 
 const itemTypes = {
-  skill: "SMT.itemTypes.skill",
-  weapon: "SMT.itemTypes.weapon",
   item: "SMT.itemTypes.item",
-  equipment: "SMT.itemTypes.equipment",
-  action: "SMT.itemTypes.action",
+  weapon: "SMT.itemTypes.weapon",
+  gun: "SMT.itemTypes.gun",
+  armor: "SMT.itemTypes.armor",
+  magatama: "SMT.itemTypes.magatama",
+  card: "SMT.itemTypes.card",
+  skill: "SMT.itemTypes.skill",
+} as const;
+
+const armorSlots = {
+  head: "SMT.armorSlots.head",
+  torso: "SMT.armorSlots.torso",
+  legs: "SMT.armorSlots.legs",
+  none: "SMT.armorSlots.none",
 } as const;
 
 const charClasses = {
@@ -159,13 +168,6 @@ const tnNames = {
   negotiation: "SMT.tnNames.negotiation",
 } as const;
 
-const equipSlots = {
-  head: "SMT.equipSlots.head",
-  torso: "SMT.equipSlots.torso",
-  legs: "SMT.equipSlots.legs",
-  none: "SMT.equipSlots.none",
-} as const;
-
 const statusIds = {
   dead: "SMT.ailments.dead",
   stone: "SMT.ailments.stone",
@@ -205,7 +207,7 @@ export const SMT = {
   itemTypes,
   templatePaths,
   derivedTNStats,
-  equipSlots,
+  armorSlots,
   statusIds,
   tnNames,
   defaultAutofailThreshold: 96,
