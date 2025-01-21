@@ -1,23 +1,13 @@
 import { showAwardDialog, showBuffDialog } from "../helpers/macro.js";
 
 declare global {
-  type CharacterClass = keyof typeof charClasses;
-  type CharacterStat = keyof typeof stats;
-  type SuccessRollCategory = (typeof successRollCategories)[number];
   type Affinity = keyof typeof affinities;
   type Ailment = keyof typeof ailments;
-  type InheritanceTrait = keyof typeof inheritanceTraits;
-  type SkillType = keyof typeof skillTypes;
   type PowerBoostType = keyof typeof powerBoostTypes;
   type CostType = keyof typeof costTypes;
-  type Target = keyof typeof targets;
-  type AccuracyStat = keyof typeof accuracyStats;
-  type DiceRollResult = keyof typeof diceRollResults;
   type AffinityLevel = keyof typeof affinityLevels;
   type DamageType = keyof typeof damageTypes;
-  type DerivedTN = (typeof derivedTNs)[number];
   type TargetNumber = keyof typeof tnNames;
-  type EquipSlot = keyof typeof equipSlots;
 }
 
 const templatePaths = [
@@ -54,22 +44,6 @@ const charClasses = {
   human: "SMT.charClasses.human",
   fiend: "SMT.charClasses.fiend",
   demon: "SMT.charClasses.demon",
-} as const;
-
-const stats = {
-  st: "SMT.stats.st",
-  ma: "SMT.stats.ma",
-  vi: "SMT.stats.vi",
-  ag: "SMT.stats.ag",
-  lu: "SMT.stats.lu",
-} as const;
-
-const accuracyStats = {
-  st: "SMT.stats.st",
-  ma: "SMT.stats.ma",
-  vi: "SMT.stats.vi",
-  ag: "SMT.stats.ag",
-  lu: "SMT.stats.lu",
 } as const;
 
 const damageTypes = {
@@ -157,29 +131,12 @@ const skillTypes = {
   other: "SMT.skillTypes.other",
 } as const;
 
-const successRollCategories = ["tn", "derivedTN"] as const;
-
 const targets = {
   one: "SMT.target.one",
   all: "SMT.target.all",
   allCombatants: "SMT.target.allCombatants",
   self: "SMT.target.self",
 } as const;
-
-const diceRollResults = {
-  success: "SMT.diceResult.success",
-  fail: "SMT.diceResult.fail",
-  crit: "SMT.diceResult.crit",
-  fumble: "SMT.diceResult.fumble",
-} as const;
-
-const derivedTNs = [
-  "physAtk",
-  "magAtk",
-  "save",
-  "dodge",
-  "negotiation",
-] as const;
 
 const derivedTNStats = {
   st: "physAtk",
@@ -236,8 +193,6 @@ const statusIds = {
 
 export const SMT = {
   charClasses,
-  stats,
-  accuracyStats,
   damageTypes,
   powerBoostTypes,
   affinities,
@@ -246,12 +201,9 @@ export const SMT = {
   inheritanceTraits,
   skillTypes,
   costTypes,
-  successRollCategories,
   targets,
   itemTypes,
   templatePaths,
-  diceRollResults,
-  derivedTNs,
   derivedTNStats,
   equipSlots,
   statusIds,
