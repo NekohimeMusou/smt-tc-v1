@@ -87,8 +87,19 @@ export async function hitCheck({
 
   const resourceType = skill?.system.costType ?? "mp";
 
+  const isGun =
+    skill?.system.itemType === "weapon" && skill.system.skillType === "gun";
+
+  const chamberEmpty = isGun && skill.system.ammo.value < 1;
   // Try to pay the skill cost, if any
-  const costPaid = await actor.paySkillCost(cost, resourceType);
+  const costPaid =
+    (await actor.paySkillCost(cost, resourceType)) && !chamberEmpty;
+
+  // If this is a gun, expend a bullet
+  if (isGun && costPaid) {
+    const newBullets = Math.max(skill.system.ammo.value - 1, 0);
+    await skill.update({ "system.ammo.value": newBullets });
+  }
 
   // Unfocus
   const focused = actor.statuses.has("focused");

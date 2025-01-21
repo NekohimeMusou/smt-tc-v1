@@ -153,7 +153,7 @@
       "hp": "HP",
       "mp": "MP",
       "fp": "FP",
-      "bullets": "Bullets"
+      "ammo": "Ammo"
     },
     "actorFields": {
       "level": "Level",
