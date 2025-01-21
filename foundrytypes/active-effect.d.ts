@@ -1,4 +1,4 @@
-declare class ActiveEffect<A extends Actor<any,I>, I extends Item<any, A>> extends FoundryDocument<never>  {
+declare class ActiveEffect<A extends Actor<any,I>= any, I extends Item<any, A>=any> extends FoundryDocument<never>  {
 	/** returns if effect is active, by default is !disabled && !isSuppressed() */
 	get active(): boolean
 
@@ -31,7 +31,7 @@ type EffectDuration = {
 
 type AEChange = {
 	key: string; //keys to one of the system values
-	mode: (typeof CONST)["ACTIVE_EFFECT_MODES"][keyof (typeof CONST)["ACTIVE_EFFECT_MODES"]];
+		mode: (typeof CONST)["ACTIVE_EFFECT_MODES"][keyof (typeof CONST)["ACTIVE_EFFECT_MODES"]];
 	priority?: number;
 	value: string;
 };

@@ -39,7 +39,6 @@ class Token<Act extends Actor<any, any> = Actor<any,any,any>> extends PlaceableO
 	get worldTransform(): {a: number, b:number, c: number, d: number, tx: number, ty: number, array: null | unknown[]};
 	get w():number;
 	get h():number;
-	get isOwner(): boolean;
 }
 
 
