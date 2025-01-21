@@ -1,5 +1,5 @@
-import { SMT } from "../../config/config.js";
 import { SmtActor } from "../../documents/actor/actor.js";
+import affinitySchema from "../shared/affinities.js";
 
 const fields = foundry.data.fields;
 
@@ -56,77 +56,6 @@ const resources = {
   mp: new fields.SchemaField(generateResourceSchema()),
   fp: new fields.SchemaField(generateResourceSchema()),
 };
-
-const affinities = new fields.SchemaField({
-  phys: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  fire: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  cold: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  elec: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  force: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  light: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  dark: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  mind: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  nerve: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  ruin: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  ailment: new fields.StringField({
-    choices: SMT.affinityLevels,
-    initial: "none",
-  }),
-  almighty: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-  healing: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-  support: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-  unique: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-  talk: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-  none: new fields.StringField({
-    choices: { none: "SMT.affinities.none" },
-    initial: "none",
-  }),
-});
 
 const ailmentMods = {
   curse: new fields.BooleanField(), // Implemented
@@ -199,7 +128,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   static override defineSchema() {
     return {
       charClass: new fields.StringField({
-        choices: SMT.charClasses,
+        choices: CONFIG.SMT.charClasses,
         blank: false,
         initial: "demon",
       }),
@@ -210,7 +139,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
       macca: new fields.NumberField({ integer: true, min: 0 }),
-      affinities,
+      affinities: new fields.SchemaField(affinitySchema()),
       stats,
       tn,
       power,

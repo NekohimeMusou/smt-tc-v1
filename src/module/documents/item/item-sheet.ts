@@ -1,5 +1,7 @@
-import { SMT } from "../../config/config.js";
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+} from "../../helpers/active-effects.js";
 import { SmtItem } from "./item.js";
 
 export class SmtItemSheet extends ItemSheet<SmtItem> {
@@ -34,7 +36,7 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
     await foundry.utils.mergeObject(context, {
       system,
       effects,
-      SMT,
+      SMT: CONFIG.SMT,
       isGM: game.user.isGM,
     });
 
@@ -49,6 +51,8 @@ export class SmtItemSheet extends ItemSheet<SmtItem> {
 
     // Roll handlers, click handlers, etc. would go here.
     // Active Effect management
-    html.find(".effect-control").on("click", (ev) => onManageActiveEffect(ev, this.item));
+    html
+      .find(".effect-control")
+      .on("click", (ev) => onManageActiveEffect(ev, this.item));
   }
 }

@@ -1,5 +1,7 @@
-import { SMT } from "../../config/config.js";
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+} from "../../helpers/active-effects.js";
 import { hitCheck } from "../../helpers/dice.js";
 import { SmtItem } from "../item/item.js";
 import { SmtActor } from "./actor.js";
@@ -43,7 +45,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     }
 
     const actions = this.actor.items
-      .filter((item) => item.system.itemType === "action")
+      .filter((item) => item.system.itemType === "skill" && item.system.exclude)
       .map((item) => ({ skill: item, indexLabel: "—" }));
 
     skills.push(...actions);
@@ -78,7 +80,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
       armor,
       items,
       effects,
-      SMT,
+      SMT: CONFIG.SMT,
       isGM: game.user.isGM,
     });
 

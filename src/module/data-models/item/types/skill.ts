@@ -35,6 +35,7 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
       ...skillDataFields(),
       ...itemDataFields(),
       ...sharedItemDataFields(),
+      exclude: new foundry.data.fields.BooleanField(),
     } as const;
   }
 
