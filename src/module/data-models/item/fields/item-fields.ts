@@ -4,7 +4,7 @@ export function itemDataFields() {
   return {
     qty: new fields.NumberField({ integer: true, positive: true, initial: 1 }),
     equipSlot: new fields.StringField({
-      choices: CONFIG.SMT.armorSlots,
+      choices: CONFIG.SMT.equipSlots,
       initial: "none",
     }),
     resistBonus: new fields.SchemaField({

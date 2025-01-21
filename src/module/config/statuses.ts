@@ -6,7 +6,7 @@ const { ADD, OVERRIDE } = CONST.ACTIVE_EFFECT_MODES;
 
 export type SmtStatusId = (typeof smtStatuses)[number]["id"];
 
-const smtStatuses = [
+export const smtStatuses = [
   {
     id: "dead",
     name: "SMT.ailments.dead",

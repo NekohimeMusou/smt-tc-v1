@@ -1,4 +1,5 @@
 import { showAwardDialog, showBuffDialog } from "../helpers/macro.js";
+import { smtStatuses } from "./statuses.js";
 
 declare global {
   type Affinity = keyof typeof affinities;
@@ -9,6 +10,7 @@ declare global {
   type DamageType = keyof typeof damageTypes;
   type TargetNumber = keyof typeof tnNames;
   type ItemType = keyof typeof itemTypes;
+  type StatusId = keyof typeof statusIds;
 }
 
 const templatePaths = [
@@ -43,11 +45,13 @@ const itemTypes = {
   skill: "SMT.itemTypes.skill",
 } as const;
 
-const armorSlots = {
-  head: "SMT.armorSlots.head",
-  torso: "SMT.armorSlots.torso",
-  legs: "SMT.armorSlots.legs",
-  none: "SMT.armorSlots.none",
+const equipSlots = {
+  head: "SMT.equipSlots.head",
+  torso: "SMT.equipSlots.torso",
+  legs: "SMT.equipSlots.legs",
+  melee: "SMT.equipSlots.melee",
+  gun: "SMT.equipSlots.gun",
+  none: "SMT.equipSlots.none",
 } as const;
 
 const charClasses = {
@@ -92,6 +96,23 @@ const affinities = {
   none: "SMT.affinities.none",
 } as const;
 
+const skillAffinities = {
+  phys: "SMT.affinities.phys",
+  fire: "SMT.affinities.fire",
+  cold: "SMT.affinities.cold",
+  elec: "SMT.affinities.elec",
+  force: "SMT.affinities.force",
+  light: "SMT.affinities.light",
+  dark: "SMT.affinities.dark",
+  mind: "SMT.affinities.mind",
+  nerve: "SMT.affinities.nerve",
+  ruin: "SMT.affinities.ruin",
+  almighty: "SMT.affinities.almighty",
+  healing: "SMT.affinities.healing",
+  support: "SMT.affinities.support",
+  unique: "SMT.affinities.unique",
+} as const;
+
 const affinityLevels = {
   reflect: "SMT.affinityLevels.reflect",
   drain: "SMT.affinityLevels.drain",
@@ -116,7 +137,6 @@ const ailments = {
   shock: "SMT.ailments.shock",
   curse: "SMT.ailments.curse",
   instantKill: "SMT.ailments.instantKill",
-  instantKillStone: "SMT.ailments.instantKillStone",
 } as const;
 
 const inheritanceTraits = {
@@ -137,8 +157,6 @@ const skillTypes = {
   passive: "SMT.skillTypes.passive",
   talk: "SMT.skillTypes.talk",
   item: "SMT.skillTypes.item",
-  // For "passive" skills with conditional rolls attached, like Lucky Find and Good Instincts
-  other: "SMT.skillTypes.other",
 } as const;
 
 const targets = {
@@ -203,14 +221,16 @@ export const SMT = {
   ailments,
   inheritanceTraits,
   skillTypes,
+  skillAffinities,
   costTypes,
   targets,
   itemTypes,
   templatePaths,
   derivedTNStats,
-  armorSlots,
+  equipSlots,
   statusIds,
   tnNames,
+  smtStatuses,
   defaultAutofailThreshold: 96,
   showBuffDialog,
   showAwardDialog,

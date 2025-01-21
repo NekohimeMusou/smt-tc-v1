@@ -15,7 +15,6 @@ export class SmtArmorDM extends SmtBaseItemDM {
       ...super.defineSchema(),
       ...sharedInventoryData(),
       ...sharedEquipmentData(),
-      armorSlot: new fields.StringField({ choices: CONFIG.SMT.armorSlots }),
       resistBonus: new fields.SchemaField({
         phys: new fields.NumberField({ integer: true, initial: 0 }),
         mag: new fields.NumberField({ integer: true, initial: 0 }),

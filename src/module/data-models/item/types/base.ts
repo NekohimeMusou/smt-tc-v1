@@ -10,6 +10,7 @@ export abstract class SmtBaseItemDM extends foundry.abstract.TypeDataModel {
         choices: CONFIG.SMT.itemTypes,
         initial: "skill",
       }),
+      effect: new fields.HTMLField(),
     } as const;
   }
 }

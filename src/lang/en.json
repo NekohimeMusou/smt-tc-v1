@@ -135,10 +135,12 @@
       "card": "Card",
       "skill": "Skill"
     },
-    "armorSlots": {
+    "equipSlots": {
       "head": "Head",
       "torso": "Torso",
       "legs": "Legs",
+      "melee": "Melee",
+      "gun": "Gun",
       "none": "—"
     },
     "powerTypes": {

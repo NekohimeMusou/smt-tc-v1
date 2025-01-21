@@ -3,5 +3,6 @@ export function sharedEquipmentData() {
 
   return {
     equipped: new fields.BooleanField(),
+    equipSlot: new fields.StringField({ choices: CONFIG.SMT.equipSlots }),
   } as const;
 }
