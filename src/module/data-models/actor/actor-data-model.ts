@@ -1,20 +1,12 @@
 import { SmtActor } from "../../documents/actor/actor.js";
 import affinitySchema from "../shared/affinities.js";
+import statData from "../shared/stats.js";
 
 const fields = foundry.data.fields;
 
 function generateResourceSchema() {
   return {
     max: new fields.NumberField({ integer: true }),
-    value: new fields.NumberField({ integer: true }),
-  };
-}
-
-function generateStatSchema() {
-  return {
-    base: new fields.NumberField({ integer: true, initial: 1 }),
-    magatama: new fields.NumberField({ integer: true }),
-    lv: new fields.NumberField({ integer: true }),
     value: new fields.NumberField({ integer: true }),
   };
 }
@@ -41,14 +33,6 @@ const power = new fields.SchemaField({
 const resist = new fields.SchemaField({
   phys: new fields.NumberField({ integer: true, min: 0 }),
   mag: new fields.NumberField({ integer: true, min: 0 }),
-});
-
-const stats = new fields.SchemaField({
-  st: new fields.SchemaField(generateStatSchema()),
-  ma: new fields.SchemaField(generateStatSchema()),
-  vi: new fields.SchemaField(generateStatSchema()),
-  ag: new fields.SchemaField(generateStatSchema()),
-  lu: new fields.SchemaField(generateStatSchema()),
 });
 
 const resources = {
@@ -140,7 +124,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       autoFailThreshold: new fields.NumberField({ integer: true, initial: 96 }),
       macca: new fields.NumberField({ integer: true, min: 0 }),
       affinities: new fields.SchemaField(affinitySchema()),
-      stats,
+      stats: new fields.SchemaField(statData()),
       tn,
       power,
       resist,
