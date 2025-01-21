@@ -240,7 +240,7 @@
       "power": "Power",
       "element": "Element",
       "weapon": "Weapon",
-      "ammo": "Ammo",
+      "ammo": "Ammo/Max",
       "expended": "Used?"
     },
     "tnNames": {

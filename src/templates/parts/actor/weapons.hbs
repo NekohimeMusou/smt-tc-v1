@@ -40,10 +40,14 @@
         {{!-- 1 target | All enemies | All allies | All combatants | Self --}}
         <div class="item-prop item-target">{{localize (concat "SMT.target." system.target)}}</div>
         {{!-- Cost or Ammo Count --}}
-        <div class="item-prop item-ammo">
+        <div class=" item-ammo">
           {{#if (gt system.ammo.max 0)}}
-          <input type="number" class="item-update" value="{{system.ammo.value}}" data-dtype="Number"
+          <div class=" item-prop flexrow flex-group-center">
+            <input type="number" class="item-update" value="{{system.ammo.value}}" data-dtype="Number"
             data-field-name="system.ammo.value" placeholder="0" />
+
+            <div>{{system.ammo.max}}</div>
+          </div>
           {{else}}
           —
           {{/if}}
