@@ -2,7 +2,7 @@ import affinityData from "../../shared/affinities.js";
 import statData from "../../shared/stats.js";
 import { SmtBaseItemDM } from "./base.js";
 
-export class Magatama extends SmtBaseItemDM {
+export class SMTMagatamaDM extends SmtBaseItemDM {
   override get itemType() {
     return "magatama" as const;
   }

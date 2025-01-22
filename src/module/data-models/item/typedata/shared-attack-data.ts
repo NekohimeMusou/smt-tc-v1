@@ -18,13 +18,16 @@ export function sharedAttackData() {
     ailment: new fields.EmbeddedDataField(AilmentDM),
     // Chance to shatter a Stoned target; 30% for Phys, varies for Force
     shatterChance: new fields.NumberField({ integer: true, min: 0 }),
+    powerBoostType: new fields.StringField({
+      choices: CONFIG.SMT.powerBoostTypes,
+    }),
     // Required for Deadly Fury
     innateCritBoost: new fields.BooleanField(),
     // Required for Pinhole
     pinhole: new fields.BooleanField(),
     // Status to apply automatically, e.g. Focused, Defending
     autoStatus: new fields.StringField({ choices: CONFIG.SMT.statusIds }),
-  } as const;
+  };
 }
 
 class AilmentDM extends foundry.abstract.DataModel {

@@ -257,7 +257,8 @@
       "magAtk": "Mag Atk",
       "save": "Save",
       "dodge": "Dodge",
-      "negotiation": "Negotiation"
+      "negotiation": "Negotiation",
+      "auto": "Auto"
     },
     "dice": {
       "checkName": "{tnName} Check",

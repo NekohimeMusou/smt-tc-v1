@@ -185,6 +185,7 @@ const tnNames = {
   save: "SMT.tnNames.save",
   dodge: "SMT.tnNames.dodge",
   negotiation: "SMT.tnNames.negotiation",
+  auto: "SMT.tnNames.auto",
 } as const;
 
 const statusIds = {
@@ -212,6 +213,11 @@ const statusIds = {
   focused: "SMT.characterMods.focused",
 } as const;
 
+const consumableTypes = {
+  rock: "SMT.consumableTypes.rock",
+  grenade: "SMT.consumableTypes.grenade",
+} as const;
+
 export const SMT = {
   charClasses,
   damageTypes,
@@ -231,6 +237,7 @@ export const SMT = {
   statusIds,
   tnNames,
   smtStatuses,
+  consumableTypes,
   defaultAutofailThreshold: 96,
   showBuffDialog,
   showAwardDialog,

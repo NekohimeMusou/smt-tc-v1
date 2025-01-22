@@ -1,3 +1,5 @@
+import { SmtItem } from "../../../documents/item/item.js";
+
 export abstract class SmtBaseItemDM extends foundry.abstract.TypeDataModel {
   abstract get itemType(): ItemType;
 
@@ -12,5 +14,10 @@ export abstract class SmtBaseItemDM extends foundry.abstract.TypeDataModel {
       }),
       effect: new fields.HTMLField(),
     } as const;
+  }
+
+  // Typescript-related hack
+  protected get systemData() {
+    return this as this & SmtItem["system"];
   }
 }

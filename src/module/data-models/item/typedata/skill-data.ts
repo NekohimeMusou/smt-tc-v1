@@ -1,7 +1,5 @@
 import { SmtBaseItemDM } from "../types/base.js";
 import { sharedAttackData } from "./shared-attack-data.js";
-import { sharedEquipmentData } from "./shared-equipment-data.js";
-import { sharedInventoryData } from "./shared-inventory-data.js";
 
 export class SMTSkillDM extends SmtBaseItemDM {
   override get itemType() {
@@ -14,8 +12,6 @@ export class SMTSkillDM extends SmtBaseItemDM {
     return {
       ...super.defineSchema(),
       ...sharedAttackData(),
-      ...sharedInventoryData(),
-      ...sharedEquipmentData(),
       basicStrike: new fields.BooleanField(),
       // Is this an expendable skill (e.g. Luck Smiles)?
       expendable: new fields.BooleanField(),
@@ -27,5 +23,11 @@ export class SMTSkillDM extends SmtBaseItemDM {
       // Replace this with an array of strings w/ choices
       inheritanceTraits: new fields.StringField(),
     } as const;
+  }
+
+  get costType(): CostType {
+    const data = this.systemData;
+
+    return data.skillType === "phys" ? "hp" : "mp";
   }
 }

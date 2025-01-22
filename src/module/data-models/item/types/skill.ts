@@ -11,24 +11,6 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
     return this.type === "stackable";
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static override migrateData(source: Record<string, any>) {
-    const data = source as SmtBaseItemData & SmtItem["system"];
-    // @ts-expect-error "auto" is gone as an accuracy stat
-    if (data?.accuracyStat === "auto") {
-      // @ts-expect-error This field isn't readonly
-      data.auto = true;
-    }
-
-    // This is an automatic getter now
-    if (data.accuracyStat) {
-      // @ts-expect-error This field isn't readonly
-      delete data.accuracyStat;
-    }
-
-    return source;
-  }
-
   static override defineSchema() {
     return {
       ...attackDataFields(),
@@ -121,6 +103,10 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
     const data = this.#systemData;
 
     const talkSkill = data.skillType === "talk";
+
+    if (data.accuracyStat === "auto") {
+      return 100;
+    }
 
     return (
       actor.system.tn[data.accuracyStat] +
