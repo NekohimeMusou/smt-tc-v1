@@ -238,7 +238,8 @@
       "bgNum": "BG {num}",
       "contactNum": "Contact {num}",
       "alignment": "Alignment",
-      "bond": "Bond"
+      "bond": "Bond",
+      "goal": "Goal"
     },
     "characterMods": {
       "focused": "Focused",

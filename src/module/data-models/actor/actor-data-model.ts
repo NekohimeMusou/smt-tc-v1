@@ -197,6 +197,7 @@ const bioData = {
   bg2: new fields.StringField(),
   contact1: new fields.StringField(),
   contact2: new fields.StringField(),
+  contact3: new fields.StringField(),
   alignment: new fields.SchemaField({
     law: new fields.NumberField({ integer: true, min: 0 }),
     chaos: new fields.NumberField({ integer: true, min: 0 }),
@@ -206,6 +207,7 @@ const bioData = {
     heeHo: new fields.NumberField({ integer: true, min: 0 }),
   }),
   bond: new fields.StringField(),
+  goal: new fields.StringField(),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
