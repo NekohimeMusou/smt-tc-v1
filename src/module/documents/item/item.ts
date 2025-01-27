@@ -6,4 +6,10 @@ export class SmtItem extends Item<
   typeof ITEMMODELS,
   SmtActor,
   SmtActiveEffect
-> {}
+> {
+  async addItemsToStack(qty: number) {
+    const data = this.system;
+
+    await this.update({ "system.qty": Math.max(data.qty + qty, 0) });
+  }
+}

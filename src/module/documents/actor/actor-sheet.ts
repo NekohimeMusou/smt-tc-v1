@@ -1,5 +1,9 @@
 import { SMT } from "../../config/config.js";
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../../helpers/active-effects.js";
+import { StackableItem } from "../../data-models/item/item-data-model.js";
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+} from "../../helpers/active-effects.js";
 import { hitCheck } from "../../helpers/dice.js";
 import { SmtItem } from "../item/item.js";
 import { SmtActor } from "./actor.js";
@@ -267,5 +271,32 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const updates = Object.fromEntries([[fieldName, newValue]]);
 
     await item.update(updates);
+  }
+
+  override async _onDropItem(_event: Event, itemD: unknown) {
+    // @ts-expect-error Copied from Persona system
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const item: SmtItem = await Item.implementation.fromDropData(itemD);
+    console.debug(`${item.system.type} dropped on sheet of ${this.actor.name}`);
+
+    switch (item.system.type) {
+      case "stackable":
+        if (!game.user.isGM) {
+          ui.notifications.warn("Use Item Piles functionality to move items.");
+          return undefined;
+        }
+        const existing = this.actor.items.find(
+          (x) =>
+            x.system.type == item.system.type &&
+            "qty" in x.system &&
+            x.name == item.name,
+        );
+        if (existing != undefined && existing.system.type == "stackable") {
+          console.log("Adding to existing amount");
+          await (existing as StackableItem).addItemsToStack(1);
+          return existing;
+        }
+        return super._onDropItem(_event, itemD);
+    }
   }
 }
