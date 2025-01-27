@@ -38,6 +38,9 @@ const templatePaths = [
   "systems/smt-tc/templates/parts/actor/buffs.hbs",
   "systems/smt-tc/templates/parts/actor/equipment.hbs",
   "systems/smt-tc/templates/parts/actor/items.hbs",
+  "systems/smt-tc/templates/parts/actor/tab-bio.hbs",
+  "systems/smt-tc/templates/parts/actor/background.hbs",
+  "systems/smt-tc/templates/parts/actor/alignment.hbs",
   "systems/smt-tc/templates/parts/shared/tab-effects.hbs",
   "systems/smt-tc/templates/parts/chat/target-roll.hbs",
 ] as const;

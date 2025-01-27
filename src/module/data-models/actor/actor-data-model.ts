@@ -192,6 +192,22 @@ const modifiers = {
   }),
 } as const;
 
+const bioData = {
+  bg1: new fields.StringField(),
+  bg2: new fields.StringField(),
+  contact1: new fields.StringField(),
+  contact2: new fields.StringField(),
+  alignment: new fields.SchemaField({
+    law: new fields.NumberField({ integer: true, min: 0 }),
+    chaos: new fields.NumberField({ integer: true, min: 0 }),
+    dark: new fields.NumberField({ integer: true, min: 0 }),
+    light: new fields.NumberField({ integer: true, min: 0 }),
+    neutral: new fields.NumberField({ integer: true, min: 0 }),
+    heeHo: new fields.NumberField({ integer: true, min: 0 }),
+  }),
+  bond: new fields.StringField(),
+} as const;
+
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
@@ -219,6 +235,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       ...ailmentMods,
       ...modifiers,
       ...resources,
+      ...bioData,
     } as const;
   }
 

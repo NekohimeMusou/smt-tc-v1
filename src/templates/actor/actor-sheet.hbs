@@ -8,6 +8,7 @@
     <a class="item resource-label" data-tab="main">{{localize "SMT.tabs.main"}}</a>
     {{#unless (eq system.charClass "demon")}}<a class="item resource-label"
       data-tab="inventory">{{localize "SMT.tabs.inventory"}}</a>{{/unless}}
+    <a class="item resource-label" data-tab="bio">{{localize "SMT.tabs.bio"}}</a>
     <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
     <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
   </nav>
@@ -26,14 +27,19 @@
     </div>
     {{/unless}}
 
-    {{!-- Effects Tab --}}
-    <div class="tab effects" data-group="primary" data-tab="effects">
-      {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
+    {{!-- Bio Tab --}}
+    <div class="tab bio" data-group="primary" data-tab="bio">
+      {{> "systems/smt-tc/templates/parts/actor/tab-bio.hbs"}}
     </div>
 
     {{!-- Notes Tab --}}
     <div class="tab notes" data-group="primary" data-tab="notes">
       {{editor system.notes target="system.notes" button=true editable=editable}}
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
     </div>
   </section>
 </form>

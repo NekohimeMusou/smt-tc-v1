@@ -21,11 +21,20 @@
     },
     "tabs": {
       "main": "Main",
-      "notes": "Notes",
+      "bio": "Bio",
       "options": "Options",
       "effects": "Effects",
       "effect": "Effect",
-      "inventory": "Inventory"
+      "inventory": "Inventory",
+      "notes": "Notes"
+    },
+    "alignment": {
+      "law": "Law",
+      "chaos": "Chaos",
+      "dark": "Dark",
+      "light": "Light",
+      "neutral": "Neutral",
+      "heeHo": "Hee-Ho"
     },
     "charClasses": {
       "human": "Human",
@@ -224,7 +233,12 @@
       "modifiers": "Mods",
       "multi": "Multi",
       "qty": "Qty",
-      "slot": "Slot"
+      "slot": "Slot",
+      "background": "Background",
+      "bgNum": "BG {num}",
+      "contactNum": "Contact {num}",
+      "alignment": "Alignment",
+      "bond": "Bond"
     },
     "characterMods": {
       "focused": "Focused",
