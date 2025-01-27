@@ -227,7 +227,7 @@
   font-weight: bold;
 }
 
-/* Styles limited to SMT RPG sheets */
+/* Styles limited to SMT TC sheets */
 /* .smt-tc { /*
   /* ----------------------------------------- */
   /*  Items Lists                              */
@@ -336,7 +336,7 @@
   display: flex;
 }
 
-.smt-tc .item-list {
+.smt-tc .items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -345,13 +345,19 @@
   color: #444;
 }
 
-.smt-tc .item-list .item-list {
+.smt-tc .items-list .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.smt-tc .item-list .item-name {
+.smt-tc .items-list .stat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.smt-tc .items-list .item-name {
   -webkit-box-flex: 2;
   -ms-flex: 2;
   flex: 2;
@@ -367,14 +373,14 @@
   display: flex;
 }
 
-.smt-tc .item-list .item-name h3,
-.smt-tc .item-list .item-name h4 {
+.smt-tc .items-list .item-name h3,
+.smt-tc .items-list .item-name h4 {
   margin: 0;
   white-space: nowrap;
   overflow-x: hidden;
 }
 
-.smt-tc .item-list .item-controls {
+.smt-tc .items-list .item-controls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -386,13 +392,13 @@
   justify-content: flex-end;
 }
 
-.smt-tc .item-list .item-controls a {
+.smt-tc .items-list .item-controls a {
   font-size: 12px;
   text-align: center;
   margin: 0 6px;
 }
 
-.smt-tc .item-list .item {
+.smt-tc .items-list .item {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -400,15 +406,15 @@
   border-bottom: 1px solid #c9c7b8;
 }
 
-.smt-tc .item-list .item:last-child {
+.smt-tc .items-list .item:last-child {
   border-bottom: none;
 }
 
-.smt-tc .item-list .item .item-name {
+.smt-tc .items-list .item .item-name {
   color: #191813;
 }
 
-.smt-tc .item-list .item .item-name .item-image {
+.smt-tc .items-list .item .item-name .item-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 30px;
   flex: 0 0 30px;
@@ -418,14 +424,14 @@
   margin-right: 5px;
 }
 
-.smt-tc .item-list .item-prop {
+.smt-tc .items-list .item-prop {
   text-align: center;
   border-left: 1px solid #c9c7b8;
   border-right: 1px solid #c9c7b8;
   font-size: 12px;
 }
 
-.smt-tc .item-list .items-header {
+.smt-tc .items-list .items-header {
   height: 28px;
   margin: 2px 0;
   padding: 0;
@@ -437,12 +443,12 @@
   font-weight: bold;
 }
 
-.smt-tc .item-list .items-header>* {
+.smt-tc .items-list .items-header>* {
   font-size: 12px;
   text-align: center;
 }
 
-.smt-tc .item-list .items-header .item-name {
+.smt-tc .items-list .items-header .item-name {
   padding-left: 5px;
   text-align: left;
 }
