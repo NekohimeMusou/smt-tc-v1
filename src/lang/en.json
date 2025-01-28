@@ -321,7 +321,8 @@
     "macro": {
       "insufficientMacca": "{charName} doesn't have enough macca! Needed: {cost}mc",
       "healingAmt": "{charName} recovers {hp} HP and {mp} MP. Cost: {cost}mc",
-      "alreadyHealed": "{charName} is already fully healed!"
+      "alreadyHealed": "{charName} is already fully healed!",
+      "award": "{charName} is awarded {xp} XP and {macca} Macca!"
     },
     "settings": {
       "invertShiftBehavior": {

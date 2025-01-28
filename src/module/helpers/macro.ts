@@ -69,23 +69,54 @@ export async function showBuffDialog() {
 export async function showAwardDialog() {
   if (!game.user.isGM) return;
 
-  const { xp, macca, cancelled } = await renderAwardDialog();
+  const {
+    xp: xpEarned,
+    macca: maccaEarned,
+    cancelled,
+  } = await renderAwardDialog();
 
   if (cancelled) return;
+
+  const htmlParts: string[] = [];
 
   for (const tk of canvas.tokens.controlled) {
     const token = tk as SmtToken;
 
     if (!token.isOwner) return;
 
-    const newXP = token.actor.system.xp + xp!;
-    const newMacca = token.actor.system.macca + macca!;
+    const newXP = token.actor.system.xp + xpEarned!;
+    const newMacca = token.actor.system.macca + maccaEarned!;
+
+    const charName = token.name;
+    const xp = `${xpEarned}`;
+    const macca = `${maccaEarned}`;
+
+    htmlParts.push(
+      `<div>${game.i18n.format("SMT.macro.award", { charName, xp, macca })}</div>`,
+    );
 
     await token.actor.update({
       "system.xp": newXP,
       "system.macca": newMacca,
     });
   }
+
+  if (htmlParts.length < 1) {
+    return;
+  }
+
+  const content = htmlParts.join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      scene: game.scenes.current,
+      alias: "Ca$h bot",
+    },
+  };
+
+  return await ChatMessage.create(chatData);
 }
 
 export async function applyHealingFountain() {
