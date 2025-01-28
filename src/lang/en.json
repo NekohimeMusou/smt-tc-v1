@@ -281,7 +281,8 @@
       "dodgeResult": "Dodge check: {checkResult}",
       "targets": "Targets",
       "costNotPaid": "Unable to pay cost.",
-      "healing": "recovers {damage} HP!"
+      "healing": "recovers {damage} HP!",
+      "consume": "Consume on use"
     },
     "diceResult": {
       "success": "Success!",

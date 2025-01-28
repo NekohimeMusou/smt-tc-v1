@@ -124,6 +124,12 @@
     </div>
   </div>
   {{/if}}
+  {{#if (eq system.itemType "item")}}
+  <div class="flexcol">
+      <label for="consume-field" class="resource-label">{{localize "SMT.dice.consume"}}</label>
+      <input type="checkbox" id="consume-field" name="system.consume" {{checked system.consume}} />
+    </div>
+  {{/if}}
   {{#if (or (eq system.itemType "item") (eq system.itemType "equipment") (eq system.itemType "weapon"))}}
   <div class="flexcol">
     <label for="price-field" class="resource-label">{{localize "SMT.sheet.price"}}</label>

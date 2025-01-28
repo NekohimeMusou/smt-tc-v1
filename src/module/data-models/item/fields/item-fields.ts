@@ -13,5 +13,6 @@ export function itemDataFields() {
     }),
     equipped: new fields.BooleanField(),
     price: new fields.NumberField({ integer: true, initial: 0 }),
+    consume: new fields.BooleanField(),
   };
 }

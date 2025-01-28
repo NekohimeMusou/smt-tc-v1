@@ -99,6 +99,11 @@ export async function hitCheck({
     await skill.update({ "system.ammo.value": newBullets });
   }
 
+  // If this is a consumable item, consume it
+  if (skill?.system.consume) {
+    await skill.consumeItem();
+  }
+
   // Unfocus
   const focused = actor.statuses.has("focused");
   await actor.changeStatus("focused", "off");
