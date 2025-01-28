@@ -218,7 +218,7 @@
       "levelShort": "LV",
       "statTotal": "Total",
       "tn": "TN",
-      "derivedTN": "Spc",
+      "derivedTN": "Derived TN",
       "derivedStats": "Derived Stats",
       "basePhysPower": "Phys Power",
       "baseMagPower": "Mag Power",
@@ -317,6 +317,11 @@
       "confirmDeleteDialogTitle": "Delete Item",
       "confirmDeletePrompt": "Really delete {name}?",
       "combatAwardTitle": "Award XP and Macca"
+    },
+    "macro": {
+      "insufficientMacca": "{charName} doesn't have enough macca! Needed: {cost}mc",
+      "healingAmt": "{charName} recovers {hp} HP and {mp} MP. Cost: {cost}mc",
+      "alreadyHealed": "{charName} is already fully healed!"
     },
     "settings": {
       "invertShiftBehavior": {

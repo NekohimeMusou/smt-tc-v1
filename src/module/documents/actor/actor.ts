@@ -7,7 +7,11 @@ type StatusData = StatusEffectObject & { statuses?: Set<string> };
 
 type StatusChangeMode = "on" | "off" | "toggle";
 
-export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect> {
+export class SmtActor extends Actor<
+  typeof ACTORMODELS,
+  SmtItem,
+  SmtActiveEffect
+> {
   async changeStatus(id: SmtStatusId, mode: StatusChangeMode) {
     const originalEffect = this.effects.find((e) => e.statuses.has(id));
 
@@ -42,24 +46,21 @@ export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect
     return true;
   }
 
-  async healingFountain() {
-    if (!game.user.isGM) {
-      return;
-    }
-
+  async healingFountain(): Promise<HealingFountainResult> {
     const data = this.system;
 
-    const healingCost =
-      Math.max(data.hp.max - data.hp.value, 0) +
-      Math.max(data.mp.max - data.mp.value, 0) * 2;
+    const hpAmount = Math.max(data.hp.max - data.hp.value, 0);
+    const mpAmount = Math.max(data.mp.max - data.mp.value, 0);
+
+    const healingCost = hpAmount + mpAmount * 2;
 
     if (healingCost < 1) {
-      return;
+      return {};
     }
 
     if (data.macca < healingCost) {
       ui.notifications.notify(`Insufficient macca: ${this.name}`);
-      return;
+      return { insufficientMacca: true, healingCost };
     }
 
     const updateData = {
@@ -69,5 +70,15 @@ export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect
     };
 
     await this.update(updateData);
+
+    return { healed: true, hpAmount, mpAmount, healingCost };
   }
+}
+
+interface HealingFountainResult {
+  healed?: boolean;
+  insufficientMacca?: boolean;
+  hpAmount?: number;
+  mpAmount?: number;
+  healingCost?: number;
 }

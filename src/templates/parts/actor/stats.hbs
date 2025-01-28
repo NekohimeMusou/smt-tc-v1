@@ -17,7 +17,7 @@
         {{!-- Stat TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
         {{!-- Special TN label --}}
-        <div>{{localize "SMT.actorSheet.derivedTN"}}</div>
+        <div class="flex2">{{localize "SMT.actorSheet.derivedTN"}}</div>
         {{!-- Special TN --}}
         <div>{{localize "SMT.actorSheet.tn"}}</div>
       </li>
@@ -43,7 +43,7 @@
         {{!-- Stat TN --}}
         <div class="item-prop roll-highlight roll-stat" data-tn-name="{{@key}}">{{lookup ../system.tn @key}}%</div>
         {{!-- Special TN label --}}
-        <div class="item-prop item-name">{{localize (concat "SMT.derivedTN." @key)}}</div>
+        <div class="item-prop item-name flex2">{{localize (concat "SMT.derivedTN." @key)}}</div>
         {{!-- Special TN --}}
         <div class="item-prop roll-highlight roll-stat"
           {{#if (eq @key "st")}}data-tn-name="physAtk"{{/if}}

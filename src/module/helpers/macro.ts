@@ -91,7 +91,40 @@ export async function showAwardDialog() {
 export async function applyHealingFountain() {
   const tokens = canvas.tokens.controlled as SmtToken[];
 
+  const htmlParts: string[] = [];
+
   for (const token of tokens) {
-    await token.actor.healingFountain();
+    const { healed, insufficientMacca, hpAmount, mpAmount, healingCost } =
+      await token.actor.healingFountain();
+    const charName = token.name;
+    const hp = `${hpAmount ?? 0}`;
+    const mp = `${mpAmount ?? 0}`;
+    const cost = `${healingCost ?? 0}`;
+
+    if (insufficientMacca) {
+      htmlParts.push(
+        `<div>${game.i18n.format("SMT.macro.insufficientMacca", { charName, cost })}</div>`,
+      );
+    } else if (healed) {
+      htmlParts.push(
+        `<div>${game.i18n.format("SMT.macro.healingAmt", { charName, hp, mp, cost })}</div>`,
+      );
+    } else {
+      htmlParts.push(
+        `<div>${game.i18n.format("SMT.macro.alreadyHealed", { charName })}</div>`,
+      );
+    }
   }
+
+  const content = htmlParts.join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      alias: "Lady of the Fount",
+    },
+  };
+
+  return await ChatMessage.create(chatData);
 }
