@@ -87,3 +87,11 @@ export async function showAwardDialog() {
     });
   }
 }
+
+export async function applyHealingFountain() {
+  const tokens = canvas.tokens.controlled as SmtToken[];
+
+  for (const token of tokens) {
+    await token.actor.healingFountain();
+  }
+}

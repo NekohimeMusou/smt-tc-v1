@@ -39,4 +39,33 @@ export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect
 
     return true;
   }
+
+  async healingFountain() {
+    if (!game.user.isGM) {
+      return;
+    }
+
+    const data = this.system;
+
+    const healingCost =
+      Math.max(data.hp.max - data.hp.value, 0) +
+      Math.max(data.mp.max - data.mp.value, 0) * 2;
+
+    if (healingCost < 1) {
+      return;
+    }
+
+    if (data.macca < healingCost) {
+      ui.notifications.notify(`Insufficient macca: ${this.name}`);
+      return;
+    }
+
+    const updateData = {
+      "system.macca": data.macca - healingCost,
+      "system.hp.value": data.hp.max,
+      "system.mp.value": data.mp.max,
+    };
+
+    await this.update(updateData);
+  }
 }
