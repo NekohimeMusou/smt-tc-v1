@@ -1,5 +1,4 @@
 import { SMT } from "../../config/config.js";
-import { StackableItem } from "../../data-models/item/item-data-model.js";
 import {
   onManageActiveEffect,
   prepareActiveEffectCategories,
@@ -279,6 +278,10 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
     const item: SmtItem = await Item.implementation.fromDropData(itemD);
     console.debug(`${item.system.type} dropped on sheet of ${this.actor.name}`);
 
+    if (item.system.itemType === "skill") {
+      return super._onDropItem(_event, itemD);
+    }
+
     switch (item.system.type) {
       case "stackable":
         if (!game.user.isGM) {
@@ -293,7 +296,7 @@ export class SmtActorSheet extends ActorSheet<SmtActor> {
         );
         if (existing != undefined && existing.system.type == "stackable") {
           console.log("Adding to existing amount");
-          await (existing as StackableItem).addItemsToStack(1);
+          await existing.addItemsToStack(1);
           return existing;
         }
         return super._onDropItem(_event, itemD);

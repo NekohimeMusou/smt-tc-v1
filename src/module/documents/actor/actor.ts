@@ -23,6 +23,8 @@ export class SmtActor extends Actor<typeof ACTORMODELS, SmtItem, SmtActiveEffect
 
       newEffect.statuses = new Set<SmtStatusId>([id]);
 
+      newEffect.name = game.i18n.localize(newEffect.name);
+
       await this.createEmbeddedDocuments("ActiveEffect", [newEffect]);
     }
   }

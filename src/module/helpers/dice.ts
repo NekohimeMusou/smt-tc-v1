@@ -50,8 +50,6 @@ interface TargetData {
   includeAilment: boolean;
 }
 
-// TO ADD
-//
 export async function hitCheck({
   tnName,
   actor,
@@ -112,6 +110,10 @@ export async function hitCheck({
   // Drop TN boosts if it's not an auto skill
   if (!auto && costPaid) {
     await actor.update({ "system.tnBoosts": 0 });
+  }
+
+  if (skill?.system.focusEffect && costPaid) {
+    await actor.changeStatus("focused", "on");
   }
 
   const autoFailThreshold =
