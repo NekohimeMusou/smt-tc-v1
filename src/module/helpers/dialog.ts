@@ -19,25 +19,15 @@ interface AwardHTMLElement extends HTMLElement {
 }
 
 interface BuffHTMLElement extends HTMLElement {
-  physPowerBuff?: { value?: string };
-  physPowerDebuff?: { value?: string };
-  magPowerBuff?: { value?: string };
-  magPowerDebuff?: { value?: string };
-  accuracyBuff?: { value?: string };
-  accuracyDebuff?: { value?: string };
-  resistBuff?: { value?: string };
-  resistDebuff?: { value?: string };
+  buffType?: { value?: BuffType };
+  buffAmount?: { value?: string };
 }
 
 interface BuffDialogResult {
-  physPowerBuff?: number;
-  physPowerDebuff?: number;
-  magPowerBuff?: number;
-  magPowerDebuff?: number;
-  accuracyBuff?: number;
-  accuracyDebuff?: number;
-  resistBuff?: number;
-  resistDebuff?: number;
+  buffType?: BuffType;
+  buffAmount?: number;
+  cancelBuffs?: boolean;
+  cancelDebuffs?: boolean;
   cancelled?: boolean;
 }
 
@@ -86,7 +76,9 @@ export async function renderSuccessCheckDialog({
 export async function renderBuffDialog(): Promise<BuffDialogResult> {
   const template = "systems/smt-tc/templates/dialog/buff-dialog.hbs";
 
-  const content = await renderTemplate(template, {});
+  const content = await renderTemplate(template, {
+    buffTypes: CONFIG.SMT.buffTypes,
+  });
 
   return new Promise((resolve) =>
     new Dialog(
@@ -98,51 +90,30 @@ export async function renderBuffDialog(): Promise<BuffDialogResult> {
             label: "OK",
             callback: (html) =>
               resolve({
-                physPowerBuff:
+                buffType: ($(html)[0].querySelector("form") as BuffHTMLElement)
+                  .buffType?.value,
+                buffAmount:
                   parseInt(
                     ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.physPowerBuff?.value ?? "0",
-                  ) || 0,
-                physPowerDebuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.physPowerDebuff?.value ?? "0",
-                  ) || 0,
-                magPowerBuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.magPowerBuff?.value ?? "0",
-                  ) || 0,
-                magPowerDebuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.magPowerDebuff?.value ?? "0",
-                  ) || 0,
-                accuracyBuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.accuracyBuff?.value ?? "0",
-                  ) || 0,
-                accuracyDebuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.accuracyDebuff?.value ?? "0",
-                  ) || 0,
-                resistBuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.resistBuff?.value ?? "0",
-                  ) || 0,
-                resistDebuff:
-                  parseInt(
-                    ($(html)[0].querySelector("form") as BuffHTMLElement)
-                      ?.resistDebuff?.value ?? "0",
+                      ?.buffAmount?.value ?? "0",
                   ) || 0,
               }),
           },
           cancel: {
             label: "Cancel",
             callback: () => resolve({ cancelled: true }),
+          },
+          dekaja: {
+            label: game.i18n.localize("SMT.dialog.dekajaButton"),
+            callback: () => resolve({ cancelBuffs: true }),
+          },
+          dekunda: {
+            label: game.i18n.localize("SMT.dialog.dekundaButton"),
+            callback: () => resolve({ cancelDebuffs: true }),
+          },
+          clearAll: {
+            label: game.i18n.localize("SMT.dialog.clearAllBuffs"),
+            callback: () => resolve({ cancelBuffs: true, cancelDebuffs: true }),
           },
         },
         default: "ok",

@@ -2,68 +2,96 @@ import { SmtToken } from "../documents/token.js";
 import { renderAwardDialog, renderBuffDialog } from "./dialog.js";
 
 export async function showBuffDialog() {
-  const {
-    physPowerBuff,
-    physPowerDebuff,
-    magPowerBuff,
-    magPowerDebuff,
-    accuracyBuff,
-    accuracyDebuff,
-    resistBuff,
-    resistDebuff,
-    cancelled,
-  } = await renderBuffDialog();
+  if (!game.user.isGM) return;
+
+  const { buffType, buffAmount, cancelBuffs, cancelDebuffs, cancelled } =
+    await renderBuffDialog();
 
   if (cancelled) {
     return;
   }
 
+  const htmlParts = [
+    `<h2>${game.i18n.localize(`SMT.buffSpells.${buffType}`)}</h2>`,
+  ];
+
+  const buffValue = buffAmount ?? 0;
+
+  const generateBuffOutput =
+    !(cancelBuffs ?? cancelDebuffs) && buffType && buffValue > 0;
+
   for (const tk of canvas.tokens.controlled) {
     const token = tk as SmtToken;
 
-    if (!token.isOwner) return;
+    const buffAdjustments: [string, number][] = [];
 
-    const currentBuffs = token.actor.system.buffs;
+    htmlParts.push(`<div>${token.name}</div>`);
 
-    const currentDebuffs = token.actor.system.debuffs;
+    // h3 spell name: SMT.buffSpells.<name>
+    // Target list
+    // "Phys Power reduced/increased by X"
+    // or "all buffs/debuffs reset"
 
-    const updateData = {
-      "system.buffs.physPower": Math.max(
-        currentBuffs.physPower + (physPowerBuff ?? 0),
-        0,
-      ),
-      "system.buffs.magPower": Math.max(
-        currentBuffs.magPower + (magPowerBuff ?? 0),
-        0,
-      ),
-      "system.buffs.accuracy": Math.max(
-        currentBuffs.accuracy + (accuracyBuff ?? 0),
-        0,
-      ),
-      "system.buffs.resist": Math.max(
-        currentBuffs.resist + (resistBuff ?? 0),
-        0,
-      ),
-      "system.debuffs.physPower": Math.max(
-        currentDebuffs.physPower + (physPowerDebuff ?? 0),
-        0,
-      ),
-      "system.debuffs.magPower": Math.max(
-        currentDebuffs.magPower + (magPowerDebuff ?? 0),
-        0,
-      ),
-      "system.debuffs.accuracy": Math.max(
-        currentDebuffs.accuracy + (accuracyDebuff ?? 0),
-        0,
-      ),
-      "system.debuffs.resist": Math.max(
-        currentDebuffs.resist + (resistDebuff ?? 0),
-        0,
-      ),
-    };
+    if (cancelBuffs) {
+      Object.keys(CONFIG.SMT.buffSpells).forEach((buffName) =>
+        buffAdjustments.push([`system.buffs.${buffName}`, 0]),
+      );
+    }
 
-    await token.actor.update(updateData);
+    if (cancelDebuffs) {
+      Object.keys(CONFIG.SMT.debuffSpells).forEach((buffName) =>
+        buffAdjustments.push([`system.buffs.${buffName}`, 0]),
+      );
+    }
+
+    if (generateBuffOutput) {
+      buffAdjustments.push([
+        `system.buffs.${buffType}`,
+        token.actor.system.buffs[buffType] + buffValue,
+      ]);
+    }
+
+    await token.actor.update(Object.fromEntries(buffAdjustments));
   }
+
+  if (cancelBuffs) {
+    htmlParts.push(
+      `<div>${game.i18n.localize("SMT.macro.buffDialogDekaja")}</div>`,
+    );
+  }
+
+  if (cancelDebuffs) {
+    htmlParts.push(
+      `<div>${game.i18n.localize("SMT.macro.buffDialogDekunda")}</div>`,
+    );
+  }
+
+  if (generateBuffOutput) {
+    const buffEffectLabel = game.i18n.localize(
+      `SMT.buffEffectLabels.${buffType}`,
+    );
+    const isBuff = Object.keys(CONFIG.SMT.buffSpells).includes(buffType);
+    const resultType = isBuff ? "buffDialogResult" : "debuffDialogResult";
+    const resultLabel = game.i18n.format(`SMT.macro.${resultType}`, {
+      stat: buffEffectLabel,
+      amount: `${buffValue}`,
+    });
+
+    htmlParts.push(`<div>${resultLabel}</div>`);
+  }
+
+  const content = htmlParts.join("\n");
+
+  const chatData = {
+    user: game.user.id,
+    content,
+    speaker: {
+      scene: game.scenes.current,
+      alias: "BuffBot",
+    },
+  };
+
+  return await ChatMessage.create(chatData);
 }
 
 export async function showAwardDialog() {

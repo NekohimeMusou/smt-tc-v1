@@ -117,14 +117,30 @@
     },
     "buffSpells": {
       "tarukaja": "Tarukaja",
+      "makakaja": "Makakaja",
       "rakukaja": "Rakukaja",
       "sukukaja": "Sukukaja",
-      "makakaja": "Makakaja"
-    },
-    "debuffSpells": {
       "tarunda": "Tarunda",
       "rakunda": "Rakunda",
       "sukunda": "Sukunda"
+    },
+    "buffEffects": {
+      "tarukaja": "Tarukaja (Phys Power)",
+      "makakaja": "Makakaja (Mag Power)",
+      "rakukaja": "Rakukaja (Phys/Mag Resist)",
+      "sukukaja": "Sukukaja (Accuracy/Dodge TN)",
+      "tarunda": "Tarunda (Phys/Mag Power)",
+      "rakunda": "Rakunda (Phys/Mag Resist)",
+      "sukunda": "Sukunda (Accuracy/Dodge TN)"
+    },
+    "buffEffectLabels": {
+      "tarukaja": "Phys Power",
+      "makakaja": "Mag Power",
+      "rakukaja": "Phys/Mag Resist",
+      "sukukaja": "Accuracy/Dodge TN",
+      "tarunda": "Phys/Mag Power",
+      "rakunda": "Phys/Mag Resist",
+      "sukunda": "Accuracy/Dodge TN"
     },
     "inheritanceTraits": {
       "mouth": "Mouth",
@@ -316,13 +332,22 @@
       "hasCritBoost": "Crit boost?",
       "confirmDeleteDialogTitle": "Delete Item",
       "confirmDeletePrompt": "Really delete {name}?",
-      "combatAwardTitle": "Award XP and Macca"
+      "combatAwardTitle": "Award XP and Macca",
+      "dekajaButton": "Dekaja",
+      "dekundaButton": "Dekunda",
+      "clearAllBuffs": "Clear All"
     },
     "macro": {
       "insufficientMacca": "{charName} doesn't have enough macca! Needed: {cost}mc",
       "healingAmt": "{charName} recovers {hp} HP and {mp} MP. Cost: {cost}mc",
       "alreadyHealed": "{charName} is already fully healed!",
-      "award": "{charName} is awarded {xp} XP and {macca} Macca!"
+      "award": "{charName} is awarded {xp} XP and {macca} Macca!",
+      "buff": "Buff",
+      "debuff": "Debuff",
+      "buffDialogResult": "Increased {stat} by {amount}!",
+      "debuffDialogResult": "Reduced {stat} by {amount}!",
+      "buffDialogDekaja": "All buffs removed!",
+      "buffDialogDekunda": "All debuffs removed!"
     },
     "settings": {
       "invertShiftBehavior": {

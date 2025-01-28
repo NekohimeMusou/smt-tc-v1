@@ -223,17 +223,17 @@ const smtStatuses = [
   },
   {
     id: "tarunda",
-    name: "SMT.debuffSpells.tarunda",
+    name: "SMT.buffSpells.tarunda",
     icon: "icons/svg/downgrade.svg",
   },
   {
     id: "rakunda",
-    name: "SMT.debuffSpells.rakunda",
+    name: "SMT.buffSpells.rakunda",
     icon: "icons/svg/ruins.svg",
   },
   {
     id: "sukunda",
-    name: "SMT.debuffSpells.sukunda",
+    name: "SMT.buffSpells.sukunda",
     icon: "icons/svg/trap.svg",
   },
   {

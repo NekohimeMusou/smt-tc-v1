@@ -179,16 +179,13 @@ const modifiers = {
   // TODO: Make these into AEs somehow
   // -kaja and -kunda spells
   buffs: new fields.SchemaField({
-    physPower: new fields.NumberField({ integer: true, min: 0 }),
-    magPower: new fields.NumberField({ integer: true, min: 0 }),
-    accuracy: new fields.NumberField({ integer: true, min: 0 }),
-    resist: new fields.NumberField({ integer: true, min: 0 }),
-  }),
-  debuffs: new fields.SchemaField({
-    physPower: new fields.NumberField({ integer: true, min: 0 }),
-    magPower: new fields.NumberField({ integer: true, min: 0 }),
-    accuracy: new fields.NumberField({ integer: true, min: 0 }),
-    resist: new fields.NumberField({ integer: true, min: 0 }),
+    tarukaja: new fields.NumberField({ integer: true, min: 0 }),
+    makakaja: new fields.NumberField({ integer: true, min: 0 }),
+    rakukaja: new fields.NumberField({ integer: true, min: 0 }),
+    sukukaja: new fields.NumberField({ integer: true, min: 0 }),
+    tarunda: new fields.NumberField({ integer: true, min: 0 }),
+    rakunda: new fields.NumberField({ integer: true, min: 0 }),
+    sukunda: new fields.NumberField({ integer: true, min: 0 }),
   }),
 } as const;
 
@@ -278,16 +275,16 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     data.resist.phys = Math.max(
       Math.floor((stats.vi.value + lv) / 2) +
-        data.buffs.resist -
-        data.debuffs.resist +
+        data.buffs.rakukaja -
+        data.buffs.rakunda +
         data.resistBonus.phys +
         equipPhysResist,
       0,
     );
     data.resist.mag = Math.max(
       Math.floor((stats.ma.value + lv) / 2) +
-        data.buffs.resist -
-        data.debuffs.resist +
+        data.buffs.rakukaja -
+        data.buffs.rakunda +
         data.resistBonus.mag +
         equipMagResist,
       0,
@@ -295,15 +292,15 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
     // Calculate power and resistance
     data.power.phys = Math.max(
-      stats.st.value + lv + data.buffs.physPower - data.debuffs.physPower,
+      stats.st.value + lv + data.buffs.tarukaja - data.buffs.tarunda,
       0,
     );
     data.power.mag = Math.max(
-      stats.ma.value + lv + data.buffs.magPower - data.debuffs.magPower,
+      stats.ma.value + lv + data.buffs.makakaja - data.buffs.tarunda,
       0,
     );
     data.power.gun = Math.max(
-      stats.ag.value + data.buffs.physPower - data.debuffs.physPower,
+      stats.ag.value + data.buffs.tarukaja - data.buffs.tarunda,
       0,
     );
   }
@@ -332,8 +329,8 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
             stat.value +
             10 +
             data.dodgeBonus +
-            data.buffs.accuracy -
-            data.debuffs.accuracy;
+            data.buffs.sukukaja -
+            data.buffs.sukunda;
           break;
         case "lu":
           derivedTNValue = data.tn.negotiation = stat.value * 2 + 20;

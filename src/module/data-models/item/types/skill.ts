@@ -124,8 +124,8 @@ export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
     return (
       actor.system.tn[data.accuracyStat] +
       (talkSkill ? 20 : 0) +
-      actor.system.buffs.accuracy -
-      actor.system.debuffs.accuracy +
+      actor.system.buffs.sukukaja -
+      actor.system.buffs.sukunda +
       (data.skillType === "gun" ? actor.system.gunAttackBonus : 0)
     );
   }

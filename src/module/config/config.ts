@@ -22,6 +22,7 @@ declare global {
   type DerivedTN = (typeof derivedTNs)[number];
   type TargetNumber = keyof typeof tnNames;
   type EquipSlot = keyof typeof equipSlots;
+  type BuffType = keyof typeof buffTypes;
 }
 
 const templatePaths = [
@@ -234,11 +235,44 @@ const statusIds = {
   rakukaja: "SMT.buffSpells.rakukaja",
   sukukaja: "SMT.buffSpells.sukukaja",
   makakaja: "SMT.buffSpells.makakaja",
-  tarunda: "SMT.debuffSpells.tarunda",
-  rakunda: "SMT.debuffSpells.rakunda",
-  sukunda: "SMT.debuffSpells.sukunda",
+  tarunda: "SMT.buffSpells.tarunda",
+  rakunda: "SMT.buffSpells.rakunda",
+  sukunda: "SMT.buffSpells.sukunda",
   defending: "SMT.characterMods.defending",
   focused: "SMT.characterMods.focused",
+} as const;
+
+const buffTypes = {
+  tarukaja: "SMT.buffSpells.tarukaja",
+  rakukaja: "SMT.buffSpells.rakukaja",
+  sukukaja: "SMT.buffSpells.sukukaja",
+  makakaja: "SMT.buffSpells.makakaja",
+  tarunda: "SMT.buffSpells.tarunda",
+  rakunda: "SMT.buffSpells.rakunda",
+  sukunda: "SMT.buffSpells.sukunda",
+} as const;
+
+const buffEffects = {
+  tarukaja: "SMT.buffEffects.tarukaja",
+  rakukaja: "SMT.buffEffects.rakukaja",
+  sukukaja: "SMT.buffEffects.sukukaja",
+  makakaja: "SMT.buffEffects.makakaja",
+  tarunda: "SMT.buffEffects.tarunda",
+  rakunda: "SMT.buffEffects.rakunda",
+  sukunda: "SMT.buffEffects.sukunda",
+} as const;
+
+const buffSpells = {
+  tarukaja: "SMT.buffSpells.tarukaja",
+  rakukaja: "SMT.buffSpells.rakukaja",
+  sukukaja: "SMT.buffSpells.sukukaja",
+  makakaja: "SMT.buffSpells.makakaja",
+} as const;
+
+const debuffSpells = {
+  tarunda: "SMT.buffEffects.tarunda",
+  rakunda: "SMT.buffEffects.rakunda",
+  sukunda: "SMT.buffEffects.sukunda",
 } as const;
 
 export const SMT = {
@@ -263,6 +297,10 @@ export const SMT = {
   equipSlots,
   statusIds,
   tnNames,
+  buffTypes,
+  buffEffects,
+  buffSpells,
+  debuffSpells,
   defaultAutofailThreshold: 96,
   showBuffDialog,
   showAwardDialog,
