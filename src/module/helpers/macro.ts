@@ -29,18 +29,15 @@ export async function showBuffDialog() {
 
   const generateBuffOutput =
     !(cancelBuffs ?? cancelDebuffs) && buffType && buffValue > 0;
+  
+  htmlParts.push("<ul>");
 
   for (const tk of canvas.tokens.controlled) {
     const token = tk as SmtToken;
 
     const buffAdjustments: [string, number][] = [];
 
-    htmlParts.push(`<div>${token.name}</div>`);
-
-    // h3 spell name: SMT.buffSpells.<name>
-    // Target list
-    // "Phys Power reduced/increased by X"
-    // or "all buffs/debuffs reset"
+    htmlParts.push(`<li>${token.name}</li>`);
 
     if (cancelBuffs) {
       Object.keys(CONFIG.SMT.buffSpells).forEach((buffName) =>
@@ -63,6 +60,8 @@ export async function showBuffDialog() {
 
     await token.actor.update(Object.fromEntries(buffAdjustments));
   }
+
+  htmlParts.push("</ul>");
 
   if (cancelBuffs) {
     htmlParts.push(
