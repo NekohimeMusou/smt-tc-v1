@@ -26,7 +26,8 @@
       "effects": "Effects",
       "effect": "Effect",
       "inventory": "Inventory",
-      "notes": "Notes"
+      "notes": "Notes",
+      "enemy": "Enemy"
     },
     "alignment": {
       "law": "Law",

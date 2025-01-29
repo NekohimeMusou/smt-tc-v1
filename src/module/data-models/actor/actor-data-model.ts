@@ -207,6 +207,13 @@ const bioData = {
   goal: new fields.StringField(),
 } as const;
 
+const enemyDemonData = {
+  xpAward: new fields.NumberField({ integer: true, min: 0 }),
+  maccaAward: new fields.NumberField({ integer: true, min: 0 }),
+  lootItem: new fields.StringField(),
+  personality: new fields.StringField(),
+} as const;
+
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
   get type() {
     return "character" as const;
@@ -235,6 +242,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       ...modifiers,
       ...resources,
       ...bioData,
+      ...enemyDemonData,
     } as const;
   }
 
