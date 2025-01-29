@@ -27,17 +27,16 @@
         {{!-- Stat Name --}}
         <div class="item-prop">{{localize (concat "SMT.tn." @key)}}</div>
         {{!-- Base --}}
-        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
-            data-dtype="Number" /></div>
+          <input class="item-prop" type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
+            data-dtype="Number" />
         {{!-- Magatama Mod --}}
         {{#if (eq ../system.charClass "fiend")}}
-        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}"
-            placeholder="0" data-dtype="Number" /></div>
+          <input class="item-prop" type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}"
+            placeholder="0" data-dtype="Number" />
         {{/if}}
         {{!-- LV points --}}
-        <div class="item-prop"><input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0"
+          <input class="item-prop" type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0"
             data-dtype="Number" />
-        </div>
         {{!-- Total Stat --}}
         <div class="item-prop">{{value}}</div>
         {{!-- Stat TN --}}

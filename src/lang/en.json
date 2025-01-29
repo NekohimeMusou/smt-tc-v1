@@ -29,6 +29,13 @@
       "notes": "Notes",
       "enemy": "Enemy"
     },
+    "enemyInfo": {
+      "enemyInfoLabel": "Enemy Info",
+      "xpAward": "XP Award",
+      "maccaAward": "Macca Award",
+      "itemDrops": "Item Drops",
+      "personality": "Personality"
+    },
     "alignment": {
       "law": "Law",
       "chaos": "Chaos",

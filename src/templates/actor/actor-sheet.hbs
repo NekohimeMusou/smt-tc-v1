@@ -42,9 +42,12 @@
     <div class="tab effects" data-group="primary" data-tab="effects">
       {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
     </div>
-{{!-- Enemy Tab --}}
-<div class="tab enemy" data-group="primary" data-tab="enemy">
-  {{> "systems/smt-tc/templates/parts/actor/tab-enemy.hbs"}}
-</div>
+
+    {{#if isGM}}
+    {{!-- Enemy Tab --}}
+    <div class="tab enemy" data-group="primary" data-tab="enemy">
+      {{> "systems/smt-tc/templates/parts/actor/tab-enemy.hbs"}}
+    </div>
+    {{/if}}
   </section>
 </form>

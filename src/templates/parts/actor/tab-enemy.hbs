@@ -1,3 +1,29 @@
 <section class="enemy">
+  <div class="items-list flexcol">
+    <ol class="stat-list">
+      <li class="item flexrow items-header">
+        <div>{{localize "SMT.enemyInfo.enemyInfoLabel"}}</div>
+      </li>
 
+      {{!-- Try XP/Macca/Item up top, other one below --}}
+      <li class="item flexrow">
+        {{!-- XP Award --}}
+        <div class="item-prop">{{localize "SMT.enemyInfo.xpAward"}}</div>
+          <input class="item-prop" type="number" name="system.xpAward" value="{{system.xpAward}}"
+            placeholder="0" data-dtype="Number" />
+        {{!-- Macca Award --}}
+        <div class="item-prop">{{localize "SMT.enemyInfo.maccaAward"}}</div>
+          <input class="item-prop" type="number" name="system.maccaAward" value="{{system.maccaAward}}"
+            placeholder="0" data-dtype="Number" />
+        {{!-- Item Award --}}
+        <div class="item-prop">{{localize "SMT.enemyInfo.itemDrops"}}</div>
+          <input class="item-prop" type="text" name="system.itemDrops" value="{{system.itemDrops}}" data-dtype="String" />
+      </li>
+
+      <li class="item flexrow">
+        <div class="item-prop">{{localize "SMT.enemyInfo.personality"}}</div>
+          <input class="item-prop flex3" type="text" name="system.personality" value="{{system.personality}}" data-dtype="String" />
+      </li>
+    </ol>
+  </div>
 </section>

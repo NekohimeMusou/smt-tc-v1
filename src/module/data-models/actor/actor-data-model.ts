@@ -210,7 +210,7 @@ const bioData = {
 const enemyDemonData = {
   xpAward: new fields.NumberField({ integer: true, min: 0 }),
   maccaAward: new fields.NumberField({ integer: true, min: 0 }),
-  lootItem: new fields.StringField(),
+  itemDrops: new fields.StringField(),
   personality: new fields.StringField(),
 } as const;
 
