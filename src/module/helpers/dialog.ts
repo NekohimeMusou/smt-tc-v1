@@ -77,7 +77,7 @@ export async function renderBuffDialog(): Promise<BuffDialogResult> {
   const template = "systems/smt-tc/templates/dialog/buff-dialog.hbs";
 
   const content = await renderTemplate(template, {
-    buffTypes: CONFIG.SMT.buffTypes,
+    buffTypes: CONFIG.SMT.buffEffects,
   });
 
   return new Promise((resolve) =>
