@@ -1,3 +1,4 @@
+import { resolveConflict } from "../helpers/award.js";
 import {
   applyHealingFountain,
   showAwardDialog,
@@ -306,4 +307,5 @@ export const SMT = {
   showBuffDialog,
   showAwardDialog,
   applyHealingFountain,
+  resolveConflict,
 } as const;

@@ -1,0 +1,16 @@
+<div>
+  {{!-- Conflict Resolved --}}
+  <h1>{{localize "SMT.awardMacro.conflictResolved"}}</h1>
+  {{!-- XP: xx --}}
+  <h3>{{localize "SMT.awardMacro.xpAward" xp=xp}}</h3>
+  {{!-- Macca: yy --}}
+  <h3>{{localize "SMT.awardMacro.maccaAward" macca=macca}}</h3>
+  {{!-- Items: --}}
+  <h2>{{localize "SMT.awardMacro.itemDrops"}}</h2>
+  {{!-- List of items --}}
+  {{#each itemDrops}}
+  <div>{{this}}</div>
+  {{/each}}
+</div>
+
+{{!-- $CHARNAME attained level ZZ! --}}
