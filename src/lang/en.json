@@ -356,6 +356,17 @@
       "buffDialogDekaja": "All buffs removed!",
       "buffDialogDekunda": "All debuffs removed!"
     },
+    "awardMacro": {
+      "conflictResolved": "Conflict Resolved",
+      "xpAward": "XP: {xp}",
+      "maccaAward": "Macca: {macca}",
+      "itemDrops": "Item Drops",
+      "none": "None",
+      "notApplicable": "N/A"
+    },
+    "ui": {
+      "noTokensSelected": "No tokens selected."
+    },
     "settings": {
       "invertShiftBehavior": {
         "name": "Invert Shift Key Behavior for Dice Rolls",

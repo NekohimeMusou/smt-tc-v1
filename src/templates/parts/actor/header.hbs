@@ -14,16 +14,16 @@
       </div>
 
       <div class="flexrow">
-        <label for="level" class="resource-label">{{localize "SMT.actorFields.level"}}</label>
-        <input type="number" id="level" name="system.lv" data-dtype="Number" value="{{system.lv}}" />
+        <label for="level-field" class="resource-label">{{localize "SMT.actorFields.level"}}</label>
+        <input type="number" placeholder="0" id="level-field" name="system.lv" data-dtype="Number" value="{{system.lv}}" />
       </div>
       <div class="flexrow">
         <label for="xp-field" class="resource-label">{{localize "SMT.actorFields.xp"}}</label>
-        <input type="number" id="xp-field" name="system.xp" data-dtype="Number" value="{{system.xp}}" />
+        <input type="number" placeholder="0" id="xp-field" name="system.xp" data-dtype="Number" value="{{system.xp}}" />
       </div>
       <div class="flexrow">
         <label for="macca-field" class="resource-label">{{localize "SMT.actorFields.macca"}}</label>
-        <input type="number" id="macca-field" name="system.macca" data-dtype="Number" value="{{system.macca}}" />
+        <input type="number" placeholder="0" id="macca-field" name="system.macca" data-dtype="Number" value="{{system.macca}}" />
       </div>
     </div>
     {{> "systems/smt-tc/templates/parts/actor/resources.hbs"}}

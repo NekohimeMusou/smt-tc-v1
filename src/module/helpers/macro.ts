@@ -29,7 +29,7 @@ export async function showBuffDialog() {
 
   const generateBuffOutput =
     !(cancelBuffs ?? cancelDebuffs) && buffType && buffValue > 0;
-  
+
   htmlParts.push("<ul>");
 
   for (const tk of canvas.tokens.controlled) {
@@ -96,7 +96,7 @@ export async function showBuffDialog() {
     content,
     speaker: {
       scene: game.scenes.current,
-      alias: "BuffBot",
+      alias: "Kagutsuchi",
     },
   };
 
@@ -149,7 +149,7 @@ export async function showAwardDialog() {
     content,
     speaker: {
       scene: game.scenes.current,
-      alias: "Ca$h bot",
+      alias: "Kagutsuchi",
     },
   };
 
