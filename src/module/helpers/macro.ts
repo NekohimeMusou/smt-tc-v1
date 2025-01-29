@@ -11,9 +11,19 @@ export async function showBuffDialog() {
     return;
   }
 
-  const htmlParts = [
-    `<h2>${game.i18n.localize(`SMT.buffSpells.${buffType}`)}</h2>`,
-  ];
+  const htmlParts: string[] = [];
+
+  if (cancelBuffs && cancelDebuffs) {
+    htmlParts.push(`<h2>${game.i18n.localize("SMT.buffs.clearAll")}</h2>`);
+  } else if (cancelBuffs) {
+    htmlParts.push(`<h2>${game.i18n.localize("SMT.buffs.dekaja")}</h2>`);
+  } else if (cancelDebuffs) {
+    htmlParts.push(`<h2>${game.i18n.localize("SMT.buffs.dekunda")}</h2>`);
+  } else {
+    htmlParts.push(
+      `<h2>${game.i18n.localize(`SMT.buffSpells.${buffType}`)}</h2>`,
+    );
+  }
 
   const buffValue = buffAmount ?? 0;
 
@@ -56,13 +66,13 @@ export async function showBuffDialog() {
 
   if (cancelBuffs) {
     htmlParts.push(
-      `<div>${game.i18n.localize("SMT.macro.buffDialogDekaja")}</div>`,
+      `<h3>${game.i18n.localize("SMT.macro.buffDialogDekaja")}</h3>`,
     );
   }
 
   if (cancelDebuffs) {
     htmlParts.push(
-      `<div>${game.i18n.localize("SMT.macro.buffDialogDekunda")}</div>`,
+      `<h3>${game.i18n.localize("SMT.macro.buffDialogDekunda")}</h3>`,
     );
   }
 
@@ -77,7 +87,7 @@ export async function showBuffDialog() {
       amount: `${buffValue}`,
     });
 
-    htmlParts.push(`<div>${resultLabel}</div>`);
+    htmlParts.push(`<h3>${resultLabel}</h3>`);
   }
 
   const content = htmlParts.join("\n");

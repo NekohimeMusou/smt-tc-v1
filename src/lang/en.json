@@ -110,10 +110,9 @@
       "none": "None"
     },
     "buffs": {
-      "physPower": "Phys",
-      "magPower": "Mag",
-      "accuracy": "Acc",
-      "resist": "Res"
+      "dekaja": "Dekaja",
+      "dekunda": "Dekunda",
+      "clearAll": "Clear All"
     },
     "buffSpells": {
       "tarukaja": "Tarukaja",
@@ -136,8 +135,8 @@
     "buffEffectLabels": {
       "tarukaja": "Phys Power",
       "makakaja": "Mag Power",
-      "rakukaja": "Phys/Mag Resist",
-      "sukukaja": "Accuracy/Dodge TN",
+      "rakukaja": "Resist",
+      "sukukaja": "Acc/Dodge",
       "tarunda": "Phys/Mag Power",
       "rakunda": "Phys/Mag Resist",
       "sukunda": "Accuracy/Dodge TN"
