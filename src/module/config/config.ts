@@ -1,4 +1,4 @@
-import { resolveConflict } from "../helpers/award.js";
+import { luckyFindRolls, resolveConflict } from "../helpers/award.js";
 import {
   applyHealingFountain,
   showAwardDialog,
@@ -308,4 +308,5 @@ export const SMT = {
   showAwardDialog,
   applyHealingFountain,
   resolveConflict,
+  luckyFindRolls,
 } as const;

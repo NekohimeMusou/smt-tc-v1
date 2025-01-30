@@ -176,6 +176,7 @@ const modifiers = {
     phys: new fields.NumberField({ integer: true, initial: 0 }),
     mag: new fields.NumberField({ integer: true, initial: 0 }),
   }),
+  luckyFind: new fields.BooleanField(),
   // TODO: Make these into AEs somehow
   // -kaja and -kunda spells
   buffs: new fields.SchemaField({

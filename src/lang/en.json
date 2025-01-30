@@ -364,6 +364,12 @@
       "none": "None",
       "notApplicable": "N/A"
     },
+    "luckMacro": {
+      "fail": "Failed!",
+      "success": "Success!",
+      "crit": "Critical success!",
+      "title": "Lucky Find"
+    },
     "ui": {
       "noTokensSelected": "No tokens selected."
     },
