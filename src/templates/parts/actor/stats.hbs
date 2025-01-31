@@ -23,28 +23,28 @@
       </li>
 
       {{#each system.stats}}
-      <li class="item flexrow">
+      <li class="item item-prop flexrow">
         {{!-- Stat Name --}}
-        <div class="item-prop">{{localize (concat "SMT.tn." @key)}}</div>
+        <div>{{localize (concat "SMT.tn." @key)}}</div>
         {{!-- Base --}}
-          <input class="item-prop" type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
+          <input type="number" name="system.stats.{{@key}}.base" value="{{base}}" placeholder="0"
             data-dtype="Number" />
         {{!-- Magatama Mod --}}
         {{#if (eq ../system.charClass "fiend")}}
-          <input class="item-prop" type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}"
+          <input type="number" name="system.stats.{{@key}}.magatama" value="{{magatama}}"
             placeholder="0" data-dtype="Number" />
         {{/if}}
         {{!-- LV points --}}
-          <input class="item-prop" type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0"
+          <input type="number" name="system.stats.{{@key}}.lv" value="{{lv}}" placeholder="0"
             data-dtype="Number" />
         {{!-- Total Stat --}}
-        <div class="item-prop">{{value}}</div>
+        <div>{{value}}</div>
         {{!-- Stat TN --}}
-        <div class="item-prop roll-highlight roll-stat" data-tn-name="{{@key}}">{{lookup ../system.tn @key}}%</div>
+        <div class="roll-highlight roll-stat" data-tn-name="{{@key}}">{{lookup ../system.tn @key}}%</div>
         {{!-- Special TN label --}}
-        <div class="item-prop item-name flex2">{{localize (concat "SMT.derivedTN." @key)}}</div>
+        <div class="item-name flex2">{{localize (concat "SMT.derivedTN." @key)}}</div>
         {{!-- Special TN --}}
-        <div class="item-prop roll-highlight roll-stat"
+        <div class="roll-highlight roll-stat"
           {{#if (eq @key "st")}}data-tn-name="physAtk"{{/if}}
           {{#if (eq @key "ma")}}data-tn-name="magAtk"{{/if}}
           {{#if (eq @key "vi")}}data-tn-name="save"{{/if}}

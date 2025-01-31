@@ -5,13 +5,12 @@
         <div>{{localize "SMT.actorSheet.alignment"}}</div>
       </li>
 
-      <li class="item flexrow">
+      <li class="item item-prop flexrow">
         {{#each system.alignment as |value alignment|}}
           <label for="alignment-{{alignment}}-field" class="item-prop">
             {{localize (concat "SMT.alignment." alignment)}}</label>
           <input
             type="number"
-            class="item-prop"
             id="alignment-{{alignment}}-field"
             name="system.alignment.{{alignment}}"
             value="{{value}}"
