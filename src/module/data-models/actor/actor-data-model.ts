@@ -213,6 +213,8 @@ const enemyDemonData = {
   maccaAward: new fields.NumberField({ integer: true, min: 0 }),
   itemDrops: new fields.StringField(),
   personality: new fields.StringField(),
+  evolvePath: new fields.StringField(),
+  inheritType: new fields.StringField(),
 } as const;
 
 export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {

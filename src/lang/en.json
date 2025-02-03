@@ -30,11 +30,13 @@
       "demon": "Demon"
     },
     "enemyInfo": {
-      "enemyInfoLabel": "Demon",
+      "enemyInfoLabel": "Demon Info",
       "xpAward": "XP Award",
       "maccaAward": "Macca Award",
       "itemDrops": "Item Drops",
-      "personality": "Personality"
+      "personality": "Personality",
+      "evolvePath": "Evolve Path",
+      "inheritType": "Inherit Type"
     },
     "alignment": {
       "law": "Law",

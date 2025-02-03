@@ -11,7 +11,6 @@
     <a class="item resource-label" data-tab="bio">{{localize "SMT.tabs.bio"}}</a>
     <a class="item resource-label" data-tab="notes">{{localize "SMT.tabs.notes"}}</a>
     <a class="item resource-label" data-tab="effects">{{localize "SMT.tabs.effects"}}</a>
-    {{#if isGM}}<a class="item resource-label" data-tab="demon">{{localize "SMT.tabs.demon"}}</a>{{/if}}
   </nav>
 
   {{!-- Sheet Body --}}
@@ -42,12 +41,5 @@
     <div class="tab effects" data-group="primary" data-tab="effects">
       {{> "systems/smt-tc/templates/parts/shared/tab-effects.hbs"}}
     </div>
-
-    {{#if isGM}}
-    {{!-- Demon Tab --}}
-    <div class="tab demon" data-group="primary" data-tab="demon">
-      {{> "systems/smt-tc/templates/parts/actor/tab-demon.hbs"}}
-    </div>
-    {{/if}}
   </section>
 </form>

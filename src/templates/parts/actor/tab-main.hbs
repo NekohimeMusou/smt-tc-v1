@@ -1,5 +1,5 @@
 <section class="flexcol">
-  {{#if isGM}}
+  {{#if (eq system.charClass "demon")}}
   <div class="items-list">
     <ol class="stat-list">
       <li class="item flexrow">
@@ -9,18 +9,6 @@
       </li>
     </ol>
   </div>
-  {{else}}
-  {{#if (eq system.charClass "demon")}}
-  <div class="items-list">
-    <ol class="stat-list">
-      <li class="item flexrow">
-        <div class="item-prop">{{localize "SMT.enemyInfo.personality"}}</div>
-          <input class="flex3" type="text" value="{{system.personality}}"
-            placeholder="{{localize "SMT.awardMacro.notApplicable"}}" data-dtype="String"s />
-      </li>
-    </ol>
-  </div>
-  {{/if}}
   {{/if}}
   <div class="flexrow">
     <div class="flexcol flex3">
