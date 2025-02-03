@@ -11,7 +11,7 @@
         <div>{{localize "SMT.actorSheet.magatamaShort"}}</div>
         {{/if}}
         {{!-- LV points --}}
-        <div>{{localize "SMT.actorSheet.levelShort"}}</div>
+        <div>{{localize "SMT.actorSheet.levelShort"}}{{#if (and (or (eq system.charClass "human") (eq system.charClass "fiend")) (ne system.remainingStatPoints 0))}} ({{system.remainingStatPoints}}){{/if}}</div>
         {{!-- Total Stat --}}
         <div>{{localize "SMT.actorSheet.statTotal"}}</div>
         {{!-- Stat TN --}}

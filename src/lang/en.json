@@ -27,10 +27,10 @@
       "effect": "Effect",
       "inventory": "Inventory",
       "notes": "Notes",
-      "enemy": "Enemy"
+      "demon": "Demon"
     },
     "enemyInfo": {
-      "enemyInfoLabel": "Enemy Info",
+      "enemyInfoLabel": "Demon",
       "xpAward": "XP Award",
       "maccaAward": "Macca Award",
       "itemDrops": "Item Drops",

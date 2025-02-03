@@ -228,6 +228,7 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       }),
       xp: new fields.NumberField({ integer: true, min: 0 }),
       lv: new fields.NumberField({ integer: true, initial: 1 }),
+      baseLv: new fields.NumberField({ integer: true, initial: 1 }),
       notes: new fields.HTMLField(),
       hpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       mpMultiplier: new fields.NumberField({ integer: true, min: 1 }),
@@ -373,6 +374,20 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
 
   get lu(): number {
     return this.#systemData.stats.lu.value;
+  }
+
+  get remainingStatPoints():number {
+    const data = this.#systemData;
+
+    const stats = data.stats;
+
+    let statPoints = 0;
+
+    for (const stat of Object.values(stats)) {
+      statPoints += stat.lv;
+    }
+
+    return data.lv - data.baseLv - statPoints;
   }
 
   get #systemData() {
