@@ -405,6 +405,10 @@ async function processTarget(
     ailmentRate *= 2;
   }
 
+  if (critical && !critDowngrade) {
+    ailmentRate *= 2;
+  }
+
   // Ailment rate can't be below 5% or above 95%
   ailmentRate = Math.clamp(ailmentRate, 5, 95);
 
