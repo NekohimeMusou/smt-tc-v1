@@ -1,14 +1,13 @@
 {
   "id": "smt-tc",
   "title": "SMT RPG: Tokyo Conception (Unofficial)",
-  "description": "Unofficial VTT system for playing Shin Megami Tensei: Tokyo Conception. This system contains no game content; the core rulebook is required to play.",
-  "version": "0.1.0",
-  "compatibility": {
-    "minimum": 12,
-    "verified": 12
-  },
+  "description": "Unofficial Foundry VTT system for Shin Megami Tensei: Tokyo Conception. This is a fan project and not affiliated with ATLUS or LionWing Publishing. A copy of the rules is required to play: https://lionwingpublishing.com/collections/shin-megami-tensei-iii-nocturne-the-roleplaying-game-tokyo-conception-core-rulebook",
+  "version": "0.2.0",
+  "compatibility": { "minimum": 12, "verified": 12 },
 
   "url": "https://github.com/NekohimeMusou/smt-tc",
+  "manifest": "https://raw.githubusercontent.com/NekohimeMusou/smt-tc-v1/main/system.json",
+  "download": "https://github.com/NekohimeMusou/smt-tc-v1/releases/download/v0.2.0/smt-tc-v1-v0.2.0.zip",
 
   "authors": [
     {
@@ -20,18 +19,10 @@
 
   "esmodules": ["module/smt-tc.js"],
   "styles": ["styles/smt-tc.css", "styles/smt-tc-supplemental.css"],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ],
+  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }],
 
   "documentTypes": {
-    "Actor": {
-      "character": { "htmlFields": ["notes"] }
-    },
+    "Actor": { "character": { "htmlFields": ["notes"] } },
     "Item": {
       "unstackable": { "htmlFields": ["notes", "effect"] },
       "stackable": { "htmlFields": ["notes", "effect"] }
@@ -39,10 +30,7 @@
   },
 
   "initiative": "1d10x + @ag",
-  "grid": {
-    "distance": 2,
-    "units": "m"
-  },
+  "grid": { "distance": 2, "units": "m" },
   "primaryTokenAttribute": "hp",
   "secondaryTokenAttribute": "mp"
 }
