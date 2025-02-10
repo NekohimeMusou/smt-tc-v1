@@ -1,3 +1,4 @@
+import registerModuleAPIs from "./api-integration/item-piles.js";
 import { SMT } from "./config/config.js";
 import { configureStatusEffects } from "./config/statuses.js";
 import { ACTORMODELS } from "./data-models/actor/actor-data-model.js";
@@ -10,10 +11,7 @@ import { createBasicStrike } from "./helpers/hooks.js";
 
 declare global {
   interface Game {
-    smt: {
-      SmtActor: typeof SmtActor;
-      SmtItem: typeof SmtItem;
-    };
+    smt: { SmtActor: typeof SmtActor; SmtItem: typeof SmtItem };
   }
 
   interface CONFIG {
@@ -28,16 +26,14 @@ Hooks.once("init", async () => {
 
   CONFIG.SMT = SMT;
 
-  game.smt = {
-    SmtActor,
-    SmtItem,
-  };
+  game.smt = { SmtActor, SmtItem };
 
   registerDataModels();
   registerDocumentClasses();
   registerSheetApplications();
   registerSystemSettings();
   registerHooks();
+  registerModuleAPIs();
   configureStatusEffects();
 
   await preloadHandlebarsTemplates();

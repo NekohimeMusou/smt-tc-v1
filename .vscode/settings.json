@@ -15,6 +15,7 @@
     "flexrow",
     "flexshrink",
     "ITEMMODELS",
+    "itempiles",
     "Kagutsuchi",
     "kaja",
     "kunda",
@@ -28,7 +29,8 @@
     "sukunda",
     "tarukaja",
     "tarunda",
-    "unstackable"
+    "unstackable",
+    "yingyang"
   ],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
