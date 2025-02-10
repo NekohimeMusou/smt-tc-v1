@@ -2,7 +2,7 @@
 
 Unofficial Foundry VTT system for Shin Megami Tensei: Tokyo Conception. This is a fan project and not affiliated with ATLUS or LionWing Publishing. A copy of the rules is required to play: <https://lionwingpublishing.com/collections/shin-megami-tensei-iii-nocturne-the-roleplaying-game-tokyo-conception-core-rulebook>
 
-I kludged this together in tandem with my first mini-campaign, so it's a huge mess. I'm working on a full rewrite, hence the "v1", but I thought I'd release this since it's *way* better than nothing.
+This is my first Typescript project and I slapped it together more or less in tandem with a short campaign I've been running, so there's LOTS of jank.
 
 ## Usage Notes
 
@@ -33,8 +33,9 @@ I can recommend a *lot* of mods, but these ones are especially pertinent and/or 
 
 ## Known Issues
 
-- Ugly as hell
-  - I promise learning CSS is on my agenda, I just want this thing to function first
+- Kinda ugly
+  - Learning CSS is on my agenda, I promise
+- Combat output doesn't look great either
 - Skill/item creation is ludicrously unintuitive
 - Combat chat cards do not show (numeric) dodge roll result for attacks that inflict status ailments but don't deal damage
 - The system does not yet discern between a regular failure and an autofail, even though the game does
