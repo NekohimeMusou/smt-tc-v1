@@ -15,13 +15,27 @@ If you're looking for more flexibility, and/or to run an SMT game other than Tok
     - How do they tell in the thick of combat? I don't care, it's better than having to nag players to click a button each time someone attacks them
   - If it doesn't seem to work, make sure you **target** the tokens, don't just select them. By default, hover your mouse over the token and press the `T` key. With the Easy Target mod, you can alt+click. For AOE skills, target every token you wish to affect (`Shift+T` if you aren't using Easy Target).
   - Phys/Mag Resist, critical hits, critical downgrades, fumbles, elemental affinities, buffs, and most status ailments should be accounted for in the damage/ailment chance calculations. If the chat output says "Foo takes 29 damage", no further calculations should be necessary unless there's a bug or Foo spends FP to mitigate the damage.
-- GMs look in the macro compendium because there are some BIG time savers there.
 - The +/- 20% TN mod buttons are there because situational TN modifiers tend to come in 20% increments. I started my game a tad lower than the recommended level, so I had a lot of PCs using Aid and Concentrate and this saved a lot of time.
   - In-system, the TN boosts apply to your next success roll and are reset to 0 afterward, because everyone in my group, myself included, constantly forgot to reset them ourselves. You can still take different actions in the interim and hang on to the bonus, per the rules, you'll just have to handle the boost panel manually.
   - Hold shift when you click a skill and you'll get a dialog where you can enter a custom modifier, besides 20%. You can make this the default behavior (per-client) in the system settings, but I almost never need the dialog.
   - The "Multi" setting on the same panel divides all your TNs by the number it's set to for multi-attacking, including any 20% boosts from this panel. You'll probably need that dialog if you're boosting an individual roll within a multi-attack.
 - If an item or skill doesn't do what you think it should or go where you want it to go on your sheet, double-check the Skill Type and Item Type fields. Those are what actually determine the "type" of item it is with respect to the game mechanics. The "stackable" and "unstackable" item types literally only denote whether or not the item should be stackable in Item Piles.
   - Yes, it's terrible and I hate it too. It's the biggest reason I'm reworking the data models and also the main reason I think it'll be a pain to migrate afterward
+
+## Macros
+
+GMs check out the macro compendium cause we got us some macros!
+
+- **Resolve Conflict**
+  - Prints an end-of-battle summary to chat: the total XP and macca awards of all selected (enemy) tokens and a list of their item drops
+- **Award XP/Macca**
+  - Awards each selected token a specified amount of XP and macca, displaying the result in chat.
+- **Lucky Search**
+  - Makes a Luck roll for each selected token that has the Lucky Find skill (i.e. `system.luckyFind` is `true`), and lists the outcomes in chat.
+- **Buff Dialog**
+  - Show a dialog that lets you apply buffs or debuffs to selected tokens. Also allows you to clear buffs, debuffs, or both.
+- **Fountain of Life**
+  - Heals selected tokens to full HP and MP, charging 1 macca per HP and 2 macca per MP. Doesn't work on tokens who can't afford it. Doesn't do resurrection or status ailments (yet)
 
 ## Data Paths and Active Effects
 

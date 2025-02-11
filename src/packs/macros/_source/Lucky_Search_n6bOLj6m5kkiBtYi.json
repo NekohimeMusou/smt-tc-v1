@@ -1,0 +1,27 @@
+{
+  "name": "Lucky Search",
+  "type": "script",
+  "author": "oisEN26e66Uh2sdi",
+  "img": "icons/svg/dice-target.svg",
+  "scope": "global",
+  "command": "CONFIG.SMT.luckyFindRolls();",
+  "folder": "y9742hwU8C68KPrg",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "smt-tc",
+    "systemVersion": "0.2.0",
+    "createdTime": 1739309732742,
+    "modifiedTime": 1739311035552,
+    "lastModifiedBy": "j1rOq6sVcmHfQ4pM"
+  },
+  "ownership": {
+    "default": 0,
+    "oisEN26e66Uh2sdi": 3
+  },
+  "_id": "n6bOLj6m5kkiBtYi",
+  "sort": 400000,
+  "_key": "!macros!n6bOLj6m5kkiBtYi"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Resolve Conflict",
+  "type": "script",
+  "author": "oisEN26e66Uh2sdi",
+  "img": "icons/svg/tower-flag.svg",
+  "scope": "global",
+  "command": "CONFIG.SMT.resolveConflict();",
+  "folder": "y9742hwU8C68KPrg",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "smt-tc",
+    "systemVersion": "0.2.0",
+    "createdTime": 1739309733846,
+    "modifiedTime": 1739309746267,
+    "lastModifiedBy": "oisEN26e66Uh2sdi"
+  },
+  "ownership": {
+    "default": 0,
+    "oisEN26e66Uh2sdi": 3
+  },
+  "_id": "9T2Q3R9g9XjD8rlj",
+  "sort": 150000,
+  "_key": "!macros!9T2Q3R9g9XjD8rlj"
+}

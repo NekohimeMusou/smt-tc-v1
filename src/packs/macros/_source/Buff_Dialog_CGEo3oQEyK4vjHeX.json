@@ -1,0 +1,27 @@
+{
+  "name": "Buff Dialog",
+  "type": "script",
+  "author": "oisEN26e66Uh2sdi",
+  "img": "icons/svg/paralysis.svg",
+  "scope": "global",
+  "command": "CONFIG.SMT.showBuffDialog();",
+  "folder": "y9742hwU8C68KPrg",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "smt-tc",
+    "systemVersion": "0.2.0",
+    "createdTime": 1739309730881,
+    "modifiedTime": 1739309744373,
+    "lastModifiedBy": "oisEN26e66Uh2sdi"
+  },
+  "ownership": {
+    "default": 0,
+    "oisEN26e66Uh2sdi": 3
+  },
+  "_id": "CGEo3oQEyK4vjHeX",
+  "sort": 200000,
+  "_key": "!macros!CGEo3oQEyK4vjHeX"
+}

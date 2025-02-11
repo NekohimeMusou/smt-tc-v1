@@ -1,0 +1,27 @@
+{
+  "name": "Fountain of Life",
+  "type": "script",
+  "author": "oisEN26e66Uh2sdi",
+  "img": "icons/svg/regen.svg",
+  "scope": "global",
+  "command": "CONFIG.SMT.applyHealingFountain();",
+  "folder": "y9742hwU8C68KPrg",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "smt-tc",
+    "systemVersion": "0.2.0",
+    "createdTime": 1739309731696,
+    "modifiedTime": 1739311206682,
+    "lastModifiedBy": "j1rOq6sVcmHfQ4pM"
+  },
+  "ownership": {
+    "default": 0,
+    "oisEN26e66Uh2sdi": 3
+  },
+  "_id": "IiXyuFmTtyvTiu8w",
+  "sort": 300000,
+  "_key": "!macros!IiXyuFmTtyvTiu8w"
+}

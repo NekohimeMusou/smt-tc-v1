@@ -4,7 +4,7 @@ export async function resolveConflict() {
   const tokens = canvas.tokens.controlled as SmtToken[];
 
   if (tokens.length < 1) {
-    ui.notifications.notify("SMT.ui.noTokensSelected");
+    ui.notifications.notify(game.i18n.localize("SMT.ui.noTokensSelected"));
     return;
   }
 
@@ -44,7 +44,7 @@ export async function luckyFindRolls() {
   const tokens = canvas.tokens.controlled as SmtToken[];
 
   if (tokens.length < 1) {
-    ui.notifications.notify("SMT.ui.noTokensSelected");
+    ui.notifications.notify(game.i18n.localize("SMT.ui.noTokensSelected"));
     return;
   }
 

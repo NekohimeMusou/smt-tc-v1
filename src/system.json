@@ -21,6 +21,15 @@
   "styles": ["styles/smt-tc.css", "styles/smt-tc-supplemental.css"],
   "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }],
 
+  "packs": [
+    {
+      "name": "macros",
+      "label": "SMT:TC Macros",
+      "type": "Macro",
+      "system": "smt-tc"
+    }
+  ],
+
   "documentTypes": {
     "Actor": { "character": { "htmlFields": ["notes"] } },
     "Item": {

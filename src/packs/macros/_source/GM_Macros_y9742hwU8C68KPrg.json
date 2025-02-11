@@ -1,0 +1,22 @@
+{
+  "name": "GM Macros",
+  "sorting": "a",
+  "folder": null,
+  "type": "Macro",
+  "_id": "y9742hwU8C68KPrg",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "smt-tc",
+    "systemVersion": "0.2.0",
+    "createdTime": 1739309738627,
+    "modifiedTime": 1739309738627,
+    "lastModifiedBy": "oisEN26e66Uh2sdi"
+  },
+  "_key": "!folders!y9742hwU8C68KPrg"
+}
