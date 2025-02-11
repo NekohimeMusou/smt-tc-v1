@@ -2,30 +2,30 @@
 
 Unofficial Foundry VTT system for Shin Megami Tensei: Tokyo Conception. **This is a fan project not affiliated with LionWing Publishing or ATLUS. Please do not contact them for support.**
 
-**This system includes no game material compendium, nor is it planned to. A copy of the rulebook is required to play.** You can get it here: <https://lionwingpublishing.com/collections/shin-megami-tensei-iii-nocturne-the-roleplaying-game-tokyo-conception-core-rulebook>
+**This system includes no rules compendium. A copy of the rulebook is required to play.** You can get it here: <https://lionwingpublishing.com/collections/shin-megami-tensei-iii-nocturne-the-roleplaying-game-tokyo-conception-core-rulebook>
 
-This is my first Typescript project and I wrote it more or less in tandem with a short campaign I've been running, so there's LOTS of jank. This repository is kinda sorta in maintenance mode; I'm in the process of rewriting practically the whole backend, which will in turn help me make the UI less opaque, but it's enough of a rewrite that I'm treating it as a separate project and I'm still using this to run the game while I cook. So, there'll probably be some minor features and bug fixes here and there.
+This is designed with Tokyo Conception in mind, since it's the only iteration of the SMT TRPG I know anything about. It does a lot of things for you, once it's set up to, but doesn't currently give you a ton of levers to control how it does those things. I'm not averse to the idea, I just initially developed this in tandem with a campaign I'm running, so my priority was automation and speed of play; I usually only get about 2 hours per session with my schedule, so I want to make that time count XD
 
-This system is geared specifically toward Tokyo Conception, because it's the only SMT TRPG I own or know anything about how to play XD 
+If you're looking for more flexibility, and/or to run an SMT game other than Tokyo Conception, check out Alondaar's SMT X system, which is designed to be more broadly compatible: <https://github.com/Alondaar/smt-200x>
 
 ## Usage Notes
 
-- Skills are semi-automatic. If you have one or more targets when you use a skill, assuming you succeed, one power roll will be made (if applicable) and each target will make a dodge roll (if applicable); damage and ailment chance are calculated for each target based on their resists and affinities. Each target automatically makes an ailment roll, if applicable.
-  - You must have one or more tokens **targeted** for this to work. By default, you target a token by hovering the mouse over it and pressing the T key; you'll see an animated crosshair over the token if you did it right. Make sure the cursor isn't in the chat box or you'll just type "t" into it. You can hold shift to target multiple tokens. The Easy Target mod lets you alt+click instead.
-  - Dodging is automatic because I don't know why you wouldn't try. 
-    - Exception: Lest they fumble needlessly, targets who nullify, drain, or repel an attack won't try to dodge *unless* the attack has the Pierce quality and they don't repel it.
+- Skills are mostly automatic. If you have one or more targets, they'll automatically make Dodge rolls and ailment resist rolls, if applicable. Damage and ailment rates are calculated per target depending on their phys/mag resist and elemental affinities.
+  - **Exception**: Targets who null/drain/repel the attack won't try to dodge lest they risk an unnecessary fumble, *unless* the attack has the Pierce quality and they don't repel it.
+    - How do they tell in the thick of combat? I don't care, it's better than having to nag players to click a button each time someone attacks them
+  - If it doesn't seem to work, make sure you **target** the tokens, don't just select them. By default, hover your mouse over the token and press the `T` key. With the Easy Target mod, you can alt+click. For AOE skills, target every token you wish to affect (`Shift+T` if you aren't using Easy Target).
+  - Phys/Mag Resist, critical hits, critical downgrades, fumbles, elemental affinities, buffs, and most status ailments should be accounted for in the damage/ailment chance calculations. If the chat output says "Foo takes 29 damage", no further calculations should be necessary unless there's a bug or Foo spends FP to mitigate the damage.
 - GMs look in the macro compendium because there are some BIG time savers there.
-- The +/- 20% TN mod box is there because TN modifiers tend to come in 20% increments. I started my game a tad lower than the recommended level, so I had a lot of PCs using Aid and Concentrate and this saved a lot of time. It resets once you make a roll, because we all kept forgetting to do that.
-  - If you need more granularity, hold shift when you click a skill and you'll get a dialog where you can enter a custom modifier. You can make this the default behavior (per-client) in the system settings.
-  - All "Multi" does right now is divide your effective TNs by 2 or 3, *including* those 20% bonuses, so it should work pretty seamlessly but you'll probably need that dialog if you're spending FP on individual rolls within a multi-attack. I'm open to suggestions for less awkward ways of doing it!
-- There's literally no difference between the "stackable" and "unstackable" item types other than whether they can stack in Item Piles. *Real* item *types* are coming in the rewrite.
-- If an item or skill doesn't do what you think it should or go where you want it to go on your sheet, double-check the Skill Type and Item Type fields.
-  - I know, I hate it too, it's one of the reasons I'm revamping the data models
-- If you're a Fiend, there's a third stat column (besides "Base" and "Lv") for your magatama bonuses, so you can track them separately. They'll be an equippable item eventually so you don't have to type your stats in each time you switch.
+- The +/- 20% TN mod buttons are there because situational TN modifiers tend to come in 20% increments. I started my game a tad lower than the recommended level, so I had a lot of PCs using Aid and Concentrate and this saved a lot of time.
+  - In-system, the TN boosts apply to your next success roll and are reset to 0 afterward, because everyone in my group, myself included, constantly forgot to reset them ourselves. You can still take different actions in the interim and hang on to the bonus, per the rules, you'll just have to handle the boost panel manually.
+  - Hold shift when you click a skill and you'll get a dialog where you can enter a custom modifier, besides 20%. You can make this the default behavior (per-client) in the system settings, but I almost never need the dialog.
+  - The "Multi" setting on the same panel divides all your TNs by the number it's set to for multi-attacking, including any 20% boosts from this panel. You'll probably need that dialog if you're boosting an individual roll within a multi-attack.
+- If an item or skill doesn't do what you think it should or go where you want it to go on your sheet, double-check the Skill Type and Item Type fields. Those are what actually determine the "type" of item it is with respect to the game mechanics. The "stackable" and "unstackable" item types literally only denote whether or not the item should be stackable in Item Piles.
+  - Yes, it's terrible and I hate it too. It's the biggest reason I'm reworking the data models and also the main reason I think it'll be a pain to migrate afterward
 
-## Data Paths
+## Data Paths and Active Effects
 
-I recommend using Koboldworks Data Inspector (see below) or the console to uncover data paths, especially since this system is still under development and they might change. I used active effects to implement passive skills, though, so I want to point out actor fields that are directly tied to some:
+I recommend using Koboldworks Data Inspector (see below) or the console to uncover data paths, since this system is still under development and they might change. I used active effects to implement passive skills, though, so I want to point out some actor fields that are directly tied to them:
 
 - `system.gunAttackBonus` - Sure Shot
 - `system.might` - Might
@@ -33,37 +33,38 @@ I recommend using Koboldworks Data Inspector (see below) or the console to uncov
 - `system.luckyFind` - If true, the end-of-battle macro will have this PC make a Lucky Find roll
 - `system.powerBoost.phys`, `system.powerBoost.mag`, `system.powerBoost.item` - Powerful Spells, Powerful Strikes, and Item Pro, respectively
 - `system.elementBoosts.fire`, `system.elementBoosts.cold`, `system.elementBoosts.elec`, `system.elementBoosts.force` - Fire Boost, Ice Boost, etc.
-- `system.resourceBoost.hp`, `system.resourceBoost.mp` - Life and Mana Boost lines
 
-Use the UI to create an active effect on the skill and make sure it's set to transfer to the owner, and the effect will be applied automatically to any actors who own the item. 
+Open up the skill's item sheet, create a new Active Effect in the Effects tab, and add the appropriate effects. For example, the Expert Dodge skill's effect would have an Attribute Key of `system.dodgeBonus`, a Change Mode of `Add`, and an Effect Value of `5`. For boolean fields, such as everything listed above except `dodgeBonus` and `gunAttackBonus`, use the `Override` mode with `true` as the value.
+
+The system does not currently support overriding elemental affinities with active effects (e.g. Anti-Affinity skills); you'll have to do that manually. It's on the to-do list.
 
 ## Recommended Mods
 
-I could recommend a *lot* of mods, but these ones are especially pertinent/have saved me loads of time with SMT:TC specifically.
+I could recommend a *lot* of mods, but these ones are especially pertinent. I especially can't recommend Item Piles or Mana's Compendium Importer as strongly as they deserve.
 
-- [**Item Piles**](https://github.com/fantasycalendar/FoundryVTT-ItemPiles): *vastly* streamlined inventory management, including shops and storage vaults. Utterly indispensable for games where items change hands often.
-  - The system includes its own integration with the module, so it *should* Just Work™️ for the most part. Items are awkward and brittle though so I can't guarantee they won't flip out somehow, back up your stuff regularly
-  - Don't try to trade/transfer items by dropping them *directly* on an actor sheet; it'll duplicate the item. I'm sure this is fixable, I just haven't done it yet.
-- [**Status Icon Counters**](https://gitlab.com/woodentavern/status-icon-counters): I use this to track -kaja and -kunda stacks.
-- [**Token Health**](https://github.com/mclemente/fvtt-token-health): Deal damage or healing to multiple tokens at once. I've been using this instead of having the system auto-assign damage because I'm lazy.
+- [**Item Piles**](https://github.com/fantasycalendar/FoundryVTT-ItemPiles): *vastly* streamlined inventory management, including shops and storage vaults. *Absolutely indispensable* for games where items change hands often.
+  - The system includes its own integration with the module, so it *should* Just Work™️ for the most part. Items are awkwardly coded though so I can't guarantee they won't flip out somehow, back up your stuff regularly
+  - Dropping an item *directly* onto an actor sheet duplicates it. This is a (fixable) problem with the system, not the Item Piles mod.
+- [**Mana's Compendium Importer**](https://gitlab.com/mkahvi/fvtt-compendium-importer): Lets you export world compendium packs to JSON format. Back up your actors, items, rolled tables, and other stuff, and import them into your other campaigns or share them with friends!
+- [**Status Icon Counters**](https://gitlab.com/woodentavern/status-icon-counters): I use this to track -kaja and -nda stacks.
+- [**Token Health**](https://github.com/mclemente/fvtt-token-health): Assign damage or healing to multiple tokens at once.
+  - Since you can spend FP to mitigate damage,
   - Use `hp.value` and `hp.max` for the primary health pool, and `mp.value` and `mp.max` for the secondary one.
 - [**Easy Target**](https://bitbucket.org/Fyorl/easy-target/src): Alt-click to target things, so you don't have to remember to click outside the chat window first.
-- [**Health Estimate**](https://github.com/mclemente/healthEstimate/): Give players a rough estimate of an enemy's health without giving away their exact HP bar. I like to cut out the 25% and 75% tiers so all the players know for sure is whether their opponent is+ above or below half HP, but that's a matter of preference.
-- [**Party Overview**](https://github.com/mclemente/party-overview): Doesn't support this system natively, but I can provide a patch.
 - [**Roll of Fate**](https://github.com/Handyfon/roll-of-fate/blob/master/README.md): Randomly picks a token out of those you have selected; useful since small fry attack randomly by default.
-- [**Mana's Compendium Importer**](https://gitlab.com/mkahvi/fvtt-compendium-importer): Lets you back up *world* compendium packs to JSON files and import them in other worlds. Great for keeping backups of your demons and items and reusing them between games.
-- [**Koboldworks Data Inspector**](https://gitlab.com/koboldworks/agnostic/data-inspector): Browse an actor or item's internal data in a nice neat window instead of having to retrieve it with the console. 
+- [**Koboldworks Data Inspector**](https://gitlab.com/koboldworks/agnostic/data-inspector): Browse an actor or item's internal data in a nice neat window instead of having to retrieve it with the console.
 
 ## Known Issues
 
 - I'd love it if the sheets had an SMT aesthetic but CSS is not my strong suit
-- Combat output is kinda messy
+- Combat output is messy and some information is missing (e.g. dodge roll results, if the attack has an ailment chance and deals no damage)
 - Skill/item creation is not intuitive
-- Combat chat cards do not show (numeric) dodge roll result for attacks that inflict status ailments but don't deal damage
-- The system does not yet discern between a regular failure and an autofail, even though the game does
+- The system does not distinguish between a regular failure and an autofail, even though the game does
 - Focus doesn't go away at the end of your turn if you don't use it for an attack
-
+- Pinhole halves dodge but not phys resist
+- Fiends have to manually enter their magatama bonuses (they will be equippable items one day)
 - Item Piles support: Dragging items onto character sheets duplicates them
+  - **Note!** The issue is with the system, not the mod
 - Item Piles support: Gems are as yet unimplemented
 
 CSS stolen from <https://github.com/asacolips-projects/boilerplate>, without which I might never have learned how to Foundry. Kudos!

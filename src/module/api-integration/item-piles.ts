@@ -25,6 +25,7 @@ export default function registerModuleAPIs() {
           img: "icons/commodities/currency/coin-yingyang.webp",
           abbreviation: "{#}mc",
           data: { path: "system.macca" },
+          exchangeRate: 1,
         },
       ],
     });

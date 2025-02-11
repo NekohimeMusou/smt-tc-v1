@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "ACTORMODELS",
+    "Alondaar's",
     "Atlus",
     "Autofail",
     "charname",
@@ -11,6 +12,7 @@
     "Dekunda",
     "dtype",
     "elec",
+    "equippable",
     "esmodules",
     "flexcol",
     "flexlarge",
@@ -18,8 +20,11 @@
     "flexshrink",
     "ITEMMODELS",
     "itempiles",
+    "jank",
+    "janky",
     "Kagutsuchi",
     "kaja",
+    "Koboldworks",
     "kunda",
     "macca",
     "magatama",
@@ -31,10 +36,12 @@
     "stackable",
     "sukukaja",
     "sukunda",
+    "Taragnor",
     "tarukaja",
     "tarunda",
     "Tensei",
-    "unstackable"
+    "TRPG",
+    "unstackable",
     "yingyang"
   ],
   "[typescript]": {
