@@ -160,6 +160,8 @@ const passiveSkillMods = {
   }),
   dodgeBonus: new fields.NumberField({ integer: true, initial: 0 }),
   pierce: new fields.BooleanField(),
+  // Technically not passive but whatever
+  luckyFind: new fields.BooleanField(),
 } as const;
 
 const modifiers = {
@@ -176,7 +178,6 @@ const modifiers = {
     phys: new fields.NumberField({ integer: true, initial: 0 }),
     mag: new fields.NumberField({ integer: true, initial: 0 }),
   }),
-  luckyFind: new fields.BooleanField(),
   // TODO: Make these into AEs somehow
   // -kaja and -kunda spells
   buffs: new fields.SchemaField({

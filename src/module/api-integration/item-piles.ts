@@ -19,6 +19,7 @@ export default function registerModuleAPIs() {
       ITEM_SIMILARITIES: ["name", "type"],
       CURRENCIES: [
         {
+          name: "macca",
           primary: true,
           type: "attribute",
           img: "icons/commodities/currency/coin-yingyang.webp",
