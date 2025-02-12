@@ -377,10 +377,14 @@ async function processTarget(
     }
   }
 
-  const resist =
+  let resist =
     (critical && !critDowngrade) || healing
       ? 0
       : target.system.resist[skill.system.damageType];
+
+  if (pinhole) {
+    resist = Math.floor(resist / 2);
+  }
 
   const damage = Math.max(power - resist, 0);
 
