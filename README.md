@@ -74,8 +74,8 @@ I could recommend a *lot* of mods, but these ones are especially pertinent. I es
 
 ## Known Issues
 
-- There's no built-in way to spend FP on dodge rolls.
-  - I'd like to fix this, but if I'm going to take the time I want to do it right and use sockets or interactive chat output and I need to learn how those work first.
+- No built-in way to spend FP on dodge rolls
+  - I'd like to fix this, but if I'm going to take the time I want to do it right and use sockets or interactive chat output and I need to learn how those work first
 - I'd love it if the sheets had an SMT aesthetic but CSS is not my strong suit
 - Combat output is messy and some information is missing (e.g. dodge roll results, if the attack has an ailment chance and deals no damage)
 - Skill/item creation is not intuitive

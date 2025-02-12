@@ -316,6 +316,10 @@ export class SmtCharacterDataModel extends foundry.abstract.TypeDataModel {
       stats.ag.value + data.buffs.tarukaja - data.buffs.tarunda,
       0,
     );
+
+    if (game.settings.get("smt-tc", "addLevelToGunDamage")) {
+      data.power.gun += lv;
+    }
   }
 
   override prepareDerivedData() {

@@ -379,6 +379,10 @@
       "invertShiftBehavior": {
         "name": "Invert Shift Key Behavior for Dice Rolls",
         "hint": "If enabled, dice rolls will display a modifier dialog by default, and holding shift bypasses it."
+      },
+      "addLevelToGunDamage": {
+        "name": "(Homebrew) Add Level to Gun Damage",
+        "hint": "Add your level to gun damage, as with phys and mag attacks."
       }
     }
   }
