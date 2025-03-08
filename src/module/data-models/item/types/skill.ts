@@ -6,7 +6,7 @@ import { sharedItemDataFields } from "../fields/shared-fields.js";
 import { skillDataFields } from "../fields/skill-fields.js";
 
 export abstract class SmtBaseItemData extends foundry.abstract.TypeDataModel {
-  abstract get type(): "stackable" | "unstackable";
+  abstract override get type(): "stackable" | "unstackable";
   get stackable(): boolean {
     return this.type === "stackable";
   }
